@@ -1,0 +1,61 @@
+{
+  "home": {
+    "greetings": {
+      "morning": "Morning",
+      "afternoon": "Afternoon",
+      "evening": "Evening"
+    },
+    "daySelector": {
+      "day": "Day"
+    },
+    "timeToggle": {
+      "morning": "Morning",
+      "evening": "Evening"
+    }
+  },
+  "routineStep": {
+    "labTestRequired": "You need lab test",
+    "period": "Period: {{period}}",
+    "view": "View",
+    "uploadLabTest": "Upload Lab Test",
+    "clickHere": "Click Here"
+  },
+  "upload": {
+    "title": "Upload Your Lab test",
+    "subtitle": "Upload lab tests, medical reports, or ID/insurance if needed. Files must be clear and readable.",
+    "dragAndDrop": "Drag & drop file (s) to upload",
+    "orBrowse": "Or browse",
+    "submit": "Submit"
+  },
+  "selectLabTest": {
+    "location": "Location",
+    "distance": "Distance",
+    "distanceAway": "{{distance}} away",
+    "availableTime": "Available Time",
+    "viewAllAvailability": "View all availability",
+    "sendTestRequest": "Send Test Request"
+  },
+  "days": {
+    "fri": "Fri",
+    "sat": "Sat",
+    "sun": "Sun",
+    "mon": "Mon",
+    "tue": "Tue",
+    "wed": "Wed",
+    "thu": "Thu"
+  },
+  "months": {
+    "january": "January",
+    "february": "February",
+    "march": "March",
+    "april": "April",
+    "may": "May",
+    "june": "June",
+    "july": "July",
+    "august": "August",
+    "september": "September",
+    "october": "October",
+    "november": "November",
+    "december": "December"
+  }
+}
