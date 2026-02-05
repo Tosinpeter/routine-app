@@ -14,3 +14,4 @@ export { StatusIcon } from "./status-icon";
 export { TestIcon } from "./test-icon";
 export { TrashIcon } from "./trash-icon";
 export { UploadCloudIcon } from "./upload-cloud-icon";
+export * from './HospitalIcon';

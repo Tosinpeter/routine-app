@@ -52,14 +52,14 @@ export default function TabLayout() {
         },
       }}>
       <Tabs.Screen
-        name="routine"
+        name="index"
         options={{
           title: 'Home',
           tabBarIcon: ({ color }) => <HomeIcon size={TAB_ICON_SIZE} color={color} />,
         }}
       />
       <Tabs.Screen
-        name="index"
+        name="routine"
         options={{
           title: 'Routine',
           tabBarIcon: ({ color }) => <RoutineIcon size={TAB_ICON_SIZE} color={color} />,
@@ -73,9 +73,9 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="stats"
+        name="progress"
         options={{
-          title: 'Stats',
+          title: 'Progress',
           tabBarIcon: ({ color }) => <StatsIcon size={TAB_ICON_SIZE} color={color} />,
         }}
       />

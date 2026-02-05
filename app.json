@@ -9,8 +9,7 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "com.braunmarec1.routine-app"
+      "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {

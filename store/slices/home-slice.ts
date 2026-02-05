@@ -2,6 +2,19 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export type TimeOfDay = "morning" | "evening";
 
+export enum RoutineStatus {
+  Approved = "Approved",
+  Pending = "Pending",
+  Rejected = "Rejected",
+}
+
+export interface ReviewStep {
+  id: string;
+  title: string;
+  status: RoutineStatus;
+  order: number;
+}
+
 export interface RoutineProduct {
   id: string;
   brand: string;
@@ -10,7 +23,7 @@ export interface RoutineProduct {
   isCompleted: boolean;
   needsLabTest?: boolean;
   progress: number; // 0 to 1
-  image?: string;
+  image: string;
 }
 
 export interface RoutineStep {
@@ -20,68 +33,75 @@ export interface RoutineStep {
   product: RoutineProduct;
 }
 
-interface HomeState {
+export interface HomeState {
   selectedDay: number;
   userName: string;
   timeOfDay: TimeOfDay;
   routineSteps: RoutineStep[];
+  reviewSteps: ReviewStep[];
 }
+
+const initialReviewSteps: ReviewStep[] = [
+  {
+    id: "r1",
+    title: "Face Scan",
+    status: RoutineStatus.Approved,
+    order: 1,
+  },
+  {
+    id: "r2",
+    title: "Clinic Test",
+    status: RoutineStatus.Pending,
+    order: 2,
+  },
+  {
+    id: "r3",
+    title: "Doctor Review",
+    status: RoutineStatus.Pending,
+    order: 3,
+  },
+];
 
 const initialRoutineSteps: RoutineStep[] = [
   {
     id: "1",
     stepNumber: 1,
-    category: "Cleansing",
+    category: "Cleanser",
     product: {
       id: "p1",
-      brand: "Banila Co.",
-      name: "Clean It Zero Purifying Foam Cleanser",
+      brand: "Humphrey",
+      name: "Milk Cleanser",
       period: "3month",
       isCompleted: true,
-      progress: 0.75,
+      progress: 0.5,
       image: "img_product-image",
     },
   },
   {
     id: "2",
     stepNumber: 2,
-    category: "Cream",
+    category: "Toner",
     product: {
       id: "p2",
-      brand: "Glow Recipe",
-      name: "Watermelon Glow PHA+BHA Pore-Tight",
+      brand: "GlowRecipe",
+      name: "Toner",
       period: "3month",
       isCompleted: false,
-      progress: 0.5,
+      progress: 0.3,
       image: "img_product-image",
     },
   },
   {
     id: "3",
     stepNumber: 3,
-    category: "Serum",
+    category: "Moisturizer",
     product: {
       id: "p3",
-      brand: "Banila Co.",
-      name: "Clean It Zero Purifying Foam Cleanser",
+      brand: "SundayRiley",
+      name: "Moisturizer",
       period: "3month",
       isCompleted: false,
-      progress: 0.25,
-      image: "img_product-image",
-    },
-  },
-  {
-    id: "4",
-    stepNumber: 4,
-    category: "Sunscreen",
-    product: {
-      id: "p4",
-      brand: "Banila Co.",
-      name: "Clean It Zero Purifying Foam Cleanser",
-      period: "3month",
-      isCompleted: false,
-      needsLabTest: true,
-      progress: 0,
+      progress: 0.8,
       image: "img_product-image",
     },
   },
@@ -89,9 +109,10 @@ const initialRoutineSteps: RoutineStep[] = [
 
 const initialState: HomeState = {
   selectedDay: 1,
-  userName: "Aslam Uddin",
+  userName: "Sarah Islam", // Updated to match screenshot
   timeOfDay: "morning",
   routineSteps: initialRoutineSteps,
+  reviewSteps: initialReviewSteps,
 };
 
 const homeSlice = createSlice({
