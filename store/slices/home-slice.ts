@@ -2,19 +2,6 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export type TimeOfDay = "morning" | "evening";
 
-export enum RoutineStatus {
-  Approved = "Approved",
-  Pending = "Pending",
-  Rejected = "Rejected",
-}
-
-export interface ReviewStep {
-  id: string;
-  title: string;
-  status: RoutineStatus;
-  order: number;
-}
-
 export interface RoutineProduct {
   id: string;
   brand: string;
@@ -23,7 +10,14 @@ export interface RoutineProduct {
   isCompleted: boolean;
   needsLabTest?: boolean;
   progress: number; // 0 to 1
-  image: string;
+  image?: string;
+  // Product details
+  tags?: string[];
+  description?: string;
+  instructions?: string[];
+  details?: { label: string; value: string }[];
+  doctorNotes?: string;
+  warnings?: string[];
 }
 
 export interface RoutineStep {
@@ -33,86 +27,148 @@ export interface RoutineStep {
   product: RoutineProduct;
 }
 
-export interface HomeState {
+interface HomeState {
   selectedDay: number;
   userName: string;
   timeOfDay: TimeOfDay;
   routineSteps: RoutineStep[];
-  reviewSteps: ReviewStep[];
 }
-
-const initialReviewSteps: ReviewStep[] = [
-  {
-    id: "r1",
-    title: "Face Scan",
-    status: RoutineStatus.Approved,
-    order: 1,
-  },
-  {
-    id: "r2",
-    title: "Clinic Test",
-    status: RoutineStatus.Pending,
-    order: 2,
-  },
-  {
-    id: "r3",
-    title: "Doctor Review",
-    status: RoutineStatus.Pending,
-    order: 3,
-  },
-];
 
 const initialRoutineSteps: RoutineStep[] = [
   {
     id: "1",
     stepNumber: 1,
-    category: "Cleanser",
+    category: "Cleansing",
     product: {
       id: "p1",
-      brand: "Humphrey",
-      name: "Milk Cleanser",
+      brand: "Banila Co.",
+      name: "Clean It Zero Purifying Foam Cleanser",
       period: "3month",
       isCompleted: true,
-      progress: 0.5,
+      progress: 0.75,
       image: "img_product-image",
+      tags: ["Cleanser", "Foaming"],
+      description:
+        "A gentle foaming cleanser that effectively removes makeup, dirt, and impurities without stripping the skin's natural moisture barrier. Perfect for daily use.",
+      instructions: [
+        "Wet your face with lukewarm water",
+        "Apply a small amount to your palms and create a lather",
+        "Gently massage onto face in circular motions",
+        "Rinse thoroughly and pat dry",
+      ],
+      details: [
+        { label: "Size", value: "150ml" },
+        { label: "Key Ingredients", value: "Papaya Extract, Acerola Extract" },
+        { label: "Skin Type", value: "All Skin Types" },
+      ],
+      doctorNotes: "Gentle enough for sensitive skin. Maintains optimal pH balance.",
+      warnings: ["Avoid contact with eyes", "For external use only"],
     },
   },
   {
     id: "2",
     stepNumber: 2,
-    category: "Toner",
+    category: "Cream",
     product: {
       id: "p2",
-      brand: "GlowRecipe",
-      name: "Toner",
+      brand: "Glow Recipe",
+      name: "Watermelon Glow PHA+BHA Pore-Tight",
       period: "3month",
       isCompleted: false,
-      progress: 0.3,
+      progress: 0.5,
       image: "img_product-image",
+      tags: ["Toner", "Exfoliant"],
+      description:
+        "A lightweight, pore-minimizing toner with gentle chemical exfoliants (PHA + BHA) that helps refine texture and reduce the appearance of pores.",
+      instructions: [
+        "Apply to clean, dry skin",
+        "Use a cotton pad or pat directly onto face",
+        "Follow with serum and moisturizer",
+        "Use morning and evening",
+      ],
+      details: [
+        { label: "Size", value: "120ml" },
+        { label: "Key Ingredients", value: "Watermelon, PHA, BHA" },
+        { label: "Skin Type", value: "Oily, Combination" },
+      ],
+      doctorNotes:
+        "Great for oil control and pore refinement. Use sunscreen during the day.",
+      warnings: ["May cause tingling sensation", "Discontinue if irritation occurs"],
     },
   },
   {
     id: "3",
     stepNumber: 3,
-    category: "Moisturizer",
+    category: "Serum",
     product: {
       id: "p3",
-      brand: "SundayRiley",
-      name: "Moisturizer",
+      brand: "Dermatologica",
+      name: "Rapid Reveal Peel",
       period: "3month",
       isCompleted: false,
-      progress: 0.8,
+      progress: 0.25,
       image: "img_product-image",
+      tags: ["Exfoliant", "Normal"],
+      description:
+        "A professional-grade chemical peel that gently exfoliates and reveals smoother, brighter skin. Formulated with a blend of AHA and BHA acids to improve skin texture and tone.",
+      instructions: [
+        "Cleanse your face thoroughly",
+        "Apply a thin layer avoiding eye area",
+        "Leave on for 5-7 minutes",
+        "Rinse thoroughly with lukewarm water",
+      ],
+      details: [
+        { label: "Size", value: "50ml" },
+        { label: "Key Ingredients", value: "AHA, BHA, Salicylic Acid" },
+        { label: "Skin Type", value: "Normal, Oily" },
+      ],
+      doctorNotes: "Excellent choice for maintaining skin barrier function.",
+      warnings: ["Avoid contact with eyes", "For external use only"],
+    },
+  },
+  {
+    id: "4",
+    stepNumber: 4,
+    category: "Sunscreen",
+    product: {
+      id: "p4",
+      brand: "La Roche-Posay",
+      name: "Anthelios UV Mune 400 Sunscreen SPF50+",
+      period: "3month",
+      isCompleted: false,
+      needsLabTest: true,
+      progress: 0,
+      image: "img_product-image",
+      tags: ["SPF 50+", "UV Protection"],
+      description:
+        "Ultra-high protection sunscreen that shields skin from UVA and UVB rays. Lightweight, non-greasy formula suitable for daily use.",
+      instructions: [
+        "Apply as the last step of your morning routine",
+        "Use 1-2 finger lengths for face and neck",
+        "Reapply every 2 hours when in sun",
+        "Apply 15 minutes before sun exposure",
+      ],
+      details: [
+        { label: "Size", value: "50ml" },
+        { label: "Key Ingredients", value: "Mexoryl 400, Titanium Dioxide" },
+        { label: "Skin Type", value: "All Skin Types" },
+      ],
+      doctorNotes:
+        "Essential for preventing sun damage and premature aging. Use daily.",
+      warnings: [
+        "Avoid contact with eyes",
+        "Keep out of reach of children",
+        "Discontinue if rash occurs",
+      ],
     },
   },
 ];
 
 const initialState: HomeState = {
   selectedDay: 1,
-  userName: "Sarah Islam", // Updated to match screenshot
+  userName: "Aslam Uddin",
   timeOfDay: "morning",
   routineSteps: initialRoutineSteps,
-  reviewSteps: initialReviewSteps,
 };
 
 const homeSlice = createSlice({

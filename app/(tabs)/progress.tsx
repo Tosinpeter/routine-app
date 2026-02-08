@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
-import { StyleSheet, View, ScrollView, TouchableOpacity } from 'react-native';
-import { AppText as Text } from '@/components/app-text';
 import { scale, verticalScale } from '@/constants/scaling';
+import React, { useState } from 'react';
+import { ScrollView, StyleSheet, View } from 'react-native';
 
 import { ProgressLogView } from '@/components/progress/ProgressLogView';
 import { ProgressUnlockedView } from '@/components/progress/ProgressUnlockedView';
@@ -17,7 +16,7 @@ export default function ProgressScreen() {
                 contentContainerStyle={styles.contentContainer}
                 showsVerticalScrollIndicator={false}
             >
-                {isUnlocked ? (
+                {!isUnlocked ? (
                     <ProgressUnlockedView />
                 ) : (
                     <ProgressLogView />

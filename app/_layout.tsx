@@ -10,6 +10,7 @@ import 'react-native-reanimated';
 import { Provider } from 'react-redux';
 
 import { FontAssets } from '@/constants/theme';
+import { AppDataProvider } from '@/contexts/AppDataProvider';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { store } from '@/store';
 
@@ -35,6 +36,7 @@ function RootLayoutNav() {
       <Stack.Screen name="(tabs)" />
       <Stack.Screen name="upload" />
       <Stack.Screen name="select-lab-test" />
+      <Stack.Screen name="lab-test" />
     </Stack>
   );
 }
@@ -64,11 +66,13 @@ export default function RootLayout() {
 
   return (
     <Provider store={store}>
-      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-        <RootLayoutNav />
-        {/* Use dark status bar on light backgrounds for better contrast */}
-        <StatusBar style={Platform.OS === 'ios' ? 'dark' : 'auto'} />
-      </ThemeProvider>
+      <AppDataProvider>
+        <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+          <RootLayoutNav />
+          {/* Use dark status bar on light backgrounds for better contrast */}
+          <StatusBar style={Platform.OS === 'ios' ? 'dark' : 'auto'} />
+        </ThemeProvider>
+      </AppDataProvider>
     </Provider>
   );
 }

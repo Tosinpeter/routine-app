@@ -1,9 +1,10 @@
 import { BlurView } from "expo-blur";
-import { StyleSheet, View } from "react-native";
+import { router } from "expo-router";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 
 import { AppText as Text } from "@/components/app-text";
 import { NotificationIcon } from "@/components/icons/notification-icon";
-import { Colors, Fonts, Shadows } from "@/constants/theme";
+import { Colors, Fonts } from "@/constants/theme";
 import { scale, touchTarget } from "@/constants/scaling";
 import { useAppSelector } from "@/store/hooks";
 
@@ -22,6 +23,8 @@ export function HomeHeader() {
             {/* User Info */}
             <View style={styles.userInfo}>
                 <Text style={styles.greetingText}>{getGreeting()}</Text>
+
+
                 <View style={styles.nameContainer}>
                     <Text style={styles.userName}>{userName}</Text>
                     <Text style={styles.emoji}>👋</Text>
@@ -29,7 +32,11 @@ export function HomeHeader() {
             </View>
 
             {/* Notification Bell */}
-            <View style={styles.notificationWrapper}>
+            <TouchableOpacity
+                style={styles.notificationWrapper}
+                onPress={() => router.push("/lab-test/precription-download")}
+                activeOpacity={0.7}
+            >
                 <BlurView intensity={20} tint="light" style={styles.notificationButton}>
                     <NotificationIcon
                         width={scale(27)}
@@ -39,7 +46,7 @@ export function HomeHeader() {
                     {/* Notification Dot (Optional if active) */}
                     <View style={styles.notificationDot} />
                 </BlurView>
-            </View>
+            </TouchableOpacity>
         </View>
     );
 }

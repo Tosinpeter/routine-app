@@ -1,0 +1,147 @@
+{
+  "home": {
+    "greetings": {
+      "morning": "朝",
+      "afternoon": "午後",
+      "evening": "夕方"
+    },
+    "daySelector": {
+      "day": "日"
+    },
+    "timeToggle": {
+      "morning": "朝",
+      "evening": "夕方"
+    }
+  },
+  "routineStep": {
+    "labTestRequired": "検査が必要です",
+    "period": "期間: {{period}}",
+    "view": "表示",
+    "uploadLabTest": "検査結果をアップロード",
+    "clickHere": "ここをクリック"
+  },
+  "upload": {
+    "title": "検査結果をアップロード",
+    "subtitle": "必要に応じて、検査結果、医療レポート、または身分証明書/保険証をアップロードしてください。ファイルは鮮明で読みやすいものである必要があります。",
+    "dragAndDrop": "ファイルをドラッグ＆ドロップしてアップロード",
+    "orBrowse": "または参照",
+    "submit": "送信"
+  },
+  "selectLabTest": {
+    "location": "場所",
+    "distance": "距離",
+    "distanceAway": "{{distance}}離れています",
+    "availableTime": "利用可能時間",
+    "viewAllAvailability": "すべての空き状況を表示",
+    "sendTestRequest": "検査リクエストを送信"
+  },
+  "days": {
+    "fri": "金",
+    "sat": "土",
+    "sun": "日",
+    "mon": "月",
+    "tue": "火",
+    "wed": "水",
+    "thu": "木"
+  },
+  "months": {
+    "january": "1月",
+    "february": "2月",
+    "march": "3月",
+    "april": "4月",
+    "may": "5月",
+    "june": "6月",
+    "july": "7月",
+    "august": "8月",
+    "september": "9月",
+    "october": "10月",
+    "november": "11月",
+    "december": "12月"
+  },
+  "profile": {
+    "title": "プロフィール",
+    "account": "アカウント",
+    "needHelp": "ヘルプが必要ですか？",
+    "setting": "設定",
+    "legal": "法的情報",
+    "profile": "プロフィール",
+    "savedAddress": "保存された住所",
+    "orderHistory": "注文履歴",
+    "skinProgress": "あなたの肌の進捗",
+    "history": "履歴",
+    "clinicTest": "クリニック検査",
+    "doctorReview": "医師のレビュー",
+    "treatmentStarts": "治療開始",
+    "emergencySupport": "緊急サポート",
+    "faq": "よくある質問",
+    "language": "言語",
+    "permissions": "権限",
+    "privacy": "プライバシー",
+    "termsOfUse": "利用規約",
+    "logOut": "ログアウト"
+  },
+  "language": {
+    "title": "言語",
+    "chooseLanguage": "言語を選択",
+    "subtitle": "サインイン後、プロフィール設定で言語を変更できます。",
+    "unitedState": "アメリカ合衆国",
+    "canada": "カナダ",
+    "saudiArabia": "サウジアラビア",
+    "japan": "日本",
+    "qatar": "カタール"
+  },
+  "permissions": {
+    "title": "権限",
+    "cameraAccess": "カメラへのアクセス",
+    "photosStorage": "写真とストレージ",
+    "notifications": "通知",
+    "location": "位置情報"
+  },
+  "faq": {
+    "title": "よくある質問",
+    "subtitle": "アプリの使用に関するよくある質問への回答を見つける",
+    "contactTitle": "まだ質問がありますか？",
+    "contactText": "個別のサポートについては、サポートチームにお問い合わせください",
+    "contactButton": "サポートに連絡",
+    "questions": {
+      "q1": {
+        "question": "スキンケアルーチンを始めるにはどうすればよいですか？",
+        "answer": "スキンケアルーチンを始めるには、最初の肌評価クイズを完了してください。結果に基づいて、あなたの肌タイプと懸念に合わせたパーソナライズされたルーチンを作成します。"
+      },
+      "q2": {
+        "question": "ルーチンの製品を変更できますか？",
+        "answer": "はい、いつでもルーチンをカスタマイズできます。ルーチンタブに移動し、任意の製品をタップして、肌プロファイルに一致する代替品を探索してください。"
+      },
+      "q3": {
+        "question": "進捗を追跡する頻度はどのくらいですか？",
+        "answer": "週に一度進捗を追跡することをお勧めします。一貫した照明で写真を撮って、時間の経過とともに変化を確認してください。アプリは進捗を分析し、必要に応じて調整を提案します。"
+      },
+      "q4": {
+        "question": "ルーチンの日を逃してしまったらどうなりますか？",
+        "answer": "心配しないでください！一貫性は重要ですが、たまに1日逃しても進捗が台無しになることはありません。翌日通常通りルーチンを再開してください。"
+      },
+      "q5": {
+        "question": "皮膚科医の診察を予約するにはどうすればよいですか？",
+        "answer": "プロフィールセクションに移動し、「医師のレビュー」を選択してください。ビデオ相談を予約したり、皮膚科チームと肌の進捗を確認したりできます。"
+      },
+      "q6": {
+        "question": "製品の返金を受けることはできますか？",
+        "answer": "はい、すべての製品に30日間の返金保証を提供しています。満足できない場合は、緊急サポートオプションからサポートチームにお問い合わせください。"
+      }
+    }
+  },
+  "address": {
+    "savedAddress": "保存された住所",
+    "addHome": "自宅を追加",
+    "addWork": "職場を追加",
+    "addNew": "新規追加",
+    "addNewAddress": "新しい住所を追加",
+    "confirmHome": "自宅を確認",
+    "confirmWork": "職場を確認",
+    "confirmAddress": "住所を確認",
+    "enterAddress": "住所を入力してください",
+    "currentLocation": "現在地",
+    "mapView": "マップビュー",
+    "installMapNotice": "ライブマップにはreact-native-mapsをインストールしてください"
+  }
+}

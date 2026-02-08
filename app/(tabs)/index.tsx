@@ -30,10 +30,10 @@ export default function HomeScreen() {
 
       <SafeAreaView style={styles.safeArea} edges={["top"]}>
         {/* Background Texture/Image */}
-        <Image
+        {/* <Image
           source={require("@/assets/images/img_background-effects.png")}
           style={styles.backgroundImage}
-        />
+        /> */}
 
         <ScrollView
           style={styles.scrollView}

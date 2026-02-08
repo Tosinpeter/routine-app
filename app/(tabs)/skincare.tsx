@@ -1,13 +1,12 @@
 import { StyleSheet } from 'react-native';
 
-// import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
+import { AppText as Text } from '@/components/app-text';
 
 export default function SkincareScreen() {
   return (
     <ThemedView style={styles.container}>
-      {/* <ThemedText type="title">Skincare</ThemedText>
-      <ThemedText>Your skincare routine will appear here.</ThemedText> */}
+      <Text>Skincare Screen</Text>
     </ThemedView>
   );
 }

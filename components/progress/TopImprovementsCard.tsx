@@ -1,8 +1,8 @@
-import React from 'react';
-import { StyleSheet, View, TouchableOpacity } from 'react-native';
+import React, { useEffect, useRef } from 'react';
+import { StyleSheet, View, TouchableOpacity, Animated } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { AppText as Text } from '@/components/app-text';
-import { scale } from '@/constants/scaling';
+import { scale, verticalScale } from '@/constants/scaling';
 
 import ImprovementIcon from '@/components/progress/ImprovementIcon';
 
@@ -12,9 +12,28 @@ interface ImprovementItemProps {
     trend: 'down' | 'up';
     progress: number;
     color?: string;
+    delay?: number;
 }
 
-function ImprovementItem({ label, value, trend, progress, color = '#3736FD' }: ImprovementItemProps) {
+function ImprovementItem({ label, value, trend, progress, color = '#3736FD', delay = 0 }: ImprovementItemProps) {
+    const progressAnim = useRef(new Animated.Value(0)).current;
+
+    useEffect(() => {
+        // Animate the progress bar with a spring animation
+        Animated.spring(progressAnim, {
+            toValue: progress,
+            delay,
+            tension: 40,
+            friction: 8,
+            useNativeDriver: false, // width animation requires false
+        }).start();
+    }, [progress, delay]);
+
+    const animatedWidth = progressAnim.interpolate({
+        inputRange: [0, 1],
+        outputRange: ['0%', '100%'],
+    });
+
     return (
         <View style={styles.itemContainer}>
             {/* Header: Icon + Label + Percentage */}
@@ -27,7 +46,7 @@ function ImprovementItem({ label, value, trend, progress, color = '#3736FD' }: I
                 <View style={styles.trendContainer}>
                     <Ionicons
                         name={trend === 'down' ? 'arrow-down' : 'arrow-up'}
-                        size={scale(12)}
+                        size={scale(16)}
                         color={trend === 'down' ? '#F41D12' : '#077C46'}
                     />
                     <Text style={styles.trendValue}>{value}</Text>
@@ -36,7 +55,15 @@ function ImprovementItem({ label, value, trend, progress, color = '#3736FD' }: I
 
             {/* Progress Bar */}
             <View style={styles.progressBarBg}>
-                <View style={[styles.progressBarFill, { width: `${progress * 100}%`, backgroundColor: color }]} />
+                <Animated.View 
+                    style={[
+                        styles.progressBarFill, 
+                        { 
+                            width: animatedWidth, 
+                            backgroundColor: color 
+                        }
+                    ]} 
+                />
             </View>
         </View>
     );
@@ -57,19 +84,22 @@ export function TopImprovementsCard() {
                     label="Acne"
                     value="18%"
                     trend="down"
-                    progress={0.5}
+                    progress={0.9}
+                    delay={0}
                 />
                 <ImprovementItem
                     label="Redness"
                     value="12%"
                     trend="down"
                     progress={0.4}
+                    delay={150}
                 />
                 <ImprovementItem
                     label="Hydration"
                     value="22%"
                     trend="up"
                     progress={0.3}
+                    delay={300}
                 />
             </View>
 
@@ -108,6 +138,7 @@ const styles = StyleSheet.create({
     iconLabelRow: {
         flexDirection: 'row',
         alignItems: 'center',
+        marginBottom: verticalScale(5),
         gap: 8,
     },
     itemLabel: {
@@ -137,9 +168,9 @@ const styles = StyleSheet.create({
         borderRadius: 100,
     },
     ctaContainer: {
-        height: 40,
         backgroundColor: '#EDEBE3', // Beige button
         borderRadius: 100,
+        paddingVertical: verticalScale(19),
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: 8,

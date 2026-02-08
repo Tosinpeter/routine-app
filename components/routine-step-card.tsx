@@ -28,6 +28,15 @@ export interface RoutineStepCardProps {
 export function RoutineStepCard({ step, isLast, onToggleComplete }: RoutineStepCardProps) {
   const { product } = step;
 
+  const handleProductPress = () => {
+    if (product.progress > 0 && !product.needsLabTest) {
+      router.push({
+        pathname: "/product-details",
+        params: { productId: product.id },
+      });
+    }
+  };
+
   return (
     <View style={styles.stepContainer}>
       <View style={styles.timeline}>
@@ -46,7 +55,11 @@ export function RoutineStepCard({ step, isLast, onToggleComplete }: RoutineStepC
       {/* Content */}
       <View style={styles.stepContent}>
         <Text style={styles.stepCategory}>{step.category}</Text>
-        <View style={styles.productContainer}>
+        <TouchableOpacity
+          style={styles.productContainer}
+          activeOpacity={product.progress > 0 && !product.needsLabTest ? 0.7 : 1}
+          onPress={handleProductPress}
+        >
           <View style={styles.productCard}>
             {/* Product Image with Gradient Progress Ring */}
             <View style={styles.productImageContainer}>
@@ -85,7 +98,11 @@ export function RoutineStepCard({ step, isLast, onToggleComplete }: RoutineStepC
                         {t("routineStep.period", { period: product.period })}
                       </Text>
                     </View>
-                    <TouchableOpacity style={styles.viewButton} hitSlop={HitSlop.small}>
+                    <TouchableOpacity
+                      style={styles.viewButton}
+                      hitSlop={HitSlop.small}
+                      onPress={handleProductPress}
+                    >
                       <Text style={styles.viewButtonText}>{t("routineStep.view")}</Text>
                       <Ionicons name="chevron-forward" size={scaleIcon(13)} color={Colors.light.lightGrey800} />
                     </TouchableOpacity>
@@ -114,12 +131,12 @@ export function RoutineStepCard({ step, isLast, onToggleComplete }: RoutineStepC
             <TouchableOpacity
               style={styles.bottomButton}
               activeOpacity={0.8}
-              onPress={() => router.push("/upload")}
+              onPress={() => router.push("/lab-test")}
             >
               <Text style={styles.bottomButtonText}>{t("routineStep.clickHere")}</Text>
             </TouchableOpacity>
           )}
-        </View>
+        </TouchableOpacity>
       </View>
     </View>
   );

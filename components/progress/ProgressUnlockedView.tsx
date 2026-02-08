@@ -6,6 +6,8 @@ import { ComparisonCard } from '@/components/progress/ComparisonCard';
 import { TopImprovementsCard } from '@/components/progress/TopImprovementsCard';
 import { ProgressHelpedCard } from '@/components/progress/ProgressHelpedCard';
 import { ScanHistoryCard } from '@/components/progress/ScanHistoryCard';
+import { AppTextStyle } from '@/constants/typography';
+import { AeonikFonts } from '@/constants/theme';
 
 export function ProgressUnlockedView() {
     return (
@@ -42,18 +44,16 @@ const styles = StyleSheet.create({
         width: '100%',
     },
     screenTitle: {
-        fontFamily: 'Aeonik-Medium',
-        fontSize: scale(30),
+        ...AppTextStyle.headline1,
+        fontFamily: AeonikFonts.medium,
         lineHeight: scale(36),
-        color: '#20201E',
         alignSelf: 'flex-start',
         marginBottom: verticalScale(16),
         width: '100%',
     },
     sectionTitle: {
-        fontFamily: 'Aeonik-Medium',
-        fontSize: scale(20),
-        color: '#20201E',
+        ...AppTextStyle.headline4,
+        fontFamily: AeonikFonts.medium,
         alignSelf: 'flex-start',
         marginBottom: verticalScale(16),
         width: '100%',

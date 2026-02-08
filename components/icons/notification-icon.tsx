@@ -1,26 +1,25 @@
-import * as React from "react";
-import Svg, { Path, SvgProps } from "react-native-svg";
+import React from 'react';
+import Svg, { Path, G, Defs, ClipPath, Rect } from 'react-native-svg';
 
-export const NotificationIcon = ({ color = "#344054", ...props }: SvgProps) => (
-    <Svg width={27} height={27} viewBox="0 0 27 27" fill="none" {...props}>
+interface NotificationIconProps {
+  size?: number;
+  color?: string;
+}
+
+export function NotificationIcon({ size = 24, color = '#20201E' }: NotificationIconProps) {
+  return (
+    <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+      <G clipPath="url(#clip0_44_10478)">
         <Path
-            d="M5.67421 12.6401C5.59339 14.1757 5.6863 15.8103 4.31435 16.8392C3.6758 17.3182 3.3 18.0698 3.3 18.8679C3.3 19.9659 4.15998 20.9 5.28 20.9H21.12C22.24 20.9 23.1 19.9659 23.1 18.8679C23.1 18.0698 22.7242 17.3182 22.0857 16.8392C20.7137 15.8103 20.8066 14.1757 20.7258 12.6401C20.5151 8.63745 17.2082 5.5 13.2 5.5C9.19179 5.5 5.88487 8.63745 5.67421 12.6401Z"
-            stroke={color}
-            strokeWidth="1.65"
-            strokeLinecap="round"
-            strokeLinejoin="round"
+          d="M11.9996 22C13.0996 22 13.9996 21.1 13.9996 20H9.99956C9.99956 21.1 10.8896 22 11.9996 22ZM17.9996 16V11C17.9996 7.93 16.3596 5.36 13.4996 4.68V4C13.4996 3.17 12.8296 2.5 11.9996 2.5C11.1696 2.5 10.4996 3.17 10.4996 4V4.68C7.62956 5.36 5.99956 7.92 5.99956 11V16L4.70956 17.29C4.07956 17.92 4.51956 19 5.40956 19H18.5796C19.4696 19 19.9196 17.92 19.2896 17.29L17.9996 16Z"
+          fill={color}
         />
-        <Path
-            d="M11.55 3.4377C11.55 4.34897 12.2887 5.5002 13.2 5.5002C14.1113 5.5002 14.85 4.34897 14.85 3.4377C14.85 2.52643 14.1113 2.2002 13.2 2.2002C12.2887 2.2002 11.55 2.52643 11.55 3.4377Z"
-            stroke={color}
-            strokeWidth="1.65"
-        />
-        <Path
-            d="M16.5 20.9004C16.5 22.7229 15.0225 24.2004 13.2 24.2004C11.3775 24.2004 9.9 22.7229 9.9 20.9004"
-            stroke={color}
-            strokeWidth="1.65"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-        />
+      </G>
+      <Defs>
+        <ClipPath id="clip0_44_10478">
+          <Rect width="24" height="24" fill="white" />
+        </ClipPath>
+      </Defs>
     </Svg>
-);
+  );
+}

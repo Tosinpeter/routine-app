@@ -1,0 +1,147 @@
+{
+  "home": {
+    "greetings": {
+      "morning": "Matin",
+      "afternoon": "Après-midi",
+      "evening": "Soir"
+    },
+    "daySelector": {
+      "day": "Jour"
+    },
+    "timeToggle": {
+      "morning": "Matin",
+      "evening": "Soir"
+    }
+  },
+  "routineStep": {
+    "labTestRequired": "Vous avez besoin d'un test de laboratoire",
+    "period": "Période : {{period}}",
+    "view": "Voir",
+    "uploadLabTest": "Télécharger le test de laboratoire",
+    "clickHere": "Cliquez ici"
+  },
+  "upload": {
+    "title": "Téléchargez votre test de laboratoire",
+    "subtitle": "Téléchargez les tests de laboratoire, les rapports médicaux ou la pièce d'identité/assurance si nécessaire. Les fichiers doivent être clairs et lisibles.",
+    "dragAndDrop": "Glissez-déposez les fichiers pour télécharger",
+    "orBrowse": "Ou parcourir",
+    "submit": "Soumettre"
+  },
+  "selectLabTest": {
+    "location": "Emplacement",
+    "distance": "Distance",
+    "distanceAway": "à {{distance}}",
+    "availableTime": "Heure disponible",
+    "viewAllAvailability": "Voir toutes les disponibilités",
+    "sendTestRequest": "Envoyer la demande de test"
+  },
+  "days": {
+    "fri": "Ven",
+    "sat": "Sam",
+    "sun": "Dim",
+    "mon": "Lun",
+    "tue": "Mar",
+    "wed": "Mer",
+    "thu": "Jeu"
+  },
+  "months": {
+    "january": "Janvier",
+    "february": "Février",
+    "march": "Mars",
+    "april": "Avril",
+    "may": "Mai",
+    "june": "Juin",
+    "july": "Juillet",
+    "august": "Août",
+    "september": "Septembre",
+    "october": "Octobre",
+    "november": "Novembre",
+    "december": "Décembre"
+  },
+  "profile": {
+    "title": "Profil",
+    "account": "Compte",
+    "needHelp": "Besoin d'aide ?",
+    "setting": "Paramètres",
+    "legal": "Mentions légales",
+    "profile": "Profil",
+    "savedAddress": "Adresses enregistrées",
+    "orderHistory": "Historique des commandes",
+    "skinProgress": "Vos progrès cutanés",
+    "history": "Historique",
+    "clinicTest": "Test de clinique",
+    "doctorReview": "Avis du médecin",
+    "treatmentStarts": "Début du traitement",
+    "emergencySupport": "Support d'urgence",
+    "faq": "Questions fréquemment posées",
+    "language": "Langue",
+    "permissions": "Autorisations",
+    "privacy": "Confidentialité",
+    "termsOfUse": "Conditions d'utilisation",
+    "logOut": "Se déconnecter"
+  },
+  "language": {
+    "title": "Langue",
+    "chooseLanguage": "Choisissez votre langue",
+    "subtitle": "Vous pouvez changer la langue dans les paramètres de votre profil après vous être connecté.",
+    "unitedState": "États-Unis",
+    "canada": "Canada",
+    "saudiArabia": "Arabie Saoudite",
+    "japan": "Japon",
+    "qatar": "Qatar"
+  },
+  "permissions": {
+    "title": "Autorisations",
+    "cameraAccess": "Accès à la caméra",
+    "photosStorage": "Photos et stockage",
+    "notifications": "Notifications",
+    "location": "Localisation"
+  },
+  "faq": {
+    "title": "FAQ",
+    "subtitle": "Trouvez des réponses aux questions courantes sur l'utilisation de l'application",
+    "contactTitle": "Vous avez encore des questions ?",
+    "contactText": "Contactez notre équipe de support pour une assistance personnalisée",
+    "contactButton": "Contacter le support",
+    "questions": {
+      "q1": {
+        "question": "Comment commencer ma routine de soins de la peau ?",
+        "answer": "Pour commencer votre routine de soins de la peau, complétez le quiz d'évaluation de la peau initial. En fonction de vos résultats, nous créerons une routine personnalisée adaptée à votre type de peau et à vos préoccupations."
+      },
+      "q2": {
+        "question": "Puis-je modifier les produits de ma routine ?",
+        "answer": "Oui, vous pouvez personnaliser votre routine à tout moment. Accédez à l'onglet Routine et appuyez sur n'importe quel produit pour explorer des alternatives correspondant à votre profil cutané."
+      },
+      "q3": {
+        "question": "À quelle fréquence dois-je suivre mes progrès ?",
+        "answer": "Nous recommandons de suivre vos progrès chaque semaine. Prenez des photos avec un éclairage constant pour voir les changements au fil du temps. L'application analysera vos progrès et suggérera des ajustements si nécessaire."
+      },
+      "q4": {
+        "question": "Que faire si je manque un jour dans ma routine ?",
+        "answer": "Ne vous inquiétez pas ! La cohérence est importante, mais manquer un jour occasionnellement ne ruinera pas vos progrès. Reprenez simplement votre routine le lendemain comme d'habitude."
+      },
+      "q5": {
+        "question": "Comment programmer une consultation avec un dermatologue ?",
+        "answer": "Accédez à la section Profil et sélectionnez 'Avis du médecin'. Vous pouvez planifier une consultation vidéo ou examiner vos progrès cutanés avec notre équipe de dermatologie."
+      },
+      "q6": {
+        "question": "Puis-je obtenir un remboursement sur les produits ?",
+        "answer": "Oui, nous offrons une garantie de remboursement de 30 jours sur tous les produits. Si vous n'êtes pas satisfait, contactez notre équipe de support via l'option Support d'urgence."
+      }
+    }
+  },
+  "address": {
+    "savedAddress": "Adresses enregistrées",
+    "addHome": "Ajouter Domicile",
+    "addWork": "Ajouter Travail",
+    "addNew": "Ajouter Nouveau",
+    "addNewAddress": "Ajouter une nouvelle adresse",
+    "confirmHome": "Confirmer Domicile",
+    "confirmWork": "Confirmer Travail",
+    "confirmAddress": "Confirmer l'adresse",
+    "enterAddress": "Entrez votre adresse",
+    "currentLocation": "Position actuelle",
+    "mapView": "Vue de la carte",
+    "installMapNotice": "Installez react-native-maps pour une carte en direct"
+  }
+}

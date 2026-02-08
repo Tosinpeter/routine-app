@@ -1,20 +1,16 @@
-import Svg, { Path } from "react-native-svg";
+import React from 'react';
+import Svg, { Path } from 'react-native-svg';
 
 interface LocationIconProps {
-  width?: number;
-  height?: number;
+  size?: number;
   color?: string;
 }
 
-export function LocationIcon({
-  width = 20,
-  height = 20,
-  color = "#CF604A",
-}: LocationIconProps) {
+export function LocationIcon({ size = 24, color = '#20201E' }: LocationIconProps) {
   return (
-    <Svg width={width} height={height} viewBox="0 0 20 20" fill="none">
+    <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
       <Path
-        d="M9.60077 1C12.6617 1 15.5825 2.81065 16.8049 5.66797C17.9408 8.32353 17.3275 10.5887 16.0471 12.5283C14.9848 14.1373 13.4288 15.57 12.0305 16.8584C11.7823 17.087 11.5395 17.3115 11.3049 17.5312C10.8448 17.962 10.2331 18.2002 9.60077 18.2002C8.96862 18.2001 8.35756 17.9619 7.89764 17.5312L7.89667 17.5303C7.64823 17.2963 7.38989 17.0574 7.12616 16.8135L6.0705 15.8271C5.00644 14.8143 3.94681 13.7189 3.15839 12.5273C1.87626 10.5896 1.26022 8.32701 2.39764 5.66797C3.61992 2.81079 6.54 1.00018 9.60077 1ZM9.59979 5.59961C7.83264 5.59971 6.3997 7.03265 6.3996 8.7998C6.3996 10.5671 7.83257 11.9999 9.59979 12C11.3671 12 12.8 10.5671 12.8 8.7998C12.7999 7.03258 11.367 5.59961 9.59979 5.59961Z"
+        d="M12 2C7.6 2 4 5.6 4 10C4 15.4 11 21.5 11.3 21.8C11.7 22.1 12.2 22.1 12.6 21.8C13 21.5 20 15.4 20 10C20 5.6 16.4 2 12 2ZM12 14C9.8 14 8 12.2 8 10C8 7.8 9.8 6 12 6C14.2 6 16 7.8 16 10C16 12.2 14.2 14 12 14Z"
         fill={color}
       />
     </Svg>
