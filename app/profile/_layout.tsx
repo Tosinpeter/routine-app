@@ -4,6 +4,8 @@ export default function ProfileLayout() {
   return (
     <Stack
       screenOptions={{
+        contentStyle: { backgroundColor: 'transparent' },
+        animation: 'default',
         headerShown: false,
       }}
     >

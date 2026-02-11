@@ -5,7 +5,7 @@ export const BASE_WIDTH = 390;
 export const BASE_HEIGHT = 844;
 
 // Minimum touch target sizes (Apple HIG: 44pt, Material: 48dp)
-export const MIN_TOUCH_TARGET = Platform.OS === "ios" ? 44 : 48;
+export const MIN_TOUCH_TARGET = Platform.OS === "ios" ? 40 : 40;
 
 // Get current screen dimensions
 const getScreenDimensions = () => {

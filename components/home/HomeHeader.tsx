@@ -34,7 +34,7 @@ export function HomeHeader() {
             {/* Notification Bell */}
             <TouchableOpacity
                 style={styles.notificationWrapper}
-                onPress={() => router.push("/lab-test/precription-download")}
+                onPress={() => router.push("/notification")}
                 activeOpacity={0.7}
             >
                 <BlurView intensity={20} tint="light" style={styles.notificationButton}>

@@ -87,7 +87,7 @@ export default function ProfileScreen() {
               }
               title={t("profile.orderHistory")}
               onPress={() => {
-                router.push("/profile/order-history");
+                router.push("/order/history");
               }}
             />
             <View style={styles.divider} />

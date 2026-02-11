@@ -3,9 +3,11 @@ import Svg, { Circle, Defs, LinearGradient, Stop } from "react-native-svg";
 
 import { AppText as Text } from "@/components/app-text";
 import { AlarmIcon } from "@/components/icons/alarm-icon";
-import { Colors, Fonts } from "@/constants/theme";
-import { scale, verticalScale } from "@/constants/scaling";
+import { BorderRadius, Colors, Fonts, Shadows } from "@/constants/theme";
+import { scale, scaledRadius, scaleIcon, verticalScale } from "@/constants/scaling";
 import { Ionicons } from "@expo/vector-icons";
+import { GradientProgressRing } from "../gradient-progress-ring";
+import { LockIcon } from "../icons/lock-icon";
 
 export function ProductReminderCard() {
     const products = [
@@ -13,6 +15,18 @@ export function ProductReminderCard() {
         { id: 2, type: 'green', days: 8, progress: 0.5 },
         { id: 3, type: 'orange', days: 3, progress: 0.25 },
     ];
+
+    // Gradient colors for different product types
+    const gradients: Record<string, { start: string; end: string }> = {
+        purple: { start: '#A7CDFF', end: '#614BE1' },
+        green: { start: '#D0F230', end: '#32D583' },
+        orange: { start: '#FDA29B', end: '#F79009' },
+        locked: { start: '#F2F4F7', end: '#F2F4F7' },
+    };
+
+    const getGradientColors = (type: string) => {
+        return gradients[type] || gradients.locked;
+    };
 
     return (
         <View style={styles.card}>
@@ -31,43 +45,50 @@ export function ProductReminderCard() {
 
             {/* Product List */}
             <View style={styles.productList}>
-                {products.map((item) => (
-                    <View key={item.id} style={styles.productItem}>
-                        {/* 68px Container */}
-                        <View style={styles.imageContainer}>
-                            {/* Outer Shadow Circle (68px) */}
-                            <View style={styles.outerCircle} />
-
-                            {/* Progress Circle Container (60px) - Absolute 4px, 4px */}
-                            <View style={styles.progressCircleContainer}>
-                                {/* Progress Circle (60px) */}
-                                <ProgressCircle type={item.type} progress={item.progress} />
-
-                                {/* Inner White Circle (50.87px) - Centered in 60px container */}
-                                <View style={styles.innerCircle}>
-                                    {/* Product Image (42.48px) */}
-                                    <Image
-                                        source={require("@/assets/images/product-placeholder.png")}
-                                        style={styles.productImage}
-                                        resizeMode="contain"
-                                    />
-                                </View>
+                {products.map((item) => {
+                    const colors = getGradientColors(item.type);
+                    return (
+                        <View key={item.id} style={styles.productItem}>
+                            <View style={styles.productImageContainer}>
+                                <GradientProgressRing 
+                                    size={scale(55)}
+                                    strokeWidth={scale(6)} 
+                                    progress={item.progress}
+                                    gradientStartColor={colors.start}
+                                    gradientEndColor={colors.end}
+                                >
+                                    <View style={styles.productImageWrapper}>
+                                        {item.progress == 0 ? (
+                                            <LockIcon size={scaleIcon(25)} />
+                                        ) : (
+                                            <Image
+                                                source={require("@/assets/images/img_product-image.png")}
+                                                style={styles.productImage}
+                                                contentFit="cover"
+                                            />
+                                        )}
+                                    </View>
+                                </GradientProgressRing>
                             </View>
+                            <Text style={styles.daysText}>{item.days} Days left</Text>
                         </View>
-                        <Text style={styles.daysText}>{item.days} Days left</Text>
-                    </View>
-                ))}
+                    );
+                })}
 
                 {/* Locked Item */}
                 <View style={styles.productItem}>
-                    <View style={styles.imageContainer}>
-                        <View style={styles.outerCircle} />
-                        <View style={styles.progressCircleContainer}>
-                            <ProgressCircle type="locked" progress={0} />
-                            <View style={styles.innerCircle}>
-                                <Ionicons name="lock-closed" size={scale(18)} color={Colors.light.lightGrey300} />
+                    <View style={styles.productImageContainer}>
+                        <GradientProgressRing 
+                            size={scale(55)} 
+                            strokeWidth={scale(6)} 
+                            progress={0}
+                            gradientStartColor={gradients.locked.start}
+                            gradientEndColor={gradients.locked.end}
+                        >
+                            <View style={styles.productImageWrapper}>
+                                <LockIcon size={scaleIcon(25)} />
                             </View>
-                        </View>
+                        </GradientProgressRing>
                     </View>
                     <Text style={styles.daysText}>Under Review</Text>
                 </View>
@@ -76,70 +97,75 @@ export function ProductReminderCard() {
     );
 }
 
-// Sub-component for Progress Circle
-interface ProgressCircleProps {
-    type: string;
-    progress: number; // 0 to 1
-}
+// // Sub-component for Progress Circle
+// interface ProgressCircleProps {
+//     type: string;
+//     progress: number; // 0 to 1
+// }
 
-function ProgressCircle({ type, progress }: ProgressCircleProps) {
-    const size = scale(60);
-    const strokeWidth = scale(6);
-    const radius = (size - strokeWidth) / 2;
-    const center = size / 2;
-    const circumference = 2 * Math.PI * radius;
-    
-    // Clamp progress between 0 and 1
-    const clampedProgress = Math.min(Math.max(progress, 0), 1);
-    const strokeDashoffset = circumference * (1 - clampedProgress);
+// function ProgressCircle({ type, progress }: ProgressCircleProps) {
+//     const radius = (size - strokeWidth) / 2;
+//     const circumference = 2 * Math.PI * radius;
 
-    const gradients: Record<string, string[]> = {
-        purple: ['#A7CDFF', '#614BE1'],
-        green: ['#D0F230', '#32D583'],
-        orange: ['#FDA29B', '#F79009'],
-        locked: ['#F2F4F7', '#F2F4F7'],
-    };
+//     const animatedProgress = useSharedValue(0);
 
-    const colors = gradients[type] || gradients.locked;
+//     useEffect(() => {
+//         animatedProgress.value = withTiming(progress, {
+//             duration: 1000,
+//             easing: Easing.out(Easing.cubic),
+//         });
+//     }, [progress]);
 
-    return (
-        <View style={StyleSheet.absoluteFillObject}>
-            <Svg width={size} height={size}>
-                <Defs>
-                    <LinearGradient id={`progress-grad-${type}`} x1="0%" y1="0%" x2="100%" y2="100%">
-                        <Stop offset="0" stopColor={colors[0]} />
-                        <Stop offset="1" stopColor={colors[1]} />
-                    </LinearGradient>
-                </Defs>
-                {/* Background Circle */}
-                <Circle
-                    cx={center}
-                    cy={center}
-                    r={radius}
-                    stroke="#F2F4F7"
-                    strokeWidth={strokeWidth}
-                    fill="transparent"
-                />
-                {/* Progress Circle */}
-                {type !== 'locked' && (
-                    <Circle
-                        cx={center}
-                        cy={center}
-                        r={radius}
-                        stroke={`url(#progress-grad-${type})`}
-                        strokeWidth={strokeWidth}
-                        fill="transparent"
-                        strokeDasharray={circumference}
-                        strokeDashoffset={strokeDashoffset}
-                        strokeLinecap="round"
-                        rotation="-90"
-                        origin={`${center}, ${center}`}
-                    />
-                )}
-            </Svg>
-        </View>
-    );
-}
+//     const animatedProps = useAnimatedProps(() => ({
+//         strokeDashoffset: circumference * (1 - animatedProgress.value),
+//     }));
+
+//     const gradients: Record<string, string[]> = {
+//         purple: ['#A7CDFF', '#614BE1'],
+//         green: ['#D0F230', '#32D583'],
+//         orange: ['#FDA29B', '#F79009'],
+//         locked: ['#F2F4F7', '#F2F4F7'],
+//     };
+
+//     const colors = gradients[type] || gradients.locked;
+
+//     return (
+//         <View style={{ width: size, height: size, alignItems: "center", justifyContent: "center" }}>
+//             <Svg width={size} height={size} style={{ position: "absolute" }}>
+//                 <Defs>
+//                     <LinearGradient id="progressGradient" x1="100%" y1="0%" x2="0%" y2="100%">
+//                         <Stop offset="0%" stopColor={Colors.light.gradientPurple} />
+//                         <Stop offset="100%" stopColor={Colors.light.gradientBlue} />
+//                     </LinearGradient>
+//                 </Defs>
+//                 {/* Background circle */}
+//                 <Circle
+//                     cx={size / 2}
+//                     cy={size / 2}
+//                     r={radius}
+//                     stroke={Colors.light.lightGrey100}
+//                     strokeWidth={strokeWidth}
+//                     fill="transparent"
+//                 />
+//                 {/* Progress circle with gradient */}
+//                 <AnimatedCircle
+//                     cx={size / 2}
+//                     cy={size / 2}
+//                     r={radius}
+//                     stroke="url(#progressGradient)"
+//                     strokeWidth={strokeWidth}
+//                     fill="transparent"
+//                     strokeDasharray={circumference}
+//                     animatedProps={animatedProps}
+//                     strokeLinecap="round"
+//                     rotation="-90"
+//                     origin={`${size / 2}, ${size / 2}`}
+//                 />
+//             </Svg>
+//             {children}
+//         </View>
+//     );
+// }
 
 const styles = StyleSheet.create({
     card: {
@@ -232,9 +258,24 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         elevation: 1, // Ensure white bg is on top of ring if filled, but ring is stroke only so fine.
     },
+    productImageContainer: {
+        backgroundColor: Colors.light.white,
+        borderRadius: BorderRadius.full,
+        padding: scale(6),
+        ...Shadows.md,
+    },
+    productImageWrapper: {
+        width: scale(43),
+        height: scale(43),
+        borderRadius: scaledRadius(27),
+        backgroundColor: Colors.light.lightGrey50,
+        alignItems: "center",
+        justifyContent: "center",
+        overflow: "hidden",
+    },
     productImage: {
-        width: scale(42.48),
-        height: scale(38.98),
+        width: scale(43),
+        height: scale(40),
     },
     daysText: {
         fontFamily: 'Aeonik-Medium', // 500

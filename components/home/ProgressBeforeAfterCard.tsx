@@ -13,29 +13,13 @@ export function ProgressBeforeAfterCard() {
             <View style={styles.card}>
                 {/* Main Image Background - Need to simulate split face or use placeholder */}
                 <ImageBackground
-                    source={require('@/assets/images/progress-preview-bg.png')} // Reuse background for now
+                    source={require('@/assets/images/ProgressImage.png')} // Reuse background for now
                     style={styles.imageBackground}
                     resizeMode="cover"
                     imageStyle={{ borderRadius: scale(16) }}
                 >
                     {/* Overlay Controls */}
                     <View style={styles.overlay}>
-
-                        {/* Before Label */}
-                        <View style={[styles.labelBadge, { left: scale(16) }]}>
-                            <Text style={styles.labelText}>Before</Text>
-                        </View>
-
-                        {/* After Label */}
-                        <View style={[styles.labelBadge, { right: scale(16) }]}>
-                            <Text style={styles.labelText}>After</Text>
-                        </View>
-
-                        {/* Center Slider Handle */}
-                        <View style={styles.sliderHandle}>
-                            <Ionicons name="code" size={16} color={Colors.light.tint} />
-                        </View>
-
                         {/* Date Badges */}
                         <View style={[styles.dateBadge, { left: scale(16), bottom: scale(16) }]}>
                             <Ionicons name="calendar-outline" size={14} color={Colors.light.white} />
@@ -46,7 +30,6 @@ export function ProgressBeforeAfterCard() {
                             <Ionicons name="calendar-outline" size={14} color={Colors.light.white} />
                             <Text style={styles.dateText}>Feb 02{'\n'}2025</Text>
                         </View>
-
                     </View>
                 </ImageBackground>
             </View>

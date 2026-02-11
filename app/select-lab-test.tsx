@@ -88,7 +88,7 @@ export default function SelectLabTestScreen() {
             {/* Location & Distance Row */}
             <View style={styles.infoRow}>
               <InfoItem
-                icon={<LocationIcon width={scaleIcon(19)} height={scaleIcon(19)} color={Colors.light.tint} />}
+                icon={<LocationIcon color={Colors.light.tint} size={scaleIcon(19)} />}
                 label={t("selectLabTest.location")}
                 value="Amsterdam, Netherlands"
               />

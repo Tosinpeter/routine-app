@@ -50,10 +50,10 @@ const styles = StyleSheet.create({
     gap: scale(8),
   },
   tag: {
-    paddingHorizontal: scale(12),
-    paddingVertical: verticalScale(6),
+    paddingHorizontal: scale(16),
+    paddingVertical: verticalScale(8),
     backgroundColor: Colors.light.lightGrey50,
-    borderRadius: scale(6),
+    borderRadius: scale(100),
     borderWidth: 1,
     borderColor: Colors.light.lightGrey150,
   },

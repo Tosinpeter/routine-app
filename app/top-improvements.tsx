@@ -3,7 +3,7 @@ import { StyleSheet, View, ScrollView, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { AppText as Text } from '@/components/app-text';
-import { scale, verticalScale } from '@/constants/scaling';
+import { moderateScale, scale, verticalScale } from '@/constants/scaling';
 import { MetricCard } from '@/components/progress/MetricCard';
 import ProgressMetricIcon from '@/components/progress/ProgressMetricIcon';
 import { RoutineConsistencyCard } from '@/components/progress/RoutineConsistencyCard';
@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
     },
     headerTitle: {
         fontFamily: 'Aeonik-Medium',
-        fontSize: scale(20),
+        fontSize: moderateScale(20),
         color: '#20201E',
     },
     scrollView: {
@@ -159,7 +159,9 @@ const styles = StyleSheet.create({
     },
     sectionTitle: {
         fontFamily: 'Aeonik-Medium',
-        fontSize: scale(20),
+        fontSize: moderateScale(20),
         color: '#20201E',
     }
 });
+
+

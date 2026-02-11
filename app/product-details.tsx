@@ -9,7 +9,7 @@ import { ExpandableSection } from "@/components/product/ExpandableSection";
 import { InfoCard } from "@/components/product/InfoCard";
 import { ProductHeader } from "@/components/product/ProductHeader";
 import { ProductImageCard } from "@/components/product/ProductImageCard";
-import { scale, verticalScale } from "@/constants/scaling";
+import { moderateScale, scale, verticalScale } from "@/constants/scaling";
 import { AeonikFonts, Colors, Fonts } from "@/constants/theme";
 import { useAppSelector } from "@/store/hooks";
 import { AppTextStyle } from "@/constants/typography";
@@ -223,7 +223,7 @@ const styles = StyleSheet.create({
   },
   descriptionText: {
     fontFamily: Fonts.regular,
-    fontSize: scale(14),
+    fontSize: moderateScale(14),
     color: Colors.light.grey600,
     lineHeight: scale(20),
   },
@@ -266,7 +266,7 @@ const styles = StyleSheet.create({
   },
   badgeText: {
     fontFamily: Fonts.medium,
-    fontSize: scale(12),
+    fontSize: moderateScale(12),
     color: Colors.light.white,
   },
   playButtonOverlay: {
@@ -288,7 +288,7 @@ const styles = StyleSheet.create({
   },
   instructionStep: {
     fontFamily: Fonts.regular,
-    fontSize: scale(14),
+    fontSize: moderateScale(14),
     color: Colors.light.grey600,
     lineHeight: scale(20),
   },
@@ -302,17 +302,17 @@ const styles = StyleSheet.create({
   },
   detailLabel: {
     fontFamily: Fonts.medium,
-    fontSize: scale(14),
+    fontSize: moderateScale(14),
     color: Colors.light.grey600,
   },
   detailValue: {
     fontFamily: Fonts.regular,
-    fontSize: scale(14),
+    fontSize: moderateScale(14),
     color: Colors.light.mainDarkColor,
   },
   infoText: {
     fontFamily: Fonts.regular,
-    fontSize: scale(14),
+    fontSize: moderateScale(14),
     lineHeight: scale(20),
   },
   warningsList: {
@@ -320,7 +320,9 @@ const styles = StyleSheet.create({
   },
   warningItem: {
     fontFamily: Fonts.regular,
-    fontSize: scale(14),
+    fontSize: moderateScale(14),
     lineHeight: scale(20),
   },
 });
+
+

@@ -1,6 +1,7 @@
-import { Tabs } from 'expo-router';
+import { Tabs, router } from 'expo-router';
 import React from 'react';
 import { Platform } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { HapticTab } from '@/components/haptic-tab';
 import {
@@ -20,18 +21,20 @@ const TAB_ICON_SIZE = scaleIcon(24);
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
-
+  const insets = useSafeAreaInsets();
+  console.log(insets.bottom);
   return (
     <Tabs
       screenOptions={{
+        lazy: false,
         tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tabIconSelected,
         tabBarInactiveTintColor: Colors[colorScheme ?? 'light'].tabIconDefault,
         headerShown: false,
         tabBarButton: HapticTab,
         tabBarStyle: {
-          height: tabBarHeight,
-          paddingBottom: Platform.select({ ios: 20, android: 10, default: 10 }),
-          paddingTop: Platform.select({ ios: 12, android: 8, default: 10 }),
+          height: Platform.select({ ios: tabBarHeight, android: tabBarHeight + insets.bottom, default: tabBarHeight }),
+          paddingBottom: Platform.select({ ios: insets.bottom || 20, android: 10, default: 10 }),
+          paddingTop: Platform.select({ ios: 12, android: 5, default: 10 }),
           backgroundColor: Colors.light.white,
           borderTopWidth: Platform.OS === 'android' ? 0 : 0.5,
           borderTopColor: Colors.light.grey200,
@@ -55,7 +58,7 @@ export default function TabLayout() {
         name="index"
         options={{
           title: 'Home',
-          tabBarIcon: ({ color }) => <HomeIcon size={TAB_ICON_SIZE} color={color} />,
+          tabBarIcon: ({ color, focused }) => <HomeIcon size={TAB_ICON_SIZE} color={color} filled={focused} />,
         }}
       />
       <Tabs.Screen
@@ -76,7 +79,7 @@ export default function TabLayout() {
         name="progress"
         options={{
           title: 'Progress',
-          tabBarIcon: ({ color }) => <StatsIcon size={TAB_ICON_SIZE} color={color} />,
+          tabBarIcon: ({ color, focused }) => <StatsIcon size={TAB_ICON_SIZE} color={color} filled={focused} />,
         }}
       />
       <Tabs.Screen
@@ -84,6 +87,12 @@ export default function TabLayout() {
         options={{
           title: 'Profile',
           tabBarIcon: ({ color }) => <ProfileIcon size={TAB_ICON_SIZE} color={color} />,
+        }}
+        listeners={{
+          tabPress: (e) => {
+            e.preventDefault();
+            router.push('/profile');
+          },
         }}
       />
     </Tabs>

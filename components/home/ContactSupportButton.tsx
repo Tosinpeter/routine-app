@@ -1,6 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import Svg, { Path, G, Mask, Defs, ClipPath, Rect } from "react-native-svg";
+import { useRouter } from "expo-router";
 
 import { AppText as Text } from "@/components/app-text";
 import { Colors, Fonts } from "@/constants/theme";
@@ -32,8 +33,14 @@ function SupportIcon() {
 }
 
 export function ContactSupportButton() {
+    const router = useRouter();
+
+    const handlePress = () => {
+        router.push('/profile/support');
+    };
+
     return (
-        <TouchableOpacity style={styles.button} activeOpacity={0.8}>
+        <TouchableOpacity style={styles.button} activeOpacity={0.8} onPress={handlePress}>
             <View style={styles.leftContent}>
                 <SupportIcon />
                 <Text style={styles.text}>Contact Support</Text>

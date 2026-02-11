@@ -2,7 +2,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { StyleSheet, TouchableOpacity, ViewStyle } from "react-native";
 
-import { scaleIcon, scaledRadius, touchTarget, verticalScale } from "@/constants/scaling";
+import { scale, scaleIcon, scaledRadius, touchTarget, verticalScale } from "@/constants/scaling";
 import { Colors, HitSlop, Shadows } from "@/constants/theme";
 
 interface BackButtonProps {
@@ -44,6 +44,7 @@ const styles = StyleSheet.create({
   backButton: {
     width: touchTarget(40),
     height: touchTarget(40),
+    alignSelf: 'flex-start',
     borderRadius: scaledRadius(100),
     backgroundColor: Colors.light.white,
     alignItems: "center",

@@ -49,7 +49,7 @@ export function MetricCard({ title, value, unit, icon, trend }: MetricCardProps)
                             {/* Icon for trend */}
                             <Ionicons
                                 name={trend.direction === 'up' ? 'arrow-up' : 'arrow-down'}
-                                size={scale(10)}
+                                size={scale(16)}
                                 color={trend.direction === 'up' ? '#077C46' : '#F04438'}
                             />
                             <Text style={[

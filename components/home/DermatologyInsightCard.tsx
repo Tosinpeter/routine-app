@@ -3,7 +3,7 @@ import { Image, StyleSheet, View } from "react-native";
 
 import { AppText as Text } from "@/components/app-text";
 import { AeonikFonts, Colors, Fonts } from "@/constants/theme";
-import { scale, verticalScale } from "@/constants/scaling";
+import { moderateScale, scale, verticalScale } from "@/constants/scaling";
 
 export function DermatologyInsightCard() {
     return (
@@ -92,14 +92,14 @@ const styles = StyleSheet.create({
         width: "100%",
         height: scale(58), // approx based on line height
         fontFamily: AeonikFonts.bold, // 700
-        fontSize: scale(24),
+        fontSize: moderateScale(24),
         lineHeight: scale(29), // 120%
         color: "#20201E",
     },
     subtitle: {
         width: scale(165), // 159px in Figma
         fontFamily: AeonikFonts.regular, // 400
-        fontSize: scale(12),
+        fontSize: moderateScale(12),
         lineHeight: scale(17), // 140%
         color: "#20201E",
     },
@@ -107,8 +107,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         padding: 0,
-        gap: scale(8),
-        width: scale(58),
+        gap: scale(12),
+        width: scale(66),
         height: scale(7),
         marginTop: scale(25) // Manual adjustment to match gap 37px from text
     },
@@ -126,3 +126,4 @@ const styles = StyleSheet.create({
         borderRadius: scale(3.5), // Circle
     }
 });
+

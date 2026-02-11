@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   ScrollView,
   StyleSheet,
   View,
   TouchableOpacity,
+  Modal,
+  KeyboardAvoidingView,
+  Platform,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from "expo-router";
@@ -12,8 +15,10 @@ import { Image } from "expo-image";
 
 import { ThemedView } from "@/components/themed-view";
 import { AppText as Text } from "@/components/app-text";
+import { AppTextInput as TextInput } from "@/components/app-text-input";
+import { PrimaryButton } from "@/components/primary-button";
 
-import { scale, moderateScale, tabBarHeight } from "@/constants/scaling";
+import { scale, moderateScale, tabBarHeight, verticalScale } from "@/constants/scaling";
 import { Colors, AeonikFonts, Fonts } from "@/constants/theme";
 import { BackButton } from "@/components/back-button";
 import { AppTextStyle } from "@/constants/typography";
@@ -47,6 +52,27 @@ function ProfileField({ label, value, onPress }: ProfileFieldProps) {
 }
 
 export default function ProfileDetailsScreen() {
+  const [userName, setUserName] = useState("Aslam Uddin");
+  const [showNameModal, setShowNameModal] = useState(false);
+  const [tempName, setTempName] = useState("");
+
+  const handleOpenNameModal = () => {
+    setTempName(userName);
+    setShowNameModal(true);
+  };
+
+  const handleSaveName = () => {
+    if (tempName.trim()) {
+      setUserName(tempName.trim());
+      setShowNameModal(false);
+    }
+  };
+
+  const handleCancelNameEdit = () => {
+    setShowNameModal(false);
+    setTempName("");
+  };
+
   return (
     <ThemedView style={styles.container}>
       <View style={styles.bgSolid} />
@@ -95,10 +121,8 @@ export default function ProfileDetailsScreen() {
               
               <ProfileField
                 label="Name"
-                value="Aslam Uddin"
-                onPress={() => {
-                  // Navigate to name edit
-                }}
+                value={userName}
+                onPress={handleOpenNameModal}
               />
               
               <View style={styles.divider} />
@@ -184,6 +208,73 @@ export default function ProfileDetailsScreen() {
           </View>
         </ScrollView>
       </SafeAreaView>
+
+      {/* Edit Name Modal */}
+      <Modal
+        visible={showNameModal}
+        transparent
+        animationType="fade"
+        onRequestClose={handleCancelNameEdit}
+      >
+        <KeyboardAvoidingView
+          style={styles.modalOverlay}
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+        >
+          <TouchableOpacity
+            style={styles.modalBackdrop}
+            activeOpacity={1}
+            onPress={handleCancelNameEdit}
+          />
+          <View style={styles.modalContent}>
+            {/* Modal Header */}
+            <View style={styles.modalHeader}>
+              <Text style={styles.modalTitle}>Edit Name</Text>
+              <TouchableOpacity
+                onPress={handleCancelNameEdit}
+                hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
+              >
+                <Ionicons
+                  name="close"
+                  size={scale(24)}
+                  color={Colors.light.mainDarkColor}
+                />
+              </TouchableOpacity>
+            </View>
+
+            {/* Input Field */}
+            <View style={styles.modalBody}>
+              <Text style={styles.inputLabel}>Name</Text>
+              <TextInput
+                style={styles.nameInput}
+                value={tempName}
+                onChangeText={setTempName}
+                placeholder="Enter your name"
+                placeholderTextColor={Colors.light.grey400}
+                autoFocus
+                returnKeyType="done"
+                onSubmitEditing={handleSaveName}
+              />
+            </View>
+
+            {/* Modal Actions */}
+            <View style={styles.modalActions}>
+              <TouchableOpacity
+                style={styles.cancelButton}
+                onPress={handleCancelNameEdit}
+                activeOpacity={0.7}
+              >
+                <Text style={styles.cancelButtonText}>Cancel</Text>
+              </TouchableOpacity>
+              <View style={styles.buttonSpacer} />
+              <PrimaryButton
+                title="Save"
+                onPress={handleSaveName}
+                style={styles.saveButton}
+              />
+            </View>
+          </View>
+        </KeyboardAvoidingView>
+      </Modal>
     </ThemedView>
   );
 }
@@ -285,5 +376,89 @@ const styles = StyleSheet.create({
     height: StyleSheet.hairlineWidth,
     backgroundColor: Colors.light.grey200,
     marginLeft: scale(16),
+  },
+  // Modal styles
+  modalOverlay: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalBackdrop: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  modalContent: {
+    backgroundColor: Colors.light.white,
+    borderRadius: scale(20),
+    width: "85%",
+    maxWidth: scale(400),
+    padding: scale(24),
+    ...Platform.select({
+      ios: {
+        shadowColor: Colors.light.black,
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.3,
+        shadowRadius: 16,
+      },
+      android: {
+        elevation: 8,
+      },
+    }),
+  },
+  modalHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: verticalScale(24),
+  },
+  modalTitle: {
+    ...AppTextStyle.headline5,
+    fontFamily: AeonikFonts.medium,
+    color: Colors.light.mainDarkColor,
+  },
+  modalBody: {
+    marginBottom: verticalScale(24),
+  },
+  inputLabel: {
+    fontSize: moderateScale(14),
+    fontFamily: AeonikFonts.medium,
+    color: Colors.light.mainDarkColor,
+    marginBottom: verticalScale(8),
+  },
+  nameInput: {
+    height: verticalScale(52),
+    borderWidth: 1,
+    borderColor: Colors.light.grey200,
+    borderRadius: scale(12),
+    paddingHorizontal: scale(16),
+    fontSize: moderateScale(16),
+    fontFamily: AeonikFonts.regular,
+    color: Colors.light.mainDarkColor,
+    backgroundColor: Colors.light.white,
+  },
+  modalActions: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  cancelButton: {
+    flex: 1,
+    height: verticalScale(52),
+    borderWidth: 1,
+    borderColor: Colors.light.grey200,
+    borderRadius: scale(28),
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: Colors.light.white,
+  },
+  cancelButtonText: {
+    fontSize: moderateScale(16),
+    fontFamily: AeonikFonts.medium,
+    color: Colors.light.mainDarkColor,
+  },
+  buttonSpacer: {
+    width: scale(12),
+  },
+  saveButton: {
+    flex: 1,
   },
 });

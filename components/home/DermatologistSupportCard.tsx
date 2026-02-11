@@ -1,56 +1,131 @@
-import React from "react";
-import { StyleSheet, View, ImageBackground, Image } from "react-native";
+import React, { useRef, useState } from "react";
+import { StyleSheet, View, Image, ScrollView, NativeSyntheticEvent, NativeScrollEvent, Dimensions } from "react-native";
 import { AppText as Text } from "@/components/app-text";
 import { Colors } from "@/constants/theme";
-import { scale, verticalScale } from "@/constants/scaling";
+import { moderateScale, scale, verticalScale } from "@/constants/scaling";
+
+const { width: SCREEN_WIDTH } = Dimensions.get('window');
+const CARD_GAP = scale(12); // Gap between cards
+
+interface Slide {
+    id: number;
+    badge: string;
+    title: string;
+    description: string;
+    imageSource: any;
+}
+
+const slides: Slide[] = [
+    {
+        id: 1,
+        badge: 'Free',
+        title: 'Dermatologist Support',
+        description: 'Our top dermatologist adjust your plan when needed for free',
+        imageSource: require('@/assets/images/doctor.png'),
+    },
+    {
+        id: 2,
+        badge: '24/7',
+        title: 'Expert Consultation',
+        description: 'Get professional skincare advice anytime, anywhere from certified experts',
+        imageSource: require('@/assets/images/doctor.png'),
+    },
+    {
+        id: 3,
+        badge: 'Premium',
+        title: 'Personalized Care',
+        description: 'Customized treatment plans tailored to your unique skin needs',
+        imageSource: require('@/assets/images/doctor.png'),
+    },
+];
 
 export function DermatologistSupportCard() {
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const scrollViewRef = useRef<ScrollView>(null);
+
+    const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+        const contentOffsetX = event.nativeEvent.contentOffset.x;
+        const cardWidth = SCREEN_WIDTH - (scale(16) * 2) + CARD_GAP; // Account for padding and gap
+        const index = Math.round(contentOffsetX / cardWidth);
+        setCurrentIndex(index);
+    };
+
     return (
-        <View
-            style={styles.container}
-            accessible={true}
-            accessibilityLabel="Dermatologist Support. Free. Our top dermatologist adjust your plan when needed for free."
-        >
-            {/* Background Gradient/Image */}
-            <View style={styles.backgroundContainer}>
-                <View style={[StyleSheet.absoluteFill, { backgroundColor: Colors.light.dermatologistCardBg, borderRadius: scale(16) }]} />
-            </View>
+        <View style={styles.wrapper}>
+            <ScrollView
+                ref={scrollViewRef}
+                horizontal
+                pagingEnabled={false}
+                showsHorizontalScrollIndicator={false}
+                onScroll={handleScroll}
+                scrollEventThrottle={16}
+                decelerationRate="fast"
+                snapToInterval={SCREEN_WIDTH - (scale(16) * 2) + CARD_GAP}
+                snapToAlignment="start"
+                contentContainerStyle={styles.scrollContent}
+            >
+                {slides.map((slide) => (
+                    <View
+                        key={slide.id}
+                        style={styles.container}
+                        accessible={true}
+                        accessibilityLabel={`${slide.title}. ${slide.badge}. ${slide.description}`}
+                    >
+                        {/* Background */}
+                        <View style={styles.backgroundContainer}>
+                            <View style={[StyleSheet.absoluteFill, { backgroundColor: Colors.light.dermatologistCardBg, borderRadius: scale(16) }]} />
+                        </View>
 
-            <View style={styles.content}>
-                <View style={styles.badge}>
-                    <Text style={styles.badgeText}>Free</Text>
-                </View>
+                        <View style={styles.content}>
+                            <Image
+                                source={require('@/assets/images/OnboardingTextHeader.png')}
+                                style={styles.badge}
+                                resizeMode="contain"
+                            />
 
-                <Text style={styles.title}>Dermatologist Support</Text>
-                <Text style={styles.description}>
-                    Our top dermatologist adjust your plan when needed for free
-                </Text>
+                            <Text style={styles.title}>{slide.title}</Text>
+                            <Text style={styles.description}>{slide.description}</Text>
 
-                {/* Pagination Dots */}
-                <View style={styles.pagination}>
-                    <View style={[styles.dot, styles.activeDot]} />
-                    <View style={styles.dot} />
-                    <View style={styles.dot} />
-                </View>
-            </View>
+                            {/* Pagination Dots */}
+                            <View style={styles.pagination}>
+                                {slides.map((_, index) => (
+                                    <View
+                                        key={index}
+                                        style={[
+                                            styles.dot,
+                                            currentIndex === index && styles.activeDot,
+                                        ]}
+                                    />
+                                ))}
+                            </View>
+                        </View>
 
-            {/* Doctor Image - Absolute Positioned */}
-            <Image
-                source={require('@/assets/images/doctor.png')} // Need a placeholder or use existing asset if any
-                // Fallback to a generic user icon if not available, but user needs visual. 
-                // I will use the `icon.png` or similar for now as placeholder if I don't have doctor image.
-                // Better: Use a simple View holder if no image.
-                style={styles.doctorImage}
-                resizeMode="contain"
-            />
+                        {/* Doctor Image - Absolute Positioned */}
+                        <Image
+                            source={slide.imageSource}
+                            style={styles.doctorImage}
+                            resizeMode="contain"
+                        />
+                    </View>
+                ))}
+            </ScrollView>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
-    container: {
+    wrapper: {
         width: "100%",
-        height: verticalScale(190), // Increased slightly for better padding capacity
+        height: verticalScale(190),
+        marginBottom: scale(16),
+    },
+    scrollContent: {
+        paddingHorizontal: 0,
+        gap: CARD_GAP,
+    },
+    container: {
+        width: SCREEN_WIDTH - (scale(16) * 2), // Account for screen padding
+        height: verticalScale(190),
         borderRadius: scale(16),
         overflow: "hidden",
         position: "relative",
@@ -76,28 +151,24 @@ const styles = StyleSheet.create({
         gap: scale(8),
     },
     badge: {
-        backgroundColor: Colors.light.dermatologistBadgeBg, // Orange tint
-        paddingHorizontal: scale(16), // Rule 15: 12 -> 16
-        paddingVertical: verticalScale(8), // Rule 15: 4 -> 8
-        borderRadius: scale(100),
+        width: scale(60),
+        height: verticalScale(30),
         alignSelf: 'flex-start',
-        borderWidth: 1,
-        borderColor: 'rgba(255,255,255,0.2)',
     },
     badgeText: {
         fontFamily: 'Aeonik-Medium',
-        fontSize: scale(12),
+        fontSize: moderateScale(12),
         color: Colors.light.dermatologistBadgeText,
     },
     title: {
         fontFamily: 'Aeonik-Bold',
-        fontSize: scale(18),
+        fontSize: moderateScale(18),
         color: Colors.light.grey800,
         lineHeight: scale(22),
     },
     description: {
         fontFamily: 'Aeonik-Regular',
-        fontSize: scale(14),
+        fontSize: moderateScale(14),
         color: Colors.light.grey800,
         opacity: 0.8,
         lineHeight: scale(20),
@@ -127,3 +198,5 @@ const styles = StyleSheet.create({
         height: scale(180),
     }
 });
+
+

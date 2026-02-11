@@ -12,14 +12,12 @@ export function ProgressPreviewCard() {
             <View style={styles.container}>
                 {/* Background Image */}
                 <ImageBackground
-                    source={require("@/assets/images/progress-preview-bg.png")}
+                    source={require("@/assets/images/ProgressContainer.png")}
                     style={styles.backgroundImage}
                     resizeMode="cover"
-                    blurRadius={2} //control the blur 
                     imageStyle={{ borderRadius: scale(12) }}
                 >
                     {/* Blur Overlay */}
-                    <BlurView intensity={100} style={styles.blurOverlay} tint="dark">
                         <View style={styles.overlayColor} />
 
                         <View style={styles.contentContainer}>
@@ -27,7 +25,7 @@ export function ProgressPreviewCard() {
                             <View style={styles.lockContainer}>
                                 {/* Golden Lock Image */}
                                 <Image
-                                    source={require("@/assets/images/golden-lock.png")}
+                                source={require("@/assets/images/img_Lock.png")}
                                     style={{ width: scale(72), height: scale(72) }} // Adjust size as needed, starting with 40x40
                                     resizeMode="contain"
                                 />
@@ -39,7 +37,6 @@ export function ProgressPreviewCard() {
                                 <Text style={styles.description}>Unlocks in 12days</Text>
                             </View>
                         </View>
-                    </BlurView>
                 </ImageBackground>
             </View>
         </View>

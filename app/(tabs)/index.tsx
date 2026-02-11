@@ -18,12 +18,14 @@ import { Colors } from "@/constants/theme";
 // Import Views
 import { HomeLockedView } from "@/components/home/HomeLockedView";
 import { HomeUnlockedView } from "@/components/home/HomeUnlockedView";
+import { StatusBar } from "expo-status-bar";
 
 export default function HomeScreen() {
   // Demo State: Change this value to false to see Locked View
   const [isUnlocked] = useState(true);
 
   return (
+    
     <ThemedView style={styles.container}>
       {/* Background Color forced to match design #EDEBE3 */}
       <View style={styles.bgSolid} />
@@ -47,6 +49,7 @@ export default function HomeScreen() {
           )}
         </ScrollView>
       </SafeAreaView>
+      <StatusBar style="dark" />
     </ThemedView>
   );
 }
