@@ -56,6 +56,19 @@ export const Colors = {
     shadow: "rgba(0, 0, 0, 0.25)",
     shadowLight: "rgba(0, 0, 0, 0.08)",
     shadowMedium: "rgba(0, 0, 0, 0.12)",
+    // Custom UI Colors
+    statusBadgeBg: "#F6F0EE",
+    progressRing: "#5676FF",
+    dermatologistCardBg: "#F7DFC9",
+    dermatologistCardBlob: "#FFAA33",
+    dermatologistBlob1: "#FFAA33", // Ellipse 1631 Right
+    dermatologistBlob2: "#926C64", // Ellipse 1632 Right
+    dermatologistBlob3: "#B67735", // Ellipse 1633 Right
+    dermatologistBadgeText: "#632F00",
+    dermatologistBadgeShadow: "rgba(255, 255, 255, 0.25)",
+    dermatologistBadgeGradientStart: "rgba(255, 255, 255, 0)",
+    dermatologistBadgeGradientEnd: "rgba(237, 125, 26, 0.21)",
+    dermatologistBadgeBg: "rgba(237, 125, 26, 0.1)",
   },
   dark: {
     text: "#11181C",
@@ -103,6 +116,13 @@ export const Colors = {
     shadow: "rgba(0, 0, 0, 0.25)",
     shadowLight: "rgba(0, 0, 0, 0.08)",
     shadowMedium: "rgba(0, 0, 0, 0.12)",
+    // Custom UI Colors
+    statusBadgeBg: "#F6F0EE",
+    progressRing: "#5676FF",
+    dermatologistCardBg: "#F7DFC9",
+    dermatologistCardBlob: "#FFAA33",
+    dermatologistBadgeBg: "rgba(237, 125, 26, 0.1)",
+    dermatologistBadgeText: "#632F00",
   },
 };
 
