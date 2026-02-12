@@ -295,7 +295,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         gap: scale(11),
-        paddingHorizontal: scale(34),
+        paddingHorizontal: scale(24),
     },
     warningIcon: {
         marginRight: scale(8),

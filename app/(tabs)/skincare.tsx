@@ -10,6 +10,8 @@ export default function SkincareScreen() {
     { name: 'Onboarding', route: '/onboarding' },
     { name: 'Phone Verification', route: '/auth/phone-verification' },
     { name: 'OTP Verification', route: '/auth/otp-verification' },
+    { name: 'Start Analysis', route: '/start-analysis' },
+    // { name: 'Photo Preparation', route: '/photo-prep' },
     { name: 'Quiz', route: '/quiz' },
     { name: 'Quiz Questions', route: '/quiz/questions' },
     { name: 'Quiz Complete', route: '/quiz/complete' },
@@ -39,8 +41,8 @@ export default function SkincareScreen() {
     { name: 'API Error', route: '/api-error' },
     { name: 'No Branch', route: '/no-branch' },
     { name: 'No Internet', route: '/no-internet' },
-    { name: 'Network Demo', route: '/examples/network-demo' },
-    { name: 'Progress API Demo', route: '/examples/progress-api-demo' },
+    { name: 'Treatment Plan', route: '/treatment-plan' },
+    { name: 'Cookie Policy', route: '/cookie-policy' },
   ];
 
   return (

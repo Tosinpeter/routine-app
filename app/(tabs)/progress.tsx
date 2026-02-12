@@ -39,7 +39,7 @@ export default function ProgressScreen() {
                 contentContainerStyle={styles.contentContainer}
                 showsVerticalScrollIndicator={false}
             >
-                {!isUnlocked ? (
+                {isUnlocked ? (
                     <ProgressUnlockedView />
                 ) : (
                     <ProgressLogView />

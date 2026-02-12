@@ -1,12 +1,13 @@
 import { Ionicons } from "@expo/vector-icons";
 import { router, useLocalSearchParams } from "expo-router";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {
   KeyboardAvoidingView,
   Platform,
   StyleSheet,
   TouchableOpacity,
   View,
+  TextInput,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -14,11 +15,14 @@ import { AppText as Text } from "@/components/app-text";
 import { PrimaryButton } from "@/components/primary-button";
 import { moderateScale, scale, verticalScale } from "@/constants/scaling";
 import { AeonikFonts, Colors } from "@/constants/theme";
+import { BackButton } from "@/components/back-button";
+import { AppTextStyle } from "@/constants/typography";
 
 export default function OTPVerificationScreen() {
   const { phoneNumber } = useLocalSearchParams();
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [timer, setTimer] = useState(15);
+  const inputRefs = useRef<(TextInput | null)[]>([]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -34,21 +38,46 @@ export default function OTPVerificationScreen() {
     return () => clearInterval(interval);
   }, []);
 
-  const handleKeyPress = (key: string) => {
-    if (key === "backspace") {
-      const lastFilledIndex = otp.findLastIndex((digit) => digit !== "");
-      if (lastFilledIndex >= 0) {
-        const newOtp = [...otp];
-        newOtp[lastFilledIndex] = "";
-        setOtp(newOtp);
-      }
+  // Auto-focus first input on mount
+  useEffect(() => {
+    inputRefs.current[0]?.focus();
+  }, []);
+
+  const handleOtpChange = (text: string, index: number) => {
+    // Only allow numeric input
+    const numericText = text.replace(/[^0-9]/g, "");
+    
+    if (numericText.length > 1) {
+      // Handle paste
+      const digits = numericText.slice(0, 6).split("");
+      const newOtp = [...otp];
+      digits.forEach((digit, i) => {
+        if (index + i < 6) {
+          newOtp[index + i] = digit;
+        }
+      });
+      setOtp(newOtp);
+      
+      // Focus last filled or next empty
+      const nextIndex = Math.min(index + digits.length, 5);
+      inputRefs.current[nextIndex]?.focus();
     } else {
-      const firstEmptyIndex = otp.findIndex((digit) => digit === "");
-      if (firstEmptyIndex >= 0) {
-        const newOtp = [...otp];
-        newOtp[firstEmptyIndex] = key;
-        setOtp(newOtp);
+      // Single character input
+      const newOtp = [...otp];
+      newOtp[index] = numericText;
+      setOtp(newOtp);
+
+      // Auto-focus next input
+      if (numericText && index < 5) {
+        inputRefs.current[index + 1]?.focus();
       }
+    }
+  };
+
+  const handleKeyPress = (e: any, index: number) => {
+    if (e.nativeEvent.key === "Backspace" && !otp[index] && index > 0) {
+      // Focus previous input on backspace if current is empty
+      inputRefs.current[index - 1]?.focus();
     }
   };
 
@@ -85,17 +114,7 @@ export default function OTPVerificationScreen() {
       >
         {/* Header */}
         <View style={styles.header}>
-          <TouchableOpacity
-            onPress={() => router.back()}
-            style={styles.backButton}
-            hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
-          >
-            <Ionicons
-              name="arrow-back"
-              size={scale(24)}
-              color={Colors.light.mainDarkColor}
-            />
-          </TouchableOpacity>
+          <BackButton/>
         </View>
 
         {/* Content */}
@@ -108,9 +127,28 @@ export default function OTPVerificationScreen() {
           {/* OTP Input Boxes */}
           <View style={styles.otpContainer}>
             {otp.map((digit, index) => (
-              <View key={index} style={styles.otpBox}>
-                <Text style={styles.otpText}>{digit}</Text>
-              </View>
+              <React.Fragment key={index}>
+                <TextInput
+                  ref={(ref) => {
+                    if (ref) {
+                      inputRefs.current[index] = ref;
+                    }
+                  }}
+                  style={styles.otpInput}
+                  value={digit}
+                  onChangeText={(text) => handleOtpChange(text, index)}
+                  onKeyPress={(e) => handleKeyPress(e, index)}
+                  keyboardType="number-pad"
+                  maxLength={1}
+                  selectTextOnFocus
+                  textAlign="center"
+                />
+                {index === 2 && (
+                  <View style={styles.dashContainer}>
+                    <Text style={styles.dashText}>-</Text>
+                  </View>
+                )}
+              </React.Fragment>
             ))}
           </View>
 
@@ -141,61 +179,17 @@ export default function OTPVerificationScreen() {
           />
 
           {/* Skip Link */}
-          <TouchableOpacity
-            style={styles.skipButton}
-            onPress={handleSkip}
-            activeOpacity={0.7}
-          >
-            <Text style={styles.skipText}>
-              I haven't done my skin analysis yet
-            </Text>
-          </TouchableOpacity>
-        </View>
-
-        {/* Custom Numeric Keyboard */}
-        <View style={styles.keyboard}>
-          {[
-            ["1", "2", "3"],
-            ["4", "5", "6"],
-            ["7", "8", "9"],
-            ["", "0", "backspace"],
-          ].map((row, rowIndex) => (
-            <View key={rowIndex} style={styles.keyboardRow}>
-              {row.map((key, keyIndex) => (
-                <TouchableOpacity
-                  key={keyIndex}
-                  style={[
-                    styles.key,
-                    key === "" && styles.keyEmpty,
-                  ]}
-                  onPress={() => key && handleKeyPress(key)}
-                  activeOpacity={0.6}
-                  disabled={key === ""}
-                >
-                  {key === "backspace" ? (
-                    <Ionicons
-                      name="backspace-outline"
-                      size={scale(24)}
-                      color={Colors.light.mainDarkColor}
-                    />
-                  ) : key !== "" ? (
-                    <View style={styles.keyContent}>
-                      <Text style={styles.keyNumber}>{key}</Text>
-                      {key !== "0" && (
-                        <Text style={styles.keyLetters}>
-                          {
-                            ["", "ABC", "DEF", "GHI", "JKL", "MNO", "PQRS", "TUV", "WXYZ"][
-                            parseInt(key)
-                            ]
-                          }
-                        </Text>
-                      )}
-                    </View>
-                  ) : null}
-                </TouchableOpacity>
-              ))}
-            </View>
-          ))}
+          <PrimaryButton
+            title=" I haven't done my skin analysis yet"
+            onPress={handleContinue}
+            textStyle={{
+              color: Colors.light.mainDarkColor
+            }}
+            style={{
+              marginTop: verticalScale(12),
+              backgroundColor: Colors.light.white,
+            }}
+          />
         </View>
       </KeyboardAvoidingView>
     </SafeAreaView>
@@ -226,14 +220,13 @@ const styles = StyleSheet.create({
     paddingTop: verticalScale(40),
   },
   title: {
-    fontSize: moderateScale(28),
-    fontFamily: AeonikFonts.regular,
+    ...AppTextStyle.headline1,
+    fontFamily: AeonikFonts.medium,
     color: Colors.light.mainDarkColor,
     marginBottom: verticalScale(12),
   },
   subtitle: {
     fontSize: moderateScale(16),
-    fontFamily: AeonikFonts.regular,
     color: Colors.light.grey500,
     marginBottom: verticalScale(32),
     lineHeight: moderateScale(22),
@@ -241,21 +234,29 @@ const styles = StyleSheet.create({
   otpContainer: {
     flexDirection: "row",
     justifyContent: "center",
+    alignItems: "center",
     gap: scale(12),
     marginBottom: verticalScale(24),
   },
-  otpBox: {
-    width: scale(48),
-    height: verticalScale(56),
+  otpInput: {
+    width: scale(46),
+    height: verticalScale(60),
     backgroundColor: Colors.light.white,
     borderRadius: scale(12),
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  otpText: {
     fontSize: moderateScale(24),
     fontFamily: AeonikFonts.medium,
     color: Colors.light.mainDarkColor,
+    borderWidth: 1,
+    borderColor: Colors.light.grey200,
+  },
+  dashContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  dashText: {
+    fontSize: moderateScale(24),
+    fontFamily: AeonikFonts.medium,
+    color: Colors.light.grey400,
   },
   resendText: {
     fontSize: moderateScale(14),
@@ -278,42 +279,5 @@ const styles = StyleSheet.create({
     fontSize: moderateScale(16),
     fontFamily: AeonikFonts.regular,
     color: Colors.light.mainDarkColor,
-  },
-  keyboard: {
-    backgroundColor: Colors.light.lightGrey100,
-    paddingHorizontal: scale(4),
-    paddingTop: verticalScale(8),
-    paddingBottom: verticalScale(8),
-  },
-  keyboardRow: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    marginBottom: verticalScale(8),
-  },
-  key: {
-    width: scale(110),
-    height: verticalScale(50),
-    backgroundColor: Colors.light.white,
-    borderRadius: scale(8),
-    justifyContent: "center",
-    alignItems: "center",
-    marginHorizontal: scale(4),
-  },
-  keyEmpty: {
-    backgroundColor: "transparent",
-  },
-  keyContent: {
-    alignItems: "center",
-  },
-  keyNumber: {
-    fontSize: moderateScale(28),
-    fontFamily: AeonikFonts.regular,
-    color: Colors.light.mainDarkColor,
-  },
-  keyLetters: {
-    fontSize: moderateScale(10),
-    fontFamily: AeonikFonts.regular,
-    color: Colors.light.mainDarkColor,
-    marginTop: verticalScale(-4),
   },
 });

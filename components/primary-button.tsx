@@ -14,6 +14,8 @@ interface PrimaryButtonProps {
   textStyle?: TextStyle;
   activeOpacity?: number;
   withShadow?: boolean;
+  icon?: React.ReactNode;
+  iconPosition?: 'left' | 'right';
 }
 
 export function PrimaryButton({
@@ -25,6 +27,8 @@ export function PrimaryButton({
   textStyle,
   activeOpacity = 0.8,
   withShadow = false,
+  icon,
+  iconPosition = 'left',
 }: PrimaryButtonProps) {
   const isDisabled = disabled || loading;
 
@@ -48,7 +52,13 @@ export function PrimaryButton({
             size="small"
           />
         )}
+        {icon && iconPosition === 'left' && (
+          <View style={styles.icon}>{icon}</View>
+        )}
         <Text style={[styles.buttonText, textStyle]}>{title}</Text>
+        {icon && iconPosition === 'right' && (
+          <View style={styles.icon}>{icon}</View>
+        )}
       </View>
     </TouchableOpacity>
   );
@@ -73,6 +83,9 @@ const styles = StyleSheet.create({
   },
   loader: {
     marginRight: scale(8),
+  },
+  icon: {
+    marginHorizontal: scale(8),
   },
   buttonText: {
     ...AppTextStyle.button,

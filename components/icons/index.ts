@@ -19,12 +19,14 @@ export { UploadCloudIcon } from "./upload-cloud-icon";
 
 // Profile Menu Icons
 export { AddressIcon } from "./address-icon";
-export { CameraIcon } from "./camera-icon";
+export { CameraPlusIcon } from "./CameraPlusIcon";
+export { CameraPlusIcon as CameraIcon } from "./CameraPlusIcon";
 export { ClinicTestMenuIcon } from "./clinic-test-menu-icon";
 export { DoctorReviewIcon } from "./doctor-review-icon";
 export { EmergencySupportIcon } from "./emergency-support-icon";
 export { FAQIcon } from "./faq-icon";
-export { GalleryIcon } from "./gallery-icon";
+export { GalleryPlusIcon } from "./GalleryPlusIcon";
+export { GalleryPlusIcon as GalleryIcon } from "./GalleryPlusIcon";
 export { HistoryIcon } from "./history-icon";
 export { LanguageIcon } from "./language-icon";
 export { MinusIcon } from "./minus-icon";

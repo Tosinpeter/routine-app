@@ -97,6 +97,8 @@ function RootLayoutNav() {
       <Stack.Screen name="payment" />
       <Stack.Screen name="order" />
       <Stack.Screen name="profile" />
+      <Stack.Screen name="treatment-plan" />
+      <Stack.Screen name="photo-prep" />
       <Stack.Screen name="notification-sheet"
         options={{
           presentation: 'formSheet',

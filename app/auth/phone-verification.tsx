@@ -7,17 +7,23 @@ import {
   StyleSheet,
   TouchableOpacity,
   View,
+  TextInput,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { CountryPicker } from "react-native-country-codes-picker";
 
 import { AppText as Text } from "@/components/app-text";
 import { PrimaryButton } from "@/components/primary-button";
 import { moderateScale, scale, verticalScale } from "@/constants/scaling";
 import { AeonikFonts, Colors } from "@/constants/theme";
+import { BackButton } from "@/components/back-button";
+import { AppTextStyle } from "@/constants/typography";
 
 export default function PhoneVerificationScreen() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [countryCode, setCountryCode] = useState("+1");
+  const [countryFlag, setCountryFlag] = useState("🇺🇸");
+  const [showCountryPicker, setShowCountryPicker] = useState(false);
 
   const handleContinue = () => {
     if (phoneNumber.length >= 10) {
@@ -47,32 +53,31 @@ export default function PhoneVerificationScreen() {
   const formatPhoneNumber = (number: string) => {
     if (!number) return "";
     const cleaned = number.replace(/\D/g, "");
-    const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
-    if (match) {
-      return `(${match[1]}) ${match[2]}-${match[3]}`;
+    
+    // Format as user types
+    if (cleaned.length <= 3) {
+      return cleaned;
+    } else if (cleaned.length <= 6) {
+      return `(${cleaned.slice(0, 3)}) ${cleaned.slice(3)}`;
+    } else {
+      return `(${cleaned.slice(0, 3)}) ${cleaned.slice(3, 6)}-${cleaned.slice(6, 10)}`;
     }
-    return number;
+  };
+
+  const handlePhoneChange = (text: string) => {
+    // Remove all non-numeric characters
+    const cleaned = text.replace(/\D/g, "");
+    // Limit to 10 digits
+    const limited = cleaned.slice(0, 10);
+    setPhoneNumber(limited);
   };
 
   return (
     <SafeAreaView style={styles.container} edges={["top", "bottom"]}>
-      <KeyboardAvoidingView
-        style={styles.keyboardAvoid}
-        behavior={Platform.OS === "ios" ? "padding" : undefined}
-      >
+     
         {/* Header */}
         <View style={styles.header}>
-          <TouchableOpacity
-            onPress={() => router.back()}
-            style={styles.backButton}
-            hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
-          >
-            <Ionicons
-              name="arrow-back"
-              size={scale(24)}
-              color={Colors.light.mainDarkColor}
-            />
-          </TouchableOpacity>
+          <BackButton/>
         </View>
 
         {/* Content */}
@@ -85,20 +90,28 @@ export default function PhoneVerificationScreen() {
 
           {/* Phone Input */}
           <View style={styles.phoneInputContainer}>
-            <View style={styles.countryCodeButton}>
-              <Text style={styles.flagEmoji}>🇺🇸</Text>
+            <TouchableOpacity
+              style={styles.countryCodeButton}
+              onPress={() => setShowCountryPicker(true)}
+              activeOpacity={0.7}
+            >
+              <Text style={styles.flagEmoji}>{countryFlag}</Text>
               <Text style={styles.countryCodeText}>{countryCode}</Text>
-            </View>
-            <View style={styles.phoneInputWrapper}>
-              <Text
-                style={[
-                  styles.phoneNumberText,
-                  phoneNumber.length === 0 && styles.phoneNumberPlaceholder,
-                ]}
-              >
-                {formatPhoneNumber(phoneNumber) || "(316) 555-0116"}
-              </Text>
-            </View>
+              <Ionicons
+                name="chevron-down"
+                size={scale(18)}
+                color={Colors.light.grey500}
+              />
+            </TouchableOpacity>
+            <TextInput
+              style={styles.phoneInput}
+              value={formatPhoneNumber(phoneNumber)}
+              onChangeText={handlePhoneChange}
+              placeholder="(316) 555-0116"
+              placeholderTextColor={Colors.light.grey400}
+              keyboardType="phone-pad"
+              maxLength={14} // (XXX) XXX-XXXX
+            />
           </View>
 
           {/* Spacer */}
@@ -111,64 +124,74 @@ export default function PhoneVerificationScreen() {
             disabled={phoneNumber.length < 10}
           />
 
+        <PrimaryButton
+          title=" I haven't done my skin analysis yet"
+          onPress={handleContinue}
+          textStyle={{
+            color: Colors.light.mainDarkColor
+          }}
+          style={{
+            marginTop: verticalScale(12),
+            backgroundColor: Colors.light.white,
+          }}
+        />
+
           {/* Skip Link */}
-          <TouchableOpacity
-            style={styles.skipButton}
-            onPress={handleSkip}
-            activeOpacity={0.7}
-          >
-            <Text style={styles.skipText}>
-              I haven't done my skin analysis yet
-            </Text>
-          </TouchableOpacity>
+         
         </View>
 
-        {/* Custom Numeric Keyboard */}
-        <View style={styles.keyboard}>
-          {[
-            ["1", "2", "3"],
-            ["4", "5", "6"],
-            ["7", "8", "9"],
-            ["", "0", "backspace"],
-          ].map((row, rowIndex) => (
-            <View key={rowIndex} style={styles.keyboardRow}>
-              {row.map((key, keyIndex) => (
-                <TouchableOpacity
-                  key={keyIndex}
-                  style={[
-                    styles.key,
-                    key === "" && styles.keyEmpty,
-                  ]}
-                  onPress={() => key && handleKeyPress(key)}
-                  activeOpacity={0.6}
-                  disabled={key === ""}
-                >
-                  {key === "backspace" ? (
-                    <Ionicons
-                      name="backspace-outline"
-                      size={scale(24)}
-                      color={Colors.light.mainDarkColor}
-                    />
-                  ) : key !== "" ? (
-                    <View style={styles.keyContent}>
-                      <Text style={styles.keyNumber}>{key}</Text>
-                      {key !== "0" && (
-                        <Text style={styles.keyLetters}>
-                          {
-                            ["", "ABC", "DEF", "GHI", "JKL", "MNO", "PQRS", "TUV", "WXYZ"][
-                            parseInt(key)
-                            ]
-                          }
-                        </Text>
-                      )}
-                    </View>
-                  ) : null}
-                </TouchableOpacity>
-              ))}
-            </View>
-          ))}
-        </View>
-      </KeyboardAvoidingView>
+      {/* Country Picker Modal */}
+      <CountryPicker
+        show={showCountryPicker}
+        lang="en"
+        pickerButtonOnPress={(item: any) => {
+          setCountryCode(item.dial_code);
+          setCountryFlag(item.flag);
+          setShowCountryPicker(false);
+        }}
+        onBackdropPress={() => setShowCountryPicker(false)}
+        style={{
+          modal: {
+            height: verticalScale(500),
+            backgroundColor: Colors.light.white,
+            borderTopLeftRadius: scale(20),
+            borderTopRightRadius: scale(20),
+          },
+          backdrop: {
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+          },
+          textInput: {
+            height: verticalScale(48),
+            borderRadius: scale(12),
+            borderWidth: 1,
+            borderColor: Colors.light.grey200,
+            paddingHorizontal: scale(16),
+            fontSize: moderateScale(15),
+            fontFamily: AeonikFonts.regular,
+            color: Colors.light.mainDarkColor,
+            backgroundColor: Colors.light.white,
+          },
+          countryButtonStyles: {
+            height: verticalScale(56),
+            borderBottomWidth: 1,
+            borderBottomColor: Colors.light.grey200,
+            paddingHorizontal: scale(16),
+          },
+          countryName: {
+            fontSize: moderateScale(16),
+            fontFamily: AeonikFonts.regular,
+            color: Colors.light.mainDarkColor,
+          },
+          dialCode: {
+            fontSize: moderateScale(15),
+            fontFamily: AeonikFonts.regular,
+            color: Colors.light.grey500,
+          },
+          flag: {
+            fontSize: moderateScale(28),
+          },
+        }}
+      />
     </SafeAreaView>
   );
 }
@@ -197,14 +220,12 @@ const styles = StyleSheet.create({
     paddingTop: verticalScale(40),
   },
   title: {
-    fontSize: moderateScale(28),
-    fontFamily: AeonikFonts.regular,
-    color: Colors.light.mainDarkColor,
-    marginBottom: verticalScale(12),
+    ...AppTextStyle.headline1,
+    fontFamily: AeonikFonts.medium,
+    marginBottom: verticalScale(16),
   },
   subtitle: {
     fontSize: moderateScale(16),
-    fontFamily: AeonikFonts.regular,
     color: Colors.light.grey500,
     marginBottom: verticalScale(32),
     lineHeight: moderateScale(22),
@@ -216,12 +237,14 @@ const styles = StyleSheet.create({
   },
   countryCodeButton: {
     height: verticalScale(56),
-    paddingHorizontal: scale(16),
+    paddingHorizontal: scale(12),
     backgroundColor: Colors.light.white,
     borderRadius: scale(12),
     flexDirection: "row",
     alignItems: "center",
-    gap: scale(8),
+    gap: scale(6),
+    borderWidth: 1,
+    borderColor: Colors.light.grey200,
   },
   flagEmoji: {
     fontSize: moderateScale(24),
@@ -231,30 +254,22 @@ const styles = StyleSheet.create({
     fontFamily: AeonikFonts.regular,
     color: Colors.light.mainDarkColor,
   },
-  phoneInputWrapper: {
+  phoneInput: {
     flex: 1,
     height: verticalScale(56),
     backgroundColor: Colors.light.white,
     borderRadius: scale(12),
     paddingHorizontal: scale(16),
-    justifyContent: "center",
-  },
-  phoneNumberText: {
     fontSize: moderateScale(17),
     fontFamily: AeonikFonts.regular,
     color: Colors.light.mainDarkColor,
-  },
-  phoneNumberPlaceholder: {
-    color: Colors.light.grey400,
+    borderWidth: 1,
+    borderColor: Colors.light.grey200,
   },
   spacer: {
     flex: 1,
   },
-  skipButton: {
-    alignItems: "center",
-    paddingVertical: verticalScale(16),
-    marginTop: verticalScale(12),
-  },
+
   skipText: {
     fontSize: moderateScale(16),
     fontFamily: AeonikFonts.regular,
