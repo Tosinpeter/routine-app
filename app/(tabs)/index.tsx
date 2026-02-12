@@ -1,17 +1,16 @@
-import React, { useState } from "react";
-import { Image } from "expo-image";
+import React from "react";
 import {
   ScrollView,
   StyleSheet,
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-
 import { ThemedView } from "@/components/themed-view";
 import {
   scale,
   SCREEN_WIDTH,
   tabBarHeight,
+  verticalScale,
 } from "@/constants/scaling";
 import { Colors } from "@/constants/theme";
 
@@ -19,10 +18,29 @@ import { Colors } from "@/constants/theme";
 import { HomeLockedView } from "@/components/home/HomeLockedView";
 import { HomeUnlockedView } from "@/components/home/HomeUnlockedView";
 import { StatusBar } from "expo-status-bar";
+import { AppText as Text } from "@/components/app-text";
+import { useAppSelector } from "@/store/hooks";
 
 export default function HomeScreen() {
-  // Demo State: Change this value to false to see Locked View
-  const [isUnlocked] = useState(true);
+  const { homeData, isLoading, error } = useAppSelector((state) => state.home);
+
+  const isUnlocked = homeData?.isUnlocked ?? true;
+
+  // Loading happens in background - no loading screen
+  // Data will populate when available
+
+  if (error && !homeData) {
+    return (
+      <ThemedView style={styles.container}>
+        <View style={styles.bgSolid} />
+        <View style={[styles.safeArea, styles.centerContent]}>
+          <Text style={styles.errorText}>Failed to load home data</Text>
+          <Text style={styles.errorDetail}>{error}</Text>
+        </View>
+        <StatusBar style="dark" />
+      </ThemedView>
+    );
+  }
 
   return (
     
@@ -42,7 +60,7 @@ export default function HomeScreen() {
           contentContainerStyle={styles.scrollContent}
           showsVerticalScrollIndicator={false}
         >
-          {isUnlocked ? (
+          {!isUnlocked ? (
             <HomeUnlockedView />
           ) : (
             <HomeLockedView />
@@ -80,6 +98,23 @@ const styles = StyleSheet.create({
     height: SCREEN_WIDTH,
     opacity: 0.5, // Subtle background effect
     zIndex: -1,
+  },
+  centerContent: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: scale(20),
+  },
+  errorText: {
+    fontFamily: 'Aeonik-Medium',
+    fontSize: scale(18),
+    color: '#20201E',
+    marginBottom: verticalScale(8),
+  },
+  errorDetail: {
+    fontFamily: 'Aeonik-Regular',
+    fontSize: scale(14),
+    color: '#666',
+    textAlign: 'center',
   },
 });
 

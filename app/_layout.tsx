@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import { Platform } from 'react-native';
 import 'react-native-reanimated';
 import { Provider } from 'react-redux';
+import * as Notifications from 'expo-notifications';
 
 import { AnimatedSplashScreen } from '@/components/splash-screen';
 import { scale } from '@/constants/scaling';
@@ -25,17 +26,31 @@ function RootLayoutNav() {
   const [hasNavigated, setHasNavigated] = useState(false);
 
   useEffect(() => {
+    const checkNotificationPermission = async () => {
+      if (!hasNavigated) {
+        try {
+          // Check notification permission status
+          const { status } = await Notifications.getPermissionsAsync();
+          
+          // Delay before showing notification sheet
+          const timer = setTimeout(() => {
+            // Only show notification sheet if permission is not granted
+            if (status !== 'granted') {
+              router.push('/notification-sheet');
+            }
+            setHasNavigated(true);
+          }, 1000); // 1 second delay
 
-    if (!hasNavigated) {
-      // Delay showing the notification sheet after component mounts
-      const timer = setTimeout(() => {
-        router.push('/notification-sheet');
-        setHasNavigated(true);
-      }, 1000); // 2 second delay
+          return () => clearTimeout(timer);
+        } catch (error) {
+          console.error("Error checking notification permission:", error);
+          // If error occurs, don't show the modal
+          setHasNavigated(true);
+        }
+      }
+    };
 
-      return () => clearTimeout(timer);
-    }
-
+    checkNotificationPermission();
 
     // const checkOnboardingStatus = async () => {
     //   if (!hasNavigated) {

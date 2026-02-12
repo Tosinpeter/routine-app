@@ -119,7 +119,7 @@ export default function UploadScreen() {
   };
 
   const handleSubmit = () => {
-    router.push("/select-lab-test");
+    // router.push("/select-lab-test");
   };
 
   return (

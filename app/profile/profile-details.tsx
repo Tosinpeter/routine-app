@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   ScrollView,
   StyleSheet,
@@ -7,6 +7,7 @@ import {
   Modal,
   KeyboardAvoidingView,
   Platform,
+  ActivityIndicator,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from "expo-router";
@@ -22,6 +23,7 @@ import { scale, moderateScale, tabBarHeight, verticalScale } from "@/constants/s
 import { Colors, AeonikFonts, Fonts } from "@/constants/theme";
 import { BackButton } from "@/components/back-button";
 import { AppTextStyle } from "@/constants/typography";
+import { useProfile } from "@/hooks/use-profile";
 
 interface ProfileFieldProps {
   label: string;
@@ -52,19 +54,28 @@ function ProfileField({ label, value, onPress }: ProfileFieldProps) {
 }
 
 export default function ProfileDetailsScreen() {
-  const [userName, setUserName] = useState("Aslam Uddin");
+  const { profile, isLoading, isUpdating, error, fetchProfile, updateProfile } = useProfile();
   const [showNameModal, setShowNameModal] = useState(false);
   const [tempName, setTempName] = useState("");
 
+  // Fetch profile data on mount if not already loaded
+  useEffect(() => {
+    if (!profile && !isLoading) {
+      fetchProfile();
+    }
+  }, []);
+
   const handleOpenNameModal = () => {
-    setTempName(userName);
+    setTempName(profile?.name || "");
     setShowNameModal(true);
   };
 
-  const handleSaveName = () => {
+  const handleSaveName = async () => {
     if (tempName.trim()) {
-      setUserName(tempName.trim());
-      setShowNameModal(false);
+      const success = await updateProfile({ name: tempName.trim() });
+      if (success) {
+        setShowNameModal(false);
+      }
     }
   };
 
@@ -72,6 +83,40 @@ export default function ProfileDetailsScreen() {
     setShowNameModal(false);
     setTempName("");
   };
+
+  // Show loading state
+  if (isLoading && !profile) {
+    return (
+      <ThemedView style={styles.container}>
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color={Colors.light.tint} />
+          <Text style={styles.loadingText}>Loading profile...</Text>
+        </View>
+      </ThemedView>
+    );
+  }
+
+  // Show error state
+  if (error && !profile) {
+    return (
+      <ThemedView style={styles.container}>
+        <View style={styles.errorContainer}>
+          <Ionicons
+            name="alert-circle-outline"
+            size={scale(48)}
+            color="#DC2626"
+          />
+          <Text style={styles.errorTitle}>Failed to Load Profile</Text>
+          <Text style={styles.errorMessage}>{error}</Text>
+          <PrimaryButton
+            title="Retry"
+            onPress={() => fetchProfile()}
+            style={styles.retryButton}
+          />
+        </View>
+      </ThemedView>
+    );
+  }
 
   return (
     <ThemedView style={styles.container}>
@@ -111,7 +156,7 @@ export default function ProfileDetailsScreen() {
             <View style={styles.fieldsContainer}>
               <ProfileField
                 label="Target Goal"
-                value="Oily Shine"
+                value={profile?.targetGoal || "Not set"}
                 onPress={() => {
                   // Navigate to target goal selection
                 }}
@@ -121,7 +166,7 @@ export default function ProfileDetailsScreen() {
               
               <ProfileField
                 label="Name"
-                value={userName}
+                value={profile?.name || "Not set"}
                 onPress={handleOpenNameModal}
               />
               
@@ -129,7 +174,7 @@ export default function ProfileDetailsScreen() {
               
               <ProfileField
                 label="Gender"
-                value="Male"
+                value={profile?.gender || "Not set"}
                 onPress={() => {
                   // Navigate to gender selection
                 }}
@@ -139,7 +184,7 @@ export default function ProfileDetailsScreen() {
               
               <ProfileField
                 label="Age"
-                value="Under 25"
+                value={profile?.age || "Not set"}
                 onPress={() => {
                   // Navigate to age selection
                 }}
@@ -149,7 +194,7 @@ export default function ProfileDetailsScreen() {
               
               <ProfileField
                 label="Skin Type"
-                value="Combination"
+                value={profile?.skinType || "Not set"}
                 onPress={() => {
                   // Navigate to skin type selection
                 }}
@@ -159,7 +204,7 @@ export default function ProfileDetailsScreen() {
               
               <ProfileField
                 label="Skin Sensitivity"
-                value="False"
+                value={profile?.skinSensitivity ? "Yes" : "No"}
                 onPress={() => {
                   // Navigate to skin sensitivity selection
                 }}
@@ -169,7 +214,11 @@ export default function ProfileDetailsScreen() {
               
               <ProfileField
                 label="Skin Concerns"
-                value="Wants moisture all the time, Tightness, Tiny wrinkles, Dull..."
+                value={
+                  profile?.skinConcerns && profile.skinConcerns.length > 0
+                    ? profile.skinConcerns.join(", ")
+                    : "Not set"
+                }
                 onPress={() => {
                   // Navigate to skin concerns selection
                 }}
@@ -179,7 +228,7 @@ export default function ProfileDetailsScreen() {
               
               <ProfileField
                 label="Skin Conditions"
-                value="No, I don't"
+                value={profile?.skinConditions || "Not set"}
                 onPress={() => {
                   // Navigate to skin conditions selection
                 }}
@@ -189,7 +238,7 @@ export default function ProfileDetailsScreen() {
               
               <ProfileField
                 label="Health Conditions"
-                value="No, I don't"
+                value={profile?.healthConditions || "Not set"}
                 onPress={() => {
                   // Navigate to health conditions selection
                 }}
@@ -199,7 +248,11 @@ export default function ProfileDetailsScreen() {
               
               <ProfileField
                 label="Focus Face Area"
-                value="Mouth, Nasolabial, Between the eyebrows, Forehead, Ey..."
+                value={
+                  profile?.focusFaceArea && profile.focusFaceArea.length > 0
+                    ? profile.focusFaceArea.join(", ")
+                    : "Not set"
+                }
                 onPress={() => {
                   // Navigate to focus face area selection
                 }}
@@ -270,6 +323,8 @@ export default function ProfileDetailsScreen() {
                 title="Save"
                 onPress={handleSaveName}
                 style={styles.saveButton}
+                loading={isUpdating}
+                disabled={isUpdating || !tempName.trim()}
               />
             </View>
           </View>
@@ -460,5 +515,39 @@ const styles = StyleSheet.create({
   },
   saveButton: {
     flex: 1,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    gap: verticalScale(16),
+  },
+  loadingText: {
+    fontSize: moderateScale(16),
+    fontFamily: Fonts.medium,
+    color: Colors.light.grey500,
+  },
+  errorContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: scale(32),
+    gap: verticalScale(16),
+  },
+  errorTitle: {
+    fontSize: moderateScale(20),
+    fontFamily: Fonts.bold,
+    color: Colors.light.mainDarkColor,
+    textAlign: "center",
+  },
+  errorMessage: {
+    fontSize: moderateScale(14),
+    fontFamily: Fonts.regular,
+    color: Colors.light.grey500,
+    textAlign: "center",
+  },
+  retryButton: {
+    marginTop: verticalScale(16),
+    paddingHorizontal: scale(32),
   },
 });

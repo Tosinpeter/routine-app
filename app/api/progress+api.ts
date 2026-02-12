@@ -1,5 +1,3 @@
-import { ExpoRequest, ExpoResponse } from 'expo-router/server';
-
 /**
  * Type definitions for Progress Data
  */
@@ -51,7 +49,7 @@ const mockProgressData: ProgressData = {
   lastUpdated: new Date().toISOString(),
   metrics: {
     skinScore: {
-      title: 'Skin Score',
+      title: 'Skin Scssore',
       value: '85',
       trend: {
         value: '+5%',
@@ -136,33 +134,37 @@ const mockProgressData: ProgressData = {
  * GET /api/progress
  * Get user progress data
  */
-export async function GET(request: ExpoRequest): Promise<ExpoResponse> {
+export async function GET(request: Request) {
   try {
     // Parse query parameters
     const url = new URL(request.url);
     const userId = url.searchParams.get('userId');
+    const simulateError = url.searchParams.get('error') === 'true';
 
     // Simulate API delay
-    await new Promise((resolve) => setTimeout(resolve, 300));
+    await new Promise((resolve) => setTimeout(resolve, 1500));
+
+    // Simulate error state for testing
+    if (simulateError) {
+      return Response.json(
+        { 
+          error: 'Failed to fetch progress', 
+          message: 'Network error occurred' 
+        },
+        { status: 500 }
+      );
+    }
 
     // Return mock data
-    return ExpoResponse.json(
-      {
-        success: true,
-        data: {
-          ...mockProgressData,
-          userId: userId || mockProgressData.userId,
-        },
+    return Response.json({
+      success: true,
+      data: {
+        ...mockProgressData,
+        userId: userId || mockProgressData.userId,
       },
-      {
-        status: 200,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }
-    );
+    });
   } catch (error) {
-    return ExpoResponse.json(
+    return Response.json(
       {
         success: false,
         error: 'Internal Server Error',
@@ -177,7 +179,7 @@ export async function GET(request: ExpoRequest): Promise<ExpoResponse> {
  * POST /api/progress
  * Update user progress data (e.g., after face scan)
  */
-export async function POST(request: ExpoRequest): Promise<ExpoResponse> {
+export async function POST(request: Request) {
   try {
     const body = await request.json();
     const { userId, metrics, routineConsistency } = body;
@@ -195,21 +197,13 @@ export async function POST(request: ExpoRequest): Promise<ExpoResponse> {
         routineConsistency || mockProgressData.routineConsistency,
     };
 
-    return ExpoResponse.json(
-      {
-        success: true,
-        message: 'Progress updated successfully',
-        data: updatedProgress,
-      },
-      {
-        status: 200,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }
-    );
+    return Response.json({
+      success: true,
+      message: 'Progress updated successfully',
+      data: updatedProgress,
+    });
   } catch (error) {
-    return ExpoResponse.json(
+    return Response.json(
       {
         success: false,
         error: 'Bad Request',

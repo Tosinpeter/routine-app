@@ -3,9 +3,15 @@ import {
     ScrollView,
     StyleSheet,
     TouchableOpacity,
-    View
+    View,
+    Alert,
+    Platform,
+    ActivityIndicator
 } from "react-native";
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useState } from "react";
+import { Paths, File } from 'expo-file-system';
+import * as Sharing from 'expo-sharing';
 
 import { AppText as Text } from "@/components/app-text";
 import { ThemedView } from "@/components/themed-view";
@@ -16,10 +22,51 @@ import { AppTextStyle } from "@/constants/typography";
 import { Ionicons } from "@expo/vector-icons";
 import { WarningIcon } from "@/components/icons/warning-icon";
 
+const PDF_URL = "https://ontheline.trincoll.edu/images/bookdown/sample-local-pdf.pdf";
+
 export default function LabTestScreen() {
-    const handleDownloadPDF = () => {
-        // Handle PDF download logic here
-        console.log("Download PDF");
+    const [isDownloading, setIsDownloading] = useState(false);
+
+    const handleDownloadPDF = async () => {
+        try {
+            setIsDownloading(true);
+
+            // Create a file reference in the document directory
+            const fileName = `lab-test-${Date.now()}.pdf`;
+            const destinationFile = new File(Paths.document, fileName);
+
+            // Download the PDF using the static method
+            const downloadedFile = await File.downloadFileAsync(PDF_URL, destinationFile, {
+                idempotent: true // Overwrite if file exists
+            });
+
+            // Check if sharing is available
+            const isAvailable = await Sharing.isAvailableAsync();
+            
+            if (isAvailable) {
+                // Share the downloaded file (allows user to save to Files, etc.)
+                await Sharing.shareAsync(downloadedFile.uri, {
+                    mimeType: 'application/pdf',
+                    dialogTitle: 'Save Lab Test PDF',
+                    UTI: 'com.adobe.pdf'
+                });
+            } else {
+                Alert.alert(
+                    "Download Complete",
+                    `PDF saved successfully!`,
+                    [{ text: "OK" }]
+                );
+            }
+        } catch (error) {
+            console.error("Error downloading PDF:", error);
+            Alert.alert(
+                "Download Failed",
+                "Unable to download the PDF. Please try again.",
+                [{ text: "OK" }]
+            );
+        } finally {
+            setIsDownloading(false);
+        }
     };
 
     return (
@@ -48,11 +95,22 @@ export default function LabTestScreen() {
                     />
                     {/* Download Button */}
                     <TouchableOpacity 
-                        style={styles.downloadButton}
+                        style={[
+                            styles.downloadButton,
+                            isDownloading && styles.downloadButtonDisabled
+                        ]}
                         onPress={handleDownloadPDF}
                         activeOpacity={0.8}
+                        disabled={isDownloading}
                     >
-                        <Text style={styles.downloadButtonText}>Download PDF</Text>
+                        {isDownloading ? (
+                            <View style={styles.downloadButtonContent}>
+                                <ActivityIndicator color={Colors.light.white} size="small" />
+                                <Text style={styles.downloadButtonText}>Downloading...</Text>
+                            </View>
+                        ) : (
+                            <Text style={styles.downloadButtonText}>Download PDF</Text>
+                        )}
                     </TouchableOpacity>
 
                     {/* Warning Message */}
@@ -218,6 +276,15 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.3,
         shadowRadius: 8,
         elevation: 4,
+    },
+    downloadButtonDisabled: {
+        backgroundColor: "#CF604A",
+        opacity: 0.7,
+    },
+    downloadButtonContent: {
+        flexDirection: "row",
+        alignItems: "center",
+        gap: scale(8),
     },
     downloadButtonText: {
         fontSize: moderateScale(16),

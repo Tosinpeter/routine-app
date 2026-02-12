@@ -1,4 +1,4 @@
-import { Image, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import Svg, { Circle, Defs, LinearGradient, Stop } from "react-native-svg";
 
 import { AppText as Text } from "@/components/app-text";
@@ -8,6 +8,8 @@ import { scale, scaledRadius, scaleIcon, verticalScale } from "@/constants/scali
 import { Ionicons } from "@expo/vector-icons";
 import { GradientProgressRing } from "../gradient-progress-ring";
 import { LockIcon } from "../icons/lock-icon";
+import { Image } from "expo-image";
+
 
 export function ProductReminderCard() {
     const products = [

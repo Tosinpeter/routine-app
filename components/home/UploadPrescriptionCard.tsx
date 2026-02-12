@@ -1,11 +1,16 @@
 import { Ionicons } from "@expo/vector-icons";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { router } from "expo-router";
 
 import { AppText as Text } from "@/components/app-text";
 import { Colors, Fonts } from "@/constants/theme";
 import { scale, verticalScale } from "@/constants/scaling";
 
 export function UploadPrescriptionCard() {
+    const handleUploadPress = () => {
+        router.push("/lab-test/prescription-upload");
+    };
+
     return (
         <View style={styles.card}>
             <Text style={styles.title}>Upload Your Prescription</Text>
@@ -14,7 +19,11 @@ export function UploadPrescriptionCard() {
                 be clear and readable.
             </Text>
 
-            <TouchableOpacity style={styles.uploadButton} activeOpacity={0.8}>
+            <TouchableOpacity 
+                style={styles.uploadButton} 
+                activeOpacity={0.8}
+                onPress={handleUploadPress}
+            >
                 <View style={styles.buttonContent}>
                     <Ionicons
                         name="cloud-upload-outline"

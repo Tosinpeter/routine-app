@@ -1,7 +1,6 @@
 import { router } from "expo-router";
 import React, { useEffect, useRef, useState } from "react";
 import {
-  ActivityIndicator,
   Animated,
   StatusBar,
   StyleSheet,
@@ -9,11 +8,9 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import { Image } from "expo-image";
-
-
 import { AppText as Text } from "@/components/app-text";
 import { BackButton } from "@/components/back-button";
+import { Loader } from "@/components/loader";
 import { PrimaryButton } from "@/components/primary-button";
 import { scale, verticalScale } from "@/constants/scaling";
 import { AeonikFonts, Colors } from "@/constants/theme";
@@ -21,21 +18,11 @@ import { AppTextStyle } from "@/constants/typography";
 
 export default function QuizCompleteScreen() {
   const scaleAnim = useRef(new Animated.Value(0)).current;
-  const rotateAnim = useRef(new Animated.Value(0)).current;
   const buttonOpacity = useRef(new Animated.Value(0)).current;
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Start rotation animation
-    Animated.loop(
-      Animated.timing(rotateAnim, {
-        toValue: 1,
-        duration: 2000,
-        useNativeDriver: true,
-      })
-    ).start();
-
-    // Show loading for 2 minutes, then show the content
+    // Show loading for 1 second, then show the content
     const loadingTimer = setTimeout(() => {
       setIsLoading(false);
 
@@ -55,10 +42,10 @@ export default function QuizCompleteScreen() {
           useNativeDriver: true,
         }).start();
       }, 800);
-    }, 1000); // 2 minutes
+    }, 1000);
 
     return () => clearTimeout(loadingTimer);
-  }, []);
+  }, [scaleAnim, buttonOpacity]);
 
   const handleContinue = () => {
     // Navigate to skincare routine or home
@@ -72,26 +59,7 @@ export default function QuizCompleteScreen() {
       {isLoading ? (
         // Loading Screen
         <View style={styles.loadingScreen}>
-          <View style={styles.loadingContainer}>
-            <Animated.View
-              style={{
-                transform: [
-                  {
-                    rotate: rotateAnim.interpolate({
-                      inputRange: [0, 1],
-                      outputRange: ['0deg', '360deg'],
-                    }),
-                  },
-                ],
-              }}
-            >
-              <Image
-                source={require("@/assets/images/img_LoaderIndicator.png")}
-                style={styles.loadingImage}
-                contentFit="cover"
-              />
-            </Animated.View>
-          </View>
+          <Loader size={164} />
         </View>
       ) : (
         // Main Content
@@ -149,11 +117,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.light.scaffold,
-  },
-
-  loadingImage: {
-    width: scale(164), 
-    height: scale(164)
   },
   header: {
     flexDirection: "row",
@@ -227,11 +190,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: Colors.light.scaffold,
-  },
-  loadingContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: scale(40),
   },
   loadingText: {
     ...AppTextStyle.headline3,

@@ -6,6 +6,8 @@ import {
   TextInput,
   Dimensions,
   Platform,
+  Alert,
+  ActivityIndicator,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { router, useLocalSearchParams } from "expo-router";
@@ -15,6 +17,7 @@ import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import { ThemedView } from "@/components/themed-view";
 import { AppText as Text } from "@/components/app-text";
 import { BackButton } from "@/components/back-button";
+import { useAddress } from "@/hooks/use-address";
 
 import { scale, moderateScale, verticalScale } from "@/constants/scaling";
 import { Colors, AeonikFonts, Shadows } from "@/constants/theme";
@@ -25,9 +28,11 @@ const { width, height } = Dimensions.get("window");
 
 export default function AddAddressScreen() {
   const params = useLocalSearchParams<{ type?: string }>();
-  const addressType = params?.type || "new";
+  const addressType = (params?.type || "new") as "home" | "work" | "new";
   
   const mapRef = useRef<MapView>(null);
+  const { saveAddress, isLoading } = useAddress();
+  
   const [address, setAddress] = useState("09 Arnulfo Crossing, Botsfordborough");
   const [region, setRegion] = useState({
     latitude: 40.6782,
@@ -62,9 +67,36 @@ export default function AddAddressScreen() {
     }
   };
 
-  const handleConfirm = () => {
-    // TODO: Save address logic
-    router.back();
+  const handleConfirm = async () => {
+    // Validate address input
+    if (!address || address.trim().length === 0) {
+      Alert.alert('Invalid Address', 'Please enter a valid address');
+      return;
+    }
+
+    const savedAddress = await saveAddress({
+      type: addressType,
+      address: address.trim(),
+      latitude: markerPosition.latitude,
+      longitude: markerPosition.longitude,
+    });
+
+    if (savedAddress) {
+      // Show success message
+      Alert.alert(
+        'Success',
+        'Address saved successfully',
+        [
+          {
+            text: 'OK',
+            onPress: () => router.back(),
+          },
+        ]
+      );
+    } else {
+      // Error is already handled by the hook
+      Alert.alert('Error', 'Failed to save address. Please try again.');
+    }
   };
 
   const handleCurrentLocation = () => {
@@ -168,7 +200,9 @@ export default function AddAddressScreen() {
         {/* Confirm Button */}
         <PrimaryButton
           onPress={handleConfirm}
-          title={getTitle()}
+          title={getButtonTitle()}
+          disabled={isLoading}
+          loading={isLoading}
         />
       </View>
     </ThemedView>

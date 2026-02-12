@@ -7,11 +7,13 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useEffect, useState } from "react";
 
 import { AppText as Text } from "@/components/app-text";
 import { RoutineStepCard } from "@/components/routine-step-card";
 import { ThemedView } from "@/components/themed-view";
 import { TimeToggleButton } from "@/components/time-toggle-button";
+import { RoutineStepShimmer } from "@/components/routine-shimmer";
 import {
   moderateScale,
   scale,
@@ -28,14 +30,63 @@ import {
   setTimeOfDay,
   toggleProductCompletion,
 } from "@/store/slices/home-slice";
+import type { RoutineStep } from "@/store/slices/home-slice";
 
 const DAYS = [1, 2, 3, 4, 5, 6, 7];
 
+interface RoutineData {
+  success: boolean;
+  data: {
+    day: number;
+    timeOfDay: string;
+    routineSteps: RoutineStep[];
+    userName: string;
+  };
+}
+
 export default function RoutineScreen() {
   const dispatch = useAppDispatch();
-  const { selectedDay, timeOfDay, routineSteps, userName } = useAppSelector(
+  const { selectedDay, timeOfDay, routineSteps: storeRoutineSteps, userName: storeUserName } = useAppSelector(
     (state) => state.home
   );
+
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [routineSteps, setRoutineSteps] = useState<RoutineStep[]>(storeRoutineSteps);
+  const [userName, setUserName] = useState(storeUserName);
+
+  useEffect(() => {
+    fetchRoutineData();
+  }, [selectedDay, timeOfDay]);
+
+  const fetchRoutineData = async () => {
+    try {
+      setIsLoading(true);
+      setError(null);
+
+      const response = await fetch(
+        `/api/routine?day=${selectedDay}&timeOfDay=${timeOfDay}`
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch routine data");
+      }
+
+      const data: RoutineData = await response.json();
+      
+      if (data.success) {
+        setRoutineSteps(data.data.routineSteps);
+        setUserName(data.data.userName);
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "An error occurred");
+      // Fallback to store data on error
+      setRoutineSteps(storeRoutineSteps);
+      setUserName(storeUserName);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const getGreeting = () => {
     const hour = new Date().getHours();
@@ -118,16 +169,27 @@ export default function RoutineScreen() {
 
             {/* Routine Steps */}
             <View style={styles.routineList}>
-              {routineSteps.map((step, index) => (
-                <RoutineStepCard
-                  key={step.id}
-                  step={step}
-                  isLast={index === routineSteps.length - 1}
-                  onToggleComplete={() =>
-                    dispatch(toggleProductCompletion(step.id))
-                  }
-                />
-              ))}
+              {isLoading ? (
+                <>
+                  <RoutineStepShimmer />
+                  <RoutineStepShimmer />
+                  <RoutineStepShimmer />
+                  <RoutineStepShimmer />
+                </>
+              ) : (
+                <>
+                  {routineSteps.map((step, index) => (
+                    <RoutineStepCard
+                      key={step.id}
+                      step={step}
+                      isLast={index === routineSteps.length - 1}
+                      onToggleComplete={() =>
+                        dispatch(toggleProductCompletion(step.id))
+                      }
+                    />
+                  ))}
+                </>
+              )}
             </View>
           </View>
         </ScrollView>

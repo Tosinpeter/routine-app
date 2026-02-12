@@ -15,6 +15,9 @@ import { scaleIcon, tabBarHeight } from '@/constants/scaling';
 import { Colors, Shadows } from '@/constants/theme';
 import { AppTextStyle } from '@/constants/typography';
 import { useColorScheme } from '@/hooks/use-color-scheme';
+import { useFetchProgress } from '@/hooks/use-fetch-progress';
+import { useFetchHome } from '@/hooks/use-fetch-home';
+import { useFetchProfile } from '@/hooks/use-fetch-profile';
 
 // Icon size that works well on both platforms
 const TAB_ICON_SIZE = scaleIcon(24);
@@ -22,6 +25,12 @@ const TAB_ICON_SIZE = scaleIcon(24);
 export default function TabLayout() {
   const colorScheme = useColorScheme();
   const insets = useSafeAreaInsets();
+  
+  // Fetch data when app opens
+  useFetchHome();
+  useFetchProgress();
+  useFetchProfile();
+  
   console.log(insets.bottom);
   return (
     <Tabs

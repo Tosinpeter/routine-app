@@ -6,11 +6,12 @@ import {
     View
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import { AppText as Text } from "@/components/app-text";
 import { ThemedView } from "@/components/themed-view";
 
+import { ApiErrorDisplay } from "@/components/api-error-display";
 import { BackButton } from "@/components/back-button";
 import { NotificationCard } from "@/components/notification-card";
 import { moderateScale, scale, verticalScale } from "@/constants/scaling";
@@ -20,8 +21,9 @@ import { HealthIcon } from "@/components/icons/health-icon";
 import { ConicalFlaskIcon } from "@/components/icons/conical-flask-icon";
 import { CubeIcon } from "@/components/icons/cube-icon";
 import { MoonIcon } from "@/components/icons/moon-icon";
+import { Loader } from "@/components/loader";
 
-// Mock notification type
+// Notification type
 interface Notification {
     id: string;
     title: string;
@@ -30,42 +32,6 @@ interface Notification {
     notificationType: "prescription_ready" | "review_completed" | "night_routine" | "order_shipped";
     isRead: boolean;
 }
-
-// Mock API response
-const MOCK_NOTIFICATIONS: Notification[] = [
-    {
-        id: "1",
-        title: "Your Prescription is Ready",
-        subtitle: "Download and consult a local pharmacy",
-        timestamp: "2026-02-07T10:00:00Z",
-        notificationType: "prescription_ready",
-        isRead: false,
-    },
-    {
-        id: "2",
-        title: "Doctor review completed",
-        subtitle: "Your treatment plan is approved",
-        timestamp: "2026-02-07T08:15:00Z",
-        notificationType: "review_completed",
-        isRead: false,
-    },
-    {
-        id: "3",
-        title: "Time for your night routine",
-        subtitle: "Consistency helps your skin heal faster",
-        timestamp: "2026-02-06T15:30:00Z",
-        notificationType: "night_routine",
-        isRead: true,
-    },
-    {
-        id: "4",
-        title: "Your order has beed shipped",
-        subtitle: "Track your delivery",
-        timestamp: "2026-02-06T07:00:00Z",
-        notificationType: "order_shipped",
-        isRead: true,
-    }
-];
 
 // Helper function to get icon component and color
 const getIconComponent = (notificationType: Notification["notificationType"]) => {
@@ -261,8 +227,39 @@ const AnimatedNotificationItem: React.FC<AnimatedNotificationItemProps> = ({ not
 };
 
 export default function NotificationScreen() {
-    const groupedNotifications = groupNotificationsByDate(MOCK_NOTIFICATIONS);
+    const [notifications, setNotifications] = useState<Notification[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+    
     const headerFadeAnim = useRef(new Animated.Value(0)).current;
+    
+    // Fetch notifications from API
+    const fetchNotifications = async () => {
+        try {
+            setIsLoading(true);
+            setError(null);
+            
+            // To test error state, add ?error=true to the URL
+            // Example: const response = await fetch('/api/notification?error=true');
+            const response = await fetch('/api/notification');
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const data = await response.json();
+            setNotifications(data);
+        } catch (err) {
+            console.error('Error fetching notifications:', err);
+            setError(err instanceof Error ? err.message : 'Failed to load notifications');
+        } finally {
+            setIsLoading(false);
+        }
+    };
+    
+    useEffect(() => {
+        fetchNotifications();
+    }, []);
     
     useEffect(() => {
         Animated.timing(headerFadeAnim, {
@@ -271,6 +268,8 @@ export default function NotificationScreen() {
             useNativeDriver: true,
         }).start();
     }, [headerFadeAnim]);
+    
+    const groupedNotifications = groupNotificationsByDate(notifications);
     
     // Calculate global index for staggered animations across groups
     let globalIndex = 0;
@@ -288,7 +287,19 @@ export default function NotificationScreen() {
                         <Text style={styles.headerText}>Notification</Text>
                     </Animated.View>
 
-                    {MOCK_NOTIFICATIONS.length === 0 ? (
+                    {isLoading ? (
+                        <View style={styles.loadingContainer}>
+                            <Loader size={70} />
+                        </View>
+                    ) : error ? (
+                        <ApiErrorDisplay
+                            title="Oops!"
+                            errorMessage="Failed to load notifications"
+                            description={error || "We're having trouble loading your notifications. Please try again."}
+                            onRetry={fetchNotifications}
+                            showRetryButton={true}
+                        />
+                    ) : notifications.length === 0 ? (
                         <EmptyState />
                     ) : (
                         <ScrollView style={styles.scrollView}
@@ -399,5 +410,11 @@ const styles = StyleSheet.create({
         color: Colors.light.grey400,
         marginBottom: scale(12),
         opacity: 0.5
+    },
+
+    loadingContainer: {
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "center",
     },
 });

@@ -13,6 +13,7 @@ import { DermatologyInsightCard } from "@/components/home/DermatologyInsightCard
 import { ProductReminderCard } from "@/components/home/ProductReminderCard";
 import { ProgressPreviewCard } from "@/components/home/ProgressPreviewCard";
 import { ContactSupportButton } from "@/components/home/ContactSupportButton";
+import { DermatologistSupportCard } from './DermatologistSupportCard';
 
 export function HomeLockedView() {
     return (
@@ -25,7 +26,8 @@ export function HomeLockedView() {
 
             <SkinRoutineCard />
 
-            <DermatologyInsightCard />
+            <DermatologistSupportCard />
+
 
             <ProductReminderCard />
             <Text style={styles.headerTitle}>Your Progress</Text>

@@ -1,30 +1,38 @@
-import React, { useState } from "react";
+import React from "react";
 import { StyleSheet, View } from "react-native";
 import Svg, { Circle } from "react-native-svg";
 import { Image } from "expo-image";
 import { AppText as Text } from "@/components/app-text";
 import { Colors } from "@/constants/theme";
 import { scale, verticalScale } from "@/constants/scaling";
+import { useAppSelector } from "@/store/hooks";
 
 export function TreatmentPlanCard() {
+    const { homeData } = useAppSelector((state) => state.home);
+    
+    const current = homeData?.treatmentPlan?.current ?? 1;
+    const total = homeData?.treatmentPlan?.total ?? 4;
+    const title = homeData?.treatmentPlan?.title ?? "Your Skin Routine";
+    const subtitle = homeData?.treatmentPlan?.subtitle ?? "Treatment Plan";
+
     return (
         <View
             style={styles.container}
             accessible={true}
-            accessibilityLabel="Your Skin Routine, 1 out of 4 completed"
+            accessibilityLabel={`${title}, ${current} out of ${total} completed`}
             accessibilityRole="summary"
         >
             {/* Progress Circle Section */}
             <View style={styles.progressContainer}>
-                <CircularProgress current={1} total={4} />
+                <CircularProgress current={current} total={total} />
             </View>
 
             {/* Text Section */}
             <View style={styles.textContainer}>
-                <Text style={styles.subtitle}>Treatment Plan</Text>
-                <Text style={styles.title}>Your Skin Routine</Text>
+                <Text style={styles.subtitle}>{subtitle}</Text>
+                <Text style={styles.title}>{title}</Text>
                 <View style={styles.statusBadge}>
-                    <Text style={styles.statusText}>1/4 Completed</Text>
+                    <Text style={styles.statusText}>{current}/{total} Completed</Text>
                 </View>
             </View>
         </View>
