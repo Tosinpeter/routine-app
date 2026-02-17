@@ -1,5 +1,4 @@
 import { Svg, Path } from "react-native-svg";
-import { Colors } from "@/constants/theme";
 
 export function AlarmIcon({
     width = 24,

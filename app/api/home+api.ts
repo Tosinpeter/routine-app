@@ -104,7 +104,7 @@ export async function POST(request: Request) {
       message: 'Home data updated successfully',
       data: updatedHome,
     });
-  } catch (error) {
+  } catch (_error) {
     return Response.json(
       {
         success: false,

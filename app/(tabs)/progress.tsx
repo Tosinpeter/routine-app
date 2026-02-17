@@ -6,6 +6,7 @@ import { ProgressLogView } from '@/components/progress/ProgressLogView';
 import { ProgressUnlockedView } from '@/components/progress/ProgressUnlockedView';
 import { AppText as Text } from '@/components/app-text';
 import { useAppSelector } from '@/store/hooks';
+import { t } from '@/i18n';
 
 export default function ProgressScreen() {
     const { data: progressData, isLoading, error } = useAppSelector(
@@ -18,7 +19,7 @@ export default function ProgressScreen() {
         return (
             <View style={[styles.container, styles.centerContent]}>
                 <ActivityIndicator size="large" color="#20201E" />
-                <Text style={styles.loadingText}>Loading your progress...</Text>
+                <Text style={styles.loadingText}>{t("progress.loading")}</Text>
             </View>
         );
     }
@@ -26,7 +27,7 @@ export default function ProgressScreen() {
     if (error && !progressData) {
         return (
             <View style={[styles.container, styles.centerContent]}>
-                <Text style={styles.errorText}>Failed to load progress</Text>
+                <Text style={styles.errorText}>{t("progress.error.failedToLoad")}</Text>
                 <Text style={styles.errorDetail}>{error}</Text>
             </View>
         );

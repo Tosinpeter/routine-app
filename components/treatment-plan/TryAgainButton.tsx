@@ -3,11 +3,12 @@ import { scale, verticalScale } from '@/constants/scaling';
 import { Fonts } from '@/constants/theme';
 import React from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
+import { t } from "@/i18n";
 
 export function TryAgainButton() {
     return (
         <TouchableOpacity style={styles.button} activeOpacity={0.8}>
-            <Text style={styles.text}>Try again</Text>
+            <Text style={styles.text}>{t("treatmentPlan.tryAgain")}</Text>
         </TouchableOpacity>
     );
 }

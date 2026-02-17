@@ -2,7 +2,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { StyleSheet, TouchableOpacity, ViewStyle } from "react-native";
 
-import { scale, scaleIcon, scaledRadius, touchTarget, verticalScale } from "@/constants/scaling";
+import { scaleIcon, scaledRadius, touchTarget, verticalScale } from "@/constants/scaling";
 import { Colors, HitSlop, Shadows } from "@/constants/theme";
 
 interface BackButtonProps {

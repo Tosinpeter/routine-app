@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import { AppText as Text } from "@/components/app-text";
-import { scale, moderateScale } from "@/constants/scaling";
+import { scale } from "@/constants/scaling";
 import { AeonikFonts, Colors } from "@/constants/theme";
 import { AppTextStyle } from "@/constants/typography";
 

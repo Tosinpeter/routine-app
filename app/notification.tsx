@@ -14,7 +14,7 @@ import { ThemedView } from "@/components/themed-view";
 import { ApiErrorDisplay } from "@/components/api-error-display";
 import { BackButton } from "@/components/back-button";
 import { NotificationCard } from "@/components/notification-card";
-import { moderateScale, scale, verticalScale } from "@/constants/scaling";
+import { scale, verticalScale } from "@/constants/scaling";
 import { AeonikFonts, Colors } from "@/constants/theme";
 import { AppTextStyle } from "@/constants/typography";
 import { HealthIcon } from "@/components/icons/health-icon";
@@ -22,6 +22,7 @@ import { ConicalFlaskIcon } from "@/components/icons/conical-flask-icon";
 import { CubeIcon } from "@/components/icons/cube-icon";
 import { MoonIcon } from "@/components/icons/moon-icon";
 import { Loader } from "@/components/loader";
+import { t } from "@/i18n";
 
 // Notification type
 interface Notification {
@@ -54,13 +55,18 @@ const getIconComponent = (notificationType: Notification["notificationType"]) =>
 // Helper function to format date and time
 const formatDateTime = (timestamp: string) => {
     const date = new Date(timestamp);
-    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    const months = [
+        t("months.short.jan"), t("months.short.feb"), t("months.short.mar"),
+        t("months.short.apr"), t("months.short.may"), t("months.short.jun"),
+        t("months.short.jul"), t("months.short.aug"), t("months.short.sep"),
+        t("months.short.oct"), t("months.short.nov"), t("months.short.dec"),
+    ];
     const month = months[date.getMonth()];
     const day = date.getDate();
     const year = date.getFullYear();
     const hours = date.getHours();
     const minutes = date.getMinutes().toString().padStart(2, "0");
-    const ampm = hours >= 12 ? "pm" : "am";
+    const ampm = hours >= 12 ? t("notification.time.pm") : t("notification.time.am");
     const displayHours = hours % 12 || 12;
 
     return `${month} ${day} ${year}, ${displayHours}:${minutes} ${ampm}`;
@@ -91,13 +97,13 @@ const getTimeAgo = (timestamp: string) => {
     const diffInHours = Math.floor(diffInMinutes / 60);
 
     if (diffInSeconds < 60) {
-        return "Just now";
+        return t("notification.time.justNow");
     } else if (diffInMinutes < 60) {
-        return diffInMinutes === 1 ? "1 minute ago" : `${diffInMinutes} minutes ago`;
+        return diffInMinutes === 1 ? t("notification.time.minuteAgo") : t("notification.time.minutesAgo", { count: diffInMinutes });
     } else if (diffInHours < 24) {
-        return diffInHours === 1 ? "1 hour ago" : `${diffInHours} hours ago`;
+        return diffInHours === 1 ? t("notification.time.hourAgo") : t("notification.time.hoursAgo", { count: diffInHours });
     } else {
-        return "Today";
+        return t("notification.time.today");
     }
 };
 
@@ -110,10 +116,14 @@ const groupNotificationsByDate = (notifications: Notification[]) => {
     const weekStart = new Date(today);
     weekStart.setDate(weekStart.getDate() - 7);
 
+    const todayLabel = t("notification.groups.today");
+    const yesterdayLabel = t("notification.groups.yesterday");
+    const thisWeekLabel = t("notification.groups.thisWeek");
+
     const groups: { [key: string]: Notification[] } = {
-        Today: [],
-        Yesterday: [],
-        "This Week": [],
+        [todayLabel]: [],
+        [yesterdayLabel]: [],
+        [thisWeekLabel]: [],
     };
 
     notifications.forEach((notification) => {
@@ -125,14 +135,18 @@ const groupNotificationsByDate = (notifications: Notification[]) => {
         );
 
         if (notificationDay.getTime() === today.getTime()) {
-            groups.Today.push(notification);
+            groups[todayLabel].push(notification);
         } else if (notificationDay.getTime() === yesterday.getTime()) {
-            groups.Yesterday.push(notification);
+            groups[yesterdayLabel].push(notification);
         } else if (notificationDay >= weekStart) {
-            groups["This Week"].push(notification);
+            groups[thisWeekLabel].push(notification);
         } else {
-            // Format as "2 Dec 2021"
-            const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            const months = [
+                t("months.short.jan"), t("months.short.feb"), t("months.short.mar"),
+                t("months.short.apr"), t("months.short.may"), t("months.short.jun"),
+                t("months.short.jul"), t("months.short.aug"), t("months.short.sep"),
+                t("months.short.oct"), t("months.short.nov"), t("months.short.dec"),
+            ];
             const groupKey = `${notificationDate.getDate()} ${months[notificationDate.getMonth()]} ${notificationDate.getFullYear()}`;
             if (!groups[groupKey]) {
                 groups[groupKey] = [];
@@ -251,7 +265,7 @@ export default function NotificationScreen() {
             setNotifications(data);
         } catch (err) {
             console.error('Error fetching notifications:', err);
-            setError(err instanceof Error ? err.message : 'Failed to load notifications');
+            setError(err instanceof Error ? err.message : t("notification.error.failedToLoad"));
         } finally {
             setIsLoading(false);
         }
@@ -284,7 +298,7 @@ export default function NotificationScreen() {
                 {/* Content */}
                 <View style={{ ...styles.scrollContent, flex: 1 }} >
                     <Animated.View style={{ opacity: headerFadeAnim }}>
-                        <Text style={styles.headerText}>Notification</Text>
+                        <Text style={styles.headerText}>{t("notification.title")}</Text>
                     </Animated.View>
 
                     {isLoading ? (
@@ -293,9 +307,9 @@ export default function NotificationScreen() {
                         </View>
                     ) : error ? (
                         <ApiErrorDisplay
-                            title="Oops!"
-                            errorMessage="Failed to load notifications"
-                            description={error || "We're having trouble loading your notifications. Please try again."}
+                            title={t("error.apiError.title")}
+                            errorMessage={t("notification.error.failedToLoad")}
+                            description={error || t("notification.error.description")}
                             onRetry={fetchNotifications}
                             showRetryButton={true}
                         />
@@ -346,8 +360,8 @@ function EmptyState() {
                 style={styles.emptyStateImage}
                 resizeMode="contain"
             />
-            <Text style={styles.emptyTitle}>Nothing here!!</Text>
-            <Text style={styles.emptySubtitle}>{"We'll let you know when we've got\nsomething new for you."}</Text>
+            <Text style={styles.emptyTitle}>{t("notification.empty.title")}</Text>
+            <Text style={styles.emptySubtitle}>{t("notification.empty.subtitle")}</Text>
         </View>
     );
 }

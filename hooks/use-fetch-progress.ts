@@ -21,6 +21,7 @@ export const useFetchProgress = () => {
 
   useEffect(() => {
     fetchProgressData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const fetchProgressData = async () => {

@@ -1,8 +1,6 @@
 import React, { useState } from "react";
-import { ScrollView, StyleSheet, View, TouchableOpacity, Switch } from "react-native";
+import { ScrollView, StyleSheet, View, Switch } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { router } from "expo-router";
-
 import { ThemedView } from "@/components/themed-view";
 import { AppText as Text } from "@/components/app-text";
 import { useTranslation } from "@/contexts/AppDataProvider";

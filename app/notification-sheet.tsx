@@ -17,6 +17,7 @@ import { scale, verticalScale } from "@/constants/scaling";
 import { AeonikFonts, Colors } from "@/constants/theme";
 import { AppTextStyle } from "@/constants/typography";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { t } from "@/i18n";
 
 export default function NotificationSheet() {
     const [isRequesting, setIsRequesting] = useState(false);
@@ -42,19 +43,19 @@ export default function NotificationSheet() {
                 router.back();
             } else if (finalStatus === 'denied') {
                 // Permission was denied
-                setError("Permission denied. Please enable notifications in your device settings.");
+                setError(t("notificationSheet.error.permissionDenied"));
                 
                 // Show alert with option to open settings
                 Alert.alert(
-                    "Notifications Disabled",
-                    "To receive skincare reminders, please enable notifications in your device settings.",
+                    t("notificationSheet.alert.disabledTitle"),
+                    t("notificationSheet.alert.disabledMessage"),
                     [
                         {
-                            text: "Cancel",
+                            text: t("common.cancel"),
                             style: "cancel"
                         },
                         {
-                            text: "Open Settings",
+                            text: t("common.openSettings"),
                             onPress: () => {
                                 if (Platform.OS === 'ios') {
                                     Linking.openURL('app-settings:');
@@ -67,11 +68,11 @@ export default function NotificationSheet() {
                 );
             } else {
                 // Other status (e.g., undetermined after request)
-                setError("Unable to get notification permission. Please try again.");
+                setError(t("notificationSheet.error.unableToGet"));
             }
         } catch (err) {
             console.error("Error requesting notification permission:", err);
-            setError("An error occurred. Please try again.");
+            setError(t("notificationSheet.error.generic"));
         } finally {
             setIsRequesting(false);
         }
@@ -101,8 +102,8 @@ export default function NotificationSheet() {
                 />
 
                 <View style={styles.textContent}>
-                    <Text style={styles.headline}>Unlock your Daily Routine</Text>
-                    <Text style={styles.subtitle}>Enable notifications to receive  your morning & evening skincare reminders. Without them, your routine won’t stay consistent.</Text>
+                    <Text style={styles.headline}>{t("notificationSheet.title")}</Text>
+                    <Text style={styles.subtitle}>{t("notificationSheet.subtitle")}</Text>
                 </View>
 
                 {/* Error Message */}
@@ -113,12 +114,12 @@ export default function NotificationSheet() {
                 {/* Bottom Button */}
                 <View style={styles.buttonContainer}>
                     <PrimaryButton
-                        title={isRequesting ? "Requesting..." : "Enable Notification"}
+                        title={isRequesting ? t("notificationSheet.requesting") : t("notificationSheet.enableButton")}
                         onPress={handleEnableNotification}
                         disabled={isRequesting}
                     />
                     <PrimaryButton
-                        title="Maybe later"
+                        title={t("notificationSheet.maybeLater")}
                         style={{
                             backgroundColor: "rgba(237, 235, 227, 1)",
                         }}

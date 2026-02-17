@@ -7,9 +7,10 @@ import { ClinicTestIcon } from "@/components/icons/clinic-test-icon";
 import { DoctorReviewIcon } from "@/components/icons/doctor-review-icon";
 import { FaceScanIcon } from "@/components/icons/face-scan-icon";
 import { AeonikFonts, Colors } from "@/constants/theme";
-import { scale, verticalScale } from "@/constants/scaling";
+import { scale } from "@/constants/scaling";
 import { useAppSelector } from "@/store/hooks";
 import { RoutineStatus } from "@/store/slices/home-slice";
+import { t } from "@/i18n";
 
 export function ProgressStepsCard() {
     const { reviewSteps } = useAppSelector((state) => state.home);
@@ -69,7 +70,7 @@ export function ProgressStepsCard() {
                                             <Ionicons name="checkmark-circle" size={scale(20)} color="#079455" />
                                         </View>
                                     ) : (
-                                        <Text style={styles.statusPending}>Pending</Text>
+                                        <Text style={styles.statusPending}>{t("home.progressSteps.pending")}</Text>
                                     )}
                                 </View>
 

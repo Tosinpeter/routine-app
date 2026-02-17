@@ -6,9 +6,9 @@ import { Ionicons } from "@expo/vector-icons";
 
 import { ThemedView } from "@/components/themed-view";
 import { AppText as Text } from "@/components/app-text";
-import { useTranslation } from "@/contexts/AppDataProvider";
+import { t } from "@/i18n";
 
-import { scale, moderateScale, tabBarHeight } from "@/constants/scaling";
+import { scale, moderateScale } from "@/constants/scaling";
 import { Colors, AeonikFonts } from "@/constants/theme";
 import { BackButton } from "@/components/back-button";
 import { AppTextStyle } from "@/constants/typography";
@@ -22,25 +22,23 @@ interface AddressOption {
 }
 
 export default function SavedAddressScreen() {
-  const { t } = useTranslation();
-
   const addressOptions: AddressOption[] = [
     {
       id: "home",
       icon: HomeIcon,
-      title: "Add Home",
+      title: t("address.addHome"),
       route: "/profile/saved-address/add-address?type=home",
     },
     {
       id: "work",
       icon: WorkIcon,
-      title: "Add Work",
+      title: t("address.addWork"),
       route: "/profile/saved-address/add-address?type=work",
     },
     {
       id: "new",
       icon: LocationAddIcon,
-      title: "Add New",
+      title: t("address.addNew"),
       route: "/profile/saved-address/add-address?type=new",
     },
   ];
@@ -57,7 +55,7 @@ export default function SavedAddressScreen() {
         {/* Header */}
         <View style={styles.header}>
           <BackButton style={styles.backButton} />
-          <Text style={styles.headerTitle}>Saved Address</Text>
+          <Text style={styles.headerTitle}>{t("address.savedAddress")}</Text>
           <View style={styles.placeholder} />
         </View>
 

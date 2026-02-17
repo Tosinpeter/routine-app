@@ -13,6 +13,7 @@ import { moderateScale, scale, verticalScale } from "@/constants/scaling";
 import { AeonikFonts, Colors, Fonts } from "@/constants/theme";
 import { useAppSelector } from "@/store/hooks";
 import { AppTextStyle } from "@/constants/typography";
+import { t } from "@/i18n";
 
 export default function ProductDetailsScreen() {
   const params = useLocalSearchParams();
@@ -51,7 +52,7 @@ export default function ProductDetailsScreen() {
       {/* Header */}
       <View style={styles.header}>
         <BackButton />
-        <Text style={styles.headerTitle}>Product Details</Text>
+        <Text style={styles.headerTitle}>{t("product.details.title")}</Text>
         <View style={{ width: scale(40) }} />
       </View>
 
@@ -75,7 +76,7 @@ export default function ProductDetailsScreen() {
         {/* Description Section */}
         {displayProduct.description && (
           <ExpandableSection
-            title="Description"
+            title={t("product.details.description")}
             icon="information-circle-outline"
             iconColor="#F79009"
             iconBgColor="#FEF0C7"
@@ -89,7 +90,7 @@ export default function ProductDetailsScreen() {
         {/* How to Use Section */}
         {displayProduct.instructions && displayProduct.instructions.length > 0 && (
           <ExpandableSection
-            title="How to Use"
+            title={t("product.details.howToUse")}
             icon="checkmark-circle-outline"
             iconColor="#17B26A"
             iconBgColor="#D1FADF"
@@ -105,10 +106,10 @@ export default function ProductDetailsScreen() {
                     resizeMode="cover"
                   />
                   <View style={styles.beforeBadge}>
-                    <Text style={styles.badgeText}>Before</Text>
+                    <Text style={styles.badgeText}>{t("product.details.before")}</Text>
                   </View>
                   <View style={styles.afterBadge}>
-                    <Text style={styles.badgeText}>After</Text>
+                    <Text style={styles.badgeText}>{t("product.details.after")}</Text>
                   </View>
                   {/* Play Button Overlay */}
                   <View style={styles.playButtonOverlay}>
@@ -138,7 +139,7 @@ export default function ProductDetailsScreen() {
         {/* Product Details Section */}
         {displayProduct.details && displayProduct.details.length > 0 && (
           <ExpandableSection
-            title="Product Details"
+            title={t("product.details.productDetails")}
             icon="cube-outline"
             iconColor="#7C3AED"
             iconBgColor="#F4F3FF"
@@ -157,7 +158,7 @@ export default function ProductDetailsScreen() {
         {/* Doctor's Notes */}
         {displayProduct.doctorNotes && (
           <InfoCard
-            title="Doctor's Notes"
+            title={t("product.details.doctorNotes")}
             icon="document-text-outline"
             iconColor="#079455"
             backgroundColor="#ECFDF3"
@@ -173,7 +174,7 @@ export default function ProductDetailsScreen() {
         {/* Important Warnings */}
         {displayProduct.warnings && displayProduct.warnings.length > 0 && (
           <InfoCard
-            title="Important Warnings"
+            title={t("product.details.importantWarnings")}
             icon="warning-outline"
             iconColor="#F04438"
             backgroundColor="#FEF3F2"

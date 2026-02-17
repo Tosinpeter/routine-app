@@ -18,6 +18,7 @@ import { PrimaryButton } from "@/components/primary-button";
 import { moderateScale, scale, verticalScale } from "@/constants/scaling";
 import { AeonikFonts, Colors } from "@/constants/theme";
 import { AppTextStyle } from "@/constants/typography";
+import { t } from "@/i18n";
 
 export default function CheckoutSummaryScreen() {
   const params = useLocalSearchParams();
@@ -79,7 +80,7 @@ export default function CheckoutSummaryScreen() {
       {/* Header */}
       <View style={styles.header}>
         <BackButton />
-        <Text style={styles.headerTitle}>Checkout</Text>
+        <Text style={styles.headerTitle}>{t("payment.checkout.title")}</Text>
         <View style={{ width: scale(40) }} />
       </View>
 
@@ -91,7 +92,7 @@ export default function CheckoutSummaryScreen() {
         {/* Delivery Address Section */}
         <View style={styles.sectionContainer}>
           <View style={styles.sectionHeader}>
-            <Text style={styles.sectionTitle}>Delivery Address</Text>
+            <Text style={styles.sectionTitle}>{t("payment.summary.deliveryAddress")}</Text>
             <TouchableOpacity
               onPress={handleEditAddress}
               activeOpacity={0.7}
@@ -120,7 +121,7 @@ export default function CheckoutSummaryScreen() {
                   latitude: addressCoordinates.latitude,
                   longitude: addressCoordinates.longitude,
                 }}
-                title="Delivery Address"
+                title={t("payment.summary.deliveryAddress")}
                 description={fullAddress || "4140 Parker Rd. Allentown, New Mexico 31134"}
               />
             </MapView>
@@ -143,11 +144,11 @@ export default function CheckoutSummaryScreen() {
 
         {/* Payment Section */}
         <View style={styles.sectionContainer}>
-          <Text style={styles.sectionTitle}>Payment</Text>
+          <Text style={styles.sectionTitle}>{t("payment.summary.payment")}</Text>
 
           {/* Pay with Card */}
           <View style={styles.paymentCard}>
-            <Text style={styles.payWithLabel}>Pay with</Text>
+            <Text style={styles.payWithLabel}>{t("payment.summary.payWith")}</Text>
             <View style={styles.cardInfoContainer}>
               <View style={styles.cardBrandContainer}>
                 <View style={styles.mastercardLogo}>
@@ -161,7 +162,7 @@ export default function CheckoutSummaryScreen() {
                 onPress={handleChangePayment}
                 activeOpacity={0.7}
               >
-                <Text style={styles.changeButtonText}>Change</Text>
+                <Text style={styles.changeButtonText}>{t("common.change")}</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -169,13 +170,13 @@ export default function CheckoutSummaryScreen() {
 
         {/* Order Summary Section */}
         <View style={styles.sectionContainer}>
-          <Text style={styles.sectionTitle}>Order Summary</Text>
+          <Text style={styles.sectionTitle}>{t("payment.summary.orderSummary")}</Text>
 
           {/* Discount Code Input */}
           <View style={styles.discountContainer}>
             <TextInput
               style={styles.discountInput}
-              placeholder="Discount code"
+              placeholder={t("payment.summary.discountCode")}
               placeholderTextColor={Colors.light.grey500}
               value={discountCode}
               onChangeText={setDiscountCode}
@@ -185,24 +186,24 @@ export default function CheckoutSummaryScreen() {
               onPress={handleApplyDiscount}
               activeOpacity={0.7}
             >
-              <Text style={styles.applyButtonText}>Apply</Text>
+              <Text style={styles.applyButtonText}>{t("common.apply")}</Text>
             </TouchableOpacity>
           </View>
 
           {/* Cost Breakdown */}
           <View style={styles.costBreakdown}>
             <View style={styles.costRow}>
-              <Text style={styles.costLabel}>Shipment Cost:</Text>
+              <Text style={styles.costLabel}>{t("payment.checkout.shipmentCost")}</Text>
               <Text style={styles.costValue}>$200.00</Text>
             </View>
 
             <View style={styles.costRow}>
-              <Text style={styles.costLabel}>Insurance:</Text>
+              <Text style={styles.costLabel}>{t("payment.checkout.insurance")}</Text>
               <Text style={styles.costValue}>$50.00</Text>
             </View>
 
             <View style={styles.costRow}>
-              <Text style={styles.costLabel}>Total Payment:</Text>
+              <Text style={styles.costLabel}>{t("payment.checkout.totalPayment")}</Text>
               <Text style={styles.costValue}>$250.00</Text>
             </View>
           </View>
@@ -210,7 +211,7 @@ export default function CheckoutSummaryScreen() {
 
         {/* Total Section */}
         <View style={styles.totalContainer}>
-          <Text style={styles.totalLabel}>Total:</Text>
+          <Text style={styles.totalLabel}>{t("payment.checkout.total")}</Text>
           <Text style={styles.totalValue}>$200.00</Text>
         </View>
 
@@ -220,7 +221,7 @@ export default function CheckoutSummaryScreen() {
 
       {/* Bottom Button */}
       <View style={styles.bottomButtonContainer}>
-        <PrimaryButton title="Confirm" onPress={handleConfirm} />
+        <PrimaryButton title={t("common.confirm")} onPress={handleConfirm} />
       </View>
     </SafeAreaView>
   );

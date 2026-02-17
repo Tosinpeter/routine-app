@@ -5,6 +5,7 @@ import { AppText as Text } from "@/components/app-text";
 import { scale, moderateScale } from "@/constants/scaling";
 import { AeonikFonts, Colors } from "@/constants/theme";
 import { AppTextStyle } from "@/constants/typography";
+import { t } from "@/i18n";
 
 interface ProfileHeaderProps {
   name: string;
@@ -26,7 +27,7 @@ export function ProfileHeader({ name, age, profileImage }: ProfileHeaderProps) {
       </View>
       <View style={styles.textContainer}>
         <Text style={styles.name}>{name}</Text>
-        <Text style={styles.age}>{age} years old</Text>
+        <Text style={styles.age}>{t("profile.yearsOld", { age: age })}</Text>
       </View>
     </View>
   );

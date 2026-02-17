@@ -15,6 +15,7 @@ import { PrimaryButton } from "@/components/primary-button";
 import { scale, verticalScale } from "@/constants/scaling";
 import { AeonikFonts, Colors } from "@/constants/theme";
 import { AppTextStyle } from "@/constants/typography";
+import { t } from "@/i18n";
 
 export default function QuizCompleteScreen() {
   const scaleAnim = useRef(new Animated.Value(0)).current;
@@ -85,10 +86,10 @@ export default function QuizCompleteScreen() {
 
               {/* Text Content */}
               <View style={styles.textContent}>
-                <Text style={styles.headline}>That's it — we've got what we need.</Text>
+                <Text style={styles.headline}>{t("quiz.complete.title")}</Text>
 
                 <Text style={styles.subtitle}>
-                  Now let's build your routine — step by step.
+                  {t("quiz.complete.subtitle")}
                 </Text>
               </View>
             </View>
@@ -101,7 +102,7 @@ export default function QuizCompleteScreen() {
               ]}
             >
               <PrimaryButton
-                title="Generate Product"
+                title={t("quiz.complete.generateButton")}
                 onPress={handleContinue}
                 withShadow
               />

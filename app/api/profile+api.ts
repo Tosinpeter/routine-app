@@ -98,7 +98,7 @@ export async function GET(request: Request) {
 export async function PATCH(request: Request) {
   try {
     const body = await request.json();
-    const { userId, ...updates } = body;
+    const { userId: _userId, ...updates } = body;
 
     // Validate that at least one field is being updated
     if (Object.keys(updates).length === 0) {
@@ -127,7 +127,7 @@ export async function PATCH(request: Request) {
       message: 'Profile updated successfully',
       data: mockProfileData,
     });
-  } catch (error) {
+  } catch (_error) {
     return Response.json(
       {
         success: false,
@@ -146,7 +146,7 @@ export async function PATCH(request: Request) {
 export async function PUT(request: Request) {
   try {
     const body = await request.json();
-    const { userId, ...profileData } = body;
+    const { userId: _userId, ...profileData } = body;
 
     // Validate required fields
     if (!profileData.name || !profileData.gender) {
@@ -175,7 +175,7 @@ export async function PUT(request: Request) {
       message: 'Profile updated successfully',
       data: mockProfileData,
     });
-  } catch (error) {
+  } catch (_error) {
     return Response.json(
       {
         success: false,

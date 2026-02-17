@@ -1,14 +1,15 @@
 import React from "react";
-import { StyleSheet, View, ImageBackground, Image } from "react-native";
+import { StyleSheet, View, ImageBackground } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { AppText as Text } from "@/components/app-text";
 import { Colors, Fonts } from "@/constants/theme";
 import { scale, verticalScale } from "@/constants/scaling";
+import { t } from "@/i18n";
 
 export function ProgressBeforeAfterCard() {
     return (
         <View style={styles.wrapper}>
-            <Text style={styles.headerTitle}>Your Progress</Text>
+            <Text style={styles.headerTitle}>{t("home.progress.title")}</Text>
 
             <View style={styles.card}>
                 {/* Main Image Background - Need to simulate split face or use placeholder */}

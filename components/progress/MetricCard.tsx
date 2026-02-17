@@ -3,7 +3,6 @@ import { StyleSheet, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 import { AppText as Text } from '@/components/app-text';
-import { Fonts } from '@/constants/theme';
 import { scale } from '@/constants/scaling';
 
 interface Trend {

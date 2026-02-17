@@ -78,6 +78,7 @@ export default function LanguageScreen() {
     if (matchedLang) {
       setSelectedLanguage(matchedLang.id);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentLanguage]);
 
   const handleSelectLanguage = async (languageId: string) => {

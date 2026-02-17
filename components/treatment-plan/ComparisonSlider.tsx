@@ -3,11 +3,13 @@ import { Colors, Fonts } from '@/constants/theme';
 import { Ionicons } from '@expo/vector-icons';
 import React, { useState } from 'react';
 import { Image, ImageSourcePropType, LayoutChangeEvent, StyleSheet, View } from 'react-native';
+import { AppText as Text } from '@/components/app-text';
 import { Gesture, GestureDetector, GestureHandlerRootView } from 'react-native-gesture-handler';
 import Animated, {
     useAnimatedStyle,
     useSharedValue
 } from 'react-native-reanimated';
+import { t } from "@/i18n";
 
 interface ComparisonSliderProps {
     beforeImage: ImageSourcePropType;
@@ -82,10 +84,10 @@ export function ComparisonSlider({
                     {/* Labels */}
                     <View style={styles.labelsContainer}>
                         <View style={styles.labelChip}>
-                            <Text style={styles.labelText}>without product</Text>
+                            <Text style={styles.labelText}>{t("treatmentPlan.comparison.withoutProduct")}</Text>
                         </View>
                         <View style={styles.labelChip}>
-                            <Text style={styles.labelText}>With Product</Text>
+                            <Text style={styles.labelText}>{t("treatmentPlan.comparison.withProduct")}</Text>
                         </View>
                     </View>
 
@@ -94,8 +96,6 @@ export function ComparisonSlider({
         </GestureHandlerRootView>
     );
 }
-
-import { AppText as Text } from '@/components/app-text';
 
 const styles = StyleSheet.create({
     container: {

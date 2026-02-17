@@ -3,6 +3,7 @@ import { StyleSheet, View, Image, ScrollView, NativeSyntheticEvent, NativeScroll
 import { AppText as Text } from "@/components/app-text";
 import { Colors } from "@/constants/theme";
 import { moderateScale, scale, verticalScale } from "@/constants/scaling";
+import { t } from "@/i18n";
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 const CARD_GAP = scale(12); // Gap between cards
@@ -15,29 +16,31 @@ interface Slide {
     imageSource: any;
 }
 
-const slides: Slide[] = [
-    {
-        id: 1,
-        badge: 'Free',
-        title: 'Dermatologist Support',
-        description: 'Our top dermatologist adjust your plan when needed for free',
-        imageSource: require('@/assets/images/doctor.png'),
-    },
-    {
-        id: 2,
-        badge: '24/7',
-        title: 'Expert Consultation',
-        description: 'Get professional skincare advice anytime, anywhere from certified experts',
-        imageSource: require('@/assets/images/doctor.png'),
-    },
-    {
-        id: 3,
-        badge: 'Premium',
-        title: 'Personalized Care',
-        description: 'Customized treatment plans tailored to your unique skin needs',
-        imageSource: require('@/assets/images/doctor.png'),
-    },
-];
+function getSlides(): Slide[] {
+    return [
+        {
+            id: 1,
+            badge: t("home.dermatologistSupport.badgeFree"),
+            title: t("home.dermatologistSupport.title"),
+            description: t("home.dermatologistSupport.description"),
+            imageSource: require('@/assets/images/doctor.png'),
+        },
+        {
+            id: 2,
+            badge: t("home.dermatologistSupport.badge247"),
+            title: t("home.dermatologistSupport.titleExpert"),
+            description: t("home.dermatologistSupport.descriptionExpert"),
+            imageSource: require('@/assets/images/doctor.png'),
+        },
+        {
+            id: 3,
+            badge: t("home.dermatologistSupport.badgePremium"),
+            title: t("home.dermatologistSupport.titlePersonalized"),
+            description: t("home.dermatologistSupport.descriptionPersonalized"),
+            imageSource: require('@/assets/images/doctor.png'),
+        },
+    ];
+}
 
 export function DermatologistSupportCard() {
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -64,7 +67,7 @@ export function DermatologistSupportCard() {
                 snapToAlignment="start"
                 contentContainerStyle={styles.scrollContent}
             >
-                {slides.map((slide) => (
+                {getSlides().map((slide) => (
                     <View
                         key={slide.id}
                         style={styles.container}
@@ -88,7 +91,7 @@ export function DermatologistSupportCard() {
 
                             {/* Pagination Dots */}
                             <View style={styles.pagination}>
-                                {slides.map((_, index) => (
+                                {getSlides().map((_, index) => (
                                     <View
                                         key={index}
                                         style={[

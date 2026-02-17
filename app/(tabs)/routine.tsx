@@ -31,6 +31,7 @@ import {
   toggleProductCompletion,
 } from "@/store/slices/home-slice";
 import type { RoutineStep } from "@/store/slices/home-slice";
+import { t } from "@/i18n";
 
 const DAYS = [1, 2, 3, 4, 5, 6, 7];
 
@@ -51,12 +52,13 @@ export default function RoutineScreen() {
   );
 
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [_error, setError] = useState<string | null>(null);
   const [routineSteps, setRoutineSteps] = useState<RoutineStep[]>(storeRoutineSteps);
   const [userName, setUserName] = useState(storeUserName);
 
   useEffect(() => {
     fetchRoutineData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedDay, timeOfDay]);
 
   const fetchRoutineData = async () => {
@@ -79,7 +81,7 @@ export default function RoutineScreen() {
         setUserName(data.data.userName);
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : "An error occurred");
+      setError(err instanceof Error ? err.message : t("routine.error.generic"));
       // Fallback to store data on error
       setRoutineSteps(storeRoutineSteps);
       setUserName(storeUserName);
@@ -90,9 +92,9 @@ export default function RoutineScreen() {
 
   const getGreeting = () => {
     const hour = new Date().getHours();
-    if (hour < 12) return "Morning";
-    if (hour < 17) return "Afternoon";
-    return "Evening";
+    if (hour < 12) return t("home.greetings.morning");
+    if (hour < 17) return t("home.greetings.afternoon");
+    return t("home.greetings.evening");
   };
 
   return (
@@ -137,7 +139,7 @@ export default function RoutineScreen() {
                       selectedDay === day && styles.dayLabelSelected,
                     ]}
                   >
-                    Day
+                    {t("home.daySelector.day")}
                   </Text>
                   <Text
                     style={[
@@ -154,13 +156,13 @@ export default function RoutineScreen() {
             {/* Time of Day Toggle */}
             <View style={styles.timeToggleContainer}>
               <TimeToggleButton
-                label="Morning"
+                label={t("home.timeToggle.morning")}
                 icon="sunny-outline"
                 isActive={timeOfDay === "morning"}
                 onPress={() => dispatch(setTimeOfDay("morning"))}
               />
               <TimeToggleButton
-                label="Evening"
+                label={t("home.timeToggle.evening")}
                 icon="moon-outline"
                 isActive={timeOfDay === "evening"}
                 onPress={() => dispatch(setTimeOfDay("evening"))}

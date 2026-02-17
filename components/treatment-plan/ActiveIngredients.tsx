@@ -3,18 +3,21 @@ import { scale, verticalScale } from '@/constants/scaling';
 import { Fonts } from '@/constants/theme';
 import React from 'react';
 import { Image, StyleSheet, View } from 'react-native';
+import { t } from "@/i18n";
 
-const ingredients = [
-    'Tretinoin',
-    'Clindamycin',
-    'Azelaic acid',
-];
+function getIngredients() {
+    return [
+        t("treatmentPlan.activeIngredients.tretinoin"),
+        t("treatmentPlan.activeIngredients.clindamycin"),
+        t("treatmentPlan.activeIngredients.azelaicAcid"),
+    ];
+}
 
 export function ActiveIngredients() {
     return (
         <View style={styles.card}>
             <View style={styles.list}>
-                {ingredients.map((item, index) => (
+                {getIngredients().map((item, index) => (
                     <View key={index} style={styles.item}>
                         <View style={styles.iconCircle}>
                             <Image

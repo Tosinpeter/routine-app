@@ -32,10 +32,10 @@ interface ProgressData {
     currentStreak: number;
     longestStreak: number;
     completionRate: number;
-    weeklyData: Array<{
+    weeklyData: {
       day: string;
       completed: boolean;
-    }>;
+    }[];
   };
 }
 
@@ -202,7 +202,7 @@ export async function POST(request: Request) {
       message: 'Progress updated successfully',
       data: updatedProgress,
     });
-  } catch (error) {
+  } catch (_error) {
     return Response.json(
       {
         success: false,

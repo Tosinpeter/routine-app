@@ -4,14 +4,14 @@ import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { AppText as Text } from "@/components/app-text";
 import { Colors, Fonts } from "@/constants/theme";
 import { scale, verticalScale } from "@/constants/scaling";
+import { t } from "@/i18n";
 
 export function UploadPrescriptionCard() {
     return (
         <View style={styles.card}>
-            <Text style={styles.title}>Upload Your Prescription</Text>
+            <Text style={styles.title}>{t("home.uploadPrescription.title")}</Text>
             <Text style={styles.description}>
-                Upload lab tests, medical reports, or ID/Insurance if needed. Files must
-                be clear and readable.
+                {t("home.uploadPrescription.description")}
             </Text>
 
             <TouchableOpacity style={styles.uploadButton} activeOpacity={0.8}>
@@ -21,7 +21,7 @@ export function UploadPrescriptionCard() {
                         size={scale(16)}
                         color={Colors.light.grey600}
                     />
-                    <Text style={styles.buttonText}>Select File</Text>
+                    <Text style={styles.buttonText}>{t("home.uploadPrescription.selectFile")}</Text>
                 </View>
             </TouchableOpacity>
         </View>

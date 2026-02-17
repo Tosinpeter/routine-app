@@ -17,6 +17,7 @@ import { PrimaryButton } from "@/components/primary-button";
 import { moderateScale, scale, verticalScale } from "@/constants/scaling";
 import { AeonikFonts, Colors } from "@/constants/theme";
 import { AppTextStyle } from "@/constants/typography";
+import { t } from "@/i18n";
 
 type DeliveryMethod = "delivery" | "pickup";
 
@@ -38,7 +39,7 @@ export default function CheckoutScreen() {
       {/* Header */}
       <View style={styles.header}>
         <BackButton />
-        <Text style={styles.headerTitle}>Checkout</Text>
+        <Text style={styles.headerTitle}>{t("payment.checkout.title")}</Text>
         <View style={{ width: scale(40) }} />
       </View>
 
@@ -48,7 +49,7 @@ export default function CheckoutScreen() {
         showsVerticalScrollIndicator={false}
       >
         {/* Your Added Section */}
-        <Text style={styles.addedText}>Your Added (4)</Text>
+        <Text style={styles.addedText}>{t("payment.checkout.yourAdded", { count: 4 })}</Text>
 
         {/* Illustration */}
         <View style={styles.illustrationContainer}>
@@ -62,7 +63,7 @@ export default function CheckoutScreen() {
 
         {/* Description */}
         <Text style={styles.descriptionText}>
-          All your recommendations product. How many products and brands name
+          {t("payment.checkout.description")}
         </Text>
 
         {/* Delivery Method Toggle */}
@@ -82,7 +83,7 @@ export default function CheckoutScreen() {
                   deliveryMethod === "delivery" && styles.deliveryOptionTextActive,
                 ]}
               >
-                Delivery
+                {t("payment.checkout.delivery")}
               </Text>
             </TouchableOpacity>
 
@@ -100,7 +101,7 @@ export default function CheckoutScreen() {
                   deliveryMethod === "pickup" && styles.deliveryOptionTextActive,
                 ]}
               >
-                Pickup
+                {t("payment.checkout.pickup")}
               </Text>
             </TouchableOpacity>
           </View>
@@ -124,7 +125,7 @@ export default function CheckoutScreen() {
                 contentPosition="center"
               />
             </View>
-            <Text style={styles.couponText}>Apply Coupon</Text>
+            <Text style={styles.couponText}>{t("payment.checkout.applyCoupon")}</Text>
           </View>
           <Ionicons
             name="chevron-forward"
@@ -136,24 +137,24 @@ export default function CheckoutScreen() {
         {/* Cost Breakdown */}
         <View style={styles.costBreakdownContainer}>
           <View style={styles.costRow}>
-            <Text style={styles.costLabel}>Shipment Cost:</Text>
+            <Text style={styles.costLabel}>{t("payment.checkout.shipmentCost")}</Text>
             <Text style={styles.costValue}>$200.00</Text>
           </View>
 
           <View style={styles.costRow}>
-            <Text style={styles.costLabel}>Insurance:</Text>
+            <Text style={styles.costLabel}>{t("payment.checkout.insurance")}</Text>
             <Text style={styles.costValue}>$50.00</Text>
           </View>
 
           <View style={styles.costRow}>
-            <Text style={styles.costLabel}>Total Payment:</Text>
+            <Text style={styles.costLabel}>{t("payment.checkout.totalPayment")}</Text>
             <Text style={styles.costValue}>$250.00</Text>
           </View>
 
           <View style={styles.divider} />
 
           <View style={styles.costRow}>
-            <Text style={styles.totalLabel}>Total:</Text>
+            <Text style={styles.totalLabel}>{t("payment.checkout.total")}</Text>
             <Text style={styles.totalValue}>$200.00</Text>
           </View>
         </View>
@@ -165,7 +166,7 @@ export default function CheckoutScreen() {
       {/* Bottom Button */}
       <View style={styles.bottomButtonContainer}>
         <PrimaryButton
-          title="Continue to Purchase"
+          title={t("payment.checkout.continueButton")}
           onPress={handleContinueToPurchase}
         />
       </View>
@@ -320,5 +321,3 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.light.scaffold,
   },
 });
-
-

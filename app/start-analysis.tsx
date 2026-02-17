@@ -1,22 +1,21 @@
 import { router } from "expo-router";
 import React from "react";
 import {
-    StatusBar,
     StyleSheet,
     View
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 
 import { AppText as Text } from "@/components/app-text";
 import { PrimaryButton } from "@/components/primary-button";
-import { moderateScale, scale, SCREEN_WIDTH, tabBarHeight, verticalScale } from "@/constants/scaling";
+import { moderateScale, scale, SCREEN_WIDTH, verticalScale } from "@/constants/scaling";
 import { AeonikFonts, Colors } from "@/constants/theme";
 import { AppTextStyle } from "@/constants/typography";
 import { ThemedView } from "@/components/themed-view";
 import { FaceIcon } from "@/components/icons";
+import { t } from "@/i18n";
 
 export default function StartAnalysisScreen() {
     const handleContinue = () => {
@@ -35,15 +34,15 @@ export default function StartAnalysisScreen() {
             />
             
             <View style={styles.content}>
-                <Text style={styles.title}>{"Analyze your\nskin now."}</Text>
+                <Text style={styles.title}>{t("startAnalysis.title")}</Text>
 
                 <PrimaryButton
-                    title="Start Analysis"
+                    title={t("startAnalysis.button")}
                     icon={<FaceIcon color="#FFFFFF"/>}
                     onPress={handleContinue}
                 />
 
-                <Text style={styles.brand}>{"Powered by Gloord"}</Text>
+                <Text style={styles.brand}>{t("startAnalysis.brand")}</Text>
             </View>
         </ThemedView>
     );

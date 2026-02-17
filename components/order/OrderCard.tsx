@@ -5,6 +5,7 @@ import { useRouter } from 'expo-router';
 import React from 'react';
 import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { OrderTimeIcon } from './OrderTimeIcon';
+import { t } from "@/i18n";
 
 interface OrderCardProps {
     title: string;
@@ -24,7 +25,7 @@ export function OrderCard({
     images,
     progress,
     estimatedTime,
-    onViewDetails,
+    onViewDetails: _onViewDetails,
     onReorder,
 }: OrderCardProps) {
     const router = useRouter();
@@ -39,7 +40,7 @@ export function OrderCard({
                     <View style={styles.header}>
                         <View style={styles.productDescription}>
                             <Text style={styles.title}>{title}</Text>
-                            <Text style={styles.subtitle}>{productCount} Product Included</Text>
+                            <Text style={styles.subtitle}>{t("order.details.productIncluded", { count: productCount })}</Text>
                         </View>
                         <View style={[styles.statusContainer, isActive ? styles.statusActive : styles.statusCompleted]}>
                             <Text style={[styles.statusText, isActive ? styles.statusTextActive : styles.statusTextCompleted]}>
@@ -77,10 +78,10 @@ export function OrderCard({
                     {/* CTAs */}
                     <View style={styles.ctaContainer}>
                         <TouchableOpacity style={styles.secondaryCTA} onPress={() => router.push('/order/details')} activeOpacity={0.8}>
-                            <Text style={styles.ctaLabelSecondary}>View Details</Text>
+                            <Text style={styles.ctaLabelSecondary}>{t("order.viewDetails")}</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.primaryCTA} onPress={onReorder} activeOpacity={0.8}>
-                            <Text style={styles.ctaLabelPrimary}>Reorder</Text>
+                            <Text style={styles.ctaLabelPrimary}>{t("order.reorder")}</Text>
                         </TouchableOpacity>
                     </View>
                 </View>

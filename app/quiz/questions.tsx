@@ -15,6 +15,7 @@ import { PrimaryButton } from "@/components/primary-button";
 import { AeonikFonts, Colors } from "@/constants/theme";
 import { scale, verticalScale } from "@/constants/scaling";
 import { AppTextStyle } from "@/constants/typography";
+import { t } from "@/i18n";
 import {
   QuizCardSelection,
   QuizListSelection,
@@ -34,30 +35,30 @@ interface QuizQuestion {
   }[];
 }
 
-const QUIZ_QUESTIONS: QuizQuestion[] = [
+const getQuizQuestions = (): QuizQuestion[] => [
   {
     id: 1,
     type: "card" as const,
-    question: "Select the correct image",
+    question: t("quiz.questions.q1.question"),
     options: [
       {
         id: "smooth",
-        label: "Smooth & Even",
+        label: t("quiz.questions.q1.option1"),
         imageSource: require("@/assets/images/OptionImage.png"),
       },
       {
         id: "oily",
-        label: "Oily in T-zone",
+        label: t("quiz.questions.q1.option2"),
         imageSource: require("@/assets/images/OptionImage2.png"),
       },
       {
         id: "redness",
-        label: "Redness",
+        label: t("quiz.questions.q1.option3"),
         imageSource: require("@/assets/images/OptionImage3.png"),
       },
       {
         id: "breakouts",
-        label: "Breakouts",
+        label: t("quiz.questions.q1.option4"),
         imageSource: require("@/assets/images/OptionImage4.png"),
       },
     ],
@@ -65,27 +66,27 @@ const QUIZ_QUESTIONS: QuizQuestion[] = [
   {
     id: 2,
     type: "list" as const,
-    question: "Before we send your\nskincare items, please\nanswer:",
+    question: t("quiz.questions.q2.question"),
     useCloseButton: true,
     options: [
       {
         id: "no-issues",
-        label: "I have no known medical issues.",
+        label: t("quiz.questions.q2.option1"),
         imageSource: require("@/assets/images/OptionImageu.png"),
       },
       {
         id: "kidney",
-        label: "I have kidney-related issues.",
+        label: t("quiz.questions.q2.option2"),
         imageSource: require("@/assets/images/OptionImageh.png"),
       },
       {
         id: "pregnant",
-        label: "I am pregnant or breastfeeding.",
+        label: t("quiz.questions.q2.option3"),
         imageSource: require("@/assets/images/OptionImagell.png"),
       },
       {
         id: "allergies",
-        label: "I have allergies to certain ingredients.",
+        label: t("quiz.questions.q2.option4"),
         imageSource: require("@/assets/images/OptionImagepp.png"),
       },
     ],
@@ -96,6 +97,7 @@ export default function QuizQuestionsScreen() {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState<Record<number, string>>({});
 
+  const QUIZ_QUESTIONS = getQuizQuestions();
   const currentQuestion = QUIZ_QUESTIONS[currentQuestionIndex];
   const totalQuestions = QUIZ_QUESTIONS.length;
   const progress = ((currentQuestionIndex + 1) / totalQuestions) * 100;
@@ -173,7 +175,7 @@ export default function QuizQuestionsScreen() {
         {/* Continue Button */}
         <View style={styles.buttonContainer}>
           <PrimaryButton
-            title="Continue"
+            title={t("common.continue")}
             onPress={handleContinue}
             disabled={!isAnswered}
           />

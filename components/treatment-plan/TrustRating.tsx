@@ -5,6 +5,7 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { StarIcon } from './icons/StarIcon';
 import { TrustBadge } from './icons/TrustBadge';
+import { t } from "@/i18n";
 // ... styles update needed, skipping replacement of imports. 
 // I will target styles directly.
 
@@ -15,7 +16,7 @@ const TrustCard = () => (
             <TrustBadge width={32} height={32} />
         </View>
         <Text style={styles.trustText}>
-            we are using 100% certified famous and best brand that will perfectly fit your skin
+            {t("treatmentPlan.trust.trustText")}
         </Text>
     </View>
 );
@@ -32,12 +33,12 @@ const RatingCard = () => (
         <View style={styles.ratingTextGroup}>
             {/* Rating Row: 4.9/5 by 12,000+ users */}
             <View style={styles.ratingRow}>
-                <Text style={styles.ratingValue}>4.9/5</Text>
-                <Text style={styles.userCount}>by 12,000+ users</Text>
+                <Text style={styles.ratingValue}>{t("treatmentPlan.trust.ratingValue")}</Text>
+                <Text style={styles.userCount}>{t("treatmentPlan.trust.userCount")}</Text>
             </View>
 
             {/* Description */}
-            <Text style={styles.ratingDescription}>Visible improvements in just weeks.</Text>
+            <Text style={styles.ratingDescription}>{t("treatmentPlan.trust.ratingDescription")}</Text>
         </View>
     </View>
 );

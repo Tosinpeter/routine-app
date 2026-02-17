@@ -26,7 +26,7 @@ export function QuizListSelection({
     <View style={styles.container}>
       {options.map((option, index) => {
         const isSelected = selectedOption === option.id;
-        const isLast = index === options.length - 1;
+        const _isLast = index === options.length - 1;
 
         return (
           <React.Fragment key={option.id}>

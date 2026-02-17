@@ -39,6 +39,7 @@ export function GradientProgressRing({
       duration: 1000,
       easing: Easing.out(Easing.cubic),
     });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [progress]);
 
   const animatedProps = useAnimatedProps(() => ({

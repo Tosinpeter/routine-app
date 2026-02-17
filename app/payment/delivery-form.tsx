@@ -16,9 +16,10 @@ import { PrimaryButton } from "@/components/primary-button";
 import { moderateScale, scale, verticalScale } from "@/constants/scaling";
 import { AeonikFonts, Colors } from "@/constants/theme";
 import { AppTextStyle } from "@/constants/typography";
+import { t } from "@/i18n";
 
 export default function DeliveryFormScreen() {
-  const [email, setEmail] = useState("example@gmail.com");
+  const [email, _setEmail] = useState("example@gmail.com");
   const [signUpForNews, setSignUpForNews] = useState(false);
   const [showCountryPicker, setShowCountryPicker] = useState(false);
   const [showPhoneCountryPicker, setShowPhoneCountryPicker] = useState(false);
@@ -31,14 +32,14 @@ export default function DeliveryFormScreen() {
   const [address, setAddress] = useState("");
   const [apartment, setApartment] = useState("");
   const [city, setCity] = useState("");
-  const [county, setCounty] = useState("");
+  const [county, _setCounty] = useState("");
   const [postalCode, setPostalCode] = useState("");
   const [phone, setPhone] = useState("6 84562056");
 
   const handlePlaceOrder = () => {
     // Validate required fields
     if (!firstName || !formEmail || !address || !city || !postalCode) {
-      alert("Please fill in all required fields");
+      alert(t("payment.delivery.fillRequired"));
       return;
     }
 
@@ -70,7 +71,7 @@ export default function DeliveryFormScreen() {
         {/* Header with Logo and Email */}
         <View style={styles.headerSection}>
           <View style={styles.logoContainer}>
-            <Text style={styles.logoText}>Gloord</Text>
+            <Text style={styles.logoText}>{t("common.brandName")}</Text>
             <View style={styles.logoDot} />
 
             <View style={styles.emailMenuContainer}>
@@ -96,16 +97,16 @@ export default function DeliveryFormScreen() {
             )}
           </View>
           <Text style={styles.checkboxLabel}>
-            Sign me up for news and offers from this store
+            {t("payment.delivery.signUpNews")}
           </Text>
         </TouchableOpacity>
 
         {/* Delivery Section */}
-        <Text style={styles.sectionTitle}>Delivery</Text>
+        <Text style={styles.sectionTitle}>{t("payment.delivery.title")}</Text>
 
         {/* Country/Region Dropdown */}
         <View style={styles.inputContainer}>
-          <Text style={styles.inputLabel}>Country/Region</Text>
+          <Text style={styles.inputLabel}>{t("payment.delivery.countryRegion")}</Text>
           <TouchableOpacity
             style={styles.dropdownInput}
             activeOpacity={0.7}
@@ -124,7 +125,7 @@ export default function DeliveryFormScreen() {
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.textInput}
-            placeholder="First name"
+            placeholder={t("payment.delivery.firstName")}
             placeholderTextColor={Colors.light.grey500}
             value={firstName}
             onChangeText={setFirstName}
@@ -135,7 +136,7 @@ export default function DeliveryFormScreen() {
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.textInput}
-            placeholder="Email"
+            placeholder={t("payment.delivery.email")}
             placeholderTextColor={Colors.light.grey500}
             value={formEmail}
             onChangeText={setFormEmail}
@@ -148,7 +149,7 @@ export default function DeliveryFormScreen() {
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.textInput}
-            placeholder="Address"
+            placeholder={t("payment.delivery.address")}
             placeholderTextColor={Colors.light.grey500}
             value={address}
             onChangeText={setAddress}
@@ -159,7 +160,7 @@ export default function DeliveryFormScreen() {
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.textInput}
-            placeholder="Apartment, suite, etc. (optional)"
+            placeholder={t("payment.delivery.apartment")}
             placeholderTextColor={Colors.light.grey500}
             value={apartment}
             onChangeText={setApartment}
@@ -170,7 +171,7 @@ export default function DeliveryFormScreen() {
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.textInput}
-            placeholder="City"
+            placeholder={t("payment.delivery.city")}
             placeholderTextColor={Colors.light.grey500}
             value={city}
             onChangeText={setCity}
@@ -179,9 +180,9 @@ export default function DeliveryFormScreen() {
 
         {/* County Dropdown */}
         <View style={styles.inputContainer}>
-          <Text style={styles.inputLabel}>County</Text>
+          <Text style={styles.inputLabel}>{t("payment.delivery.county")}</Text>
           <TouchableOpacity style={styles.dropdownInput} activeOpacity={0.7}>
-            <Text style={styles.dropdownPlaceholder}>County</Text>
+            <Text style={styles.dropdownPlaceholder}>{t("payment.delivery.county")}</Text>
             <Ionicons
               name="chevron-down"
               size={scale(20)}
@@ -194,7 +195,7 @@ export default function DeliveryFormScreen() {
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.textInput}
-            placeholder="Postal code"
+            placeholder={t("payment.delivery.postalCode")}
             placeholderTextColor={Colors.light.grey500}
             value={postalCode}
             onChangeText={setPostalCode}
@@ -204,7 +205,7 @@ export default function DeliveryFormScreen() {
 
         {/* Phone */}
         <View style={styles.inputContainer}>
-          <Text style={styles.inputLabel}>Phone (optional)</Text>
+          <Text style={styles.inputLabel}>{t("payment.delivery.phone")}</Text>
           <View style={styles.phoneInputContainer}>
             <TouchableOpacity
               style={styles.countryCodeButton}
@@ -236,7 +237,7 @@ export default function DeliveryFormScreen() {
 
       {/* Bottom Button */}
       <View style={styles.bottomButtonContainer}>
-        <PrimaryButton title="Place Order" onPress={handlePlaceOrder} />
+        <PrimaryButton title={t("payment.delivery.placeOrder")} onPress={handlePlaceOrder} />
       </View>
 
       {/* Country Picker Modal */}

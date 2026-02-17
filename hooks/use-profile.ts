@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import type { RootState } from '@/store';
 import type { ProfileData } from '@/app/api/profile+api';

@@ -5,7 +5,6 @@ import {
     TouchableOpacity,
     View,
     Alert,
-    Platform,
     ActivityIndicator
 } from "react-native";
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -19,8 +18,8 @@ import { BackButton } from "@/components/back-button";
 import { moderateScale, scale, verticalScale } from "@/constants/scaling";
 import { AeonikFonts, Colors } from "@/constants/theme";
 import { AppTextStyle } from "@/constants/typography";
-import { Ionicons } from "@expo/vector-icons";
 import { WarningIcon } from "@/components/icons/warning-icon";
+import { t } from "@/i18n";
 
 const PDF_URL = "https://ontheline.trincoll.edu/images/bookdown/sample-local-pdf.pdf";
 
@@ -47,22 +46,22 @@ export default function LabTestScreen() {
                 // Share the downloaded file (allows user to save to Files, etc.)
                 await Sharing.shareAsync(downloadedFile.uri, {
                     mimeType: 'application/pdf',
-                    dialogTitle: 'Save Lab Test PDF',
+                    dialogTitle: t("labTest.download.dialogTitle"),
                     UTI: 'com.adobe.pdf'
                 });
             } else {
                 Alert.alert(
-                    "Download Complete",
-                    `PDF saved successfully!`,
-                    [{ text: "OK" }]
+                    t("labTest.download.completeTitle"),
+                    t("labTest.download.completeMessage"),
+                    [{ text: t("common.ok") }]
                 );
             }
         } catch (error) {
             console.error("Error downloading PDF:", error);
             Alert.alert(
-                "Download Failed",
-                "Unable to download the PDF. Please try again.",
-                [{ text: "OK" }]
+                t("labTest.download.failedTitle"),
+                t("labTest.download.failedMessage"),
+                [{ text: t("common.ok") }]
             );
         } finally {
             setIsDownloading(false);
@@ -82,9 +81,9 @@ export default function LabTestScreen() {
                     showsVerticalScrollIndicator={false}
                 >
                     {/* Header */}
-                    <Text style={styles.headerText}>Lab test is ready</Text>
+                    <Text style={styles.headerText}>{t("labTest.title")}</Text>
                     <Text style={styles.subtitleText}>
-                        Download the lab request and{"\n"}bring it to any facility
+                        {t("labTest.subtitle")}
                     </Text>
 
                     {/* Lab Test Card */}
@@ -106,10 +105,10 @@ export default function LabTestScreen() {
                         {isDownloading ? (
                             <View style={styles.downloadButtonContent}>
                                 <ActivityIndicator color={Colors.light.white} size="small" />
-                                <Text style={styles.downloadButtonText}>Downloading...</Text>
+                                <Text style={styles.downloadButtonText}>{t("labTest.downloading")}</Text>
                             </View>
                         ) : (
-                            <Text style={styles.downloadButtonText}>Download PDF</Text>
+                            <Text style={styles.downloadButtonText}>{t("labTest.downloadPdf")}</Text>
                         )}
                     </TouchableOpacity>
 

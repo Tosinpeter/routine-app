@@ -5,6 +5,7 @@ import { HospitalIcon } from "@/components/icons";
 import { AppText as Text } from "@/components/app-text";
 import { Colors } from "@/constants/theme";
 import { scale, verticalScale } from "@/constants/scaling";
+import { t } from "@/i18n";
 
 export function LabReportButton() {
     return (
@@ -12,15 +13,15 @@ export function LabReportButton() {
             style={styles.container}
             activeOpacity={0.8}
             accessibilityRole="button"
-            accessibilityLabel="Show Lab test Report"
-            accessibilityHint="Navigates to the lab test report details"
+            accessibilityLabel={t("home.labReport.accessibilityLabel")}
+            accessibilityHint={t("home.labReport.accessibilityHint")}
         >
             <View style={styles.leftContent}>
                 {/* Home Icon in Circle */}
                 <View style={styles.iconContainer}>
                     <HospitalIcon width={scale(24)} height={scale(24)} color={Colors.light.tint} />
                 </View>
-                <Text style={styles.label}>Show Lab test Report</Text>
+                <Text style={styles.label}>{t("home.labReport.title")}</Text>
             </View>
 
             <View style={styles.rightContent}>

@@ -21,6 +21,7 @@ export const useFetchHome = () => {
 
   useEffect(() => {
     fetchHomeData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const fetchHomeData = async () => {

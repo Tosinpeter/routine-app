@@ -2,8 +2,9 @@ import { LinearGradient } from "expo-linear-gradient";
 import { Image, StyleSheet, View } from "react-native";
 
 import { AppText as Text } from "@/components/app-text";
-import { AeonikFonts, Colors, Fonts } from "@/constants/theme";
-import { moderateScale, scale, verticalScale } from "@/constants/scaling";
+import { AeonikFonts } from "@/constants/theme";
+import { moderateScale, scale } from "@/constants/scaling";
+import { t } from "@/i18n";
 
 export function DermatologyInsightCard() {
     return (
@@ -29,9 +30,9 @@ export function DermatologyInsightCard() {
             {/* Left: 20px, Top: 20px */}
             <View style={styles.textGroup}>
                 <View style={styles.textContent}>
-                    <Text style={styles.title}>Dermatology{"\n"}Insight</Text>
+                    <Text style={styles.title}>{t("home.dermatologyInsight.title")}</Text>
                     <Text style={styles.subtitle}>
-                        Consistency for 28-30 days brings visible results.
+                        {t("home.dermatologyInsight.subtitle")}
                     </Text>
                 </View>
 

@@ -1,10 +1,8 @@
 import { AppText as Text } from '@/components/app-text';
 import { ActiveIngredients } from '@/components/treatment-plan/ActiveIngredients';
 import { BenefitsGrid } from '@/components/treatment-plan/BenefitsGrid';
-import { ComparisonSlider } from '@/components/treatment-plan/ComparisonSlider';
 import { PreparationStatus } from '@/components/treatment-plan/PreparationStatus';
 import { ProtocolSection } from '@/components/treatment-plan/ProtocolSection';
-import { SupportBanner } from '@/components/treatment-plan/SupportBanner';
 import { TrustRating } from '@/components/treatment-plan/TrustRating';
 import { TryAgainButton } from '@/components/treatment-plan/TryAgainButton';
 import { WhatsInsideAccordion } from '@/components/treatment-plan/WhatsInsideAccordion';
@@ -17,6 +15,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Image } from "expo-image";
 import { DermatologistSupportCard } from '@/components/home/DermatologistSupportCard';
+import { t } from "@/i18n";
 
 // Treatment plan slides data
 const TREATMENT_SLIDES = [
@@ -50,9 +49,9 @@ export default function TreatmentPlanScreen() {
             <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
                 {/* Header Section */}
                 <View style={styles.header}>
-                    <Text style={styles.title}>Your Treatment Plan</Text>
-                    <Text style={styles.subtitle}>Build by top dermatology experts</Text>
-                    <Text style={styles.caption}>{"Similar cases from our\nprevious patient"}</Text>
+                    <Text style={styles.title}>{t("treatmentPlan.title")}</Text>
+                    <Text style={styles.subtitle}>{t("treatmentPlan.subtitle")}</Text>
+                    <Text style={styles.caption}>{t("treatmentPlan.caption")}</Text>
                 </View>
 
                 {/* Treatment Plan Slider */}

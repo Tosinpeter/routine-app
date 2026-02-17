@@ -20,7 +20,7 @@ interface UnlockStatus {
 export async function GET(request: ExpoRequest): Promise<ExpoResponse> {
   try {
     const url = new URL(request.url);
-    const userId = url.searchParams.get('userId') || 'user-123';
+    const _userId = url.searchParams.get('userId') || 'user-123';
 
     // Mock data: User started 18 days ago, needs 30 days total
     const startDate = new Date();
@@ -78,7 +78,7 @@ export async function GET(request: ExpoRequest): Promise<ExpoResponse> {
 export async function POST(request: ExpoRequest): Promise<ExpoResponse> {
   try {
     const body = await request.json();
-    const { userId, forceUnlock } = body;
+    const { userId: _userId, forceUnlock } = body;
 
     // Simulate processing
     await new Promise((resolve) => setTimeout(resolve, 300));
@@ -102,7 +102,7 @@ export async function POST(request: ExpoRequest): Promise<ExpoResponse> {
         },
       }
     );
-  } catch (error) {
+  } catch (_error) {
     return ExpoResponse.json(
       {
         success: false,

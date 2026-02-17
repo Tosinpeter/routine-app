@@ -62,7 +62,7 @@ export async function PUT(
       },
       { status: 200 }
     );
-  } catch (error) {
+  } catch (_error) {
     return ExpoResponse.json(
       {
         error: 'Bad Request',

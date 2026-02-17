@@ -7,6 +7,7 @@ import { useRouter } from 'expo-router';
 import React from 'react';
 import { ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { t } from "@/i18n";
 
 export default function OrderDetailsScreen() {
     const router = useRouter();
@@ -23,7 +24,7 @@ export default function OrderDetailsScreen() {
                 <TouchableOpacity style={styles.backButton} onPress={handleBack}>
                     <Ionicons name="arrow-back" size={20} color="#161B26" />
                 </TouchableOpacity>
-                <Text style={styles.headerTitle}>Order History</Text>
+                <Text style={styles.headerTitle}>{t("order.history.title")}</Text>
                 <View style={{ width: 40 }} />
             </View>
 
@@ -32,34 +33,34 @@ export default function OrderDetailsScreen() {
                 {/* Plan Summary */}
                 <View style={styles.planSummary}>
                     <Text style={styles.planTitle}>Acne Control - 30 Day Plan</Text>
-                    <Text style={styles.planSubtitle}>Doctor-approved routine</Text>
+                    <Text style={styles.planSubtitle}>{t("order.details.doctorApproved")}</Text>
                 </View>
 
                 {/* Product List */}
                 <View style={styles.productList}>
                     <ProductItemCard
                         name="Gentle Cleanser"
-                        usage="4 Product Included"
+                        usage={t("order.details.productIncluded", { count: 4 })}
                         image={require('@/assets/images/img_product-image.png')}
-                        status="Active"
+                        status={t("order.status.active")}
                     />
                     <ProductItemCard
                         name="Vitamin C Serum"
-                        usage="Morning Only"
+                        usage={t("order.details.morningOnly")}
                         image={require('@/assets/images/img_product-image.png')}
-                        status="Active"
+                        status={t("order.status.active")}
                     />
                     <ProductItemCard
                         name="Acne Treatment Gel"
-                        usage="Night Only"
+                        usage={t("order.details.nightOnly")}
                         image={require('@/assets/images/img_product-image.png')}
-                        status="Active"
+                        status={t("order.status.active")}
                     />
                     <ProductItemCard
                         name="Acne Treatment Gel" // Duplicate for scrolling check
-                        usage="Morning Only"
+                        usage={t("order.details.morningOnly")}
                         image={require('@/assets/images/img_product-image.png')}
-                        status="Active"
+                        status={t("order.status.active")}
                     />
                 </View>
 

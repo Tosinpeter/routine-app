@@ -1,5 +1,5 @@
 import React from 'react';
-import Svg, { Rect, Path, Circle, G } from 'react-native-svg';
+import Svg, { Rect, Path, Circle } from 'react-native-svg';
 
 interface GalleryPlusIconProps {
   width?: number;

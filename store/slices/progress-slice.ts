@@ -16,10 +16,10 @@ export interface RoutineConsistency {
   currentStreak: number;
   longestStreak: number;
   completionRate: number;
-  weeklyData: Array<{
+  weeklyData: {
     day: string;
     completed: boolean;
-  }>;
+  }[];
 }
 
 export interface ProgressData {

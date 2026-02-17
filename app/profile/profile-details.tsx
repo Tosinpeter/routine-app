@@ -24,6 +24,7 @@ import { Colors, AeonikFonts, Fonts } from "@/constants/theme";
 import { BackButton } from "@/components/back-button";
 import { AppTextStyle } from "@/constants/typography";
 import { useProfile } from "@/hooks/use-profile";
+import { t } from "@/i18n";
 
 interface ProfileFieldProps {
   label: string;
@@ -63,6 +64,7 @@ export default function ProfileDetailsScreen() {
     if (!profile && !isLoading) {
       fetchProfile();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleOpenNameModal = () => {
@@ -90,7 +92,7 @@ export default function ProfileDetailsScreen() {
       <ThemedView style={styles.container}>
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color={Colors.light.tint} />
-          <Text style={styles.loadingText}>Loading profile...</Text>
+          <Text style={styles.loadingText}>{t("profileDetails.loading")}</Text>
         </View>
       </ThemedView>
     );
@@ -106,10 +108,10 @@ export default function ProfileDetailsScreen() {
             size={scale(48)}
             color="#DC2626"
           />
-          <Text style={styles.errorTitle}>Failed to Load Profile</Text>
+          <Text style={styles.errorTitle}>{t("profileDetails.error.title")}</Text>
           <Text style={styles.errorMessage}>{error}</Text>
           <PrimaryButton
-            title="Retry"
+            title={t("common.retry")}
             onPress={() => fetchProfile()}
             style={styles.retryButton}
           />
@@ -138,7 +140,7 @@ export default function ProfileDetailsScreen() {
           <View style={styles.profileCard}>
             {/* Face Scan Section */}
             <View style={styles.faceScanSection}>
-              <Text style={styles.faceScanLabel}>Face Scan</Text>
+              <Text style={styles.faceScanLabel}>{t("profileDetails.faceScan")}</Text>
               <TouchableOpacity
                 style={styles.avatarContainer}
                 onPress={() => {
@@ -155,8 +157,8 @@ export default function ProfileDetailsScreen() {
             {/* Profile Fields */}
             <View style={styles.fieldsContainer}>
               <ProfileField
-                label="Target Goal"
-                value={profile?.targetGoal || "Not set"}
+                label={t("profileDetails.fields.targetGoal")}
+                value={profile?.targetGoal || t("common.notSet")}
                 onPress={() => {
                   // Navigate to target goal selection
                 }}
@@ -165,16 +167,16 @@ export default function ProfileDetailsScreen() {
               <View style={styles.divider} />
               
               <ProfileField
-                label="Name"
-                value={profile?.name || "Not set"}
+                label={t("profileDetails.fields.name")}
+                value={profile?.name || t("common.notSet")}
                 onPress={handleOpenNameModal}
               />
               
               <View style={styles.divider} />
               
               <ProfileField
-                label="Gender"
-                value={profile?.gender || "Not set"}
+                label={t("profileDetails.fields.gender")}
+                value={profile?.gender || t("common.notSet")}
                 onPress={() => {
                   // Navigate to gender selection
                 }}
@@ -183,8 +185,8 @@ export default function ProfileDetailsScreen() {
               <View style={styles.divider} />
               
               <ProfileField
-                label="Age"
-                value={profile?.age || "Not set"}
+                label={t("profileDetails.fields.age")}
+                value={profile?.age || t("common.notSet")}
                 onPress={() => {
                   // Navigate to age selection
                 }}
@@ -193,8 +195,8 @@ export default function ProfileDetailsScreen() {
               <View style={styles.divider} />
               
               <ProfileField
-                label="Skin Type"
-                value={profile?.skinType || "Not set"}
+                label={t("profileDetails.fields.skinType")}
+                value={profile?.skinType || t("common.notSet")}
                 onPress={() => {
                   // Navigate to skin type selection
                 }}
@@ -203,8 +205,8 @@ export default function ProfileDetailsScreen() {
               <View style={styles.divider} />
               
               <ProfileField
-                label="Skin Sensitivity"
-                value={profile?.skinSensitivity ? "Yes" : "No"}
+                label={t("profileDetails.fields.skinSensitivity")}
+                value={profile?.skinSensitivity ? t("common.yes") : t("common.no")}
                 onPress={() => {
                   // Navigate to skin sensitivity selection
                 }}
@@ -213,11 +215,11 @@ export default function ProfileDetailsScreen() {
               <View style={styles.divider} />
               
               <ProfileField
-                label="Skin Concerns"
+                label={t("profileDetails.fields.skinConcerns")}
                 value={
                   profile?.skinConcerns && profile.skinConcerns.length > 0
                     ? profile.skinConcerns.join(", ")
-                    : "Not set"
+                    : t("common.notSet")
                 }
                 onPress={() => {
                   // Navigate to skin concerns selection
@@ -227,8 +229,8 @@ export default function ProfileDetailsScreen() {
               <View style={styles.divider} />
               
               <ProfileField
-                label="Skin Conditions"
-                value={profile?.skinConditions || "Not set"}
+                label={t("profileDetails.fields.skinConditions")}
+                value={profile?.skinConditions || t("common.notSet")}
                 onPress={() => {
                   // Navigate to skin conditions selection
                 }}
@@ -237,8 +239,8 @@ export default function ProfileDetailsScreen() {
               <View style={styles.divider} />
               
               <ProfileField
-                label="Health Conditions"
-                value={profile?.healthConditions || "Not set"}
+                label={t("profileDetails.fields.healthConditions")}
+                value={profile?.healthConditions || t("common.notSet")}
                 onPress={() => {
                   // Navigate to health conditions selection
                 }}
@@ -247,11 +249,11 @@ export default function ProfileDetailsScreen() {
               <View style={styles.divider} />
               
               <ProfileField
-                label="Focus Face Area"
+                label={t("profileDetails.fields.focusFaceArea")}
                 value={
                   profile?.focusFaceArea && profile.focusFaceArea.length > 0
                     ? profile.focusFaceArea.join(", ")
-                    : "Not set"
+                    : t("common.notSet")
                 }
                 onPress={() => {
                   // Navigate to focus face area selection
@@ -281,7 +283,7 @@ export default function ProfileDetailsScreen() {
           <View style={styles.modalContent}>
             {/* Modal Header */}
             <View style={styles.modalHeader}>
-              <Text style={styles.modalTitle}>Edit Name</Text>
+              <Text style={styles.modalTitle}>{t("profileDetails.modal.editName")}</Text>
               <TouchableOpacity
                 onPress={handleCancelNameEdit}
                 hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
@@ -296,12 +298,12 @@ export default function ProfileDetailsScreen() {
 
             {/* Input Field */}
             <View style={styles.modalBody}>
-              <Text style={styles.inputLabel}>Name</Text>
+              <Text style={styles.inputLabel}>{t("profileDetails.fields.name")}</Text>
               <TextInput
                 style={styles.nameInput}
                 value={tempName}
                 onChangeText={setTempName}
-                placeholder="Enter your name"
+                placeholder={t("profileDetails.modal.namePlaceholder")}
                 placeholderTextColor={Colors.light.grey400}
                 autoFocus
                 returnKeyType="done"
@@ -316,11 +318,11 @@ export default function ProfileDetailsScreen() {
                 onPress={handleCancelNameEdit}
                 activeOpacity={0.7}
               >
-                <Text style={styles.cancelButtonText}>Cancel</Text>
+                <Text style={styles.cancelButtonText}>{t("common.cancel")}</Text>
               </TouchableOpacity>
               <View style={styles.buttonSpacer} />
               <PrimaryButton
-                title="Save"
+                title={t("common.save")}
                 onPress={handleSaveName}
                 style={styles.saveButton}
                 loading={isUpdating}

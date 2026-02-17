@@ -7,6 +7,7 @@ import { moderateScale, scale, verticalScale } from '@/constants/scaling';
 import { MetricCard } from '@/components/progress/MetricCard';
 import ProgressMetricIcon from '@/components/progress/ProgressMetricIcon';
 import { RoutineConsistencyCard } from '@/components/progress/RoutineConsistencyCard';
+import { t } from "@/i18n";
 
 export default function TopImprovementsScreen() {
     const router = useRouter();
@@ -18,7 +19,7 @@ export default function TopImprovementsScreen() {
                 <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
                     <Ionicons name="arrow-back" size={scale(24)} color="#20201E" />
                 </TouchableOpacity>
-                <Text style={styles.headerTitle}>Top Improvements</Text>
+                <Text style={styles.headerTitle}>{t("progress.topImprovements.title")}</Text>
                 <View style={{ width: scale(40) }} />{/* Spacer to center title */}
             </View>
 
@@ -31,39 +32,39 @@ export default function TopImprovementsScreen() {
                 <View style={styles.grid}>
                     {/* Row 1 */}
                     <MetricCard
-                        title="Skin Score"
+                        title={t("progress.metrics.skinScore")}
                         value="85"
                         icon={<ProgressMetricIcon />}
                     />
                     <MetricCard
-                        title="Skin Age"
+                        title={t("progress.metrics.skinAge")}
                         value="25"
-                        unit="years old"
+                        unit={t("progress.metrics.yearsOld")}
                         icon={<ProgressMetricIcon />}
                     />
 
                     {/* Row 2 */}
                     <MetricCard
-                        title="Skin Score"
+                        title={t("progress.metrics.skinScore")}
                         value="85"
                         icon={<ProgressMetricIcon />}
                     />
                     <MetricCard
-                        title="Skin Age"
+                        title={t("progress.metrics.skinAge")}
                         value="25"
-                        unit="years old"
+                        unit={t("progress.metrics.yearsOld")}
                         icon={<ProgressMetricIcon />}
                     />
 
                     {/* Row 3 */}
                     <MetricCard
-                        title="Hydration"
+                        title={t("progress.metrics.hydration")}
                         value="85"
                         icon={<ProgressMetricIcon />}
                         trend={{ value: '10%', direction: 'up' }}
                     />
                     <MetricCard
-                        title="Acne"
+                        title={t("progress.metrics.acne")}
                         value="90"
                         icon={<ProgressMetricIcon />}
                         trend={{ value: '-5%', direction: 'down' }}
@@ -71,13 +72,13 @@ export default function TopImprovementsScreen() {
 
                     {/* Row 4 */}
                     <MetricCard
-                        title="Texture"
+                        title={t("progress.metrics.texture")}
                         value="90"
                         icon={<ProgressMetricIcon />}
                         trend={{ value: '+5%', direction: 'up' }}
                     />
                     <MetricCard
-                        title="Acne"
+                        title={t("progress.metrics.acne")}
                         value="90"
                         icon={<ProgressMetricIcon />}
                         trend={{ value: '-5%', direction: 'down' }}
@@ -85,13 +86,13 @@ export default function TopImprovementsScreen() {
 
                     {/* Row 5 */}
                     <MetricCard
-                        title="Wrinkles"
+                        title={t("progress.metrics.wrinkles")}
                         value="85"
                         icon={<ProgressMetricIcon />}
                         trend={{ value: '-5%', direction: 'down' }}
                     />
                     <MetricCard
-                        title="Dark Spots"
+                        title={t("progress.metrics.darkSpots")}
                         value="85"
                         icon={<ProgressMetricIcon />}
                         trend={{ value: '+7%', direction: 'up' }}

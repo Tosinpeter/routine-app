@@ -1,4 +1,3 @@
-import { Ionicons } from "@expo/vector-icons";
 import { router, useLocalSearchParams } from "expo-router";
 import React, { useEffect, useState, useRef } from "react";
 import {
@@ -17,6 +16,7 @@ import { moderateScale, scale, verticalScale } from "@/constants/scaling";
 import { AeonikFonts, Colors } from "@/constants/theme";
 import { BackButton } from "@/components/back-button";
 import { AppTextStyle } from "@/constants/typography";
+import { t } from "@/i18n";
 
 export default function OTPVerificationScreen() {
   const { phoneNumber } = useLocalSearchParams();
@@ -95,7 +95,7 @@ export default function OTPVerificationScreen() {
     }
   };
 
-  const handleSkip = () => {
+  const _handleSkip = () => {
     // Navigate to onboarding or main app
     router.push("/onboarding");
   };
@@ -119,9 +119,9 @@ export default function OTPVerificationScreen() {
 
         {/* Content */}
         <View style={styles.content}>
-          <Text style={styles.title}>Enter the 6-digit code</Text>
+          <Text style={styles.title}>{t("auth.otp.title")}</Text>
           <Text style={styles.subtitle}>
-            We sent a code to {phoneNumber || "+1 (316) 555-0116"}
+            {t("auth.otp.subtitle", { phoneNumber: phoneNumber || "+1 (316) 555-0116" })}
           </Text>
 
           {/* OTP Input Boxes */}
@@ -164,7 +164,7 @@ export default function OTPVerificationScreen() {
                 timer === 0 && styles.resendTextActive,
               ]}
             >
-              {timer > 0 ? `Resend code in ${formatTimer(timer)}` : "Resend code"}
+              {timer > 0 ? t("auth.otp.resendCodeIn", { time: formatTimer(timer) }) : t("auth.otp.resendCode")}
             </Text>
           </TouchableOpacity>
 
@@ -173,14 +173,14 @@ export default function OTPVerificationScreen() {
 
           {/* Continue Button */}
           <PrimaryButton
-            title="Continue"
+            title={t("common.continue")}
             onPress={handleContinue}
             disabled={otp.some((digit) => digit === "")}
           />
 
           {/* Skip Link */}
           <PrimaryButton
-            title=" I haven't done my skin analysis yet"
+            title={t("auth.skipAnalysis")}
             onPress={handleContinue}
             textStyle={{
               color: Colors.light.mainDarkColor

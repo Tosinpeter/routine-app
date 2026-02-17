@@ -56,7 +56,7 @@ export async function POST(request: Request) {
   try {
     const formData = await request.formData();
     const file = formData.get('file') as File | null;
-    const userId = formData.get('userId') as string | null;
+    const _userId = formData.get('userId') as string | null;
 
     if (!file) {
       return Response.json(
@@ -144,7 +144,7 @@ export async function POST(request: Request) {
 export async function GET(request: Request) {
   try {
     const url = new URL(request.url);
-    const userId = url.searchParams.get('userId');
+    const _userId = url.searchParams.get('userId');
     const fileId = url.searchParams.get('fileId');
     const simulateError = url.searchParams.get('error') === 'true';
 
@@ -310,7 +310,7 @@ export async function PATCH(request: Request) {
       message: 'File updated successfully',
       data: mockUploadedFiles[fileIndex],
     });
-  } catch (error) {
+  } catch (_error) {
     return Response.json(
       {
         success: false,

@@ -4,6 +4,7 @@ import Svg, { Circle } from "react-native-svg";
 import { AppText as Text } from "@/components/app-text";
 import { Colors, Fonts } from "@/constants/theme";
 import { scale, verticalScale } from "@/constants/scaling";
+import { t } from "@/i18n";
 
 export function SkinRoutineCard() {
     // Current state from new design: 1/4
@@ -85,11 +86,11 @@ export function SkinRoutineCard() {
 
             {/* Right: Text Content */}
             <View style={styles.infoContainer}>
-                <Text style={styles.infoTitle}>Treatment Plan</Text>
-                <Text style={styles.infoSubtitle}>Your Skin Routine</Text>
+                <Text style={styles.infoTitle}>{t("home.skinRoutine.treatmentPlan")}</Text>
+                <Text style={styles.infoSubtitle}>{t("home.skinRoutine.yourSkinRoutine")}</Text>
 
                 <View style={styles.statusPill}>
-                    <Text style={styles.statusText}>{current}/{total} Completed</Text>
+                    <Text style={styles.statusText}>{current}/{total} {t("home.skinRoutine.completed")}</Text>
                 </View>
             </View>
         </View>

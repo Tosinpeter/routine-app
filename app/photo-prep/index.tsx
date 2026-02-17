@@ -2,22 +2,18 @@ import React, { useState, useRef } from "react";
 import {
     StyleSheet,
     View,
-    TouchableOpacity,
     FlatList,
     Dimensions,
     ViewToken,
-    Platform,
 } from "react-native";
-import { Image } from "expo-image";
 import { AppText as Text } from "@/components/app-text";
 import { PrimaryButton } from "@/components/primary-button";
 import { moderateScale, scale, verticalScale } from "@/constants/scaling";
-import { AeonikFonts, Colors, BorderRadius, Shadows } from "@/constants/theme";
+import { AeonikFonts, Colors, BorderRadius } from "@/constants/theme";
 import { ThemedView } from "@/components/themed-view";
-import { Ionicons } from "@expo/vector-icons";
-import { router } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import { CameraIcon, CameraPlusIcon, GalleryIcon } from "@/components/icons";
+import { CameraPlusIcon, GalleryIcon } from "@/components/icons";
+import { t } from "@/i18n";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
@@ -28,38 +24,38 @@ interface PreparationTip {
     image: any;
 }
 
-const preparationTips: PreparationTip[] = [
+const _preparationTips: PreparationTip[] = [
     {
         id: "1",
         tipNumber: 1,
-        title: "Remove extensive make-up or mask",
+        title: t("photoPrep.tips.tip1"),
         image: require("@/assets/images/skincare-tip-1.png"),
     },
     {
         id: "2",
         tipNumber: 2,
-        title: "Ensure good lighting conditions",
+        title: t("photoPrep.tips.tip2"),
         image: require("@/assets/images/preparation-man.png"),
     },
     {
         id: "3",
         tipNumber: 3,
-        title: "Position your face in the frame",
+        title: t("photoPrep.tips.tip3"),
         image: require("@/assets/images/preparation-man.png"),
     },
     {
         id: "4",
         tipNumber: 4,
-        title: "Keep a neutral facial expression",
+        title: t("photoPrep.tips.tip4"),
         image: require("@/assets/images/preparation-man.png"),
     },
 ];
 
 export default function PhotoPreparationScreen() {
-    const [currentIndex, setCurrentIndex] = useState(0);
-    const flatListRef = useRef<FlatList>(null);
+    const [_currentIndex, setCurrentIndex] = useState(0);
+    const _flatListRef = useRef<FlatList>(null);
 
-    const onViewableItemsChanged = useRef(
+    const _onViewableItemsChanged = useRef(
         ({ viewableItems }: { viewableItems: ViewToken[] }) => {
             if (viewableItems.length > 0) {
                 setCurrentIndex(viewableItems[0].index || 0);
@@ -67,7 +63,7 @@ export default function PhotoPreparationScreen() {
         }
     ).current;
 
-    const viewabilityConfig = useRef({
+    const _viewabilityConfig = useRef({
         itemVisiblePercentThreshold: 50,
     }).current;
 
@@ -76,12 +72,12 @@ export default function PhotoPreparationScreen() {
         console.log("Taking photo...");
     };
 
-    const handleUploadFromDevice = () => {
+    const _handleUploadFromDevice = () => {
         // Navigate to image picker
         console.log("Uploading from device...");
     };
 
-    const renderTipCard = ({ item }: { item: PreparationTip }) => (
+    const _renderTipCard = ({ item }: { item: PreparationTip }) => (
         <View style={styles.tipCard}>
             {/* Tip Badge */}
             <View style={styles.tipBadge}>
@@ -137,7 +133,7 @@ export default function PhotoPreparationScreen() {
             {/* Action Buttons */}
             <View style={styles.buttonContainer}>
                 <PrimaryButton
-                    title="Take a photo"
+                    title={t("photoPrep.takePhoto")}
                     onPress={handleTakePhoto}
                     style={styles.primaryButton}
                     icon={<CameraPlusIcon width={20} height={20} color="#fff" />}
@@ -145,7 +141,7 @@ export default function PhotoPreparationScreen() {
                 />
 
                 <PrimaryButton
-                    title="Upload from device"
+                    title={t("photoPrep.uploadFromDevice")}
                     onPress={handleTakePhoto}
                     style={styles.primaryButton}
                     icon={<GalleryIcon width={20} height={20} color="#fff" />}

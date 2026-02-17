@@ -1,5 +1,4 @@
 import React from "react";
-import { CMSContent, CMSSection } from "@/components/cms/CMSContent";
 import { ThemedView } from "@/components/themed-view";
 import { ScrollView, StyleSheet, View, Image, Pressable, Linking, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -7,8 +6,9 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { AppText as Text } from "@/components/app-text";
 import { BackButton } from "@/components/back-button";
 import { Colors, AeonikFonts } from "@/constants/theme";
-import { scale, moderateScale, verticalScale } from "@/constants/scaling";
+import { scale, verticalScale } from "@/constants/scaling";
 import { AppTextStyle } from "@/constants/typography";
+import { t } from "@/i18n";
 
 export default function SupportScreen() {
     const handleCallPress = () => {
@@ -18,11 +18,11 @@ export default function SupportScreen() {
                 if (supported) {
                     return Linking.openURL(phoneNumber);
                 } else {
-                    Alert.alert('Error', 'Phone call is not supported on this device');
+                    Alert.alert(t("common.error"), t("support.error.phoneNotSupported"));
                 }
             })
             .catch((err) => {
-                Alert.alert('Error', 'Failed to make the call');
+                Alert.alert(t("common.error"), t("support.error.callFailed"));
                 console.error('Error opening phone dialer:', err);
             });
     };
@@ -33,7 +33,7 @@ export default function SupportScreen() {
                 {/* Header */}
                 <View style={styles.header}>
                     <BackButton color={Colors.light.mainDarkColor} />
-                    <Text style={styles.headerTitle}>Emergency Support</Text>
+                    <Text style={styles.headerTitle}>{t("profile.emergencySupport")}</Text>
                     <View style={styles.headerSpacer} />
                 </View>
 

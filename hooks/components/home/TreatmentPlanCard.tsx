@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import { StyleSheet, View } from "react-native";
 import Svg, { Circle } from "react-native-svg";
 import { Image } from "expo-image";
 import { AppText as Text } from "@/components/app-text";
 import { Colors } from "@/constants/theme";
 import { scale, verticalScale } from "@/constants/scaling";
+import { t } from "@/i18n";
 
 export function TreatmentPlanCard() {
     return (
@@ -21,10 +22,10 @@ export function TreatmentPlanCard() {
 
             {/* Text Section */}
             <View style={styles.textContainer}>
-                <Text style={styles.subtitle}>Treatment Plan</Text>
-                <Text style={styles.title}>Your Skin Routine</Text>
+                <Text style={styles.subtitle}>{t("home.treatmentPlan.defaultSubtitle")}</Text>
+                <Text style={styles.title}>{t("home.treatmentPlan.defaultTitle")}</Text>
                 <View style={styles.statusBadge}>
-                    <Text style={styles.statusText}>1/4 Completed</Text>
+                    <Text style={styles.statusText}>1/4 {t("home.treatmentPlan.completed")}</Text>
                 </View>
             </View>
         </View>

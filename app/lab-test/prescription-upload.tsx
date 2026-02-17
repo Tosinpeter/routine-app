@@ -1,6 +1,4 @@
-import { Ionicons } from "@expo/vector-icons";
 import * as DocumentPicker from "expo-document-picker";
-import { router } from "expo-router";
 import { useState } from "react";
 import {
   Platform,
@@ -18,14 +16,13 @@ import { ThemedView } from "@/components/themed-view";
 import { PrimaryButton } from "@/components/primary-button";
 import {
   moderateScale,
-  safeAreaBottom,
   scale,
   scaledRadius,
   scaleIcon,
   touchTarget,
   verticalScale,
 } from "@/constants/scaling";
-import { AeonikFonts, BorderRadius, Colors, Fonts, HitSlop, Shadows } from "@/constants/theme";
+import { AeonikFonts, BorderRadius, Colors, Fonts, HitSlop } from "@/constants/theme";
 import { AppTextStyle } from "@/constants/typography";
 import { t } from "@/i18n";
 

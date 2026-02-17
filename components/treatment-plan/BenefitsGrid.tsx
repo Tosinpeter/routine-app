@@ -3,20 +3,25 @@ import { scale, verticalScale } from '@/constants/scaling';
 import { Fonts } from '@/constants/theme';
 import React from 'react';
 import { Image, StyleSheet, View } from 'react-native';
+import { t } from "@/i18n";
 
 // Left Column Data
-const leftColumnBenefits = [
-  { id: 'derm', label: 'Dermatologist-\ntested', icon: require('@/assets/images/img_dermatologies1.png') },
-  { id: 'paraben', label: 'Paraben-free', icon: require('@/assets/images/img_Paraben-free.png') },
-  { id: 'sulfate', label: 'Sulfate-free', icon: require('@/assets/images/img_benefit-sulfate-free.png') },
-];
+function getLeftColumnBenefits() {
+  return [
+    { id: 'derm', label: t("treatmentPlan.benefits.dermatologistTested"), icon: require('@/assets/images/img_dermatologies1.png') },
+    { id: 'paraben', label: t("treatmentPlan.benefits.parabenFree"), icon: require('@/assets/images/img_Paraben-free.png') },
+    { id: 'sulfate', label: t("treatmentPlan.benefits.sulfateFree"), icon: require('@/assets/images/img_benefit-sulfate-free.png') },
+  ];
+}
 
 // Right Column Data
-const rightColumnBenefits = [
-  { id: 'non-comedogenic', label: 'Non-\ncomedogenic', icon: require('@/assets/images/img_benefit-non-comedogenic.png') },
-  { id: 'fragrance', label: 'Fragrance-free', icon: require('@/assets/images/img_benefit-fragrance-free.png') },
-  { id: 'vegan', label: 'Vegan', icon: require('@/assets/images/img_benefit-vegan.png') },
-];
+function getRightColumnBenefits() {
+  return [
+    { id: 'non-comedogenic', label: t("treatmentPlan.benefits.nonComedogenic"), icon: require('@/assets/images/img_benefit-non-comedogenic.png') },
+    { id: 'fragrance', label: t("treatmentPlan.benefits.fragranceFree"), icon: require('@/assets/images/img_benefit-fragrance-free.png') },
+    { id: 'vegan', label: t("treatmentPlan.benefits.vegan"), icon: require('@/assets/images/img_benefit-vegan.png') },
+  ];
+}
 
 export function BenefitsGrid() {
   return (
@@ -25,7 +30,7 @@ export function BenefitsGrid() {
 
         {/* Left Column */}
         <View style={styles.benefitItemGroup}>
-          {leftColumnBenefits.map((item) => (
+          {getLeftColumnBenefits().map((item) => (
             <View key={item.id} style={styles.benefitItem}>
               <Image
                 source={item.icon}
@@ -39,7 +44,7 @@ export function BenefitsGrid() {
 
         {/* Right Column */}
         <View style={styles.benefitItemGroup}>
-          {rightColumnBenefits.map((item) => (
+          {getRightColumnBenefits().map((item) => (
             <View key={item.id} style={styles.benefitItem}>
               <Image
                 source={item.icon}

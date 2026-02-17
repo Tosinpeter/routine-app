@@ -18,6 +18,7 @@ import { useColorScheme } from '@/hooks/use-color-scheme';
 import { useFetchProgress } from '@/hooks/use-fetch-progress';
 import { useFetchHome } from '@/hooks/use-fetch-home';
 import { useFetchProfile } from '@/hooks/use-fetch-profile';
+import { t } from '@/i18n';
 
 // Icon size that works well on both platforms
 const TAB_ICON_SIZE = scaleIcon(24);
@@ -66,35 +67,35 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Home',
+          title: t("tabs.home"),
           tabBarIcon: ({ color, focused }) => <HomeIcon size={TAB_ICON_SIZE} color={color} filled={focused} />,
         }}
       />
       <Tabs.Screen
         name="routine"
         options={{
-          title: 'Routine',
+          title: t("tabs.routine"),
           tabBarIcon: ({ color }) => <RoutineIcon size={TAB_ICON_SIZE} color={color} />,
         }}
       />
       <Tabs.Screen
         name="skincare"
         options={{
-          title: 'Skincare',
+          title: t("tabs.skincare"),
           tabBarIcon: ({ color }) => <FaceIcon size={TAB_ICON_SIZE} color={color} />,
         }}
       />
       <Tabs.Screen
         name="progress"
         options={{
-          title: 'Progress',
+          title: t("tabs.progress"),
           tabBarIcon: ({ color, focused }) => <StatsIcon size={TAB_ICON_SIZE} color={color} filled={focused} />,
         }}
       />
       <Tabs.Screen
         name="profile"
         options={{
-          title: 'Profile',
+          title: t("tabs.profile"),
           tabBarIcon: ({ color }) => <ProfileIcon size={TAB_ICON_SIZE} color={color} />,
         }}
         listeners={{

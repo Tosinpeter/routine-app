@@ -13,6 +13,7 @@ import { DermatologyInsightCard } from "@/components/home/DermatologyInsightCard
 import { ProductReminderCard } from "@/components/home/ProductReminderCard";
 import { ProgressPreviewCard } from "@/components/home/ProgressPreviewCard";
 import { ContactSupportButton } from "@/components/home/ContactSupportButton";
+import { t } from "@/i18n";
 
 export function HomeLockedView() {
     return (
@@ -28,7 +29,7 @@ export function HomeLockedView() {
             <DermatologyInsightCard />
 
             <ProductReminderCard />
-            <Text style={styles.headerTitle}>Your Progress</Text>
+            <Text style={styles.headerTitle}>{t("home.progress.title")}</Text>
             <ProgressPreviewCard />
 
             <ContactSupportButton />

@@ -7,6 +7,7 @@ import { PrimaryButton } from "@/components/primary-button";
 import { scale, verticalScale } from "@/constants/scaling";
 import { AeonikFonts, Colors } from "@/constants/theme";
 import { AppTextStyle } from "@/constants/typography";
+import { t } from "@/i18n";
 
 interface ApiErrorDisplayProps {
   title?: string;
@@ -17,9 +18,9 @@ interface ApiErrorDisplayProps {
 }
 
 export function ApiErrorDisplay({
-  title = "Oops!",
-  errorMessage = "Error 404 - Page Not Found",
-  description = "The page you requested could not be found. We're working on it :)",
+  title = t("error.title"),
+  errorMessage = t("error.notFound"),
+  description = t("error.notFoundDescription"),
   onRetry,
   showRetryButton = true,
 }: ApiErrorDisplayProps) {
@@ -45,7 +46,7 @@ export function ApiErrorDisplay({
       {showRetryButton && onRetry && (
         <View style={styles.buttonContainer}>
           <PrimaryButton
-            title="Try Again"
+            title={t("error.tryAgain")}
             onPress={onRetry}
             withShadow
           />

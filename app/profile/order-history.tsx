@@ -9,6 +9,7 @@ import { AppText as Text } from "@/components/app-text";
 
 import { scale, moderateScale, tabBarHeight } from "@/constants/scaling";
 import { Colors, AeonikFonts } from "@/constants/theme";
+import { t } from "@/i18n";
 
 export default function OrderHistoryScreen() {
   return (
@@ -29,7 +30,7 @@ export default function OrderHistoryScreen() {
               color={Colors.light.mainDarkColor}
             />
           </TouchableOpacity>
-          <Text style={styles.headerTitle}>Order History</Text>
+          <Text style={styles.headerTitle}>{t("order.history.title")}</Text>
           <View style={styles.placeholder} />
         </View>
 
@@ -44,9 +45,9 @@ export default function OrderHistoryScreen() {
               size={scale(64)}
               color={Colors.light.grey400}
             />
-            <Text style={styles.emptyTitle}>No orders yet</Text>
+            <Text style={styles.emptyTitle}>{t("order.empty.title")}</Text>
             <Text style={styles.emptyText}>
-              Your order history will appear here
+              {t("order.empty.subtitle")}
             </Text>
           </View>
         </ScrollView>

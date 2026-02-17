@@ -2,8 +2,6 @@ import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import React, { useState } from "react";
 import {
-  KeyboardAvoidingView,
-  Platform,
   StyleSheet,
   TouchableOpacity,
   View,
@@ -18,6 +16,7 @@ import { moderateScale, scale, verticalScale } from "@/constants/scaling";
 import { AeonikFonts, Colors } from "@/constants/theme";
 import { BackButton } from "@/components/back-button";
 import { AppTextStyle } from "@/constants/typography";
+import { t } from "@/i18n";
 
 export default function PhoneVerificationScreen() {
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -37,12 +36,12 @@ export default function PhoneVerificationScreen() {
     }
   };
 
-  const handleSkip = () => {
+  const _handleSkip = () => {
     // Navigate to onboarding or main app
     router.push("/onboarding");
   };
 
-  const handleKeyPress = (key: string) => {
+  const _handleKeyPress = (key: string) => {
     if (key === "backspace") {
       setPhoneNumber(phoneNumber.slice(0, -1));
     } else if (phoneNumber.length < 10) {
@@ -82,10 +81,9 @@ export default function PhoneVerificationScreen() {
 
         {/* Content */}
         <View style={styles.content}>
-          <Text style={styles.title}>Enter your phone number</Text>
+          <Text style={styles.title}>{t("auth.phone.title")}</Text>
           <Text style={styles.subtitle}>
-            We'll check if you've already done a skin analysis and link your
-            results.
+            {t("auth.phone.subtitle")}
           </Text>
 
           {/* Phone Input */}
@@ -107,7 +105,7 @@ export default function PhoneVerificationScreen() {
               style={styles.phoneInput}
               value={formatPhoneNumber(phoneNumber)}
               onChangeText={handlePhoneChange}
-              placeholder="(316) 555-0116"
+              placeholder={t("auth.phone.placeholder")}
               placeholderTextColor={Colors.light.grey400}
               keyboardType="phone-pad"
               maxLength={14} // (XXX) XXX-XXXX
@@ -119,13 +117,13 @@ export default function PhoneVerificationScreen() {
 
           {/* Continue Button */}
           <PrimaryButton
-            title="Continue"
+            title={t("common.continue")}
             onPress={handleContinue}
             disabled={phoneNumber.length < 10}
           />
 
         <PrimaryButton
-          title=" I haven't done my skin analysis yet"
+          title={t("auth.skipAnalysis")}
           onPress={handleContinue}
           textStyle={{
             color: Colors.light.mainDarkColor

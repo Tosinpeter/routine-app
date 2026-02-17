@@ -3,21 +3,19 @@ import {
   View,
   Text,
   StyleSheet,
-  Image,
   ImageBackground,
   TouchableOpacity,
-  StatusBar,
   Dimensions,
   FlatList,
   ViewToken,
 } from "react-native";
 import { useRouter } from "expo-router";
-import { AeonikFonts, Colors, scaffoldColor } from "@/constants/theme";
+import { AeonikFonts, Colors } from "@/constants/theme";
 import { AppTextStyle } from "@/constants/typography";
 import { scale, verticalScale, moderateScale } from "@/constants/scaling";
 import { setOnboardingCompleted } from "@/utils/onboarding";
-import { onboardingSlides, OnboardingSlide } from "./data";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { getOnboardingSlides, OnboardingSlide } from "./data";
+import { t } from "@/i18n";
 import { PrimaryButton } from "@/components/primary-button";
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get("window");
@@ -43,7 +41,9 @@ export default function OnboardingScreen() {
   };
 
 
-  const handleNext = () => {
+  const onboardingSlides = getOnboardingSlides();
+
+  const _handleNext = () => {
     if (currentIndex < onboardingSlides.length - 1) {
       flatListRef.current?.scrollToIndex({
         index: currentIndex + 1,
@@ -95,7 +95,7 @@ export default function OnboardingScreen() {
               onPress={handleSkip}
               activeOpacity={0.7}
             >
-              <Text style={styles.skipText}>Skip</Text>
+              <Text style={styles.skipText}>{t("onboarding.skip")}</Text>
             </TouchableOpacity>
           )}
 
@@ -134,8 +134,8 @@ export default function OnboardingScreen() {
             
           <PrimaryButton
             title={currentIndex === onboardingSlides.length - 1
-              ? "Get Started"
-              : "Next"}
+              ? t("onboarding.getStarted")
+              : t("onboarding.next")}
             onPress={handleTryAgain}
             withShadow
             />

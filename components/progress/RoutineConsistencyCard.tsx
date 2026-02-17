@@ -1,11 +1,10 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
 
 import { AppText as Text } from '@/components/app-text';
-import { Fonts } from '@/constants/theme';
 import { scale } from '@/constants/scaling';
 import RoutineConsistencyIcon from '@/components/progress/RoutineConsistencyIcon';
+import { t } from "@/i18n";
 
 export function RoutineConsistencyCard() {
     return (
@@ -14,13 +13,13 @@ export function RoutineConsistencyCard() {
             <View style={styles.routineInfo}>
                 {/* RoutineHeader (Left 16, Top 16) */}
                 <View style={styles.headerContainer}>
-                    <Text style={styles.title}>Routine Consistency</Text>
+                    <Text style={styles.title}>{t("progress.routineConsistency.title")}</Text>
 
                     <View style={styles.valueRow}>
                         <RoutineConsistencyIcon />
 
                         <Text style={styles.description}>
-                            You followed your routine <Text style={styles.highlight}>85% of days</Text>
+                            {t("progress.routineConsistency.description", { percentage: 85 })}
                         </Text>
                     </View>
                 </View>

@@ -4,6 +4,7 @@ import { Fonts } from '@/constants/theme';
 import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
 import { Image, StyleSheet, View } from 'react-native';
+import { t } from "@/i18n";
 
 const CheckItem = ({ text }: { text: string }) => (
   <View style={styles.bulletItem}>
@@ -55,39 +56,39 @@ const ProtocolCard = ({
 export function ProtocolSection() {
   return (
     <View style={styles.container}>
-      <Text style={styles.sectionTitle}>Your Complete Protocol</Text>
+      <Text style={styles.sectionTitle}>{t("treatmentPlan.protocol.sectionTitle")}</Text>
 
       <ProtocolCard
-        title="Primary Treatment Formula"
-        subtitle="Targeted active ingredients designed to treat your core skin concerns."
+        title={t("treatmentPlan.protocol.primaryTitle")}
+        subtitle={t("treatmentPlan.protocol.primarySubtitle")}
         items={[
-          "Reduces acne-causing bacteria",
-          "Unclogs pores",
-          "Improves texture & tone"
+          t("treatmentPlan.protocol.primaryItem1"),
+          t("treatmentPlan.protocol.primaryItem2"),
+          t("treatmentPlan.protocol.primaryItem3"),
         ]}
         icon={require('@/assets/images/protocol-primary.png')}
         bgColor="#EEE2D6"
       />
 
       <ProtocolCard
-        title="Supplement Support"
-        subtitle="Helps your skin heal and strengthen from within."
+        title={t("treatmentPlan.protocol.supplementTitle")}
+        subtitle={t("treatmentPlan.protocol.supplementSubtitle")}
         items={[
-          "Balances inflammation",
-          "Boosts recovery",
-          "Supports long-term results"
+          t("treatmentPlan.protocol.supplementItem1"),
+          t("treatmentPlan.protocol.supplementItem2"),
+          t("treatmentPlan.protocol.supplementItem3"),
         ]}
         icon={require('@/assets/images/protocol-supplement.png')}
         bgColor="#EDEAE4"
       />
 
       <ProtocolCard
-        title="Home Device"
-        subtitle="Enhances absorption and maximizes treatment effectiveness."
+        title={t("treatmentPlan.protocol.deviceTitle")}
+        subtitle={t("treatmentPlan.protocol.deviceSubtitle")}
         items={[
-          "Improves product penetration",
-          "Smooths texture",
-          "Speeds up visible results"
+          t("treatmentPlan.protocol.deviceItem1"),
+          t("treatmentPlan.protocol.deviceItem2"),
+          t("treatmentPlan.protocol.deviceItem3"),
         ]}
         icon={require('@/assets/images/protocol-device.png')}
         bgColor="#F2EEFF"

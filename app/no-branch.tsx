@@ -14,6 +14,7 @@ import { PrimaryButton } from "@/components/primary-button";
 import { scale, verticalScale } from "@/constants/scaling";
 import { AeonikFonts, Colors } from "@/constants/theme";
 import { AppTextStyle } from "@/constants/typography";
+import { t } from "@/i18n";
 
 interface NoInternetScreenProps {
   onRetry?: () => void;
@@ -49,17 +50,18 @@ export default function NoBranchScreen({ onRetry }: NoInternetScreenProps) {
 
           {/* Text Content */}
           <View style={styles.textContent}>
-            <Text style={styles.headline}>No Nearby Branch</Text>
+            <Text style={styles.headline}>{t("error.noBranch.title")}</Text>
 
             <Text style={styles.subtitle}>
-No branch found near your location.            </Text>
+              {t("error.noBranch.subtitle")}
+            </Text>
           </View>
         </View>
 
         {/* Bottom Button */}
         <View style={styles.buttonContainer}>
           <PrimaryButton
-            title="Try again"
+            title={t("common.tryAgain")}
             onPress={handleTryAgain}
             withShadow
           />

@@ -35,10 +35,10 @@ interface ProgressData {
     currentStreak: number;
     longestStreak: number;
     completionRate: number;
-    weeklyData: Array<{
+    weeklyData: {
       day: string;
       completed: boolean;
-    }>;
+    }[];
   };
 }
 

@@ -3,20 +3,19 @@ import {
   ScrollView,
   StyleSheet,
   View,
-  TouchableOpacity,
   FlatList,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { router } from "expo-router";
 import { Image } from "expo-image";
 
 import { ThemedView } from "@/components/themed-view";
 import { AppText as Text } from "@/components/app-text";
 
 import { scale, moderateScale, tabBarHeight } from "@/constants/scaling";
-import { AeonikFonts, Colors, Fonts } from "@/constants/theme";
+import { AeonikFonts, Colors } from "@/constants/theme";
 import { BackButton } from "@/components/back-button";
 import { AppTextStyle } from "@/constants/typography";
+import { t } from "@/i18n";
 
 interface MetricData {
   id: string;
@@ -39,12 +38,12 @@ function MetricCard({ label, value }: MetricCardProps) {
 }
 
 const METRICS_DATA: MetricData[] = [
-  { id: "1", label: "Spot", value: "8.1" },
-  { id: "2", label: "Oiliness", value: "8.9" },
-  { id: "3", label: "Droopy Upper eyelid", value: "8.4" },
-  { id: "4", label: "Droopy Lower Eyelid", value: "8.7" },
-  { id: "5", label: "Firmness", value: "9.2" },
-  { id: "6", label: "Dark Circles", value: "8.5" },
+  { id: "1", label: t("faceScan.metrics.spot"), value: "8.1" },
+  { id: "2", label: t("faceScan.metrics.oiliness"), value: "8.9" },
+  { id: "3", label: t("faceScan.metrics.droopyUpperEyelid"), value: "8.4" },
+  { id: "4", label: t("faceScan.metrics.droopyLowerEyelid"), value: "8.7" },
+  { id: "5", label: t("faceScan.metrics.firmness"), value: "9.2" },
+  { id: "6", label: t("faceScan.metrics.darkCircles"), value: "8.5" },
 ];
 
 export default function FaceScanHistoryScreen() {
@@ -56,7 +55,7 @@ export default function FaceScanHistoryScreen() {
         {/* Header */}
         <View style={styles.header}>
           <BackButton style={styles.backButton} />
-          <Text style={styles.headerTitle}>History</Text>
+          <Text style={styles.headerTitle}>{t("faceScan.title")}</Text>
           <View style={styles.placeholder} />
         </View>
 

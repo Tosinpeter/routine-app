@@ -51,6 +51,7 @@ export function ExampleScreenWithPerformance() {
     if (__DEV__) {
       logMemoryUsage();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Example: Measuring expensive operations

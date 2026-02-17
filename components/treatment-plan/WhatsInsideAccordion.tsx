@@ -8,6 +8,7 @@ import {
   useSharedValue,
   withTiming
 } from 'react-native-reanimated';
+import { t } from "@/i18n";
 
 const CheckListItem = ({ text }: { text: string }) => (
   <View style={styles.bulletItem}>
@@ -16,56 +17,58 @@ const CheckListItem = ({ text }: { text: string }) => (
   </View>
 );
 
-const accordionItems = [
-  {
-    id: '1',
-    title: 'Active Formula',
-    subtitle: 'A personalized blend of active ingredients designed to target your specific skin concerns.',
-    bullets: [
-      'Custom-strength prescription actives',
-      'Targets acne, pigmentation, and texture',
-      'Formulated based on your AI scan & dermatologist review',
-      'Clinically proven ingredients'
-    ]
-  },
-  {
-    id: '2',
-    title: 'Supplement',
-    subtitle: 'Daily nutritional support for skin health.',
-    bullets: [
-      'Boosts skin immunity',
-      'Reduces inflammation',
-      'Supports overall wellness'
-    ]
-  },
-  {
-    id: '3',
-    title: 'Home Device',
-    subtitle: 'Professional grade tools for home use.',
-    bullets: [
-      'Increases product absorption',
-      'Stimulates collagen production'
-    ]
-  },
-  {
-    id: '4',
-    title: 'Step-by-Step Plan',
-    subtitle: 'Your daily guide to specific usage.',
-    bullets: [
-      'Morning & Night routine',
-      'Application techniques'
-    ]
-  },
-  {
-    id: '5',
-    title: 'Progress Tracking',
-    subtitle: 'Monitor your improvements over time.',
-    bullets: [
-      'Weekly photo check-ins',
-      'Dermatologist feedback'
-    ]
-  },
-];
+function getAccordionItems() {
+  return [
+    {
+      id: '1',
+      title: t("treatmentPlan.whatsInside.activeFormulaTitle"),
+      subtitle: t("treatmentPlan.whatsInside.activeFormulaSubtitle"),
+      bullets: [
+        t("treatmentPlan.whatsInside.activeFormulaBullet1"),
+        t("treatmentPlan.whatsInside.activeFormulaBullet2"),
+        t("treatmentPlan.whatsInside.activeFormulaBullet3"),
+        t("treatmentPlan.whatsInside.activeFormulaBullet4"),
+      ]
+    },
+    {
+      id: '2',
+      title: t("treatmentPlan.whatsInside.supplementTitle"),
+      subtitle: t("treatmentPlan.whatsInside.supplementSubtitle"),
+      bullets: [
+        t("treatmentPlan.whatsInside.supplementBullet1"),
+        t("treatmentPlan.whatsInside.supplementBullet2"),
+        t("treatmentPlan.whatsInside.supplementBullet3"),
+      ]
+    },
+    {
+      id: '3',
+      title: t("treatmentPlan.whatsInside.homeDeviceTitle"),
+      subtitle: t("treatmentPlan.whatsInside.homeDeviceSubtitle"),
+      bullets: [
+        t("treatmentPlan.whatsInside.homeDeviceBullet1"),
+        t("treatmentPlan.whatsInside.homeDeviceBullet2"),
+      ]
+    },
+    {
+      id: '4',
+      title: t("treatmentPlan.whatsInside.stepByStepTitle"),
+      subtitle: t("treatmentPlan.whatsInside.stepByStepSubtitle"),
+      bullets: [
+        t("treatmentPlan.whatsInside.stepByStepBullet1"),
+        t("treatmentPlan.whatsInside.stepByStepBullet2"),
+      ]
+    },
+    {
+      id: '5',
+      title: t("treatmentPlan.whatsInside.progressTrackingTitle"),
+      subtitle: t("treatmentPlan.whatsInside.progressTrackingSubtitle"),
+      bullets: [
+        t("treatmentPlan.whatsInside.progressTrackingBullet1"),
+        t("treatmentPlan.whatsInside.progressTrackingBullet2"),
+      ]
+    },
+  ];
+}
 
 function AccordionItem({ item }: { item: any }) {
   // Default first item to open for demo purposes, or manage via parent state.
@@ -119,9 +122,9 @@ function AccordionItem({ item }: { item: any }) {
 export function WhatsInsideAccordion() {
   return (
     <View style={styles.container}>
-      <Text style={styles.sectionTitle}>What's Inside:</Text>
+      <Text style={styles.sectionTitle}>{t("treatmentPlan.whatsInside.sectionTitle")}</Text>
       <View style={styles.list}>
-        {accordionItems.map((item) => (
+        {getAccordionItems().map((item) => (
           <AccordionItem key={item.id} item={item} />
         ))}
       </View>

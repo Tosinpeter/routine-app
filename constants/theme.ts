@@ -5,7 +5,6 @@
 
 import { Platform, ViewStyle } from "react-native";
 
-const tintColorDark = "#fff";
 export const primaryColor = "#CF604A";
 export const scaffoldColor = "#EDEBE3";
 

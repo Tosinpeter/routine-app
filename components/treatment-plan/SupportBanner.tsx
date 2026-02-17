@@ -4,6 +4,7 @@ import { Fonts } from '@/constants/theme';
 import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
 import { Image, StyleSheet, View } from 'react-native';
+import { t } from "@/i18n";
 
 export function SupportBanner() {
     return (
@@ -30,13 +31,13 @@ export function SupportBanner() {
                     end={{ x: 1, y: 1 }}
                     style={styles.badge}
                 >
-                    <Text style={styles.badgeText}>Free</Text>
+                    <Text style={styles.badgeText}>{t("treatmentPlan.supportBanner.badge")}</Text>
                 </LinearGradient>
 
                 <View style={styles.textGroup}>
-                    <Text style={styles.title}>Dermatologist Support</Text>
+                    <Text style={styles.title}>{t("treatmentPlan.supportBanner.title")}</Text>
                     <Text style={styles.description} numberOfLines={2}>
-                        Our top dermatologist adjust your plan when needed for free
+                        {t("treatmentPlan.supportBanner.description")}
                     </Text>
                 </View>
             </View>

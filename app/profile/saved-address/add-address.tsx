@@ -7,15 +7,12 @@ import {
   Dimensions,
   Platform,
   Alert,
-  ActivityIndicator,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { router, useLocalSearchParams } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 
 import { ThemedView } from "@/components/themed-view";
-import { AppText as Text } from "@/components/app-text";
 import { BackButton } from "@/components/back-button";
 import { useAddress } from "@/hooks/use-address";
 
@@ -23,8 +20,9 @@ import { scale, moderateScale, verticalScale } from "@/constants/scaling";
 import { Colors, AeonikFonts, Shadows } from "@/constants/theme";
 import { HomeIcon } from "@/components/icons";
 import { PrimaryButton } from "@/components/primary-button";
+import { t } from "@/i18n";
 
-const { width, height } = Dimensions.get("window");
+const { width: _width, height: _height } = Dimensions.get("window");
 
 export default function AddAddressScreen() {
   const params = useLocalSearchParams<{ type?: string }>();
@@ -34,7 +32,7 @@ export default function AddAddressScreen() {
   const { saveAddress, isLoading } = useAddress();
   
   const [address, setAddress] = useState("09 Arnulfo Crossing, Botsfordborough");
-  const [region, setRegion] = useState({
+  const [region, _setRegion] = useState({
     latitude: 40.6782,
     longitude: -73.9442,
     latitudeDelta: 0.0922,
@@ -45,32 +43,32 @@ export default function AddAddressScreen() {
     longitude: -73.9442,
   });
 
-  const getTitle = () => {
+  const _getTitle = () => {
     switch (addressType) {
       case "home":
-        return "Add Home";
+        return t("address.addHome");
       case "work":
-        return "Add Work";
+        return t("address.addWork");
       default:
-        return "Add New Address";
+        return t("address.addNewAddress");
     }
   };
 
   const getButtonTitle = () => {
     switch (addressType) {
       case "home":
-        return "Confirm Home";
+        return t("address.confirmHome");
       case "work":
-        return "Confirm Work";
+        return t("address.confirmWork");
       default:
-        return "Confirm Address";
+        return t("address.confirmAddress");
     }
   };
 
   const handleConfirm = async () => {
     // Validate address input
     if (!address || address.trim().length === 0) {
-      Alert.alert('Invalid Address', 'Please enter a valid address');
+      Alert.alert(t("address.error.invalidTitle"), t("address.error.invalidMessage"));
       return;
     }
 
@@ -84,18 +82,18 @@ export default function AddAddressScreen() {
     if (savedAddress) {
       // Show success message
       Alert.alert(
-        'Success',
-        'Address saved successfully',
+        t("common.success"),
+        t("address.success.saved"),
         [
           {
-            text: 'OK',
+            text: t("common.ok"),
             onPress: () => router.back(),
           },
         ]
       );
     } else {
       // Error is already handled by the hook
-      Alert.alert('Error', 'Failed to save address. Please try again.');
+      Alert.alert(t("common.error"), t("address.error.saveFailed"));
     }
   };
 
@@ -191,7 +189,7 @@ export default function AddAddressScreen() {
             style={styles.addressInput}
             value={address}
             onChangeText={setAddress}
-            placeholder="Enter your address"
+            placeholder={t("address.enterAddress")}
             placeholderTextColor={Colors.light.grey400}
             multiline
           />

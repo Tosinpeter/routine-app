@@ -20,9 +20,10 @@ import { HomeUnlockedView } from "@/components/home/HomeUnlockedView";
 import { StatusBar } from "expo-status-bar";
 import { AppText as Text } from "@/components/app-text";
 import { useAppSelector } from "@/store/hooks";
+import { t } from "@/i18n";
 
 export default function HomeScreen() {
-  const { homeData, isLoading, error } = useAppSelector((state) => state.home);
+  const { homeData, error } = useAppSelector((state) => state.home);
 
   const isUnlocked = homeData?.isUnlocked ?? true;
 
@@ -34,7 +35,7 @@ export default function HomeScreen() {
       <ThemedView style={styles.container}>
         <View style={styles.bgSolid} />
         <View style={[styles.safeArea, styles.centerContent]}>
-          <Text style={styles.errorText}>Failed to load home data</Text>
+          <Text style={styles.errorText}>{t("home.error.failedToLoad")}</Text>
           <Text style={styles.errorDetail}>{error}</Text>
         </View>
         <StatusBar style="dark" />

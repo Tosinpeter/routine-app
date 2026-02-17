@@ -61,6 +61,7 @@ export function AppDataProvider({ children }: AppDataProviderProps) {
   };
 
   const t = (key: string, options?: Record<string, unknown>) => {
+    // eslint-disable-next-line import/no-named-as-default-member
     return i18n.t(key, options);
   };
 

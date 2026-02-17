@@ -7,15 +7,16 @@ import { NotificationIcon } from "@/components/icons/notification-icon";
 import { Colors, Fonts } from "@/constants/theme";
 import { scale, touchTarget } from "@/constants/scaling";
 import { useAppSelector } from "@/store/hooks";
+import { t } from "@/i18n";
 
 export function HomeHeader() {
     const { userName } = useAppSelector((state) => state.home);
 
     const getGreeting = () => {
         const hour = new Date().getHours();
-        if (hour < 12) return "Good Morning";
-        if (hour < 17) return "Good Afternoon";
-        return "Good Evening";
+        if (hour < 12) return t("home.greetings.goodMorning");
+        if (hour < 17) return t("home.greetings.goodAfternoon");
+        return t("home.greetings.goodEvening");
     };
 
     return (

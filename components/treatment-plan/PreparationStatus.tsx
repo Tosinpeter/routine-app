@@ -3,6 +3,7 @@ import { scale, verticalScale } from '@/constants/scaling';
 import { Fonts } from '@/constants/theme';
 import React from 'react';
 import { Image, StyleSheet, View } from 'react-native';
+import { t } from "@/i18n";
 
 export function PreparationStatus() {
     return (
@@ -12,7 +13,7 @@ export function PreparationStatus() {
 
                 {/* Status Text */}
                 <Text style={styles.title}>
-                    We are Preparing{'\n'}Your Product
+                    {t("treatmentPlan.preparation.title")}
                 </Text>
 
                 {/* Illustration */}

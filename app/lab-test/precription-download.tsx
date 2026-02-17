@@ -1,43 +1,27 @@
-import { Ionicons } from "@expo/vector-icons";
-import * as DocumentPicker from "expo-document-picker";
 import { router } from "expo-router";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import {
     Animated,
-    Platform,
     ScrollView,
     StyleSheet,
-    TouchableOpacity,
     View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { AppText as Text } from "@/components/app-text";
 import { BackButton } from "@/components/back-button";
-import { CheckboxIcon, FileIcon, TrashIcon, UploadCloudIcon } from "@/components/icons";
 import { ThemedView } from "@/components/themed-view";
 import { PrimaryButton } from "@/components/primary-button";
 import {
     moderateScale,
-    safeAreaBottom,
     scale,
     scaledRadius,
-    scaleIcon,
-    touchTarget,
     verticalScale,
 } from "@/constants/scaling";
-import { AeonikFonts, BorderRadius, Colors, Fonts, HitSlop, Shadows } from "@/constants/theme";
+import { AeonikFonts, BorderRadius, Colors, Fonts } from "@/constants/theme";
 import { AppTextStyle } from "@/constants/typography";
-import { t } from "@/i18n";
 import { SuccessIllustrationIcon } from "@/components/icons/success-illustration-icon";
-
-interface UploadedFile {
-    id: string;
-    name: string;
-    size: string;
-    progress: number;
-    isCompleted: boolean;
-}
+import { t } from "@/i18n";
 
 export default function PrecriptionDownLoadScreen() {
     const scaleAnim = useRef(new Animated.Value(0)).current;
@@ -58,6 +42,7 @@ export default function PrecriptionDownLoadScreen() {
                 useNativeDriver: true,
             }),
         ]).start();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const handleSubmit = () => {
@@ -88,14 +73,14 @@ export default function PrecriptionDownLoadScreen() {
                         >
                             <SuccessIllustrationIcon />
                         </Animated.View>
-                        <Text style={styles.title}>Your prescription is ready</Text>
-                        <Text style={styles.subtitle}>{ "Based on your skin analysis and doctor review,\nyour prescription has been prepared."}</Text>
+                        <Text style={styles.title}>{t("labTest.prescription.title")}</Text>
+                        <Text style={styles.subtitle}>{t("labTest.prescription.subtitle")}</Text>
                     </View>
 
                     <View style={styles.bottomContainer}>
                         <PrimaryButton
                             onPress={handleSubmit}
-                            title="Download Prescription (PDF)"
+                            title={t("labTest.prescription.downloadButton")}
                         />
                     </View>
                 </ScrollView>

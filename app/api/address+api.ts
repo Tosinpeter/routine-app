@@ -34,7 +34,7 @@ export async function GET(request: Request) {
   try {
     // Parse query parameters
     const url = new URL(request.url);
-    const userId = url.searchParams.get('userId');
+    const _userId = url.searchParams.get('userId');
     const type = url.searchParams.get('type');
 
     // Simulate API delay
@@ -69,7 +69,7 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { id, type, address, latitude, longitude, userId } = body;
+    const { id, type, address, latitude, longitude, userId: _userId } = body;
 
     // Validate required fields
     if (!type || !address || latitude === undefined || longitude === undefined) {
@@ -160,7 +160,7 @@ export async function POST(request: Request) {
       message: 'Address saved successfully',
       data: newAddress,
     });
-  } catch (error) {
+  } catch (_error) {
     return Response.json(
       {
         success: false,

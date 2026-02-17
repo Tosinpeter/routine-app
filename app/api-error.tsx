@@ -10,17 +10,17 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "expo-image";
 
 import { AppText as Text } from "@/components/app-text";
-import { PrimaryButton } from "@/components/primary-button";
 import { scale, verticalScale } from "@/constants/scaling";
 import { AeonikFonts, Colors } from "@/constants/theme";
 import { AppTextStyle } from "@/constants/typography";
+import { t } from "@/i18n";
 
 interface NoInternetScreenProps {
   onRetry?: () => void;
 }
 
 export default function ApiErrorScreen({ onRetry }: NoInternetScreenProps) {
-  const handleTryAgain = () => {
+  const _handleTryAgain = () => {
     if (onRetry) {
       onRetry();
     } else {
@@ -49,9 +49,9 @@ export default function ApiErrorScreen({ onRetry }: NoInternetScreenProps) {
 
           {/* Text Content */}
           <View style={styles.textContent}>
-            <Text style={styles.headline}>Oops!</Text>
-            <Text style={styles.error}>Error 404- Page Not Found</Text>
-            <Text style={styles.subtitle}>The page you requested could not be found. We’re working on it:)</Text>
+            <Text style={styles.headline}>{t("error.apiError.title")}</Text>
+            <Text style={styles.error}>{t("error.apiError.code")}</Text>
+            <Text style={styles.subtitle}>{t("error.apiError.description")}</Text>
           </View>
         </View>
       </View>

@@ -1,7 +1,7 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
 import { Colors } from "@/constants/theme";
-import { scale, verticalScale } from "@/constants/scaling";
+import { verticalScale } from "@/constants/scaling";
 
 interface QuizProgressBarProps {
   progress: number; // 0-100

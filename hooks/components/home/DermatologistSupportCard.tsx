@@ -1,15 +1,16 @@
 import React from "react";
-import { StyleSheet, View, ImageBackground, Image } from "react-native";
+import { StyleSheet, View, Image } from "react-native";
 import { AppText as Text } from "@/components/app-text";
 import { Colors } from "@/constants/theme";
 import { scale, verticalScale } from "@/constants/scaling";
+import { t } from "@/i18n";
 
 export function DermatologistSupportCard() {
     return (
         <View
             style={styles.container}
             accessible={true}
-            accessibilityLabel="Dermatologist Support. Free. Our top dermatologist adjust your plan when needed for free."
+            accessibilityLabel={`${t("home.dermatologistSupport.title")}. ${t("home.dermatologistSupport.badgeFree")}. ${t("home.dermatologistSupport.description")}`}
         >
             {/* Background Gradient/Image */}
             <View style={styles.backgroundContainer}>
@@ -18,12 +19,12 @@ export function DermatologistSupportCard() {
 
             <View style={styles.content}>
                 <View style={styles.badge}>
-                    <Text style={styles.badgeText}>Free</Text>
+                    <Text style={styles.badgeText}>{t("home.dermatologistSupport.badgeFree")}</Text>
                 </View>
 
-                <Text style={styles.title}>Dermatologist Support</Text>
+                <Text style={styles.title}>{t("home.dermatologistSupport.title")}</Text>
                 <Text style={styles.description}>
-                    Our top dermatologist adjust your plan when needed for free
+                    {t("home.dermatologistSupport.description")}
                 </Text>
 
                 {/* Pagination Dots */}

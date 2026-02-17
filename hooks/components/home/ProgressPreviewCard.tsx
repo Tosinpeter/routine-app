@@ -1,10 +1,9 @@
 import { Image, ImageBackground, StyleSheet, View } from "react-native";
 import { BlurView } from "expo-blur";
-import { Ionicons } from "@expo/vector-icons";
-
 import { AppText as Text } from "@/components/app-text";
-import { Colors, Fonts } from "@/constants/theme";
+import { Fonts } from "@/constants/theme";
 import { scale, verticalScale } from "@/constants/scaling";
+import { t } from "@/i18n";
 
 export function ProgressPreviewCard() {
     return (
@@ -35,8 +34,8 @@ export function ProgressPreviewCard() {
 
                             {/* Text Container */}
                             <View style={styles.textContainer}>
-                                <Text style={styles.subtitle}>Before & After comparison</Text>
-                                <Text style={styles.description}>Unlocks in 12days</Text>
+                                <Text style={styles.subtitle}>{t("home.progressPreview.subtitle")}</Text>
+                                <Text style={styles.description}>{t("home.progressPreview.unlocksIn", { days: 12 })}</Text>
                             </View>
                         </View>
                     </BlurView>

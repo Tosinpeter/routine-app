@@ -6,6 +6,7 @@ import { useRouter } from "expo-router";
 import { AppText as Text } from "@/components/app-text";
 import { Colors, Fonts } from "@/constants/theme";
 import { scale, verticalScale } from "@/constants/scaling";
+import { t } from "@/i18n";
 
 function SupportIcon() {
     return (
@@ -43,7 +44,7 @@ export function ContactSupportButton() {
         <TouchableOpacity style={styles.button} activeOpacity={0.8} onPress={handlePress}>
             <View style={styles.leftContent}>
                 <SupportIcon />
-                <Text style={styles.text}>Contact Support</Text>
+                <Text style={styles.text}>{t("home.contactSupport.title")}</Text>
             </View>
 
             <Ionicons name="chevron-forward" size={scale(20)} color={Colors.light.grey400} />

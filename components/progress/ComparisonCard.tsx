@@ -1,7 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { AppText as Text } from '@/components/app-text';
 import { scale, verticalScale } from '@/constants/scaling';
 
 export function ComparisonCard() {

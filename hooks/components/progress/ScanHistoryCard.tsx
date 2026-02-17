@@ -3,14 +3,15 @@ import { StyleSheet, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { AppText as Text } from '@/components/app-text';
 import { scale } from '@/constants/scaling';
+import { t } from "@/i18n";
 
 export function ScanHistoryCard() {
     return (
         <View style={styles.card}>
-            <Text style={styles.title}>Scan History</Text>
+            <Text style={styles.title}>{t("progress.scanHistory.title")}</Text>
             <View style={styles.item}>
                 <Ionicons name="checkmark" size={scale(18)} color="#CF604A" />
-                <Text style={styles.text}>Followed routine 85% of days</Text>
+                <Text style={styles.text}>{t("progress.scanHistory.followedRoutine")}</Text>
             </View>
         </View>
     );

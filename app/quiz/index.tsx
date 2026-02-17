@@ -8,6 +8,7 @@ import { PrimaryButton } from "@/components/primary-button";
 import { AeonikFonts, Colors } from "@/constants/theme";
 import { scale, verticalScale } from "@/constants/scaling";
 import { AppTextStyle } from "@/constants/typography";
+import { t } from "@/i18n";
 
 export default function QuizScreen() {
   const handleStartQuiz = () => {
@@ -36,18 +37,18 @@ export default function QuizScreen() {
         {/* Text Content */}
         <View style={styles.textContent}>
           <Text style={styles.headline}>
-            You're one step away{"\n"}from your full routine!
+            {t("quiz.intro.title")}
           </Text>
           
           <Text style={styles.subtitle}>
-            We've analyzed your skin at the clinic, but need a few more answers to complete your plan.
+            {t("quiz.intro.subtitle")}
           </Text>
         </View>
 
         {/* Bottom Button */}
         <View style={styles.buttonContainer}>
           <PrimaryButton
-            title="Start The Quiz"
+            title={t("quiz.intro.startButton")}
             onPress={handleStartQuiz}
           />
         </View>

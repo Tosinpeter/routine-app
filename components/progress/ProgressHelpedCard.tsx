@@ -3,18 +3,19 @@ import { StyleSheet, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { AppText as Text } from '@/components/app-text';
 import { scale } from '@/constants/scaling';
+import { t } from "@/i18n";
 
 export function ProgressHelpedCard() {
     return (
         <View style={styles.card}>
-            <Text style={styles.title}>What helped your progress</Text>
+            <Text style={styles.title}>{t("progress.helped.title")}</Text>
             <View style={styles.item}>
                 <Ionicons name="checkmark" size={scale(18)} color="#CF604A" />
-                <Text style={styles.text}>Followed routine 85% of days</Text>
+                <Text style={styles.text}>{t("progress.helped.followedRoutine")}</Text>
             </View>
             <View style={styles.item}>
                 <Ionicons name="checkmark" size={scale(18)} color="#CF604A" />
-                <Text style={styles.text}>Doctor-prescribed products</Text>
+                <Text style={styles.text}>{t("progress.helped.doctorPrescribed")}</Text>
             </View>
         </View>
     );

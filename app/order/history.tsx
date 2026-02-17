@@ -7,6 +7,7 @@ import { useRouter } from 'expo-router';
 import React from 'react';
 import { ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { t } from "@/i18n";
 
 export default function OrderHistoryScreen() {
     const router = useRouter();
@@ -22,7 +23,7 @@ export default function OrderHistoryScreen() {
                 <TouchableOpacity style={styles.backButton} onPress={handleBack}>
                     <Ionicons name="arrow-back" size={20} color="#161B26" />
                 </TouchableOpacity>
-                <Text style={styles.headerTitle}>Order History</Text>
+                <Text style={styles.headerTitle}>{t("order.history.title")}</Text>
                 <View style={{ width: 40 }} />
             </View>
 
@@ -33,7 +34,7 @@ export default function OrderHistoryScreen() {
                     <OrderCard
                         title="Acne Control - 30 Day Plan"
                         productCount={4}
-                        status="Active"
+                        status={t("order.status.active")}
                         images={[
                             require('@/assets/images/img_product-image.png'),
                             require('@/assets/images/img_product-image.png'),
@@ -50,7 +51,7 @@ export default function OrderHistoryScreen() {
                     <OrderCard
                         title="Hydration Boost - 30 Day Plan"
                         productCount={4}
-                        status="Completed"
+                        status={t("order.status.completed")}
                         images={[
                             require('@/assets/images/img_product-image.png'),
                             require('@/assets/images/img_product-image.png'),

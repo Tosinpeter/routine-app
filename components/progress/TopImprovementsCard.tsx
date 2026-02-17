@@ -3,8 +3,11 @@ import { StyleSheet, View, TouchableOpacity, Animated } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { AppText as Text } from '@/components/app-text';
 import { scale, verticalScale } from '@/constants/scaling';
+import { useRouter } from 'expo-router';
 
+// eslint-disable-next-line import/no-named-as-default
 import ImprovementIcon from '@/components/progress/ImprovementIcon';
+import { t } from "@/i18n";
 
 interface ImprovementItemProps {
     label: string;
@@ -27,6 +30,7 @@ function ImprovementItem({ label, value, trend, progress, color = '#3736FD', del
             friction: 8,
             useNativeDriver: false, // width animation requires false
         }).start();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [progress, delay]);
 
     const animatedWidth = progressAnim.interpolate({
@@ -69,10 +73,6 @@ function ImprovementItem({ label, value, trend, progress, color = '#3736FD', del
     );
 }
 
-import { useRouter } from 'expo-router';
-
-// ... (existing imports)
-
 export function TopImprovementsCard() {
     const router = useRouter();
 
@@ -81,21 +81,21 @@ export function TopImprovementsCard() {
             {/* Items */}
             <View style={styles.listContainer}>
                 <ImprovementItem
-                    label="Acne"
+                    label={t("progress.improvements.acne")}
                     value="18%"
                     trend="down"
                     progress={0.9}
                     delay={0}
                 />
                 <ImprovementItem
-                    label="Redness"
+                    label={t("progress.improvements.redness")}
                     value="12%"
                     trend="down"
                     progress={0.4}
                     delay={150}
                 />
                 <ImprovementItem
-                    label="Hydration"
+                    label={t("progress.improvements.hydration")}
                     value="22%"
                     trend="up"
                     progress={0.3}
@@ -109,7 +109,7 @@ export function TopImprovementsCard() {
                 onPress={() => router.push('/top-improvements')}
                 style={styles.ctaContainer}
             >
-                <Text style={styles.ctaText}>View All Metrics</Text>
+                <Text style={styles.ctaText}>{t("progress.improvements.viewAllMetrics")}</Text>
             </TouchableOpacity>
         </View>
     );

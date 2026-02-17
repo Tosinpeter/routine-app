@@ -1,5 +1,4 @@
 import { StyleSheet, View } from "react-native";
-import Svg, { Circle, Defs, LinearGradient, Stop } from "react-native-svg";
 
 import { AppText as Text } from "@/components/app-text";
 import { AlarmIcon } from "@/components/icons/alarm-icon";
@@ -9,6 +8,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { GradientProgressRing } from "../gradient-progress-ring";
 import { LockIcon } from "../icons/lock-icon";
 import { Image } from "expo-image";
+import { t } from "@/i18n";
 
 
 export function ProductReminderCard() {
@@ -36,11 +36,11 @@ export function ProductReminderCard() {
             <View style={styles.header}>
                 <View style={styles.headerLeft}>
                     <AlarmIcon width={scale(24)} height={scale(24)} color="#CF604A" />
-                    <Text style={styles.headerTitle}>Product Reminder</Text>
+                    <Text style={styles.headerTitle}>{t("home.productReminder.title")}</Text>
                 </View>
 
                 <View style={styles.headerRight}>
-                    <Text style={styles.viewText}>View</Text>
+                    <Text style={styles.viewText}>{t("home.productReminder.view")}</Text>
                     <Ionicons name="chevron-forward" size={scale(16)} color={Colors.light.mainDarkColor} />
                 </View>
             </View>
@@ -60,7 +60,7 @@ export function ProductReminderCard() {
                                     gradientEndColor={colors.end}
                                 >
                                     <View style={styles.productImageWrapper}>
-                                        {item.progress == 0 ? (
+                                        {item.progress === 0 ? (
                                             <LockIcon size={scaleIcon(25)} />
                                         ) : (
                                             <Image
@@ -72,7 +72,7 @@ export function ProductReminderCard() {
                                     </View>
                                 </GradientProgressRing>
                             </View>
-                            <Text style={styles.daysText}>{item.days} Days left</Text>
+                            <Text style={styles.daysText}>{item.days} {t("home.productReminder.daysLeft")}</Text>
                         </View>
                     );
                 })}
@@ -92,7 +92,7 @@ export function ProductReminderCard() {
                             </View>
                         </GradientProgressRing>
                     </View>
-                    <Text style={styles.daysText}>Under Review</Text>
+                    <Text style={styles.daysText}>{t("home.productReminder.underReview")}</Text>
                 </View>
             </View>
         </View>

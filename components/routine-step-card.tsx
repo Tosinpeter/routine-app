@@ -65,7 +65,7 @@ export function RoutineStepCard({ step, isLast, onToggleComplete }: RoutineStepC
             <View style={styles.productImageContainer}>
               <GradientProgressRing size={scale(55)} strokeWidth={scale(6)} progress={product.progress}>
                 <View style={styles.productImageWrapper}>
-                  {product.progress == 0 ? (
+                  {product.progress === 0 ? (
                     <LockIcon size={scaleIcon(25)} />
                   ) : (
                     <Image

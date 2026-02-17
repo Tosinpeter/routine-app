@@ -8,9 +8,10 @@ import {
 
 import { AppText as Text } from "@/components/app-text";
 import { PrimaryButton } from "@/components/primary-button";
-import { moderateScale, scale, SCREEN_WIDTH, verticalScale } from "@/constants/scaling";
+import { moderateScale, scale, verticalScale } from "@/constants/scaling";
 import { AeonikFonts, Colors, BorderRadius, Shadows } from "@/constants/theme";
 import { ThemedView } from "@/components/themed-view";
+import { t } from "@/i18n";
 import { Image } from "expo-image";
 
 export default function CookiePolicyScreen() {
@@ -38,25 +39,25 @@ export default function CookiePolicyScreen() {
                     </View>
 
                     {/* Title */}
-                    <Text style={styles.title}>We value your privacy</Text>
+                    <Text style={styles.title}>{t("cookiePolicy.title")}</Text>
 
                     {/* Description */}
                     <Text style={styles.description}>
-                        To personalize what you see from us, we collect info on how you use our app. This also helps us (and the third parties we work with) improve your experience.
+                        {t("cookiePolicy.description")}
                     </Text>
                     
                     <TouchableOpacity onPress={handleReadPolicy}>
-                        <Text style={styles.link}>Read our Cookie Policy.</Text>
+                        <Text style={styles.link}>{t("cookiePolicy.readPolicy")}</Text>
                     </TouchableOpacity>
 
                     {/* Additional Info */}
                     <Text style={styles.additionalInfo}>
-                        Accept all cookies by choosing "Accept all" or only allow essential cookies by
+                        {t("cookiePolicy.additionalInfo")}
                     </Text>
 
                     {/* Accept Button */}
                     <PrimaryButton
-                        title="Accept all"
+                        title={t("cookiePolicy.acceptAll")}
                         onPress={handleAcceptAll}
                         style={styles.button}
                     />
