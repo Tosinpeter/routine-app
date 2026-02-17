@@ -57,5 +57,91 @@
     "october": "October",
     "november": "November",
     "december": "December"
+  },
+  "profile": {
+    "title": "Profile",
+    "account": "Account",
+    "needHelp": "Need Help?",
+    "setting": "Setting",
+    "legal": "Legal",
+    "profile": "Profile",
+    "savedAddress": "Saved Address",
+    "orderHistory": "Order History",
+    "skinProgress": "Your Skin Progress",
+    "history": "History",
+    "clinicTest": "Clinic Test",
+    "doctorReview": "Doctor Review",
+    "treatmentStarts": "Treatment Starts",
+    "emergencySupport": "Emergency Support",
+    "faq": "Frequently Asked Questions",
+    "language": "Language",
+    "permissions": "Permissions",
+    "privacy": "Privacy",
+    "termsOfUse": "Terms of Use",
+    "logOut": "Log Out"
+  },
+  "address": {
+    "savedAddress": "Saved Address",
+    "addHome": "Add Home",
+    "addWork": "Add Work",
+    "addNew": "Add New",
+    "addNewAddress": "Add New Address",
+    "confirmHome": "Confirm Home",
+    "confirmWork": "Confirm Work",
+    "confirmAddress": "Confirm Address",
+    "enterAddress": "Enter your address",
+    "currentLocation": "Current Location",
+    "mapView": "Map View",
+    "installMapNotice": "Install react-native-maps for live map"
+  },
+  "language": {
+    "title": "Language",
+    "chooseLanguage": "Choose your language",
+    "subtitle": "You can change the language in your profile settings after sign in.",
+    "unitedState": "United State",
+    "canada": "Canada",
+    "saudiArabia": "Saudi Arabia",
+    "japan": "Japan",
+    "qatar": "Qatar"
+  },
+  "permissions": {
+    "title": "Permissions",
+    "cameraAccess": "Camera Access",
+    "photosStorage": "Photos & Storage",
+    "notifications": "Notifications",
+    "location": "Location"
+  },
+  "faq": {
+    "title": "FAQ",
+    "subtitle": "Find answers to common questions about using the app",
+    "contactTitle": "Still have questions?",
+    "contactText": "Contact our support team for personalized assistance",
+    "contactButton": "Contact Support",
+    "questions": {
+      "q1": {
+        "question": "How does this app analyze my skin?",
+        "answer": "We use AI-assisted face analysis combined with dermatology protocols to assess your skin condition."
+      },
+      "q2": {
+        "question": "How often should I scan my face?",
+        "answer": "Yes, you can customize your routine at any time. Go to the Routine tab and tap on any product to explore alternatives that match your skin profile."
+      },
+      "q3": {
+        "question": "When will I see visible results?",
+        "answer": "We recommend tracking your progress weekly. Take photos in consistent lighting to see the changes over time. The app will analyze your progress and suggest adjustments as needed."
+      },
+      "q4": {
+        "question": "Why do I need a lab test?",
+        "answer": "Don't worry! Consistency is important, but missing a day occasionally won't ruin your progress. Just resume your routine the next day as normal."
+      },
+      "q5": {
+        "question": "Is my face data safe?",
+        "answer": "Navigate to the Profile section and select 'Doctor Review'. You can schedule a video consultation or review your skin progress with our dermatology team."
+      },
+      "q6": {
+        "question": "Is my personal data secure?",
+        "answer": "Yes, we offer a 30-day money-back guarantee on all products. If you're not satisfied, contact our support team through the Emergency Support option."
+      }
+    }
   }
 }

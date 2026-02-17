@@ -17,6 +17,8 @@ export interface GradientProgressRingProps {
   strokeWidth?: number;
   progress?: number;
   children?: React.ReactNode;
+  gradientStartColor?: string;
+  gradientEndColor?: string;
 }
 
 export function GradientProgressRing({
@@ -24,6 +26,8 @@ export function GradientProgressRing({
   strokeWidth = 6,
   progress = 0.75,
   children,
+  gradientStartColor = Colors.light.gradientPurple,
+  gradientEndColor = Colors.light.gradientBlue,
 }: GradientProgressRingProps) {
   const radius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
@@ -46,8 +50,8 @@ export function GradientProgressRing({
       <Svg width={size} height={size} style={{ position: "absolute" }}>
         <Defs>
           <LinearGradient id="progressGradient" x1="100%" y1="0%" x2="0%" y2="100%">
-            <Stop offset="0%" stopColor={Colors.light.gradientPurple} />
-            <Stop offset="100%" stopColor={Colors.light.gradientBlue} />
+            <Stop offset="0%" stopColor={gradientStartColor} />
+            <Stop offset="100%" stopColor={gradientEndColor} />
           </LinearGradient>
         </Defs>
         {/* Background circle */}
