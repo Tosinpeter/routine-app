@@ -1,42 +1,51 @@
 {
+  "api": {
+    "error": {
+      "network": "لا يوجد اتصال. يرجى المحاولة لاحقًا.",
+      "timeout": "انتهت مهلة الطلب. يرجى المحاولة لاحقًا.",
+      "server": "خطأ في الخادم. يرجى المحاولة لاحقًا.",
+      "badRequest": "حدث خطأ ما. يرجى المحاولة لاحقًا.",
+      "generic": "حدث خطأ ما. يرجى المحاولة لاحقًا."
+    }
+  },
   "common": {
-    "continue": "Continue",
-    "cancel": "Cancel",
-    "ok": "OK",
-    "tryAgain": "Try again",
-    "retry": "Retry",
-    "save": "Save",
-    "apply": "Apply",
-    "confirm": "Confirm",
-    "change": "Change",
-    "loading": "Loading...",
-    "error": "Error",
-    "success": "Success",
-    "yes": "Yes",
-    "no": "No",
-    "notSet": "Not set",
-    "openSettings": "Open Settings",
-    "skip": "Skip",
-    "next": "Next",
-    "getStarted": "Get Started",
+    "continue": "متابعة",
+    "cancel": "إلغاء",
+    "ok": "حسنًا",
+    "tryAgain": "حاول مجددًا",
+    "retry": "إعادة المحاولة",
+    "save": "حفظ",
+    "apply": "تطبيق",
+    "confirm": "تأكيد",
+    "change": "تغيير",
+    "loading": "جارٍ التحميل...",
+    "error": "خطأ",
+    "success": "تم بنجاح",
+    "yes": "نعم",
+    "no": "لا",
+    "notSet": "غير محدد",
+    "openSettings": "فتح الإعدادات",
+    "skip": "تخطي",
+    "next": "التالي",
+    "getStarted": "ابدأ الآن",
     "brandName": "Gloord",
-    "view": "View"
+    "view": "عرض"
   },
   "tabs": {
-    "home": "Home",
-    "routine": "Routine",
-    "skincare": "Skincare",
-    "progress": "Progress",
-    "profile": "Profile"
+    "home": "الرئيسية",
+    "routine": "الروتين",
+    "skincare": "العناية بالبشرة",
+    "progress": "التقدم",
+    "profile": "الملف الشخصي"
   },
   "home": {
     "greetings": {
       "morning": "صباح",
       "afternoon": "بعد الظهر",
       "evening": "مساء",
-      "goodMorning": "Good Morning",
-      "goodAfternoon": "Good Afternoon",
-      "goodEvening": "Good Evening"
+      "goodMorning": "صباح الخير",
+      "goodAfternoon": "مساء الخير",
+      "goodEvening": "مساء الخير"
     },
     "daySelector": {
       "day": "يوم"
@@ -46,61 +55,61 @@
       "evening": "مساء"
     },
     "error": {
-      "failedToLoad": "Failed to load home data"
+      "failedToLoad": "فشل في تحميل بيانات الصفحة الرئيسية"
     },
     "progress": {
-      "title": "Your Progress"
+      "title": "تقدمك"
     },
     "dermatologyInsight": {
-      "title": "Dermatology\nInsight",
-      "subtitle": "Consistency for 28-30 days brings visible results."
+      "title": "نصائح\nالأمراض الجلدية",
+      "subtitle": "الالتزام لمدة 28-30 يومًا يُظهر نتائج ملحوظة."
     },
     "productReminder": {
-      "title": "Product Reminder",
-      "view": "View",
-      "daysLeft": "Days left",
-      "underReview": "Under Review"
+      "title": "تذكير بالمنتج",
+      "view": "عرض",
+      "daysLeft": "أيام متبقية",
+      "underReview": "قيد المراجعة"
     },
     "progressPreview": {
-      "subtitle": "Before & After comparison",
-      "unlocksIn": "Unlocks in {{days}}days"
+      "subtitle": "مقارنة قبل وبعد",
+      "unlocksIn": "يُفتح بعد {{days}} يوم"
     },
     "progressSteps": {
-      "pending": "Pending"
+      "pending": "قيد الانتظار"
     },
     "treatmentPlan": {
-      "defaultTitle": "Your Skin Routine",
-      "defaultSubtitle": "Treatment Plan",
-      "completed": "Completed"
+      "defaultTitle": "روتين بشرتك",
+      "defaultSubtitle": "خطة العلاج",
+      "completed": "مكتمل"
     },
     "skinRoutine": {
-      "treatmentPlan": "Treatment Plan",
-      "yourSkinRoutine": "Your Skin Routine",
-      "completed": "Completed"
+      "treatmentPlan": "خطة العلاج",
+      "yourSkinRoutine": "روتين بشرتك",
+      "completed": "مكتمل"
     },
     "uploadPrescription": {
-      "title": "Upload Your Prescription",
-      "description": "Upload lab tests, medical reports, or ID/Insurance if needed. Files must be clear and readable.",
-      "selectFile": "Select File"
+      "title": "ارفع وصفتك الطبية",
+      "description": "قم بتحميل الفحوصات المخبرية أو التقارير الطبية أو الهوية/التأمين إذا لزم الأمر. يجب أن تكون الملفات واضحة وقابلة للقراءة.",
+      "selectFile": "اختر ملفًا"
     },
     "dermatologistSupport": {
-      "badgeFree": "Free",
-      "title": "Dermatologist Support",
-      "description": "Our top dermatologist adjust your plan when needed for free",
+      "badgeFree": "مجاني",
+      "title": "دعم طبيب الأمراض الجلدية",
+      "description": "أفضل أطباء الأمراض الجلدية لدينا يعدّلون خطتك عند الحاجة مجانًا",
       "badge247": "24/7",
-      "titleExpert": "Expert Consultation",
-      "descriptionExpert": "Get professional skincare advice anytime, anywhere from certified experts",
-      "badgePremium": "Premium",
-      "titlePersonalized": "Personalized Care",
-      "descriptionPersonalized": "Customized treatment plans tailored to your unique skin needs"
+      "titleExpert": "استشارة متخصصة",
+      "descriptionExpert": "احصل على نصائح احترافية للعناية بالبشرة في أي وقت ومن أي مكان من خبراء معتمدين",
+      "badgePremium": "مميز",
+      "titlePersonalized": "رعاية مخصصة",
+      "descriptionPersonalized": "خطط علاج مصممة خصيصًا لتلبية احتياجات بشرتك الفريدة"
     },
     "contactSupport": {
-      "title": "Contact Support"
+      "title": "تواصل مع الدعم"
     },
     "labReport": {
-      "title": "Show Lab test Report",
-      "accessibilityLabel": "Show Lab test Report",
-      "accessibilityHint": "Navigates to the lab test report details"
+      "title": "عرض تقرير الفحص المخبري",
+      "accessibilityLabel": "عرض تقرير الفحص المخبري",
+      "accessibilityHint": "الانتقال إلى تفاصيل تقرير الفحص المخبري"
     }
   },
   "routineStep": {
@@ -112,412 +121,412 @@
   },
   "routine": {
     "error": {
-      "generic": "An error occurred"
+      "generic": "حدث خطأ"
     }
   },
   "auth": {
     "phone": {
-      "title": "Enter your phone number",
-      "subtitle": "We'll check if you've already done a skin analysis and link your results.",
+      "title": "أدخل رقم هاتفك",
+      "subtitle": "سنتحقق مما إذا كنت قد أجريت تحليلًا للبشرة مسبقًا وسنربط نتائجك.",
       "placeholder": "(316) 555-0116"
     },
     "otp": {
-      "title": "Enter the 6-digit code",
-      "subtitle": "We sent a code to {{phoneNumber}}",
-      "resendCodeIn": "Resend code in {{time}}",
-      "resendCode": "Resend code"
+      "title": "أدخل الرمز المكون من 6 أرقام",
+      "subtitle": "أرسلنا رمزًا إلى {{phoneNumber}}",
+      "resendCodeIn": "إعادة إرسال الرمز خلال {{time}}",
+      "resendCode": "إعادة إرسال الرمز"
     },
-    "skipAnalysis": "I haven't done my skin analysis yet"
+    "skipAnalysis": "لم أقم بتحليل بشرتي بعد"
   },
   "onboarding": {
-    "skip": "Skip",
-    "next": "Next",
-    "getStarted": "Get Started",
+    "skip": "تخطي",
+    "next": "التالي",
+    "getStarted": "ابدأ الآن",
     "slides": {
       "slide1": {
-        "title": "How it works",
-        "subtitle": "You see the surface\nwe understand your skin",
-        "description": "We discover what's really happening with your skin and how to treat it. This is where your care begins."
+        "title": "كيف يعمل",
+        "subtitle": "أنت ترى السطح\nنحن نفهم بشرتك",
+        "description": "نكتشف ما يحدث فعلًا لبشرتك وكيفية علاجها. هنا تبدأ رحلة عنايتك."
       },
       "slide2": {
-        "title": "How it works",
-        "subtitle": "You see the surface\nwe understand your skin",
-        "description": "We discover what's really happening with your skin and how to treat it. This is where your care begins."
+        "title": "كيف يعمل",
+        "subtitle": "أنت ترى السطح\nنحن نفهم بشرتك",
+        "description": "نكتشف ما يحدث فعلًا لبشرتك وكيفية علاجها. هنا تبدأ رحلة عنايتك."
       },
       "slide3": {
-        "title": "Not just a skincare routine.",
-        "subtitle": "Get professional advice",
-        "description": "A treatment plan tailored to your skin's needs. Backed by analysis. Built by experts."
+        "title": "ليس مجرد روتين للعناية بالبشرة.",
+        "subtitle": "احصل على استشارة متخصصة",
+        "description": "خطة علاج مصممة لاحتياجات بشرتك. مبنية على التحليل. صُممت بواسطة خبراء."
       }
     }
   },
   "startAnalysis": {
-    "title": "Analyze your\nskin now.",
-    "button": "Start Analysis",
-    "brand": "Powered by Gloord"
+    "title": "حلّل بشرتك\nالآن.",
+    "button": "ابدأ التحليل",
+    "brand": "مدعوم من Gloord"
   },
   "photoPrep": {
     "tips": {
-      "tip1": "Remove extensive make-up or mask",
-      "tip2": "Ensure good lighting conditions",
-      "tip3": "Position your face in the frame",
-      "tip4": "Keep a neutral facial expression"
+      "tip1": "أزل المكياج الكثيف أو الكمامة",
+      "tip2": "تأكد من وجود إضاءة جيدة",
+      "tip3": "ضع وجهك داخل الإطار",
+      "tip4": "حافظ على تعبير وجه محايد"
     },
-    "tipBadge": "Tip {{number}}/4",
-    "takePhoto": "Take a photo",
-    "uploadFromDevice": "Upload from device"
+    "tipBadge": "نصيحة {{number}}/4",
+    "takePhoto": "التقط صورة",
+    "uploadFromDevice": "ارفع من الجهاز"
   },
   "quiz": {
     "intro": {
-      "title": "You're one step away\nfrom your full routine!",
-      "subtitle": "We've analyzed your skin at the clinic, but need a few more answers to complete your plan.",
-      "startButton": "Start The Quiz"
+      "title": "أنت على بُعد خطوة واحدة\nمن روتينك الكامل!",
+      "subtitle": "لقد حللنا بشرتك في العيادة، لكننا نحتاج إلى بعض الإجابات الإضافية لإكمال خطتك.",
+      "startButton": "ابدأ الاختبار"
     },
     "questions": {
       "q1": {
-        "question": "Select the correct image",
-        "option1": "Smooth & Even",
-        "option2": "Oily in T-zone",
-        "option3": "Redness",
-        "option4": "Breakouts"
+        "question": "اختر الصورة الصحيحة",
+        "option1": "ناعمة ومتساوية",
+        "option2": "دهنية في منطقة T",
+        "option3": "احمرار",
+        "option4": "بثور"
       },
       "q2": {
-        "question": "Before we send your\nskincare items, please\nanswer:",
-        "option1": "I have no known medical issues.",
-        "option2": "I have kidney-related issues.",
-        "option3": "I am pregnant or breastfeeding.",
-        "option4": "I have allergies to certain ingredients."
+        "question": "قبل أن نرسل لك\nمنتجات العناية بالبشرة،\nيرجى الإجابة:",
+        "option1": "ليس لدي مشاكل صحية معروفة.",
+        "option2": "لدي مشاكل متعلقة بالكلى.",
+        "option3": "أنا حامل أو مُرضعة.",
+        "option4": "لدي حساسية تجاه مكونات معينة."
       }
     },
     "complete": {
-      "title": "That's it — we've got what we need.",
-      "subtitle": "Now let's build your routine — step by step.",
-      "generateButton": "Generate Product"
+      "title": "هذا كل شيء — حصلنا على ما نحتاجه.",
+      "subtitle": "الآن لنبنِ روتينك — خطوة بخطوة.",
+      "generateButton": "إنشاء المنتج"
     }
   },
   "notification": {
-    "title": "Notification",
+    "title": "الإشعارات",
     "time": {
-      "justNow": "Just now",
-      "minuteAgo": "1 minute ago",
-      "minutesAgo": "{{count}} minutes ago",
-      "hourAgo": "1 hour ago",
-      "hoursAgo": "{{count}} hours ago",
-      "today": "Today",
-      "am": "am",
-      "pm": "pm"
+      "justNow": "الآن",
+      "minuteAgo": "منذ دقيقة",
+      "minutesAgo": "منذ {{count}} دقائق",
+      "hourAgo": "منذ ساعة",
+      "hoursAgo": "منذ {{count}} ساعات",
+      "today": "اليوم",
+      "am": "ص",
+      "pm": "م"
     },
     "groups": {
-      "today": "Today",
-      "yesterday": "Yesterday",
-      "thisWeek": "This Week"
+      "today": "اليوم",
+      "yesterday": "أمس",
+      "thisWeek": "هذا الأسبوع"
     },
     "error": {
-      "failedToLoad": "Failed to load notifications",
-      "description": "We're having trouble loading your notifications. Please try again."
+      "failedToLoad": "فشل في تحميل الإشعارات",
+      "description": "نواجه مشكلة في تحميل إشعاراتك. يرجى المحاولة مرة أخرى."
     },
     "empty": {
-      "title": "Nothing here!!",
-      "subtitle": "We'll let you know when we've got\nsomething new for you."
+      "title": "لا يوجد شيء هنا!!",
+      "subtitle": "سنُعلمك عندما يكون لدينا\nشيء جديد لك."
     }
   },
   "notificationSheet": {
-    "title": "Unlock your Daily Routine",
-    "subtitle": "Enable notifications to receive  your morning & evening skincare reminders. Without them, your routine won't stay consistent.",
-    "enableButton": "Enable Notification",
-    "requesting": "Requesting...",
-    "maybeLater": "Maybe later",
+    "title": "فعّل روتينك اليومي",
+    "subtitle": "فعّل الإشعارات لتلقي تذكيرات العناية بالبشرة الصباحية والمسائية. بدونها، لن يبقى روتينك منتظمًا.",
+    "enableButton": "تفعيل الإشعارات",
+    "requesting": "جارٍ الطلب...",
+    "maybeLater": "ربما لاحقًا",
     "error": {
-      "permissionDenied": "Permission denied. Please enable notifications in your device settings.",
-      "unableToGet": "Unable to get notification permission. Please try again.",
-      "generic": "An error occurred. Please try again."
+      "permissionDenied": "تم رفض الإذن. يرجى تفعيل الإشعارات من إعدادات جهازك.",
+      "unableToGet": "تعذر الحصول على إذن الإشعارات. يرجى المحاولة مرة أخرى.",
+      "generic": "حدث خطأ. يرجى المحاولة مرة أخرى."
     },
     "alert": {
-      "disabledTitle": "Notifications Disabled",
-      "disabledMessage": "To receive skincare reminders, please enable notifications in your device settings."
+      "disabledTitle": "الإشعارات معطلة",
+      "disabledMessage": "لتلقي تذكيرات العناية بالبشرة، يرجى تفعيل الإشعارات من إعدادات جهازك."
     }
   },
   "cookiePolicy": {
-    "title": "We value your privacy",
-    "description": "To personalize what you see from us, we collect info on how you use our app. This also helps us (and the third parties we work with) improve your experience.",
-    "readPolicy": "Read our Cookie Policy.",
-    "additionalInfo": "Accept all cookies by choosing \"Accept all\" or only allow essential cookies by",
-    "acceptAll": "Accept all"
+    "title": "نحن نقدّر خصوصيتك",
+    "description": "لتخصيص ما تراه منا، نجمع معلومات حول كيفية استخدامك لتطبيقنا. يساعدنا هذا أيضًا (والأطراف الثالثة التي نعمل معها) في تحسين تجربتك.",
+    "readPolicy": "اقرأ سياسة ملفات تعريف الارتباط.",
+    "additionalInfo": "اقبل جميع ملفات تعريف الارتباط باختيار \"قبول الكل\" أو اسمح فقط بملفات تعريف الارتباط الأساسية عبر",
+    "acceptAll": "قبول الكل"
   },
   "faceScan": {
-    "title": "History",
+    "title": "السجل",
     "metrics": {
-      "spot": "Spot",
-      "oiliness": "Oiliness",
-      "droopyUpperEyelid": "Droopy Upper eyelid",
-      "droopyLowerEyelid": "Droopy Lower Eyelid",
-      "firmness": "Firmness",
-      "darkCircles": "Dark Circles"
+      "spot": "بقع",
+      "oiliness": "الدهون",
+      "droopyUpperEyelid": "تدلي الجفن العلوي",
+      "droopyLowerEyelid": "تدلي الجفن السفلي",
+      "firmness": "المرونة",
+      "darkCircles": "الهالات السوداء"
     }
   },
   "treatmentPlan": {
-    "title": "Your Treatment Plan",
-    "subtitle": "Build by top dermatology experts",
-    "caption": "Similar cases from our\nprevious patient",
+    "title": "خطة علاجك",
+    "subtitle": "صُممت بواسطة أفضل خبراء الأمراض الجلدية",
+    "caption": "حالات مشابهة من\nمرضانا السابقين",
     "comparison": {
-      "withoutProduct": "without product",
-      "withProduct": "With Product"
+      "withoutProduct": "بدون المنتج",
+      "withProduct": "مع المنتج"
     },
-    "tryAgain": "Try again",
+    "tryAgain": "حاول مجددًا",
     "trust": {
-      "trustText": "we are using 100% certified famous and best brand that will perfectly fit your skin",
+      "trustText": "نستخدم علامات تجارية معتمدة 100% ومشهورة وأفضل العلامات التي تناسب بشرتك تمامًا",
       "ratingValue": "4.9/5",
-      "userCount": "by 12,000+ users",
-      "ratingDescription": "Visible improvements in just weeks."
+      "userCount": "من أكثر من 12,000 مستخدم",
+      "ratingDescription": "تحسينات ملحوظة في أسابيع قليلة."
     },
     "supportBanner": {
-      "badge": "Free",
-      "title": "Dermatologist Support",
-      "description": "Our top dermatologist adjust your plan when needed for free"
+      "badge": "مجاني",
+      "title": "دعم طبيب الأمراض الجلدية",
+      "description": "أفضل أطباء الأمراض الجلدية لدينا يعدّلون خطتك عند الحاجة مجانًا"
     },
     "protocol": {
-      "sectionTitle": "Your Complete Protocol",
-      "primaryTitle": "Primary Treatment Formula",
-      "primarySubtitle": "Targeted active ingredients designed to treat your core skin concerns.",
-      "primaryItem1": "Reduces acne-causing bacteria",
-      "primaryItem2": "Unclogs pores",
-      "primaryItem3": "Improves texture & tone",
-      "supplementTitle": "Supplement Support",
-      "supplementSubtitle": "Helps your skin heal and strengthen from within.",
-      "supplementItem1": "Balances inflammation",
-      "supplementItem2": "Boosts recovery",
-      "supplementItem3": "Supports long-term results",
-      "deviceTitle": "Home Device",
-      "deviceSubtitle": "Enhances absorption and maximizes treatment effectiveness.",
-      "deviceItem1": "Improves product penetration",
-      "deviceItem2": "Smooths texture",
-      "deviceItem3": "Speeds up visible results"
+      "sectionTitle": "بروتوكولك الكامل",
+      "primaryTitle": "تركيبة العلاج الأساسية",
+      "primarySubtitle": "مكونات فعالة مستهدفة مصممة لعلاج مشاكل بشرتك الرئيسية.",
+      "primaryItem1": "تقلل البكتيريا المسببة لحب الشباب",
+      "primaryItem2": "تفتح المسام المسدودة",
+      "primaryItem3": "تحسّن الملمس ولون البشرة",
+      "supplementTitle": "الدعم التكميلي",
+      "supplementSubtitle": "يساعد بشرتك على التعافي والتقوية من الداخل.",
+      "supplementItem1": "يوازن الالتهاب",
+      "supplementItem2": "يعزز التعافي",
+      "supplementItem3": "يدعم النتائج طويلة المدى",
+      "deviceTitle": "الجهاز المنزلي",
+      "deviceSubtitle": "يعزز الامتصاص ويزيد من فعالية العلاج.",
+      "deviceItem1": "يحسّن تغلغل المنتج",
+      "deviceItem2": "ينعّم الملمس",
+      "deviceItem3": "يُسرّع النتائج المرئية"
     },
     "preparation": {
-      "title": "We are Preparing\nYour Product"
+      "title": "نحن نحضّر\nمنتجك"
     },
     "whatsInside": {
-      "sectionTitle": "What's Inside:",
-      "activeFormulaTitle": "Active Formula",
-      "activeFormulaSubtitle": "A personalized blend of active ingredients designed to target your specific skin concerns.",
-      "activeFormulaBullet1": "Custom-strength prescription actives",
-      "activeFormulaBullet2": "Targets acne, pigmentation, and texture",
-      "activeFormulaBullet3": "Formulated based on your AI scan & dermatologist review",
-      "activeFormulaBullet4": "Clinically proven ingredients",
-      "supplementTitle": "Supplement",
-      "supplementSubtitle": "Daily nutritional support for skin health.",
-      "supplementBullet1": "Boosts skin immunity",
-      "supplementBullet2": "Reduces inflammation",
-      "supplementBullet3": "Supports overall wellness",
-      "homeDeviceTitle": "Home Device",
-      "homeDeviceSubtitle": "Professional grade tools for home use.",
-      "homeDeviceBullet1": "Increases product absorption",
-      "homeDeviceBullet2": "Stimulates collagen production",
-      "stepByStepTitle": "Step-by-Step Plan",
-      "stepByStepSubtitle": "Your daily guide to specific usage.",
-      "stepByStepBullet1": "Morning & Night routine",
-      "stepByStepBullet2": "Application techniques",
-      "progressTrackingTitle": "Progress Tracking",
-      "progressTrackingSubtitle": "Monitor your improvements over time.",
-      "progressTrackingBullet1": "Weekly photo check-ins",
-      "progressTrackingBullet2": "Dermatologist feedback"
+      "sectionTitle": "ماذا بالداخل:",
+      "activeFormulaTitle": "التركيبة الفعالة",
+      "activeFormulaSubtitle": "مزيج مخصص من المكونات الفعالة مصمم لاستهداف مشاكل بشرتك المحددة.",
+      "activeFormulaBullet1": "مكونات فعالة بوصفة طبية مخصصة القوة",
+      "activeFormulaBullet2": "يستهدف حب الشباب والتصبغات والملمس",
+      "activeFormulaBullet3": "مصاغ بناءً على فحص الذكاء الاصطناعي ومراجعة طبيب الأمراض الجلدية",
+      "activeFormulaBullet4": "مكونات مثبتة سريريًا",
+      "supplementTitle": "المكمل الغذائي",
+      "supplementSubtitle": "دعم غذائي يومي لصحة البشرة.",
+      "supplementBullet1": "يعزز مناعة البشرة",
+      "supplementBullet2": "يقلل الالتهاب",
+      "supplementBullet3": "يدعم الصحة العامة",
+      "homeDeviceTitle": "الجهاز المنزلي",
+      "homeDeviceSubtitle": "أدوات بمستوى احترافي للاستخدام المنزلي.",
+      "homeDeviceBullet1": "يزيد امتصاص المنتج",
+      "homeDeviceBullet2": "يحفّز إنتاج الكولاجين",
+      "stepByStepTitle": "خطة خطوة بخطوة",
+      "stepByStepSubtitle": "دليلك اليومي للاستخدام المحدد.",
+      "stepByStepBullet1": "روتين صباحي ومسائي",
+      "stepByStepBullet2": "تقنيات التطبيق",
+      "progressTrackingTitle": "تتبع التقدم",
+      "progressTrackingSubtitle": "راقب تحسّنك بمرور الوقت.",
+      "progressTrackingBullet1": "متابعة أسبوعية بالصور",
+      "progressTrackingBullet2": "ملاحظات طبيب الأمراض الجلدية"
     },
     "benefits": {
-      "dermatologistTested": "Dermatologist-\ntested",
-      "parabenFree": "Paraben-free",
-      "sulfateFree": "Sulfate-free",
-      "nonComedogenic": "Non-\ncomedogenic",
-      "fragranceFree": "Fragrance-free",
-      "vegan": "Vegan"
+      "dermatologistTested": "مُختبر من\nأطباء الجلدية",
+      "parabenFree": "خالٍ من البارابين",
+      "sulfateFree": "خالٍ من الكبريتات",
+      "nonComedogenic": "لا يسد\nالمسام",
+      "fragranceFree": "خالٍ من العطور",
+      "vegan": "نباتي"
     },
     "activeIngredients": {
-      "tretinoin": "Tretinoin",
-      "clindamycin": "Clindamycin",
-      "azelaicAcid": "Azelaic acid"
+      "tretinoin": "تريتينوين",
+      "clindamycin": "كليندامايسين",
+      "azelaicAcid": "حمض الأزيليك"
     }
   },
   "labTest": {
-    "title": "Lab test is ready",
-    "subtitle": "Download the lab request and\nbring it to any facility",
-    "downloadPdf": "Download PDF",
-    "downloading": "Downloading...",
-    "warning": "Make sure to Present this prescription to\nthe Pharmacist as-is, without any edits.",
+    "title": "الفحص المخبري جاهز",
+    "subtitle": "قم بتحميل طلب الفحص المخبري\nوأحضره إلى أي مختبر",
+    "downloadPdf": "تحميل PDF",
+    "downloading": "جارٍ التحميل...",
+    "warning": "تأكد من تقديم هذه الوصفة للصيدلي\nكما هي، بدون أي تعديلات.",
     "download": {
-      "dialogTitle": "Save Lab Test PDF",
-      "completeTitle": "Download Complete",
-      "completeMessage": "PDF saved successfully!",
-      "failedTitle": "Download Failed",
-      "failedMessage": "Unable to download the PDF. Please try again."
+      "dialogTitle": "حفظ ملف PDF للفحص المخبري",
+      "completeTitle": "اكتمل التحميل",
+      "completeMessage": "تم حفظ ملف PDF بنجاح!",
+      "failedTitle": "فشل التحميل",
+      "failedMessage": "تعذر تحميل ملف PDF. يرجى المحاولة مرة أخرى."
     },
     "prescription": {
-      "title": "Your prescription is ready",
-      "subtitle": "Based on your skin analysis and doctor review,\nyour prescription has been prepared.",
-      "downloadButton": "Download Prescription (PDF)"
+      "title": "وصفتك الطبية جاهزة",
+      "subtitle": "بناءً على تحليل بشرتك ومراجعة الطبيب،\nتم تحضير وصفتك الطبية.",
+      "downloadButton": "تحميل الوصفة الطبية (PDF)"
     }
   },
   "payment": {
     "checkout": {
-      "title": "Checkout",
-      "yourAdded": "Your Added ({{count}})",
-      "description": "All your recommendations product. How many products and brands name",
-      "delivery": "Delivery",
-      "pickup": "Pickup",
-      "applyCoupon": "Apply Coupon",
-      "shipmentCost": "Shipment Cost:",
-      "insurance": "Insurance:",
-      "totalPayment": "Total Payment:",
-      "total": "Total:",
-      "continueButton": "Continue to Purchase"
+      "title": "الدفع",
+      "yourAdded": "المضاف لديك ({{count}})",
+      "description": "جميع المنتجات الموصى بها لك. عدد المنتجات وأسماء العلامات التجارية",
+      "delivery": "توصيل",
+      "pickup": "استلام",
+      "applyCoupon": "تطبيق قسيمة",
+      "shipmentCost": "تكلفة الشحن:",
+      "insurance": "التأمين:",
+      "totalPayment": "إجمالي الدفع:",
+      "total": "المجموع:",
+      "continueButton": "متابعة الشراء"
     },
     "delivery": {
-      "title": "Delivery",
-      "fillRequired": "Please fill in all required fields",
-      "signUpNews": "Sign me up for news and offers from this store",
-      "countryRegion": "Country/Region",
-      "firstName": "First name",
-      "email": "Email",
-      "address": "Address",
-      "apartment": "Apartment, suite, etc. (optional)",
-      "city": "City",
-      "county": "County",
-      "postalCode": "Postal code",
-      "phone": "Phone (optional)",
-      "placeOrder": "Place Order"
+      "title": "التوصيل",
+      "fillRequired": "يرجى ملء جميع الحقول المطلوبة",
+      "signUpNews": "اشتركني في الأخبار والعروض من هذا المتجر",
+      "countryRegion": "الدولة/المنطقة",
+      "firstName": "الاسم الأول",
+      "email": "البريد الإلكتروني",
+      "address": "العنوان",
+      "apartment": "شقة، جناح، إلخ. (اختياري)",
+      "city": "المدينة",
+      "county": "المحافظة",
+      "postalCode": "الرمز البريدي",
+      "phone": "الهاتف (اختياري)",
+      "placeOrder": "تأكيد الطلب"
     },
     "summary": {
-      "deliveryAddress": "Delivery Address",
-      "payment": "Payment",
-      "payWith": "Pay with",
-      "orderSummary": "Order Summary",
-      "discountCode": "Discount code"
+      "deliveryAddress": "عنوان التوصيل",
+      "payment": "الدفع",
+      "payWith": "الدفع بواسطة",
+      "orderSummary": "ملخص الطلب",
+      "discountCode": "رمز الخصم"
     }
   },
   "order": {
     "history": {
-      "title": "Order History"
+      "title": "سجل الطلبات"
     },
     "status": {
-      "active": "Active",
-      "completed": "Completed"
+      "active": "نشط",
+      "completed": "مكتمل"
     },
     "details": {
-      "doctorApproved": "Doctor-approved routine",
-      "productIncluded": "{{count}} Product Included",
-      "morningOnly": "Morning Only",
-      "nightOnly": "Night Only"
+      "doctorApproved": "روتين معتمد من الطبيب",
+      "productIncluded": "{{count}} منتج مشمول",
+      "morningOnly": "صباحي فقط",
+      "nightOnly": "مسائي فقط"
     },
-    "viewDetails": "View Details",
-    "reorder": "Reorder",
-    "estimatedTime": "Estimated to last {{days}} days",
+    "viewDetails": "عرض التفاصيل",
+    "reorder": "إعادة الطلب",
+    "estimatedTime": "يكفي لمدة {{days}} يوم تقريبًا",
     "empty": {
-      "title": "No orders yet",
-      "subtitle": "Your order history will appear here"
+      "title": "لا توجد طلبات بعد",
+      "subtitle": "سيظهر سجل طلباتك هنا"
     }
   },
   "product": {
     "details": {
-      "title": "Product Details",
-      "description": "Description",
-      "howToUse": "How to Use",
-      "before": "Before",
-      "after": "After",
-      "productDetails": "Product Details",
-      "doctorNotes": "Doctor's Notes",
-      "importantWarnings": "Important Warnings"
+      "title": "تفاصيل المنتج",
+      "description": "الوصف",
+      "howToUse": "طريقة الاستخدام",
+      "before": "قبل",
+      "after": "بعد",
+      "productDetails": "تفاصيل المنتج",
+      "doctorNotes": "ملاحظات الطبيب",
+      "importantWarnings": "تحذيرات مهمة"
     }
   },
   "progress": {
-    "loading": "Loading your progress...",
+    "loading": "جارٍ تحميل تقدمك...",
     "error": {
-      "failedToLoad": "Failed to load progress"
+      "failedToLoad": "فشل في تحميل التقدم"
     },
     "topImprovements": {
-      "title": "Top Improvements"
+      "title": "أبرز التحسينات"
     },
     "metrics": {
-      "skinScore": "Skin Score",
-      "skinAge": "Skin Age",
-      "yearsOld": "years old",
-      "hydration": "Hydration",
-      "acne": "Acne",
-      "texture": "Texture",
-      "wrinkles": "Wrinkles",
-      "darkSpots": "Dark Spots"
+      "skinScore": "درجة البشرة",
+      "skinAge": "عمر البشرة",
+      "yearsOld": "سنة",
+      "hydration": "الترطيب",
+      "acne": "حب الشباب",
+      "texture": "الملمس",
+      "wrinkles": "التجاعيد",
+      "darkSpots": "البقع الداكنة"
     },
     "improvements": {
-      "acne": "Acne",
-      "redness": "Redness",
-      "hydration": "Hydration",
-      "viewAllMetrics": "View All Metrics"
+      "acne": "حب الشباب",
+      "redness": "الاحمرار",
+      "hydration": "الترطيب",
+      "viewAllMetrics": "عرض جميع المقاييس"
     },
     "routineConsistency": {
-      "title": "Routine Consistency",
-      "description": "You followed your routine {{percentage}}% of days"
+      "title": "انتظام الروتين",
+      "description": "اتبعت روتينك {{percentage}}% من الأيام"
     },
     "unlocked": {
-      "title": "Your Skin Progress",
-      "topImprovements": "Top Improvements"
+      "title": "تقدم بشرتك",
+      "topImprovements": "أبرز التحسينات"
     },
     "helped": {
-      "title": "What helped your progress",
-      "followedRoutine": "Followed routine 85% of days",
-      "doctorPrescribed": "Doctor-prescribed products"
+      "title": "ما ساعد في تقدمك",
+      "followedRoutine": "اتباع الروتين 85% من الأيام",
+      "doctorPrescribed": "منتجات بوصفة طبية"
     },
     "scanHistory": {
-      "title": "Scan History",
-      "followedRoutine": "Followed routine 85% of days"
+      "title": "سجل الفحوصات",
+      "followedRoutine": "اتباع الروتين 85% من الأيام"
     },
     "log": {
-      "title": "Your Progress",
-      "description": "We're tracking changes in your skin. Full visual comparison unlocks after 30 days"
+      "title": "تقدمك",
+      "description": "نحن نتتبع التغييرات في بشرتك. المقارنة البصرية الكاملة تُفتح بعد 30 يومًا"
     }
   },
   "error": {
-    "title": "Oops!",
+    "title": "عذرًا!",
     "apiError": {
-      "title": "Oops!",
-      "code": "Error 404- Page Not Found",
-      "description": "The page you requested could not be found. We're working on it:)"
+      "title": "عذرًا!",
+      "code": "خطأ 404 - الصفحة غير موجودة",
+      "description": "الصفحة التي طلبتها غير موجودة. نحن نعمل على حل المشكلة :)"
     },
-    "notFound": "Error 404 - Page Not Found",
-    "notFoundDescription": "The page you requested could not be found. We're working on it :)",
-    "tryAgain": "Try Again",
+    "notFound": "خطأ 404 - الصفحة غير موجودة",
+    "notFoundDescription": "الصفحة التي طلبتها غير موجودة. نحن نعمل على حل المشكلة :)",
+    "tryAgain": "حاول مجددًا",
     "noInternet": {
-      "title": "Oops!",
-      "subtitle": "No Internet found. Check your connection or try again."
+      "title": "عذرًا!",
+      "subtitle": "لا يوجد اتصال بالإنترنت. تحقق من اتصالك أو حاول مجددًا."
     },
     "noBranch": {
-      "title": "No Nearby Branch",
-      "subtitle": "No branch found near your location."
+      "title": "لا يوجد فرع قريب",
+      "subtitle": "لم يتم العثور على فرع بالقرب من موقعك."
     }
   },
   "profileDetails": {
-    "loading": "Loading profile...",
+    "loading": "جارٍ تحميل الملف الشخصي...",
     "error": {
-      "title": "Failed to Load Profile"
+      "title": "فشل في تحميل الملف الشخصي"
     },
-    "faceScan": "Face Scan",
+    "faceScan": "فحص الوجه",
     "fields": {
-      "targetGoal": "Target Goal",
-      "name": "Name",
-      "gender": "Gender",
-      "age": "Age",
-      "skinType": "Skin Type",
-      "skinSensitivity": "Skin Sensitivity",
-      "skinConcerns": "Skin Concerns",
-      "skinConditions": "Skin Conditions",
-      "healthConditions": "Health Conditions",
-      "focusFaceArea": "Focus Face Area"
+      "targetGoal": "الهدف المطلوب",
+      "name": "الاسم",
+      "gender": "الجنس",
+      "age": "العمر",
+      "skinType": "نوع البشرة",
+      "skinSensitivity": "حساسية البشرة",
+      "skinConcerns": "مشاكل البشرة",
+      "skinConditions": "حالات البشرة",
+      "healthConditions": "الحالات الصحية",
+      "focusFaceArea": "منطقة التركيز في الوجه"
     },
     "modal": {
-      "editName": "Edit Name",
-      "namePlaceholder": "Enter your name"
+      "editName": "تعديل الاسم",
+      "namePlaceholder": "أدخل اسمك"
     }
   },
   "support": {
     "error": {
-      "phoneNotSupported": "Phone call is not supported on this device",
-      "callFailed": "Failed to make the call"
+      "phoneNotSupported": "المكالمات الهاتفية غير مدعومة على هذا الجهاز",
+      "callFailed": "فشل إجراء المكالمة"
     }
   },
   "upload": {
@@ -558,18 +567,18 @@
     "november": "نوفمبر",
     "december": "ديسمبر",
     "short": {
-      "jan": "Jan",
-      "feb": "Feb",
-      "mar": "Mar",
-      "apr": "Apr",
-      "may": "May",
-      "jun": "Jun",
-      "jul": "Jul",
-      "aug": "Aug",
-      "sep": "Sep",
-      "oct": "Oct",
-      "nov": "Nov",
-      "dec": "Dec"
+      "jan": "ينا",
+      "feb": "فبر",
+      "mar": "مار",
+      "apr": "أبر",
+      "may": "ماي",
+      "jun": "يون",
+      "jul": "يول",
+      "aug": "أغس",
+      "sep": "سبت",
+      "oct": "أكت",
+      "nov": "نوف",
+      "dec": "ديس"
     }
   },
   "profile": {
@@ -593,7 +602,7 @@
     "privacy": "الخصوصية",
     "termsOfUse": "شروط الاستخدام",
     "logOut": "تسجيل الخروج",
-    "yearsOld": "{{age}} years old"
+    "yearsOld": "{{age}} سنة"
   },
   "address": {
     "savedAddress": "العناوين المحفوظة",
@@ -609,12 +618,12 @@
     "mapView": "عرض الخريطة",
     "installMapNotice": "قم بتثبيت react-native-maps للحصول على خريطة مباشرة",
     "error": {
-      "invalidTitle": "Invalid Address",
-      "invalidMessage": "Please enter a valid address",
-      "saveFailed": "Failed to save address. Please try again."
+      "invalidTitle": "عنوان غير صالح",
+      "invalidMessage": "يرجى إدخال عنوان صحيح",
+      "saveFailed": "فشل في حفظ العنوان. يرجى المحاولة مرة أخرى."
     },
     "success": {
-      "saved": "Address saved successfully"
+      "saved": "تم حفظ العنوان بنجاح"
     }
   },
   "language": {
@@ -668,78 +677,78 @@
     }
   },
   "terms": {
-    "title": "Terms of Use",
-    "heading": "Terms & Conditions",
-    "lastUpdated": "Last updated: February 7, 2026",
-    "acceptanceOfTerms": "Acceptance of Terms",
-    "acceptanceContent": "By accessing and using this application, you accept and agree to be bound by the terms and provision of this agreement. If you do not agree to these terms, please do not use our service.",
-    "useLicense": "Use License",
-    "useLicenseItem1": "Permission is granted to temporarily use the application for personal, non-commercial use only",
-    "useLicenseItem2": "This license does not include the right to modify, copy, or reproduce the application",
-    "useLicenseItem3": "This license shall automatically terminate if you violate any of these restrictions",
-    "medicalDisclaimer": "Medical Disclaimer",
-    "medicalDisclaimerContent": "The information provided by this application is for informational purposes only and is not intended as a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition.",
-    "userResponsibilities": "User Responsibilities",
-    "userResponsibilityItem1": "Provide accurate and complete information",
-    "userResponsibilityItem2": "Maintain the security of your account credentials",
-    "userResponsibilityItem3": "Not use the service for any unlawful purpose",
-    "userResponsibilityItem4": "Not share your account with others",
-    "userResponsibilityItem5": "Comply with all applicable laws and regulations",
-    "accountTermination": "Account Termination",
-    "accountTerminationContent": "We reserve the right to terminate or suspend your account at any time, without prior notice or liability, for any reason whatsoever, including without limitation if you breach the Terms.",
-    "limitationsOfLiability": "Limitations of Liability",
-    "limitationsContent": "In no event shall the company, its directors, employees, partners, agents, suppliers, or affiliates be liable for any indirect, incidental, special, consequential, or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses.",
-    "intellectualProperty": "Intellectual Property",
-    "intellectualPropertyContent": "The service and its original content, features, and functionality are and will remain the exclusive property of the company and its licensors. The service is protected by copyright, trademark, and other laws.",
-    "prohibitedActivities": "Prohibited Activities",
-    "prohibitedItem1": "Attempting to bypass any security features",
-    "prohibitedItem2": "Uploading viruses or malicious code",
-    "prohibitedItem3": "Attempting to gain unauthorized access to other user accounts",
-    "prohibitedItem4": "Using the service to transmit spam or unsolicited messages",
-    "prohibitedItem5": "Reverse engineering or decompiling any part of the service",
-    "subscriptionAndPayments": "Subscription and Payments",
-    "subscriptionContent": "Some parts of the service may be billed on a subscription basis. You will be billed in advance on a recurring basis. At the end of each billing period, your subscription will automatically renew unless you cancel it or we cancel it.",
-    "refundPolicy": "Refund Policy",
-    "refundContent": "All purchases are final and non-refundable unless otherwise stated or required by law. If you have concerns about a purchase, please contact our support team.",
-    "changesToTerms": "Changes to Terms",
-    "changesToTermsContent": "We reserve the right to modify or replace these Terms at any time. If a revision is material, we will provide at least 30 days notice prior to any new terms taking effect.",
-    "governingLaw": "Governing Law",
-    "governingLawContent": "These Terms shall be governed and construed in accordance with the laws of the jurisdiction in which the company is registered, without regard to its conflict of law provisions.",
-    "contactInformation": "Contact Information",
-    "contactContent": "If you have any questions about these Terms, please contact us at support@routine-app.com or through the in-app support feature."
+    "title": "شروط الاستخدام",
+    "heading": "الشروط والأحكام",
+    "lastUpdated": "آخر تحديث: 7 فبراير 2026",
+    "acceptanceOfTerms": "قبول الشروط",
+    "acceptanceContent": "من خلال الوصول إلى هذا التطبيق واستخدامه، فإنك تقبل وتوافق على الالتزام بشروط وأحكام هذه الاتفاقية. إذا كنت لا توافق على هذه الشروط، يرجى عدم استخدام خدمتنا.",
+    "useLicense": "ترخيص الاستخدام",
+    "useLicenseItem1": "يُمنح الإذن لاستخدام التطبيق مؤقتًا للاستخدام الشخصي غير التجاري فقط",
+    "useLicenseItem2": "لا يتضمن هذا الترخيص حق تعديل التطبيق أو نسخه أو إعادة إنتاجه",
+    "useLicenseItem3": "ينتهي هذا الترخيص تلقائيًا في حال انتهاك أي من هذه القيود",
+    "medicalDisclaimer": "إخلاء المسؤولية الطبية",
+    "medicalDisclaimerContent": "المعلومات المقدمة من هذا التطبيق هي لأغراض إعلامية فقط وليست بديلاً عن الاستشارة الطبية المتخصصة أو التشخيص أو العلاج. استشر طبيبك أو مقدم الرعاية الصحية المؤهل دائمًا بشأن أي أسئلة تتعلق بحالة طبية.",
+    "userResponsibilities": "مسؤوليات المستخدم",
+    "userResponsibilityItem1": "تقديم معلومات دقيقة وكاملة",
+    "userResponsibilityItem2": "الحفاظ على أمان بيانات حسابك",
+    "userResponsibilityItem3": "عدم استخدام الخدمة لأي غرض غير قانوني",
+    "userResponsibilityItem4": "عدم مشاركة حسابك مع الآخرين",
+    "userResponsibilityItem5": "الامتثال لجميع القوانين واللوائح المعمول بها",
+    "accountTermination": "إنهاء الحساب",
+    "accountTerminationContent": "نحتفظ بالحق في إنهاء أو تعليق حسابك في أي وقت، دون إشعار مسبق أو مسؤولية، لأي سبب كان، بما في ذلك على سبيل المثال لا الحصر إذا انتهكت الشروط.",
+    "limitationsOfLiability": "حدود المسؤولية",
+    "limitationsContent": "لا تتحمل الشركة أو مديروها أو موظفوها أو شركاؤها أو وكلاؤها أو مورّدوها أو الشركات التابعة لها بأي حال من الأحوال المسؤولية عن أي أضرار غير مباشرة أو عرضية أو خاصة أو تبعية أو عقابية، بما في ذلك على سبيل المثال لا الحصر خسارة الأرباح أو البيانات أو الاستخدام أو السمعة أو غيرها من الخسائر غير المادية.",
+    "intellectualProperty": "الملكية الفكرية",
+    "intellectualPropertyContent": "الخدمة ومحتواها الأصلي وميزاتها ووظائفها هي وستظل ملكًا حصريًا للشركة والمرخصين لها. الخدمة محمية بموجب قوانين حقوق النشر والعلامات التجارية وقوانين أخرى.",
+    "prohibitedActivities": "الأنشطة المحظورة",
+    "prohibitedItem1": "محاولة تجاوز أي ميزات أمنية",
+    "prohibitedItem2": "تحميل فيروسات أو أكواد ضارة",
+    "prohibitedItem3": "محاولة الوصول غير المصرح به إلى حسابات المستخدمين الآخرين",
+    "prohibitedItem4": "استخدام الخدمة لإرسال رسائل عشوائية أو غير مرغوب فيها",
+    "prohibitedItem5": "الهندسة العكسية أو تفكيك أي جزء من الخدمة",
+    "subscriptionAndPayments": "الاشتراك والمدفوعات",
+    "subscriptionContent": "قد تتم فوترة بعض أجزاء الخدمة على أساس الاشتراك. ستتم محاسبتك مسبقًا بشكل دوري. في نهاية كل فترة فوترة، يتجدد اشتراكك تلقائيًا ما لم تقم بإلغائه أو نقوم نحن بإلغائه.",
+    "refundPolicy": "سياسة الاسترداد",
+    "refundContent": "جميع المشتريات نهائية وغير قابلة للاسترداد ما لم يُذكر خلاف ذلك أو يقتضي القانون. إذا كانت لديك مخاوف بشأن عملية شراء، يرجى التواصل مع فريق الدعم.",
+    "changesToTerms": "التغييرات على الشروط",
+    "changesToTermsContent": "نحتفظ بالحق في تعديل أو استبدال هذه الشروط في أي وقت. إذا كان التعديل جوهريًا، سنقدم إشعارًا قبل 30 يومًا على الأقل من سريان أي شروط جديدة.",
+    "governingLaw": "القانون الحاكم",
+    "governingLawContent": "تخضع هذه الشروط وتُفسَّر وفقًا لقوانين الولاية القضائية التي تم تسجيل الشركة فيها، بغض النظر عن أحكام تعارض القوانين.",
+    "contactInformation": "معلومات الاتصال",
+    "contactContent": "إذا كانت لديك أي أسئلة حول هذه الشروط، يرجى التواصل معنا على support@routine-app.com أو من خلال ميزة الدعم داخل التطبيق."
   },
   "privacy": {
-    "title": "Privacy Policy",
-    "heading": "Privacy & Data Protection",
-    "intro": "Your privacy is important to us",
-    "whatWeCollect": "What data we collect",
-    "collectItem1": "Face scan images",
-    "collectItem2": "Skin analysis results",
-    "collectItem3": "Treatment & routine data",
-    "collectItem4": "Lab test reports",
-    "collectItem5": "Profile information",
-    "whyWeUse": "Why we use your data",
-    "useItem1": "Personalized skin analysis",
-    "useItem2": "Treatment planning",
-    "useItem3": "Progress tracking",
-    "useItem4": "Medical safety",
-    "howProtected": "How your data is protected",
-    "protectedItem1": "🔒 Encrypted & securely stored",
-    "protectedItem2": "❌ Never sold to third parties",
-    "yourRights": "Your rights",
-    "rightItem1": "View & download your data",
-    "rightItem2": "Request correction or deletion",
-    "dataRetention": "Data Retention",
-    "dataRetentionContent": "We retain your personal data for as long as your account is active or as needed to provide you services. You may request deletion of your data at any time through your account settings.",
-    "thirdPartyServices": "Third-Party Services",
-    "thirdPartyContent": "We may use third-party service providers to help us operate our application. These providers have access to your data only to perform specific tasks on our behalf and are obligated not to disclose or use it for any other purpose.",
-    "cookiesAndTracking": "Cookies and Tracking",
-    "cookiesContent": "We use cookies and similar tracking technologies to track activity on our service and store certain information. You can instruct your device to refuse all cookies or to indicate when a cookie is being sent.",
-    "childrensPrivacy": "Children's Privacy",
-    "childrensContent": "Our service is not intended for use by children under the age of 13. We do not knowingly collect personally identifiable information from children under 13. If you become aware that a child has provided us with personal data, please contact us.",
-    "changesToPolicy": "Changes to This Policy",
-    "changesToPolicyContent": "We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the 'effective date' at the top of this policy.",
-    "contactUs": "Contact Us",
-    "contactContent": "If you have any questions about this Privacy Policy, please contact us at privacy@routine-app.com or through the app's support section."
+    "title": "سياسة الخصوصية",
+    "heading": "الخصوصية وحماية البيانات",
+    "intro": "خصوصيتك مهمة بالنسبة لنا",
+    "whatWeCollect": "ما هي البيانات التي نجمعها",
+    "collectItem1": "صور فحص الوجه",
+    "collectItem2": "نتائج تحليل البشرة",
+    "collectItem3": "بيانات العلاج والروتين",
+    "collectItem4": "تقارير الفحوصات المخبرية",
+    "collectItem5": "معلومات الملف الشخصي",
+    "whyWeUse": "لماذا نستخدم بياناتك",
+    "useItem1": "تحليل البشرة المخصص",
+    "useItem2": "التخطيط العلاجي",
+    "useItem3": "تتبع التقدم",
+    "useItem4": "السلامة الطبية",
+    "howProtected": "كيف نحمي بياناتك",
+    "protectedItem1": "🔒 مشفرة ومخزنة بأمان",
+    "protectedItem2": "❌ لا تُباع لأطراف ثالثة أبدًا",
+    "yourRights": "حقوقك",
+    "rightItem1": "عرض وتحميل بياناتك",
+    "rightItem2": "طلب التصحيح أو الحذف",
+    "dataRetention": "الاحتفاظ بالبيانات",
+    "dataRetentionContent": "نحتفظ ببياناتك الشخصية طالما أن حسابك نشط أو حسب الحاجة لتقديم الخدمات لك. يمكنك طلب حذف بياناتك في أي وقت من خلال إعدادات حسابك.",
+    "thirdPartyServices": "خدمات الأطراف الثالثة",
+    "thirdPartyContent": "قد نستخدم مزودي خدمات من أطراف ثالثة لمساعدتنا في تشغيل تطبيقنا. يمكن لهؤلاء المزودين الوصول إلى بياناتك فقط لأداء مهام محددة نيابةً عنا وهم ملزمون بعدم الإفصاح عنها أو استخدامها لأي غرض آخر.",
+    "cookiesAndTracking": "ملفات تعريف الارتباط والتتبع",
+    "cookiesContent": "نستخدم ملفات تعريف الارتباط وتقنيات تتبع مشابهة لتتبع النشاط على خدمتنا وتخزين معلومات معينة. يمكنك توجيه جهازك لرفض جميع ملفات تعريف الارتباط أو للإشارة عند إرسال ملف تعريف ارتباط.",
+    "childrensPrivacy": "خصوصية الأطفال",
+    "childrensContent": "خدمتنا غير مخصصة للاستخدام من قبل الأطفال دون سن 13 عامًا. نحن لا نجمع عن قصد معلومات تعريف شخصية من الأطفال دون 13 عامًا. إذا علمت أن طفلًا قد زودنا ببيانات شخصية، يرجى التواصل معنا.",
+    "changesToPolicy": "التغييرات على هذه السياسة",
+    "changesToPolicyContent": "قد نقوم بتحديث سياسة الخصوصية الخاصة بنا من وقت لآخر. سنُعلمك بأي تغييرات من خلال نشر سياسة الخصوصية الجديدة على هذه الصفحة وتحديث \"تاريخ السريان\" في أعلى هذه السياسة.",
+    "contactUs": "اتصل بنا",
+    "contactContent": "إذا كانت لديك أي أسئلة حول سياسة الخصوصية هذه، يرجى التواصل معنا على privacy@routine-app.com أو من خلال قسم الدعم في التطبيق."
   }
 }

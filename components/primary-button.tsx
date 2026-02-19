@@ -4,6 +4,7 @@ import { AppText as Text } from "@/components/app-text";
 import { Colors, BorderRadius, Shadows } from "@/constants/theme";
 import { verticalScale, scale } from "@/constants/scaling";
 import { AppTextStyle } from "@/constants/typography";
+import { PressableScale } from "pressto";
 
 interface PrimaryButtonProps {
   onPress: () => void;
@@ -25,7 +26,6 @@ export function PrimaryButton({
   loading = false,
   style,
   textStyle,
-  activeOpacity = 0.8,
   withShadow = false,
   icon,
   iconPosition = 'left',
@@ -33,17 +33,14 @@ export function PrimaryButton({
   const isDisabled = disabled || loading;
 
   return (
-    <TouchableOpacity
+    <PressableScale
       style={[
         styles.button,
         withShadow && Shadows.button,
         isDisabled && styles.buttonDisabled,
         style,
       ]}
-      onPress={onPress}
-      disabled={isDisabled}
-      activeOpacity={activeOpacity}
-    >
+      onPress={loading ? undefined : onPress}>
       <View style={styles.buttonContent}>
         {loading && (
           <ActivityIndicator
@@ -55,12 +52,15 @@ export function PrimaryButton({
         {icon && iconPosition === 'left' && (
           <View style={styles.icon}>{icon}</View>
         )}
-        <Text style={[styles.buttonText, textStyle]}>{title}</Text>
+        {loading || (
+          <Text style={[styles.buttonText, textStyle]}>{title}</Text>
+        )}
+
         {icon && iconPosition === 'right' && (
           <View style={styles.icon}>{icon}</View>
         )}
       </View>
-    </TouchableOpacity>
+    </PressableScale>
   );
 }
 

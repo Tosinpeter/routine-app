@@ -1,27 +1,31 @@
-import { router, useLocalSearchParams } from "expo-router";
-import React, { useEffect, useState, useRef } from "react";
+import { useLocalSearchParams } from "expo-router";
+import React, { useEffect, useRef, useState } from "react";
 import {
   KeyboardAvoidingView,
   Platform,
   StyleSheet,
+  TextInput,
   TouchableOpacity,
   View,
-  TextInput,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { AppText as Text } from "@/components/app-text";
+import { BackButton } from "@/components/back-button";
 import { PrimaryButton } from "@/components/primary-button";
 import { moderateScale, scale, verticalScale } from "@/constants/scaling";
 import { AeonikFonts, Colors } from "@/constants/theme";
-import { BackButton } from "@/components/back-button";
 import { AppTextStyle } from "@/constants/typography";
+import { useAuth } from "@/contexts/AuthContext";
 import { t } from "@/i18n";
+import { toast } from "@backpackapp-io/react-native-toast";
 
 export default function OTPVerificationScreen() {
   const { phoneNumber } = useLocalSearchParams();
+  const { verifyOtp, isLoading } = useAuth();
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [timer, setTimer] = useState(15);
+  const [error, setError] = useState<string | null>(null);
   const inputRefs = useRef<(TextInput | null)[]>([]);
 
   useEffect(() => {
@@ -46,7 +50,7 @@ export default function OTPVerificationScreen() {
   const handleOtpChange = (text: string, index: number) => {
     // Only allow numeric input
     const numericText = text.replace(/[^0-9]/g, "");
-    
+
     if (numericText.length > 1) {
       // Handle paste
       const digits = numericText.slice(0, 6).split("");
@@ -57,7 +61,7 @@ export default function OTPVerificationScreen() {
         }
       });
       setOtp(newOtp);
-      
+
       // Focus last filled or next empty
       const nextIndex = Math.min(index + digits.length, 5);
       inputRefs.current[nextIndex]?.focus();
@@ -81,10 +85,22 @@ export default function OTPVerificationScreen() {
     }
   };
 
-  const handleContinue = () => {
-    if (otp.every((digit) => digit !== "")) {
-      // Verify OTP and navigate to main app
-      router.push("/(tabs)");
+  const handleContinue = async () => {
+    if (otp.some((digit) => digit === "")) return;
+    const code = otp.join("");
+    const phone = typeof phoneNumber === "string" ? phoneNumber : "";
+    if (!phone) {
+      toast.error(t("auth.otp.errorMissingPhone"))
+      return;
+    }
+    setError(null);
+    const result = await verifyOtp(phone, code);
+    console.log(result);
+    if (result.success) {
+      // router.replace("/(tabs)");
+    } else {
+      const message = t(`auth.errorCodes.${result.error}` as any)
+      toast.error(message);
     }
   };
 
@@ -93,11 +109,6 @@ export default function OTPVerificationScreen() {
       setTimer(15);
       // Resend OTP logic here
     }
-  };
-
-  const _handleSkip = () => {
-    // Navigate to onboarding or main app
-    router.push("/onboarding");
   };
 
   const formatTimer = (seconds: number) => {
@@ -114,7 +125,7 @@ export default function OTPVerificationScreen() {
       >
         {/* Header */}
         <View style={styles.header}>
-          <BackButton/>
+          <BackButton />
         </View>
 
         {/* Content */}
@@ -152,6 +163,10 @@ export default function OTPVerificationScreen() {
             ))}
           </View>
 
+          {error ? (
+            <Text style={styles.errorText}>{error}</Text>
+          ) : null}
+
           {/* Resend Code */}
           <TouchableOpacity
             onPress={handleResendCode}
@@ -175,7 +190,8 @@ export default function OTPVerificationScreen() {
           <PrimaryButton
             title={t("common.continue")}
             onPress={handleContinue}
-            disabled={otp.some((digit) => digit === "")}
+            disabled={otp.some((digit) => digit === "") || isLoading}
+            loading={isLoading}
           />
 
           {/* Skip Link */}
@@ -199,7 +215,7 @@ export default function OTPVerificationScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.light.scaffold,
+    backgroundColor: "#F5F1EE",
   },
   keyboardAvoid: {
     flex: 1,
@@ -266,6 +282,13 @@ const styles = StyleSheet.create({
   },
   resendTextActive: {
     color: Colors.light.tint,
+  },
+  errorText: {
+    fontSize: moderateScale(14),
+    fontFamily: AeonikFonts.regular,
+    color: "#DC2626",
+    marginBottom: verticalScale(12),
+    textAlign: "center",
   },
   spacer: {
     flex: 1,

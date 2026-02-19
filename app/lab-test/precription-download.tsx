@@ -2,6 +2,7 @@ import { router } from "expo-router";
 import { useEffect, useRef } from "react";
 import {
     Animated,
+    Platform,
     ScrollView,
     StyleSheet,
     View,
@@ -16,6 +17,7 @@ import {
     moderateScale,
     scale,
     scaledRadius,
+    touchTarget,
     verticalScale,
 } from "@/constants/scaling";
 import { AeonikFonts, BorderRadius, Colors, Fonts } from "@/constants/theme";

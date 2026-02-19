@@ -1,4 +1,13 @@
 {
+  "api": {
+    "error": {
+      "network": "No connection. Please try again later.",
+      "timeout": "Request timed out. Please try again later.",
+      "server": "Server error. Please try again later.",
+      "badRequest": "Something went wrong. Please try again later.",
+      "generic": "Something went wrong. Please try again later."
+    }
+  },
   "common": {
     "continue": "Continue",
     "cancel": "Cancel",
@@ -119,13 +128,22 @@
     "phone": {
       "title": "Enter your phone number",
       "subtitle": "We'll check if you've already done a skin analysis and link your results.",
-      "placeholder": "(316) 555-0116"
+      "placeholder": "(316) 555-0116",
+      "errorRequest": "Could not send code. Please try again."
     },
     "otp": {
       "title": "Enter the 6-digit code",
       "subtitle": "We sent a code to {{phoneNumber}}",
       "resendCodeIn": "Resend code in {{time}}",
-      "resendCode": "Resend code"
+      "resendCode": "Resend code",
+      "errorMissingPhone": "Phone number is missing. Please go back and enter it.",
+      "errorVerificationFailed": "Invalid or expired code. Please try again."
+    },
+    "errorCodes": {
+      "phone_required": "Phone number is required.",
+      "phone_and_code_required": "Phone number and code are required.",
+      "invalid_or_expired_code": "Invalid or expired code. Please try again.",
+      "invalid_request_body": "Invalid request. Please try again."
     },
     "skipAnalysis": "I haven't done my skin analysis yet"
   },

@@ -14,7 +14,10 @@
       "config": {
         "googleMapsApiKey": "YOUR_GOOGLE_MAPS_API_KEY"
       },
-      "bundleIdentifier": "com.routineapp"
+      "bundleIdentifier": "com.routineapp",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "package": "com.routineapp",
@@ -54,12 +57,6 @@
             "backgroundColor": "#000000"
           }
         }
-      ],
-      [
-        "react-native-maps",
-        {
-          "provider": "google"
-        }
       ]
     ],
     "experiments": {
@@ -67,9 +64,11 @@
       "reactCompiler": true
     },
     "extra": {
-      "router": {},
+      "router": {
+        "origin": "https://routine-app.expo.app"
+      },
       "eas": {
-        "projectId": "69db94be-1465-4d61-ab28-30736dfc8939"
+        "projectId": "7a2f83fe-7f1b-4fcf-856b-a01f1f21cf98"
       }
     }
   }

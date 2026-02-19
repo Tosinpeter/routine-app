@@ -123,24 +123,24 @@ export async function POST(request: Request) {
     }
 
     // For home and work types, replace existing address of same type
-    if (type === 'home' || type === 'work') {
-      const existingIndex = mockAddresses.findIndex((addr) => addr.type === type);
-      if (existingIndex !== -1) {
-        mockAddresses[existingIndex] = {
-          ...mockAddresses[existingIndex],
-          address,
-          latitude,
-          longitude,
-          updatedAt: now,
-        };
+    // if (type === 'home' || type === 'work') {
+    //   const existingIndex = mockAddresses.findIndex((addr) => addr.type === type);
+    //   if (existingIndex !== -1) {
+    //     mockAddresses[existingIndex] = {
+    //       ...mockAddresses[existingIndex],
+    //       address,
+    //       latitude,
+    //       longitude,
+    //       updatedAt: now,
+    //     };
 
-        return Response.json({
-          success: true,
-          message: `${type.charAt(0).toUpperCase() + type.slice(1)} address updated successfully`,
-          data: mockAddresses[existingIndex],
-        });
-      }
-    }
+    //     return Response.json({
+    //       success: true,
+    //       message: `${type.charAt(0).toUpperCase() + type.slice(1)} address updated successfully`,
+    //       data: mockAddresses[existingIndex],
+    //     });
+    //   }
+    // }
 
     // Create new address
     const newAddress: Address = {

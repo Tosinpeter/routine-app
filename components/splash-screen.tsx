@@ -44,11 +44,10 @@ export function AnimatedSplashScreen({ onComplete }: SplashScreenProps) {
 
 const styles = StyleSheet.create({
   container: {
-    ...StyleSheet.absoluteFillObject,
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: Colors.light.white,
-    zIndex: 9999,
   },
   logoContainer: {
     justifyContent: 'center',

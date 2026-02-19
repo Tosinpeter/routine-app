@@ -1,58 +1,58 @@
+import { toast } from "@backpackapp-io/react-native-toast";
 import { Ionicons } from "@expo/vector-icons";
-import { router } from "expo-router";
 import React, { useState } from "react";
 import {
+  Keyboard,
   StyleSheet,
+  TextInput,
   TouchableOpacity,
   View,
-  TextInput,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { CountryPicker } from "react-native-country-codes-picker";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 import { AppText as Text } from "@/components/app-text";
+import { BackButton } from "@/components/back-button";
 import { PrimaryButton } from "@/components/primary-button";
 import { moderateScale, scale, verticalScale } from "@/constants/scaling";
-import { AeonikFonts, Colors } from "@/constants/theme";
-import { BackButton } from "@/components/back-button";
+import { AeonikFonts, Colors, Fonts } from "@/constants/theme";
 import { AppTextStyle } from "@/constants/typography";
+import { useAuth } from "@/contexts/AuthContext";
 import { t } from "@/i18n";
+import { router } from "expo-router";
 
 export default function PhoneVerificationScreen() {
+  const { requestOtp, isLoading } = useAuth();
   const [phoneNumber, setPhoneNumber] = useState("");
   const [countryCode, setCountryCode] = useState("+1");
   const [countryFlag, setCountryFlag] = useState("🇺🇸");
   const [showCountryPicker, setShowCountryPicker] = useState(false);
 
-  const handleContinue = () => {
-    if (phoneNumber.length >= 10) {
-      // Navigate to OTP screen with the phone number
+  const handleContinue = async () => {
+    Keyboard.dismiss();
+    if (phoneNumber.length < 10) return;
+    const phoneForApi = `${countryCode}${phoneNumber.replace(/\D/g, "")}`;
+
+    const result = await requestOtp(phoneForApi);
+
+    console.log(result);
+    if (result.success) {
       router.push({
         pathname: "/auth/otp-verification",
         params: {
-          phoneNumber: `${countryCode} ${phoneNumber}`,
+          phoneNumber: `${countryCode} ${formatPhoneNumber(phoneNumber)}`,
         },
       });
-    }
-  };
-
-  const _handleSkip = () => {
-    // Navigate to onboarding or main app
-    router.push("/onboarding");
-  };
-
-  const _handleKeyPress = (key: string) => {
-    if (key === "backspace") {
-      setPhoneNumber(phoneNumber.slice(0, -1));
-    } else if (phoneNumber.length < 10) {
-      setPhoneNumber(phoneNumber + key);
+    } else {
+      const message = t(`auth.errorCodes.${result.error}` as any)
+      toast.error(message);
     }
   };
 
   const formatPhoneNumber = (number: string) => {
     if (!number) return "";
     const cleaned = number.replace(/\D/g, "");
-    
+
     // Format as user types
     if (cleaned.length <= 3) {
       return cleaned;
@@ -73,59 +73,61 @@ export default function PhoneVerificationScreen() {
 
   return (
     <SafeAreaView style={styles.container} edges={["top", "bottom"]}>
-     
-        {/* Header */}
-        <View style={styles.header}>
-          <BackButton/>
+
+      {/* Header */}
+      <View style={styles.header}>
+        <BackButton />
+      </View>
+
+      {/* Content */}
+      <View style={styles.content}>
+        <Text style={styles.title}>{t("auth.phone.title")}</Text>
+        <Text style={styles.subtitle}>
+          {t("auth.phone.subtitle")}
+        </Text>
+
+        {/* Phone Input */}
+        <View style={styles.phoneInputContainer}>
+          <TouchableOpacity
+            style={styles.countryCodeButton}
+            onPress={() => setShowCountryPicker(true)}
+            activeOpacity={0.7}
+          >
+            <Text style={styles.flagEmoji}>{countryFlag}</Text>
+            <Text style={styles.countryCodeText}>{countryCode}</Text>
+            <Ionicons
+              name="chevron-down"
+              size={scale(18)}
+              color={Colors.light.grey500}
+            />
+          </TouchableOpacity>
+          <TextInput
+            style={styles.phoneInput}
+            value={formatPhoneNumber(phoneNumber)}
+            onChangeText={handlePhoneChange}
+            placeholder={t("auth.phone.placeholder")}
+            placeholderTextColor={Colors.light.grey400}
+            keyboardType="phone-pad"
+            maxLength={14} // (XXX) XXX-XXXX
+          />
         </View>
 
-        {/* Content */}
-        <View style={styles.content}>
-          <Text style={styles.title}>{t("auth.phone.title")}</Text>
-          <Text style={styles.subtitle}>
-            {t("auth.phone.subtitle")}
-          </Text>
+        {/* Spacer */}
+        <View style={styles.spacer} />
 
-          {/* Phone Input */}
-          <View style={styles.phoneInputContainer}>
-            <TouchableOpacity
-              style={styles.countryCodeButton}
-              onPress={() => setShowCountryPicker(true)}
-              activeOpacity={0.7}
-            >
-              <Text style={styles.flagEmoji}>{countryFlag}</Text>
-              <Text style={styles.countryCodeText}>{countryCode}</Text>
-              <Ionicons
-                name="chevron-down"
-                size={scale(18)}
-                color={Colors.light.grey500}
-              />
-            </TouchableOpacity>
-            <TextInput
-              style={styles.phoneInput}
-              value={formatPhoneNumber(phoneNumber)}
-              onChangeText={handlePhoneChange}
-              placeholder={t("auth.phone.placeholder")}
-              placeholderTextColor={Colors.light.grey400}
-              keyboardType="phone-pad"
-              maxLength={14} // (XXX) XXX-XXXX
-            />
-          </View>
-
-          {/* Spacer */}
-          <View style={styles.spacer} />
-
-          {/* Continue Button */}
-          <PrimaryButton
-            title={t("common.continue")}
-            onPress={handleContinue}
-            disabled={phoneNumber.length < 10}
-          />
+        {/* Continue Button */}
+        <PrimaryButton
+          title={t("common.continue")}
+          loading={isLoading}
+          onPress={handleContinue}
+          disabled={phoneNumber.length < 10}
+        />
 
         <PrimaryButton
           title={t("auth.skipAnalysis")}
-          onPress={handleContinue}
+          onPress={() => { }}
           textStyle={{
+            fontFamily: Fonts.regular,
             color: Colors.light.mainDarkColor
           }}
           style={{
@@ -134,9 +136,9 @@ export default function PhoneVerificationScreen() {
           }}
         />
 
-          {/* Skip Link */}
-         
-        </View>
+        {/* Skip Link */}
+
+      </View>
 
       {/* Country Picker Modal */}
       <CountryPicker
@@ -197,7 +199,7 @@ export default function PhoneVerificationScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.light.scaffold,
+    backgroundColor: "#F5F1EE",
   },
   keyboardAvoid: {
     flex: 1,

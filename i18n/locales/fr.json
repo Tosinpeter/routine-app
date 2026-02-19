@@ -1,4 +1,13 @@
 {
+  "api": {
+    "error": {
+      "network": "Pas de connexion. Veuillez réessayer plus tard.",
+      "timeout": "Délai d'attente dépassé. Veuillez réessayer plus tard.",
+      "server": "Erreur serveur. Veuillez réessayer plus tard.",
+      "badRequest": "Une erreur s'est produite. Veuillez réessayer plus tard.",
+      "generic": "Une erreur s'est produite. Veuillez réessayer plus tard."
+    }
+  },
   "common": {
     "continue": "Continue",
     "cancel": "Cancel",
