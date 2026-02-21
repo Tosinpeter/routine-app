@@ -1,5 +1,5 @@
-import { useLocalSearchParams } from "expo-router";
-import React, { useEffect, useState } from "react";
+import { router, useLocalSearchParams } from "expo-router";
+import React, { useEffect } from "react";
 import {
   Keyboard,
   KeyboardAvoidingView,
@@ -8,7 +8,13 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { OtpInput } from "react-native-otp-entry";
+import type { TextInputProps } from "react-native";
+import {
+  CodeField,
+  Cursor,
+  useBlurOnFulfill,
+  useClearByFocusCell,
+} from "react-native-confirmation-code-field";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { AppText as Text } from "@/components/app-text";
@@ -20,26 +26,42 @@ import { AppTextStyle } from "@/constants/typography";
 import { useAuth } from "@/contexts/AuthContext";
 import { t } from "@/i18n";
 import { toast } from "@backpackapp-io/react-native-toast";
+import { Profile } from "@/models/profile";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import {
+  decrementOtpResendTimer,
+  setAuthLoading,
+  setOtp,
+  startOtpResendTimer,
+} from "@/store/slices/auth-slice";
+
+const CELL_COUNT = 6;
+const autoComplete = Platform.select<TextInputProps["autoComplete"]>({
+  android: "sms-otp",
+  default: "one-time-code",
+});
 
 export default function OTPVerificationScreen() {
   const { phoneNumber } = useLocalSearchParams();
-  const { verifyOtp, isLoading } = useAuth();
-  const [otp, setOtp] = useState("");
-  const [timer, setTimer] = useState(30);
+  const { verifyOtp } = useAuth();
+  const dispatch = useAppDispatch();
+  const { otp, isLoading, otpResendTimer } = useAppSelector((state) => state.auth);
+
+  const setOtpValue = (value: string) => dispatch(setOtp(value));
+
+  const codeFieldRef = useBlurOnFulfill({ value: otp, cellCount: CELL_COUNT });
+  const [codeFieldProps, getCellOnLayoutHandler] = useClearByFocusCell({
+    value: otp,
+    setValue: setOtpValue,
+  });
 
   useEffect(() => {
+    if (otpResendTimer <= 0) return;
     const interval = setInterval(() => {
-      setTimer((prev) => {
-        if (prev <= 1) {
-          clearInterval(interval);
-          return 0;
-        }
-        return prev - 1;
-      });
+      dispatch(decrementOtpResendTimer());
     }, 1000);
-
     return () => clearInterval(interval);
-  }, [timer]);
+  }, [otpResendTimer, dispatch]);
 
   const handleContinue = async () => {
     Keyboard.dismiss();
@@ -50,18 +72,25 @@ export default function OTPVerificationScreen() {
       toast.error(t("auth.otp.errorMissingPhone"));
       return;
     }
-    const result = await verifyOtp(phone, otp);
-    if (result.success) {
-      // router.replace("/(tabs)");
-    } else {
-      const message = t(`auth.errorCodes.${result.error}` as any);
-      toast.error(message);
+    try {
+      dispatch(setAuthLoading(true));
+      const result = await verifyOtp(phone, otp);
+      if (result.success) {
+        if (!!(result.data as Profile).isProfileComplete) {
+          router.replace("/start-analysis");
+        }
+      } else {
+        const message = t(`auth.errorCodes.${result.error}` as any);
+        toast.error(message);
+      }
+    } finally {
+      dispatch(setAuthLoading(false));
     }
   };
 
   const handleResendCode = () => {
-    if (timer === 0) {
-      setTimer(15);
+    if (otpResendTimer === 0) {
+      dispatch(startOtpResendTimer());
       // Resend OTP logic here
     }
   };
@@ -76,7 +105,8 @@ export default function OTPVerificationScreen() {
     <SafeAreaView style={styles.container} edges={["top", "bottom"]}>
       <KeyboardAvoidingView
         style={styles.keyboardAvoid}
-        behavior={Platform.OS === "ios" ? "padding" : undefined}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        keyboardVerticalOffset={Platform.OS === "ios" ? 10 : 20}
       >
         {/* Header */}
         <View style={styles.header}>
@@ -90,22 +120,38 @@ export default function OTPVerificationScreen() {
             {t("auth.otp.subtitle", { phoneNumber: phoneNumber || "+1 (316) 555-0116" })}
           </Text>
 
-          {/* OTP Input */}
+          {/* OTP Input (000-000) */}
           <View style={styles.otpContainer}>
-            <OtpInput
-              numberOfDigits={6}
-              type="numeric"
-              autoFocus
-              onTextChange={setOtp}
-              focusColor={Colors.light.tint}
-              theme={{
-                containerStyle: styles.otpInputContainer,
-                pinCodeContainerStyle: styles.otpInput,
-                pinCodeTextStyle: styles.otpInputText,
-                focusStickStyle: styles.otpFocusStick,
-                focusedPinCodeContainerStyle: styles.otpInputFocused,
-                filledPinCodeContainerStyle: styles.otpInputFilled,
-              }}
+            <CodeField
+              ref={codeFieldRef}
+              {...codeFieldProps}
+              value={otp}
+              onChangeText={setOtpValue}
+              cellCount={CELL_COUNT}
+              rootStyle={styles.codeFieldRoot}
+              keyboardType="number-pad"
+              textContentType="oneTimeCode"
+              autoComplete={autoComplete}
+              renderCell={({ index, symbol, isFocused }) => (
+                <React.Fragment key={index}>
+                  {index === 3 && (
+                    <View style={styles.otpDash}>
+                      <Text style={styles.otpDashText}>-</Text>
+                    </View>
+                  )}
+                  <View
+                    style={[
+                      styles.otpCell,
+                      isFocused && styles.otpCellFocused,
+                    ]}
+                    onLayout={getCellOnLayoutHandler(index)}
+                  >
+                    <Text style={styles.otpCellText}>
+                      {symbol || (isFocused ? <Cursor /> : null)}
+                    </Text>
+                  </View>
+                </React.Fragment>
+              )}
             />
           </View>
 
@@ -114,16 +160,20 @@ export default function OTPVerificationScreen() {
           {/* Resend Code */}
           <TouchableOpacity
             onPress={handleResendCode}
-            disabled={timer > 0}
+            disabled={otpResendTimer > 0}
             activeOpacity={0.7}
           >
             <Text
               style={[
                 styles.resendText,
-                timer === 0 && styles.resendTextActive,
+                otpResendTimer === 0 && styles.resendTextActive,
               ]}
             >
-              {timer > 0 ? t("auth.otp.resendCodeIn", { time: formatTimer(timer) }) : t("auth.otp.resendCode")}
+              {otpResendTimer > 0
+                ? t("auth.otp.resendCodeIn", {
+                    time: formatTimer(otpResendTimer),
+                  })
+                : t("auth.otp.resendCode")}
             </Text>
           </TouchableOpacity>
 
@@ -141,7 +191,7 @@ export default function OTPVerificationScreen() {
           {/* Skip Link */}
           <PrimaryButton
             title={t("auth.skipAnalysis")}
-            onPress={handleContinue}
+            onPress={() => {}}
             textStyle={{
               color: Colors.light.mainDarkColor
             }}
@@ -151,7 +201,8 @@ export default function OTPVerificationScreen() {
             }}
           />
         </View>
-      </KeyboardAvoidingView>
+
+        </KeyboardAvoidingView>
     </SafeAreaView>
   );
 }
@@ -193,12 +244,13 @@ const styles = StyleSheet.create({
   },
   otpContainer: {
     marginBottom: verticalScale(24),
+    paddingHorizontal: scale(19),
+    alignItems: "center",
   },
-  otpInputContainer: {
-    width: "auto",
-    gap: scale(12),
+  codeFieldRoot: {
+    gap: scale(10),
   },
-  otpInput: {
+  otpCell: {
     width: scale(46),
     height: verticalScale(60),
     backgroundColor: Colors.light.white,
@@ -208,19 +260,24 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  otpInputText: {
+  otpCellFocused: {
+    borderColor: Colors.light.tint,
+  },
+  otpCellText: {
     fontSize: moderateScale(24),
     fontFamily: AeonikFonts.medium,
     color: Colors.light.mainDarkColor,
   },
-  otpFocusStick: {
-    backgroundColor: Colors.light.tint,
+  otpDash: {
+    width: scale(20),
+    height: verticalScale(60),
+    justifyContent: "center",
+    alignItems: "center",
   },
-  otpInputFocused: {
-    borderColor: Colors.light.tint,
-  },
-  otpInputFilled: {
-    borderColor: Colors.light.grey200,
+  otpDashText: {
+    fontSize: moderateScale(24),
+    fontFamily: AeonikFonts.medium,
+    color: Colors.light.grey400,
   },
   resendText: {
     fontSize: moderateScale(14),

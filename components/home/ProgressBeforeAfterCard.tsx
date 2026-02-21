@@ -14,7 +14,7 @@ export function ProgressBeforeAfterCard() {
             <View style={styles.card}>
                 {/* Main Image Background - Need to simulate split face or use placeholder */}
                 <ImageBackground
-                    source={require('@/assets/images/ProgressImage.png')} // Reuse background for now
+                    source={require('@/assets/images/ProgressImage.webp')} // Reuse background for now
                     style={styles.imageBackground}
                     resizeMode="cover"
                     imageStyle={{ borderRadius: scale(16) }}

@@ -1,5 +1,4 @@
 import {
-    Image,
     ScrollView,
     StyleSheet,
     TouchableOpacity,
@@ -7,6 +6,7 @@ import {
     Alert,
     ActivityIndicator
 } from "react-native";
+import { Image } from "expo-image";
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useState } from "react";
 import { Paths, File } from 'expo-file-system';
@@ -88,9 +88,10 @@ export default function LabTestScreen() {
 
                     {/* Lab Test Card */}
                     <Image
-                        source={require("@/assets/images/DocumentPreviewCard.png")}
+                        source={require("@/assets/images/DocumentPreviewCard.webp")}
                         style={styles.documentCard}
-                        resizeMode="contain"
+                        contentFit="contain"
+                        cachePolicy="memory-disk"
                     />
                     {/* Download Button */}
                     <TouchableOpacity 

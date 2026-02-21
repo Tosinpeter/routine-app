@@ -101,7 +101,7 @@ export default function RoutineScreen() {
     <ThemedView style={styles.container}>
       <SafeAreaView style={styles.safeArea} edges={["top"]}>
         <Image
-          source={require("@/assets/images/img_background-effects.png")}
+          source={require("@/assets/images/img_background-effects.webp")}
           style={styles.backgroundImage}
         />
 

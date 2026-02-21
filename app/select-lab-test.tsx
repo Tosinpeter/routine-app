@@ -75,7 +75,7 @@ export default function SelectLabTestScreen() {
           showsVerticalScrollIndicator={false}
         >
           {/* Header Image */}
-          <LabHeader imageSource={require("@/assets/images/Thumb.png")} />
+          <LabHeader imageSource={require("@/assets/images/Thumb.webp")} />
 
           {/* Content */}
           <View style={styles.content}>

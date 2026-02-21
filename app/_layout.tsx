@@ -27,27 +27,27 @@ function RootLayoutNav() {
   const [hasNavigated, setHasNavigated] = useState(false);
 
   useEffect(() => {
-    const checkNotificationPermission = async () => {
-      if (!hasNavigated) {
-        try {
-          const { status } = await Notifications.getPermissionsAsync();
+    // const checkNotificationPermission = async () => {
+    //   if (!hasNavigated) {
+    //     try {
+    //       const { status } = await Notifications.getPermissionsAsync();
           
-          const timer = setTimeout(() => {
-            if (status !== 'granted') {
-              router.push('/notification-sheet');
-            }
-            setHasNavigated(true);
-          }, 1000);
+    //       const timer = setTimeout(() => {
+    //         if (status !== 'granted') {
+    //           router.push('/notification-sheet');
+    //         }
+    //         setHasNavigated(true);
+    //       }, 1000);
 
-          return () => clearTimeout(timer);
-        } catch (error) {
-          console.error("Error checking notification permission:", error);
-          setHasNavigated(true);
-        }
-      }
-    };
+    //       return () => clearTimeout(timer);
+    //     } catch (error) {
+    //       console.error("Error checking notification permission:", error);
+    //       setHasNavigated(true);
+    //     }
+    //   }
+    // };
 
-    checkNotificationPermission();
+    // checkNotificationPermission();
   }, [hasNavigated]);
 
   return (

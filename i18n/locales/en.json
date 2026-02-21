@@ -143,7 +143,12 @@
       "phone_required": "Phone number is required.",
       "phone_and_code_required": "Phone number and code are required.",
       "invalid_or_expired_code": "Invalid or expired code. Please try again.",
-      "invalid_request_body": "Invalid request. Please try again."
+      "invalid_request_body": "Invalid request. Please try again.",
+      "network": "No connection. Please try again later.",
+      "timeout": "Request timed out. Please try again later.",
+      "server": "Server error. Please try again later.",
+      "badRequest": "Something went wrong. Please try again later.",
+      "generic": "Something went wrong. Please try again later."
     },
     "skipAnalysis": "I haven't done my skin analysis yet"
   },
@@ -183,7 +188,20 @@
     },
     "tipBadge": "Tip {{number}}/4",
     "takePhoto": "Take a photo",
-    "uploadFromDevice": "Upload from device"
+    "uploadFromDevice": "Upload from device",
+    "preview": {
+      "title": "Photo Preview",
+      "subtitle": "Make sure your face is clearly visible and well-lit",
+      "retake": "Retake Photo",
+      "cropAgain": "Crop Again",
+      "continue": "Continue with this Photo",
+      "guidelines": {
+        "title": "Quick Check",
+        "lighting": "Good lighting",
+        "centered": "Face centered",
+        "clear": "Clear & sharp"
+      }
+    }
   },
   "quiz": {
     "intro": {

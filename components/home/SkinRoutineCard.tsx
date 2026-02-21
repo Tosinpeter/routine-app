@@ -1,4 +1,5 @@
-import { Image, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
+import { Image } from "expo-image";
 import Svg, { Circle } from "react-native-svg";
 
 import { AppText as Text } from "@/components/app-text";
@@ -43,7 +44,8 @@ export function SkinRoutineCard() {
                 <Image
                     source={require("@/assets/images/skin-routine-ring.png")}
                     style={styles.ringImage}
-                    resizeMode="contain"
+                    contentFit="contain"
+                    cachePolicy="memory-disk"
                 />
 
                 {/* Layer 2: Dynamic SVG Overlay */}

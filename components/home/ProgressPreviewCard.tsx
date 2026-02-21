@@ -11,7 +11,7 @@ export function ProgressPreviewCard() {
             <View style={styles.container}>
                 {/* Background Image */}
                 <ImageBackground
-                    source={require("@/assets/images/ProgressContainer.png")}
+                    source={require("@/assets/images/ProgressContainer.webp")}
                     style={styles.backgroundImage}
                     resizeMode="cover"
                     imageStyle={{ borderRadius: scale(12) }}

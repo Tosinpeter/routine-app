@@ -19,10 +19,10 @@ import { t } from "@/i18n";
 
 // Treatment plan slides data
 const TREATMENT_SLIDES = [
-    { id: '1', image: require("@/assets/images/img_treatment-plan.png") },
-    { id: '2', image: require("@/assets/images/img_treatment-plan.png") },
-    { id: '3', image: require("@/assets/images/img_treatment-plan.png") },
-    { id: '4', image: require("@/assets/images/img_treatment-plan.png") },
+    { id: '1', image: require("@/assets/images/img_treatment-plan.webp") },
+    { id: '2', image: require("@/assets/images/img_treatment-plan.webp") },
+    { id: '3', image: require("@/assets/images/img_treatment-plan.webp") },
+    { id: '4', image: require("@/assets/images/img_treatment-plan.webp") },
 ];
 
 export default function TreatmentPlanScreen() {

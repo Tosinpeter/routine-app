@@ -1,6 +1,7 @@
 import { router } from "expo-router";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import {
+    Animated,
     StyleSheet,
     View
 } from "react-native";
@@ -15,19 +16,41 @@ import { AeonikFonts, Colors } from "@/constants/theme";
 import { AppTextStyle } from "@/constants/typography";
 import { ThemedView } from "@/components/themed-view";
 import { FaceIcon } from "@/components/icons";
+import { useAppData } from "@/contexts/AppDataProvider";
 import { t } from "@/i18n";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function StartAnalysisScreen() {
-    const handleContinue = () => {
-        router.push('/cookie-policy');
+    const { cookieConsentKey } = useAppData();
+    const fadeAnim = useRef(new Animated.Value(0)).current;
+
+    useEffect(() => {
+        Animated.timing(fadeAnim, {
+            toValue: 1,
+            duration: 600,
+            useNativeDriver: true,
+        }).start();
+    }, [fadeAnim]);
+
+    const handleContinue = async () => {
+        const value = await AsyncStorage.getItem(cookieConsentKey);
+        if (value === "true") {
+            router.push("/photo-prep");
+        } else {
+            router.push("/cookie-policy");
+        }
     };
     return (
         <ThemedView style={styles.container}>
-                <Image
-                    source={require("@/assets/images/BackgroundImage.png")}
-                    style={styles.backgroundImage}
-                    contentFit="fill"
-            />
+                <Animated.View style={[styles.backgroundImage, { opacity: fadeAnim }]}>
+                    <Image
+                        source={require("@/assets/images/BackgroundImage.webp")}
+                        style={StyleSheet.absoluteFill}
+                        contentFit="fill"
+                        cachePolicy="memory-disk"
+                        priority="high"
+                    />
+                </Animated.View>
             <LinearGradient
                 colors={['rgba(228, 214, 203, 0)', 'rgba(32, 32, 30, 0.23)']}
                 style={styles.gradientOverlay}

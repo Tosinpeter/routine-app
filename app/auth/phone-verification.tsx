@@ -1,8 +1,11 @@
 import { toast } from "@backpackapp-io/react-native-toast";
 import { Ionicons } from "@expo/vector-icons";
-import React, { useState } from "react";
+import React from "react";
 import {
   Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
   StyleSheet,
   TextInput,
   TouchableOpacity,
@@ -19,33 +22,44 @@ import { AeonikFonts, Colors, Fonts } from "@/constants/theme";
 import { AppTextStyle } from "@/constants/typography";
 import { useAuth } from "@/contexts/AuthContext";
 import { t } from "@/i18n";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import {
+  setAuthLoading,
+  setCountry,
+  setPhoneNumber,
+  setShowCountryPicker,
+} from "@/store/slices/auth-slice";
 import { router } from "expo-router";
 
 export default function PhoneVerificationScreen() {
-  const { requestOtp, isLoading } = useAuth();
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [countryCode, setCountryCode] = useState("+1");
-  const [countryFlag, setCountryFlag] = useState("🇺🇸");
-  const [showCountryPicker, setShowCountryPicker] = useState(false);
+  const { requestOtp } = useAuth();
+  const dispatch = useAppDispatch();
+  const { phoneNumber, countryCode, countryFlag, showCountryPicker, isLoading } =
+    useAppSelector((state) => state.auth);
 
   const handleContinue = async () => {
     Keyboard.dismiss();
     if (phoneNumber.length < 10) return;
     const phoneForApi = `${countryCode}${phoneNumber.replace(/\D/g, "")}`;
 
-    const result = await requestOtp(phoneForApi);
-
-    console.log(result);
-    if (result.success) {
-      router.push({
-        pathname: "/auth/otp-verification",
-        params: {
-          phoneNumber: `${countryCode} ${formatPhoneNumber(phoneNumber)}`,
-        },
-      });
-    } else {
-      const message = t(`auth.errorCodes.${result.error}` as any)
-      toast.error(message);
+    try {
+      dispatch(setAuthLoading(true));
+      const result = await requestOtp(phoneForApi);
+      console.log(result);
+      
+      if (result.success) {
+        router.push({
+          pathname: "/auth/otp-verification",
+          params: {
+            phoneNumber: `${countryCode} ${formatPhoneNumber(phoneNumber)}`,
+          },
+        });
+      } else {
+        const message = t(`auth.errorCodes.${result.error}` as any);        
+        toast.error(message);
+      }
+    } finally {
+      dispatch(setAuthLoading(false));
     }
   };
 
@@ -64,92 +78,108 @@ export default function PhoneVerificationScreen() {
   };
 
   const handlePhoneChange = (text: string) => {
-    // Remove all non-numeric characters
     const cleaned = text.replace(/\D/g, "");
-    // Limit to 10 digits
     const limited = cleaned.slice(0, 10);
-    setPhoneNumber(limited);
+    if (limited.length >= 10) {
+      Keyboard.dismiss();
+
+    }
+    dispatch(setPhoneNumber(limited));
   };
 
   return (
     <SafeAreaView style={styles.container} edges={["top", "bottom"]}>
-
-      {/* Header */}
-      <View style={styles.header}>
-        <BackButton />
-      </View>
-
-      {/* Content */}
-      <View style={styles.content}>
-        <Text style={styles.title}>{t("auth.phone.title")}</Text>
-        <Text style={styles.subtitle}>
-          {t("auth.phone.subtitle")}
-        </Text>
-
-        {/* Phone Input */}
-        <View style={styles.phoneInputContainer}>
-          <TouchableOpacity
-            style={styles.countryCodeButton}
-            onPress={() => setShowCountryPicker(true)}
-            activeOpacity={0.7}
-          >
-            <Text style={styles.flagEmoji}>{countryFlag}</Text>
-            <Text style={styles.countryCodeText}>{countryCode}</Text>
-            <Ionicons
-              name="chevron-down"
-              size={scale(18)}
-              color={Colors.light.grey500}
-            />
-          </TouchableOpacity>
-          <TextInput
-            style={styles.phoneInput}
-            value={formatPhoneNumber(phoneNumber)}
-            onChangeText={handlePhoneChange}
-            placeholder={t("auth.phone.placeholder")}
-            placeholderTextColor={Colors.light.grey400}
-            keyboardType="phone-pad"
-            maxLength={14} // (XXX) XXX-XXXX
-          />
+      <KeyboardAvoidingView
+        style={styles.keyboardAvoid}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        keyboardVerticalOffset={Platform.OS === "ios" ? 10 : 20}
+      >
+        {/* Header */}
+        <View style={styles.header}>
+          <BackButton />
         </View>
 
-        {/* Spacer */}
-        <View style={styles.spacer} />
+        {/* Content */}
+        <ScrollView
+          style={styles.scrollView}
+          contentContainerStyle={styles.scrollContent}
+          keyboardShouldPersistTaps="handled"
+          showsVerticalScrollIndicator={false}
+        >
+          <View style={styles.content}>
+            <Text style={styles.title}>{t("auth.phone.title")}</Text>
+            <Text style={styles.subtitle}>
+              {t("auth.phone.subtitle")}
+            </Text>
 
-        {/* Continue Button */}
-        <PrimaryButton
-          title={t("common.continue")}
-          loading={isLoading}
-          onPress={handleContinue}
-          disabled={phoneNumber.length < 10}
-        />
+            {/* Phone Input */}
+            <View style={styles.phoneInputContainer}>
+              <TouchableOpacity
+                style={styles.countryCodeButton}
+                onPress={() => dispatch(setShowCountryPicker(true))}
+                activeOpacity={0.7}
+              >
+                <Text style={styles.flagEmoji}>{countryFlag}</Text>
+                <Text style={styles.countryCodeText}>{countryCode}</Text>
+                <Ionicons
+                  name="chevron-down"
+                  size={scale(18)}
+                  color={Colors.light.grey500}
+                />
+              </TouchableOpacity>
+              <TextInput
+                style={styles.phoneInput}
+                value={formatPhoneNumber(phoneNumber)}
+                onChangeText={handlePhoneChange}
+                placeholder={t("auth.phone.placeholder")}
+                placeholderTextColor={Colors.light.grey400}
+                keyboardType="phone-pad"
+                maxLength={14} // (XXX) XXX-XXXX
+              />
+            </View>
 
-        <PrimaryButton
-          title={t("auth.skipAnalysis")}
-          onPress={() => { }}
-          textStyle={{
-            fontFamily: Fonts.regular,
-            color: Colors.light.mainDarkColor
-          }}
-          style={{
-            marginTop: verticalScale(12),
-            backgroundColor: Colors.light.white,
-          }}
-        />
+            {/* Spacer */}
+            <View style={styles.spacer} />
 
-        {/* Skip Link */}
+            {/* Continue Button */}
+            <PrimaryButton
+              title={t("common.continue")}
+              loading={isLoading}
+              onPress={handleContinue}
+              disabled={phoneNumber.length < 10}
+            />
 
-      </View>
+            <PrimaryButton
+              title={t("auth.skipAnalysis")}
+              onPress={() => { }}
+              textStyle={{
+                fontFamily: Fonts.regular,
+                color: Colors.light.mainDarkColor
+              }}
+              style={{
+                marginTop: verticalScale(12),
+                backgroundColor: Colors.light.white,
+              }}
+            />
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
+        
 
       {/* Country Picker Modal */}
       <CountryPicker
         show={showCountryPicker}
         lang="en"
         pickerButtonOnPress={(item: any) => {
-          setCountryCode(item.dial_code);
-          setCountryFlag(item.flag);
-          setShowCountryPicker(false);
+          dispatch(
+            setCountry({
+              code: item.dial_code,
+              flag: item.flag,
+            })
+          );
+          dispatch(setShowCountryPicker(false));
         }}
-        onBackdropPress={() => setShowCountryPicker(false)}
+        onBackdropPress={() => dispatch(setShowCountryPicker(false))}
         style={{
           modal: {
             height: verticalScale(500),
@@ -203,6 +233,12 @@ const styles = StyleSheet.create({
   },
   keyboardAvoid: {
     flex: 1,
+  },
+  scrollView: {
+    flex: 1,
+  },
+  scrollContent: {
+    flexGrow: 1,
   },
   header: {
     paddingHorizontal: scale(20),

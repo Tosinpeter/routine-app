@@ -67,7 +67,7 @@ export default function FaceScanHistoryScreen() {
           {/* Face Scan Image */}
           <View style={styles.imageContainer}>
             <Image
-              source={require("@/assets/images/ImageContainer.png")}
+              source={require("@/assets/images/ImageContainer.webp")}
               style={styles.faceScanImage}
               contentFit="cover"
             />

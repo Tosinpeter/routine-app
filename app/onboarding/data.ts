@@ -19,20 +19,20 @@ export const getOnboardingSlides = (): OnboardingSlide[] => [
     title: t("onboarding.slides.slide1.title"),
     subtitle: t("onboarding.slides.slide1.subtitle"),
     description: t("onboarding.slides.slide1.description"),
-    image: require("@/assets/images/Onboardingbg.png"),
+    image: require("@/assets/images/Onboardingbg.webp"),
   },
   {
     id: 2,
     title: t("onboarding.slides.slide2.title"),
     subtitle: t("onboarding.slides.slide2.subtitle"),
     description: t("onboarding.slides.slide2.description"),
-    image: require("@/assets/images/Onboardingbg2.png"),
+    image: require("@/assets/images/Onboardingbg2.webp"),
   },
   {
     id: 3,
     title: t("onboarding.slides.slide3.title"),
     subtitle: t("onboarding.slides.slide3.subtitle"),
     description: t("onboarding.slides.slide3.description"),
-    image: require("@/assets/images/Onboardingbg4.png"),
+    image: require("@/assets/images/Onboardingbg4.webp"),
   },
 ];

@@ -1,6 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useLocalSearchParams } from "expo-router";
-import { Image, ScrollView, StyleSheet, View } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
+import { Image } from "expo-image";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { AppText as Text } from "@/components/app-text";
@@ -63,7 +64,7 @@ export default function ProductDetailsScreen() {
       >
         {/* Product Image Card */}
         <ProductImageCard
-          source={require("@/assets/images/ProductImagebig.png")}
+          source={require("@/assets/images/ProductImagebig.webp")}
         />
 
         {/* Product Info */}
@@ -103,7 +104,8 @@ export default function ProductDetailsScreen() {
                   <Image
                     source={require("@/assets/images/comparison-face.png")}
                     style={styles.comparisonImage}
-                    resizeMode="cover"
+                    contentFit="cover"
+                    cachePolicy="memory-disk"
                   />
                   <View style={styles.beforeBadge}>
                     <Text style={styles.badgeText}>{t("product.details.before")}</Text>

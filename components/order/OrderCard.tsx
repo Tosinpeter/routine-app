@@ -3,7 +3,8 @@ import { scale } from '@/constants/scaling';
 import { Fonts } from '@/constants/theme';
 import { useRouter } from 'expo-router';
 import React from 'react';
-import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { Image } from 'expo-image';
 import { OrderTimeIcon } from './OrderTimeIcon';
 import { t } from "@/i18n";
 
@@ -53,7 +54,7 @@ export function OrderCard({
                     <View style={styles.productImages}>
                         {images.slice(0, 4).map((img, index) => (
                             <View key={index} style={styles.productImageContainer}>
-                                <Image source={img} style={styles.productImage} resizeMode="contain" />
+                                <Image source={img} style={styles.productImage} contentFit="contain" cachePolicy="memory-disk" recyclingKey={`order-img-${index}`} />
                             </View>
                         ))}
                     </View>

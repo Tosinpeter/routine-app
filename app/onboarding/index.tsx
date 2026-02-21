@@ -3,12 +3,12 @@ import {
   View,
   Text,
   StyleSheet,
-  ImageBackground,
   TouchableOpacity,
   Dimensions,
   FlatList,
   ViewToken,
 } from "react-native";
+import { Image as ExpoImage } from "expo-image";
 import { useRouter } from "expo-router";
 import { AeonikFonts, Colors } from "@/constants/theme";
 import { AppTextStyle } from "@/constants/typography";
@@ -82,11 +82,13 @@ export default function OnboardingScreen() {
 
   return (
     <View style={styles.container}>
-      <ImageBackground
+      <ExpoImage
         source={onboardingSlides[currentIndex].image}
         style={styles.backgroundImage}
-        resizeMode="contain"
-      >
+        contentFit="cover"
+        cachePolicy="memory-disk"
+        transition={300}
+      />
         <View style={styles.content}>
           {/* Skip Button */}
           {currentIndex < onboardingSlides.length - 1 && (
@@ -144,7 +146,6 @@ export default function OnboardingScreen() {
         
         </View>
 
-      </ImageBackground>
     </View>
   );
 }
@@ -154,7 +155,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   backgroundImage: {
-    flex: 1,
+    ...StyleSheet.absoluteFillObject,
     width: "100%",
     height: "100%",
   },

@@ -1,5 +1,6 @@
 import React from "react";
-import { View, StyleSheet, Pressable, FlatList, Image, ImageSourcePropType } from "react-native";
+import { View, StyleSheet, Pressable, FlatList } from "react-native";
+import { Image, ImageSource } from "expo-image";
 import { AppText as Text } from "@/components/app-text";
 import { AeonikFonts, Colors, Shadows } from "@/constants/theme";
 import { scale, verticalScale } from "@/constants/scaling";
@@ -8,7 +9,7 @@ import { AppTextStyle } from "@/constants/typography";
 interface QuizOption {
   id: string;
   label: string;
-  imageSource: ImageSourcePropType;
+  imageSource: ImageSource;
 }
 
 interface QuizCardSelectionProps {
@@ -37,7 +38,9 @@ export function QuizCardSelection({
           <Image
             source={item.imageSource}
             style={styles.cardImage}
-            resizeMode="contain"
+            contentFit="contain"
+            cachePolicy="memory-disk"
+            recyclingKey={`quiz-${item.id}`}
           />
         </View>
         <Text style={styles.label}>{item.label}</Text>

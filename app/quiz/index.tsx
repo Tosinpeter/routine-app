@@ -1,5 +1,6 @@
 import React from "react";
-import { View, StyleSheet, Image, SafeAreaView, StatusBar } from "react-native";
+import { View, StyleSheet, SafeAreaView, StatusBar } from "react-native";
+import { Image } from "expo-image";
 import { router } from "expo-router";
 
 import { AppText as Text } from "@/components/app-text";
@@ -30,7 +31,8 @@ export default function QuizScreen() {
           <Image
             source={require("@/assets/images/quiz_Illustration.png")}
             style={styles.illustration}
-            resizeMode="contain"
+            contentFit="contain"
+            cachePolicy="memory-disk"
           />
         </View>
 

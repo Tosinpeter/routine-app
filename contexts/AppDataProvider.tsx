@@ -3,10 +3,12 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import i18n from "@/i18n";
 
 const LANGUAGE_STORAGE_KEY = "@routine_app:language";
+export const COOKIE_CONSENT_KEY = "@cookie_consent_accepted";
 
 interface AppDataContextType {
   currentLanguage: string;
   isLoading: boolean;
+  cookieConsentKey: string;
   changeLanguage: (locale: string) => Promise<void>;
   t: (key: string, options?: Record<string, unknown>) => string;
 }
@@ -70,6 +72,7 @@ export function AppDataProvider({ children }: AppDataProviderProps) {
       value={{
         currentLanguage,
         isLoading,
+        cookieConsentKey: COOKIE_CONSENT_KEY,
         changeLanguage,
         t,
       }}

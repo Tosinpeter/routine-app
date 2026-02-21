@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
     StyleSheet,
     View,
@@ -11,13 +11,18 @@ import { PrimaryButton } from "@/components/primary-button";
 import { moderateScale, scale, verticalScale } from "@/constants/scaling";
 import { AeonikFonts, Colors, BorderRadius, Shadows } from "@/constants/theme";
 import { ThemedView } from "@/components/themed-view";
+import { useAppData } from "@/contexts/AppDataProvider";
 import { t } from "@/i18n";
 import { Image } from "expo-image";
+import { router } from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function CookiePolicyScreen() {
-    const handleAcceptAll = () => {
-        // Handle cookie acceptance
-        console.log("Cookies accepted");
+    const { cookieConsentKey } = useAppData();
+
+    const handleAcceptAll = async () => {
+        await AsyncStorage.setItem(cookieConsentKey, "true");
+        router.replace("/photo-prep");
     };
 
     const handleReadPolicy = () => {

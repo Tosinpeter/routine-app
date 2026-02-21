@@ -1,10 +1,11 @@
-import { Image, ImageSourcePropType, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
+import { Image, ImageSource } from "expo-image";
 
 import { scale, verticalScale } from "@/constants/scaling";
 import { Colors, Shadows } from "@/constants/theme";
 
 interface ProductImageCardProps {
-  source: ImageSourcePropType;
+  source: ImageSource;
   imageStyle?: object;
 }
 
@@ -14,7 +15,9 @@ export function ProductImageCard({ source, imageStyle }: ProductImageCardProps) 
       <Image
         source={source}
         style={[styles.productImage, imageStyle]}
-        resizeMode="cover"
+        contentFit="cover"
+        cachePolicy="memory-disk"
+        transition={200}
       />
     </View>
   );

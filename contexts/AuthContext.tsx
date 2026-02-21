@@ -9,8 +9,10 @@ import React, {
 } from "react";
 
 import { client, getErrorMessage } from "@/api/client";
+import { Profile } from "@/models/profile";
 
 const AUTH_STORAGE_KEY = "@routine_app:auth";
+const PROFILE_STORAGE_KEY = "@routine_app:profile";
 
 interface AuthState {
   token: string | null;
@@ -18,6 +20,21 @@ interface AuthState {
   isAuthenticated: boolean;
 }
 
+export class User {
+  id: number;
+  name: string;
+  email: string;
+
+  constructor(id: number, name: string, email: string) {
+    this.id = id;
+    this.name = name;
+    this.email = email;
+  }
+
+  static fromJson(json: any): User {
+    return new User(json.id, json.name, json.email);
+  }
+}
 
 export interface ApiResult {
   success: boolean;
@@ -26,6 +43,7 @@ export interface ApiResult {
 }
 
 interface AuthContextType extends AuthState {
+  profile: Profile | null;
   requestOtp: (phone_number: string) => Promise<ApiResult>;
   verifyOtp: (phone_number: string, code: string) => Promise<Record<string, unknown>>;
 }
@@ -33,13 +51,31 @@ interface AuthContextType extends AuthState {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  // const [user, setUser] = useState<AuthUser | null>(null);
+  const [profile, setProfile] = useState<Profile | null>(null);
   const [token, setToken] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const storedToken = await AsyncStorage.getItem(AUTH_STORAGE_KEY);
+        if (storedToken) {
+          setToken(storedToken);
+        }
+
+        const storedProfile = await AsyncStorage.getItem(PROFILE_STORAGE_KEY);
+        if (storedProfile) {
+          const parsedProfile = JSON.parse(storedProfile) as Record<string, unknown>;
+          setProfile(Profile.fromJson(parsedProfile));
+        }
+      } finally {
+        setIsLoading(false);
+      }
+    })();
+  }, []);
 
   const requestOtp = useCallback(
     async (phone_number: string): Promise<ApiResult> => {
-      setIsLoading(true);
       try {
         const { data } = await client.post<{
           success?: boolean;
@@ -47,53 +83,61 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           message?: string;
         }>("/api/auth/request-otp", { phone_number });
 
-        console.log(data);
         if (data.success === false) {
           return { success: false, error: data.error ?? "Request failed" };
         }
         return { success: data.success ?? true, message: data.message };
       } catch (err) {
         return { success: false, error: getErrorMessage(err) };
-      } finally {
-        setIsLoading(false);
       }
     },[]
   );
 
   const verifyOtp = useCallback(
     async (phone_number: string, code: string): Promise<Record<string, unknown>> => {
-      setIsLoading(true);
       try {
-        const { data } = await client.post<Record<string, unknown>>(
-          "/api/auth/verify-otp",
-          { phone_number, code }
-        );
+        const { data } = await client.post<Record<string, unknown>>("/api/auth/verify-otp", { phone_number, code });
 
-        // if (data?.success === true && typeof data?.token === "string") {
-        //   setToken(data.token);
-        //   await AsyncStorage.setItem(
-        //     AUTH_STORAGE_KEY,
-        //     JSON.stringify({ token: data.token })
-        //   );
-        // }
-        return data;
+        if (data?.success === true && typeof data?.token === "string" && data?.data) {
+          const payload = data.data as Record<string, unknown>;
+          const profileData = Profile.fromJson(payload);
+          setToken(data.token);
+          setProfile(profileData);
+          await AsyncStorage.setItem(AUTH_STORAGE_KEY, data.token);
+          await AsyncStorage.setItem(
+            PROFILE_STORAGE_KEY,
+            JSON.stringify({
+              id: profileData.id,
+              phone_number: profileData.phone_number,
+              fullname: profileData.fullname,
+              age: profileData.age,
+              gender: profileData.gender,
+              skin_type: profileData.skin_type,
+              skin_sensitivity: profileData.skin_sensitivity,
+              skin_concerns: profileData.skin_concerns,
+              health_conditions: profileData.health_conditions,
+            })
+          );
+          return {
+            success: true,
+            data: profileData,
+          };
+        }
+        return data as Record<string, unknown>;
       } catch (err) {
         return {
           success: false,
           error: getErrorMessage(err),
         };
-      } finally {
-        setIsLoading(false);
       }
-    },
-    []
+    }, []
   );
 
   const value: AuthContextType = {
-    // user,
     token,
     isLoading,
     isAuthenticated: !!token,
+    profile,
     requestOtp,
     verifyOtp,
   };

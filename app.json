@@ -57,6 +57,13 @@
             "backgroundColor": "#000000"
           }
         }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera for face analysis.",
+          "photosPermission": "Allow $(PRODUCT_NAME) to access your photos."
+        }
       ]
     ],
     "experiments": {

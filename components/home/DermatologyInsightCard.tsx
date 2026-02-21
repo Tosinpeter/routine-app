@@ -1,5 +1,6 @@
 import { LinearGradient } from "expo-linear-gradient";
-import { Image, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
+import { Image } from "expo-image";
 
 import { AppText as Text } from "@/components/app-text";
 import { AeonikFonts } from "@/constants/theme";
@@ -14,7 +15,8 @@ export function DermatologyInsightCard() {
             <Image
                 source={require("@/assets/images/dermatology-insight-bg.png")}
                 style={styles.backgroundImage}
-                resizeMode="cover"
+                contentFit="cover"
+                cachePolicy="memory-disk"
             />
 
             {/* Gradient Overlay - Left side fade */}

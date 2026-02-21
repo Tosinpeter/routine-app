@@ -19,6 +19,7 @@ export { UploadCloudIcon } from "./upload-cloud-icon";
 
 // Profile Menu Icons
 export { AddressIcon } from "./address-icon";
+export { ArrowRightIcon } from "./arrow-right-icon";
 export { CameraPlusIcon } from "./CameraPlusIcon";
 export { CameraPlusIcon as CameraIcon } from "./CameraPlusIcon";
 export { ClinicTestMenuIcon } from "./clinic-test-menu-icon";
