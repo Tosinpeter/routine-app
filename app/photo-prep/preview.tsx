@@ -1,151 +1,133 @@
 import { AppText as Text } from "@/components/app-text";
 import { BackButton } from "@/components/back-button";
-import { CameraPlusIcon } from "@/components/icons";
+import { CameraPlusIcon, CheckedRoundedIcon, GalleryIcon, UndoIcon } from "@/components/icons";
 import { PrimaryButton } from "@/components/primary-button";
-import { scale, verticalScale, moderateScale } from "@/constants/scaling";
-import { AeonikFonts, BorderRadius, Colors, Shadows } from "@/constants/theme";
+import { scale, verticalScale, moderateScale, SCREEN_WIDTH } from "@/constants/scaling";
+import { AeonikFonts, BorderRadius, Colors, primaryColor, Shadows } from "@/constants/theme";
 import { AppTextStyle } from "@/constants/typography";
 import { t } from "@/i18n";
 import { Ionicons } from "@expo/vector-icons";
 import { Image } from "expo-image";
 import * as ImagePicker from "expo-image-picker";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import React, { useCallback, useState } from "react";
-import { ActivityIndicator, StyleSheet, View } from "react-native";
+import { StatusBar } from "expo-status-bar";
+import React, { useCallback, useRef, useState } from "react";
+import { StyleSheet, View } from "react-native";
+import PagerView from "react-native-pager-view";
 import Animated, {
-    FadeIn,
     FadeInDown,
     FadeInUp,
+    useAnimatedStyle,
+    withTiming,
 } from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-function GuidelineItem({ icon, label, delay }: { icon: string; label: string; delay: number }) {
-    return (
-        <Animated.View entering={FadeInDown.delay(delay).duration(400)} style={styles.guidelineItem}>
-            <View style={styles.guidelineIcon}>
-                <Ionicons name={icon as any} size={scale(16)} color={Colors.light.tint} />
-            </View>
-            <Text style={styles.guidelineText}>{label}</Text>
-        </Animated.View>
-    );
+const DOT_SIZE = scale(8);
+const ACTIVE_DOT_WIDTH = scale(24);
+const DOT_COLOR_INACTIVE = "rgba(255, 255, 255, 0.3)";
+const DOT_COLOR_ACTIVE = "#CF604A";
+const PAGINATION_TIMING = { duration: 300 };
+
+export function AnimatedDot({ index, currentIndex }: { index: number; currentIndex: number }) {
+    const isActive = index === currentIndex;
+    const animatedStyle = useAnimatedStyle(() => ({
+        width: withTiming(isActive ? ACTIVE_DOT_WIDTH : DOT_SIZE, PAGINATION_TIMING),
+        backgroundColor: withTiming(
+            isActive ? DOT_COLOR_ACTIVE : DOT_COLOR_INACTIVE,
+            PAGINATION_TIMING
+        ),
+    }));
+    return <Animated.View style={[styles.paginationDot, animatedStyle]} />;
 }
 
+export type PreviewParams = {
+    imageUri?: string;
+    frontUri?: string;
+    leftUri?: string;
+    rightUri?: string;
+};
+
 export default function PhotoPreviewScreen() {
-    const { imageUri } = useLocalSearchParams<{ imageUri: string }>();
+    const { imageUri, frontUri, leftUri, rightUri } = useLocalSearchParams<PreviewParams>();
     const router = useRouter();
-    const [isProcessing, setIsProcessing] = useState(false);
+    const [sliderPage, setSliderPage] = useState(0);
+    const pagerRef = useRef<PagerView>(null);
+
+    const imageUris = [frontUri, leftUri, rightUri];
 
     const handleRetake = useCallback(() => {
         router.back();
     }, [router]);
 
-    const handleCropAgain = useCallback(async () => {
-        if (!imageUri) return;
-
-        const result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ["images"],
-            allowsEditing: true,
-            aspect: [3, 4],
-            quality: 0.8,
-        });
-
-        if (!result.canceled && result.assets[0]) {
-            router.setParams({ imageUri: result.assets[0].uri });
-        }
-    }, [imageUri, router]);
-
     const handleContinue = useCallback(() => {
-        setIsProcessing(true);
-        setTimeout(() => {
-            setIsProcessing(false);
-            router.replace("/(tabs)");
-        }, 1500);
-    }, [router]);
-
-    if (!imageUri) {
-        return (
-            <SafeAreaView style={styles.container}>
-                <View style={styles.emptyState}>
-                    <Text style={styles.emptyText}>{t("common.error")}</Text>
-                </View>
-            </SafeAreaView>
-        );
-    }
+        router.push({
+            pathname: "/photo-prep/analyze-sheet" as any,
+            params: { frontUri, leftUri, rightUri },
+        });
+    }, [router, frontUri, leftUri, rightUri, imageUri]);
 
     return (
         <SafeAreaView style={styles.container} edges={["top", "bottom"]}>
-            {/* Header */}
-            <Animated.View entering={FadeIn.duration(300)} style={styles.header}>
-                <BackButton variant="back" color={Colors.light.text} />
-                <Text style={styles.headerTitle}>{t("photoPrep.preview.title")}</Text>
-                <View style={styles.headerSpacer} />
-            </Animated.View>
-
             {/* Image Preview */}
             <View style={styles.content}>
                 <Animated.View entering={FadeInUp.duration(500)} style={styles.imageWrapper}>
                     <View style={styles.imageContainer}>
-                        <Image
-                            source={{ uri: imageUri }}
-                            style={styles.previewImage}
-                            contentFit="cover"
-                            transition={300}
-                            cachePolicy="memory-disk"
-                        />
-
-                        {/* Face guide overlay */}
-                        <View style={styles.faceGuideOverlay}>
-                            <View style={styles.faceGuideOval} />
+                        <PagerView
+                            ref={pagerRef}
+                            style={styles.pagerView}
+                            initialPage={0}
+                            onPageSelected={(e) => setSliderPage(e.nativeEvent.position)}
+                        >
+                            {imageUris.map((uri, index) => (
+                                <View key={index} style={styles.pagerPage} collapsable={false}>
+                                    <Image
+                                        source={{ uri }}
+                                        style={styles.previewImage}
+                                        contentFit="cover"
+                                        transition={300}
+                                        cachePolicy="memory-disk"
+                                    />
+                                </View>
+                            ))}
+                        </PagerView>
+                        <View style={styles.paginationOverlay}>
+                            <View style={styles.paginationContainer}>
+                                {imageUris.map((_, index) => (
+                                    <AnimatedDot
+                                        key={index}
+                                        index={index}
+                                        currentIndex={sliderPage}
+                                    />
+                                ))}
+                            </View>
                         </View>
                     </View>
                 </Animated.View>
 
                 {/* Subtitle */}
                 <Animated.View entering={FadeInDown.delay(200).duration(400)}>
-                    <Text style={styles.subtitle}>{t("photoPrep.preview.subtitle")}</Text>
-                </Animated.View>
-
-                {/* Guidelines */}
-                <Animated.View entering={FadeInDown.delay(300).duration(400)} style={styles.guidelinesCard}>
-                    <Text style={styles.guidelinesTitle}>{t("photoPrep.preview.guidelines.title")}</Text>
-                    <View style={styles.guidelinesRow}>
-                        <GuidelineItem icon="sunny-outline" label={t("photoPrep.preview.guidelines.lighting")} delay={400} />
-                        <GuidelineItem icon="scan-outline" label={t("photoPrep.preview.guidelines.centered")} delay={500} />
-                        <GuidelineItem icon="eye-outline" label={t("photoPrep.preview.guidelines.clear")} delay={600} />
-                    </View>
+                    <Text style={styles.subtitle}>{"Well done"}</Text>
                 </Animated.View>
             </View>
 
             {/* Action Buttons */}
             <Animated.View entering={FadeInDown.delay(400).duration(400)} style={styles.buttonContainer}>
                 <PrimaryButton
-                    title={isProcessing ? t("common.loading") : t("photoPrep.preview.continue")}
-                    onPress={handleContinue}
-                    disabled={isProcessing}
-                    icon={isProcessing ? <ActivityIndicator size="small" color="#fff" /> : undefined}
+                    title={"Retake"}
+                    onPress={handleRetake}
+                    style={styles.primaryButton}
+                    icon={<UndoIcon height={20} width={20} color="#fff" />}
                     iconPosition="left"
-                    withShadow
                 />
-
-                <View style={styles.secondaryRow}>
-                    <PrimaryButton
-                        title={t("photoPrep.preview.retake")}
-                        onPress={handleRetake}
-                        style={styles.secondaryButton}
-                        textStyle={styles.secondaryButtonText}
-                        icon={<CameraPlusIcon width={18} height={18} color={Colors.light.text} />}
-                        iconPosition="left"
-                    />
-                    <PrimaryButton
-                        title={t("photoPrep.preview.cropAgain")}
-                        onPress={handleCropAgain}
-                        style={styles.secondaryButton}
-                        textStyle={styles.secondaryButtonText}
-                        icon={<Ionicons name="crop-outline" size={18} color={Colors.light.text} />}
-                        iconPosition="left"
-                    />
-                </View>
+                <PrimaryButton
+                    title={"Send"}
+                    onPress={handleContinue}
+                    style={{ ...styles.primaryButton, backgroundColor: primaryColor }}
+                    icon={<CheckedRoundedIcon width={20} height={20} color="#fff" />}
+                    iconPosition="left"
+                />
             </Animated.View>
+            <StatusBar style={'light'} />
         </SafeAreaView>
     );
 }
@@ -153,7 +135,17 @@ export default function PhotoPreviewScreen() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: Colors.light.scaffold,
+        backgroundColor: "#20201E",
+        justifyContent: 'space-between'
+    },
+    primaryButton: {
+        backgroundColor: 'transparent',
+        borderWidth: 1,
+        borderColor: 'rgba(255, 255, 255, 0.16)',
+        borderRadius: BorderRadius.full,
+        paddingVertical: verticalScale(18),
+        paddingHorizontal: scale(8),
+        marginTop: 0,
     },
     header: {
         flexDirection: "row",
@@ -178,38 +170,56 @@ const styles = StyleSheet.create({
     imageWrapper: {
         width: "100%",
         alignItems: "center",
-        marginTop: verticalScale(8),
+        marginTop: verticalScale(52),
     },
     imageContainer: {
-        width: scale(300),
-        height: scale(400),
+        width: SCREEN_WIDTH - 20 * 2,
+        height: scale(500),
         borderRadius: BorderRadius.xl,
         overflow: "hidden",
         ...Shadows.lg,
+        position: "relative",
+    },
+    paginationOverlay: {
+        position: "absolute",
+        bottom: 0,
+        left: 0,
+        right: 0,
+        paddingVertical: verticalScale(24),
+        alignItems: "center",
+        justifyContent: "center",
+    },
+    pagerView: {
+        flex: 1,
+        width: "100%",
+        height: "100%",
+    },
+    pagerPage: {
+        flex: 1,
+        width: "100%",
+        height: "100%",
+    },
+    paginationContainer: {
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: scale(8),
+    },
+    paginationDot: {
+        height: scale(8),
+        borderRadius: BorderRadius.full,
     },
     previewImage: {
         width: "100%",
         height: "100%",
     },
-    faceGuideOverlay: {
-        ...StyleSheet.absoluteFillObject,
-        justifyContent: "center",
-        alignItems: "center",
-    },
-    faceGuideOval: {
-        width: scale(200),
-        height: scale(270),
-        borderRadius: scale(100),
-        borderWidth: 2,
-        borderColor: "rgba(207, 96, 74, 0.4)",
-        borderStyle: "dashed",
-    },
+
     subtitle: {
-        ...AppTextStyle.bodyText1,
-        fontFamily: AeonikFonts.regular,
-        color: Colors.light.grey500,
+        ...AppTextStyle.subtitle2,
+        fontFamily: AeonikFonts.medium,
+        color: "rgba(255, 255, 255, 1)",
         textAlign: "center",
-        marginTop: verticalScale(16),
+        marginTop: verticalScale(24),
         paddingHorizontal: scale(20),
     },
     guidelinesCard: {

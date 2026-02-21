@@ -1,14 +1,17 @@
 import React, { useEffect, useRef } from "react";
-import { Animated, StyleSheet, View, ViewStyle } from "react-native";
+import { Animated, ImageSourcePropType, StyleSheet, View, ViewStyle } from "react-native";
 import { Image } from "expo-image";
 import { scale } from "@/constants/scaling";
+
+const DEFAULT_LOADER_IMAGE = require("@/assets/images/img_LoaderIndicator.png");
 
 interface LoaderProps {
   size?: number;
   style?: ViewStyle;
+  image?: ImageSourcePropType;
 }
 
-export function Loader({ size = 164, style }: LoaderProps) {
+export function Loader({ size = 164, style, image = DEFAULT_LOADER_IMAGE }: LoaderProps) {
   const rotateAnim = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
@@ -35,7 +38,7 @@ export function Loader({ size = 164, style }: LoaderProps) {
         }}
       >
         <Image
-          source={require("@/assets/images/img_LoaderIndicator.png")}
+          source={image}
           style={[styles.image, { width: scale(size), height: scale(size) }]}
           contentFit="cover"
         />

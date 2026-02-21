@@ -8,19 +8,54 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+import { client } from "@/api/client";
 import { AppText as Text } from "@/components/app-text";
 import { BackButton } from "@/components/back-button";
+import { useAuth } from "@/contexts/AuthContext";
 import { Loader } from "@/components/loader";
 import { PrimaryButton } from "@/components/primary-button";
 import { scale, verticalScale } from "@/constants/scaling";
 import { AeonikFonts, Colors } from "@/constants/theme";
 import { AppTextStyle } from "@/constants/typography";
 import { t } from "@/i18n";
+import { useAppSelector } from "@/store/hooks";
 
 export default function QuizCompleteScreen() {
   const scaleAnim = useRef(new Animated.Value(0)).current;
   const buttonOpacity = useRef(new Animated.Value(0)).current;
   const [isLoading, setIsLoading] = useState(true);
+  const { profile, updateProfile } = useAuth();
+  const quizAnswers = useAppSelector((state) => state.usecase.quizAnswers);
+  const hasSyncedProfile = useRef(false);
+
+  // Update user profile with quiz results (skin_type from Q1, health_conditions from Q2)
+  useEffect(() => {
+    if (!profile?.id || !quizAnswers || hasSyncedProfile.current) return;
+    const skinType = quizAnswers[1];
+    const healthConditions = quizAnswers[2];
+    if (!skinType && !healthConditions) return;
+
+    hasSyncedProfile.current = true;
+    (async () => {
+      try {
+        const { data } = await client.patch<{ success?: boolean; error?: string }>(
+          `/api/profile/${profile.id}`,
+          {
+            ...(skinType && { skin_type: skinType }),
+            ...(healthConditions && { health_conditions: healthConditions }),
+          }
+        );
+        if (data?.success !== false) {
+          await updateProfile({
+            ...(skinType && { skin_type: skinType }),
+            ...(healthConditions && { health_conditions: healthConditions }),
+          });
+        }
+      } catch {
+        // Non-blocking: user can continue; profile can be synced later
+      }
+    })();
+  }, [profile?.id, quizAnswers, updateProfile]);
 
   useEffect(() => {
     // Show loading for 1 second, then show the content
@@ -49,8 +84,7 @@ export default function QuizCompleteScreen() {
   }, [scaleAnim, buttonOpacity]);
 
   const handleContinue = () => {
-    // Navigate to skincare routine or home
-    router.replace("/(tabs)");
+    router.replace("/treatment-plan");
   };
 
   return (

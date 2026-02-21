@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.light.white,
     alignItems: "center",
     justifyContent: "center",
-    marginTop: verticalScale(8),
+    marginVertical: verticalScale(8),
     ...Shadows.md,
   },
 });

@@ -8,6 +8,8 @@ import {
   ImageSourcePropType,
 } from "react-native";
 import { router } from "expo-router";
+import { useAppDispatch } from "@/store/hooks";
+import { setQuizAnswers } from "@/store/slices/usercase-slice";
 
 import { AppText as Text } from "@/components/app-text";
 import { BackButton } from "@/components/back-button";
@@ -94,6 +96,7 @@ const getQuizQuestions = (): QuizQuestion[] => [
 ];
 
 export default function QuizQuestionsScreen() {
+  const dispatch = useAppDispatch();
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState<Record<number, string>>({});
 
@@ -103,16 +106,16 @@ export default function QuizQuestionsScreen() {
   const progress = ((currentQuestionIndex + 1) / totalQuestions) * 100;
 
   const handleSelectOption = (optionId: string) => {
-    setAnswers({ ...answers, [currentQuestion.id]: optionId });
+    const nextAnswers = { ...answers, [currentQuestion.id]: optionId };
+    setAnswers(nextAnswers);
+    dispatch(setQuizAnswers(nextAnswers));
   };
 
   const handleContinue = () => {
     if (currentQuestionIndex < totalQuestions - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
     } else {
-      // Quiz completed
-      console.log("Quiz completed with answers:", answers);
-      // Navigate to completion screen
+      // Quiz completed – answers already in usecase from handleSelectOption
       router.push("/quiz/complete");
     }
   };

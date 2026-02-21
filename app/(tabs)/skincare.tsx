@@ -11,7 +11,7 @@ export default function SkincareScreen() {
     { name: 'Phone Verification', route: '/auth/phone-verification' },
     { name: 'OTP Verification', route: '/auth/otp-verification' },
     { name: 'Start Analysis', route: '/start-analysis' },
-    // { name: 'Photo Preparation', route: '/photo-prep' },
+    { name: 'Photo Preparation', route: '/photo-prep' },
     { name: 'Quiz', route: '/quiz' },
     { name: 'Quiz Questions', route: '/quiz/questions' },
     { name: 'Quiz Complete', route: '/quiz/complete' },

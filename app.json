@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "routine-app",
-    "slug": "routine-app",
+    "name": "Gloord",
+    "slug": "gloord",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "routineapp",
+    "scheme": "gloord",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
@@ -14,13 +14,13 @@
       "config": {
         "googleMapsApiKey": "YOUR_GOOGLE_MAPS_API_KEY"
       },
-      "bundleIdentifier": "com.routineapp",
+      "bundleIdentifier": "com.gloord.app",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
       }
     },
     "android": {
-      "package": "com.routineapp",
+      "package": "com.gloord.app",
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/images/android-icon-foreground.png",

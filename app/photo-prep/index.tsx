@@ -10,19 +10,19 @@ import { Image } from "expo-image";
 import * as ImagePicker from "expo-image-picker";
 import { useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
     Alert,
     Dimensions,
-    InteractionManager,
-    Platform,
     StyleSheet,
     TouchableOpacity,
     View,
 } from "react-native";
 import PagerView from "react-native-pager-view";
 import Animated, {
+    interpolate,
     useAnimatedStyle,
+    useSharedValue,
     withTiming,
 } from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -75,159 +75,237 @@ function AnimatedDot({ index, currentIndex }: { index: number; currentIndex: num
     return <Animated.View style={[styles.paginationDot, animatedStyle]} />;
 }
 
+export type FaceView = "front" | "left" | "right";
+
+const STEP_LABELS: Record<FaceView, string> = {
+    front: "Front view",
+    left: "Left view",
+    right: "Right view",
+};
+
+const HERO_DURATION_MS = 420;
+
 export default function PhotoPreparationScreen() {
     const [_currentIndex, setCurrentIndex] = useState(0);
     const _pagerRef = useRef<PagerView>(null);
     const [showTips, setShowTips] = useState(false);
     const router = useRouter();
-    const [cameraPermission, requestCameraPermission] = ImagePicker.useCameraPermissions();
+    const heroProgress = useSharedValue(0);
+
+    useEffect(() => {
+        heroProgress.value = withTiming(showTips ? 1 : 0, {
+            duration: HERO_DURATION_MS,
+        });
+    }, [showTips, heroProgress]);
+
+    const instructionHeroStyle = useAnimatedStyle(() => ({
+        opacity: interpolate(heroProgress.value, [0, 1], [1, 0]),
+        transform: [
+            { scale: interpolate(heroProgress.value, [0, 1], [1, 0.92]) },
+        ],
+    }));
+
+    const tipsHeroStyle = useAnimatedStyle(() => ({
+        opacity: interpolate(heroProgress.value, [0, 1], [0, 1]),
+        transform: [
+            { scale: interpolate(heroProgress.value, [0, 1], [0.92, 1]) },
+        ],
+    }));
+
+    const [frontUri, setFrontUri] = useState<string | null>(null);
+    const [leftUri, setLeftUri] = useState<string | null>(null);
+    const [rightUri, setRightUri] = useState<string | null>(null);
+    const slotToFillRef = useRef<FaceView | null>(null);
+
+    const getNextSlotToFill = useCallback((): FaceView | null => {
+        if (!frontUri) return "front";
+        if (!leftUri) return "left";
+        if (!rightUri) return "right";
+        return null;
+    }, [frontUri, leftUri, rightUri]);
+
+    const currentStep = getNextSlotToFill();
+    const stepNumber = currentStep === "front" ? 1 : currentStep === "left" ? 2 : currentStep === "right" ? 3 : 3;
+    const allViewsFilled = frontUri != null && leftUri != null && rightUri != null;
+
+    const setUriForSlot = useCallback((slot: FaceView, uri: string | null) => {
+        if (slot === "front") setFrontUri(uri);
+        else if (slot === "left") setLeftUri(uri);
+        else setRightUri(uri);
+    }, []);
 
     const handleImageResult = useCallback((uri: string) => {
-        router.push({ pathname: "/photo-prep/preview" as any, params: { imageUri: uri } });
-    }, [router]);
+        const slot = slotToFillRef.current;
+        if (slot) {
+            setUriForSlot(slot, uri);
+            slotToFillRef.current = null;
+        }
+    }, [setUriForSlot]);
 
     const handleTakePhoto = useCallback(async () => {
-        const runCamera = async () => {
-            try {
-                const result = await requestCameraPermission();
-                const status = result?.status ?? "denied";
-                if (status !== "granted") {
-                    Alert.alert(t("common.error"), t("notificationSheet.error.permissionDenied"));
-                    return;
-                }
-
-                const cameraResult = await ImagePicker.launchCameraAsync({
-                    mediaTypes: ["images"],
-                    allowsEditing: true,
-                    aspect: [3, 4],
-                    quality: 0.8,
-                    cameraType: ImagePicker.CameraType.front,
-                });
-
-                if (!cameraResult.canceled && cameraResult.assets[0]) {
-                    handleImageResult(cameraResult.assets[0].uri);
-                }
-            } catch (err) {
-                const message = err instanceof Error ? err.message : String(err);
-                Alert.alert(
-                    t("common.error"),
-                    message.includes("camera") || message.includes("Camera")
-                        ? t("notificationSheet.error.permissionDenied")
-                        : message
-                );
+        const slot = getNextSlotToFill();
+        if (!slot) return;
+        try {
+            const { status } = await ImagePicker.requestCameraPermissionsAsync();
+            if (status !== "granted") {
+                Alert.alert(t("common.error"), t("notificationSheet.error.permissionDenied"));
+                return;
             }
-        };
-
-        if (Platform.OS === "ios") {
-            InteractionManager.runAfterInteractions(() => {
-                runCamera();
+            slotToFillRef.current = slot;
+            const result = await ImagePicker.launchCameraAsync({
+                mediaTypes: ["images"],
+                allowsEditing: true,
+                aspect: [3, 4],
+                quality: 0.8,
+                cameraType: ImagePicker.CameraType.front,
             });
-        } else {
-            runCamera();
+            if (!result.canceled && result.assets[0]) {
+                handleImageResult(result.assets[0].uri);
+            } else {
+                slotToFillRef.current = null;
+            }
+        } catch (err) {
+            slotToFillRef.current = null;
+            const message = err instanceof Error ? err.message : String(err);
+            Alert.alert(
+                t("common.error"),
+                message.includes("camera") || message.includes("Camera")
+                    ? t("notificationSheet.error.permissionDenied")
+                    : message
+            );
         }
-    }, [handleImageResult, requestCameraPermission]);
+    }, [getNextSlotToFill, handleImageResult]);
 
     const handleUploadFromDevice = useCallback(async () => {
+        const slot = getNextSlotToFill();
+        if (!slot) return;
+        slotToFillRef.current = slot;
         const result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ["images"],
             allowsEditing: true,
             aspect: [3, 4],
             quality: 0.8,
         });
-
         if (!result.canceled && result.assets[0]) {
             handleImageResult(result.assets[0].uri);
+        } else {
+            slotToFillRef.current = null;
         }
-    }, [handleImageResult]);
+    }, [getNextSlotToFill, handleImageResult]);
+
+    const handleContinue = useCallback(() => {
+        if (!allViewsFilled) return;
+        router.push({
+            pathname: "/photo-prep/preview" as any,
+            params: { frontUri, leftUri, rightUri },
+        });
+    }, [router, allViewsFilled, frontUri, leftUri, rightUri]);
 
     return (
         <ThemedView style={styles.container}>
             {/* Tips Carousel */}
 
             <SafeAreaView style={{ flex: 1, justifyContent: 'space-between' }}>
-
-                {showTips && (
-                    <View style={styles.carouselWrapper}>
-                        <View style={styles.tipCard}>
-                            <PagerView
-                                ref={_pagerRef}
-                                style={styles.pagerView}
-                                initialPage={0}
-                                overdrag
-                                onPageSelected={(e) => setCurrentIndex(e.nativeEvent.position)}
-                            >
-                                {_preparationTips.map((item) => (
-                                    <View key={item.id} style={styles.page} collapsable={false}>
-                                        <Image
-                                            source={item.image}
-                                            style={styles.tipImage}
-                                            contentPosition={'top center'}
-                                            contentFit="cover"
-                                            cachePolicy="memory-disk"
-                                        />
-                                    </View>
-                                ))}
-                            </PagerView>
-
-                            <View style={styles.tipBadge}>
-                                <Text style={styles.tipBadgeText}>Tip {(_currentIndex + 1)}/4</Text>
+                <View style={styles.heroSlot}>
+                    <Animated.View
+                        style={[styles.heroLayer, styles.instructionLayer, instructionHeroStyle]}
+                        pointerEvents={showTips ? "none" : "auto"}
+                    >
+                        <View style={styles.instructionCard}>
+                            <Image
+                                source={require("@/assets/images/InstructionImage.webp")}
+                                style={styles.instructionImage}
+                                contentFit="cover"
+                                cachePolicy="memory-disk"
+                            />
+                            <View style={styles.helpContainer}>
+                                <Text style={styles.helpText}>How to take a great photo</Text>
+                                <TouchableOpacity onPress={() => setShowTips(true)} style={styles.helpBtn}>
+                                    <ArrowRightIcon size={36} color="#000" />
+                                </TouchableOpacity>
                             </View>
+                        </View>
+                    </Animated.View>
 
-                            
-                            <View style={styles.tipsOverlay}>
-                                <Text style={styles.overlayText}>
-                                    {_preparationTips[_currentIndex].title}
-                                </Text>
-                                <View style={styles.paginationContainer}>
-
-                                    {_preparationTips.map((_, index) => (
-                                        <AnimatedDot key={index} index={index} currentIndex={_currentIndex} />
+                    <Animated.View
+                        style={[styles.heroLayer, styles.tipsLayer, tipsHeroStyle]}
+                        pointerEvents={showTips ? "auto" : "none"}
+                    >
+                        <View style={styles.carouselWrapper}>
+                            <View style={styles.tipCard}>
+                                <PagerView
+                                    ref={_pagerRef}
+                                    style={styles.pagerView}
+                                    initialPage={0}
+                                    onPageSelected={(e) => setCurrentIndex(e.nativeEvent.position)}
+                                >
+                                    {_preparationTips.map((item) => (
+                                        <View key={item.id} style={styles.page} collapsable={false}>
+                                            <Image
+                                                source={item.image}
+                                                style={styles.tipImage}
+                                                contentPosition={'center'}
+                                                contentFit="cover"
+                                                cachePolicy="memory-disk"
+                                            />
+                                        </View>
                                     ))}
+                                </PagerView>
+                                <View style={styles.tipBadge}>
+                                    <Text style={styles.tipBadgeText}>Tip {(_currentIndex + 1)}/4</Text>
+                                </View>
+                                <View style={styles.tipsOverlay}>
+                                    <Text style={styles.overlayText}>
+                                        {_preparationTips[_currentIndex].title}
+                                    </Text>
+                                    <View style={styles.paginationContainer}>
+                                        {_preparationTips.map((_, index) => (
+                                            <AnimatedDot key={index} index={index} currentIndex={_currentIndex} />
+                                        ))}
+                                    </View>
                                 </View>
                             </View>
-                           
                         </View>
-
-                        
-                    </View>
-                )}
-
-                {!showTips && <View style={styles.instructionCard}>
-                    <Image
-                        source={require("@/assets/images/InstructionImage.webp")}
-                        style={styles.instructionImage}
-                        contentFit="cover"
-                        cachePolicy="memory-disk"
-                    />
-
-                    <View style={styles.helpContainer}>
-                        <Text style={styles.helpText}>How to take a great photo</Text>
-                        <TouchableOpacity onPress={() => setShowTips(true)} style={styles.helpBtn}>
-                            <ArrowRightIcon size={36} color="#000" />
-                        </TouchableOpacity>
-                    </View>
-                </View>}
-
-                {!showTips && <Text style={styles.captureOptionText}> Select the capture option </Text>}
-
-                {/* Action Buttons */}
-                <View style={styles.buttonContainer}>
-                    <PrimaryButton
-                        title={t("photoPrep.takePhoto")}
-                        onPress={handleTakePhoto}
-                        style={styles.primaryButton}
-                        icon={<CameraPlusIcon width={20} height={20} color="#fff" />}
-                        iconPosition="left"
-                    />
-
-                    <PrimaryButton
-                        title={t("photoPrep.uploadFromDevice")}
-                        onPress={handleUploadFromDevice}
-                        style={styles.primaryButton}
-                        icon={<GalleryIcon width={20} height={20} color="#fff" />}
-                        iconPosition="left"
-                    />
+                    </Animated.View>
                 </View>
+
+                    <>
+                        <Text style={styles.captureOptionText}>
+                            {allViewsFilled
+                                ? "All set! Review and continue."
+                                : `Step ${stepNumber} of 3: ${currentStep ? STEP_LABELS[currentStep] : ""}`}
+                        </Text>
+                        <View style={styles.buttonContainer}>
+                            {!allViewsFilled && (
+                                <>
+                                    <PrimaryButton
+                                        title={t("photoPrep.takePhoto")}
+                                        onPress={handleTakePhoto}
+                                        style={styles.primaryButton}
+                                        icon={<CameraPlusIcon width={20} height={20} color="#fff" />}
+                                        iconPosition="left"
+                                    />
+                                    <PrimaryButton
+                                        title={t("photoPrep.uploadFromDevice")}
+                                        onPress={handleUploadFromDevice}
+                                        style={styles.primaryButton}
+                                        icon={<GalleryIcon width={20} height={20} color="#fff" />}
+                                        iconPosition="left"
+                                    />
+                                </>
+                            )}
+                            {allViewsFilled && (
+                                <PrimaryButton
+                                    title={"Continue"}
+                                    onPress={handleContinue}
+                                    style={styles.primaryButton}
+                                    icon={<ArrowRightIcon size={20} color="#fff" />}
+                                    iconPosition="right"
+                                />
+                            )}
+                        </View>
+                    </>
+             
                 <StatusBar style={'light'} />
             </SafeAreaView>
 
@@ -241,9 +319,20 @@ const styles = StyleSheet.create({
         paddingHorizontal: scale(15),
         backgroundColor: "#20201E",
     },
-    carouselWrapper: {
+    heroSlot: {
         flex: 1,
         marginVertical: verticalScale(24),
+        position: "relative",
+    },
+    heroLayer: {
+        ...StyleSheet.absoluteFillObject,
+    },
+    instructionLayer: {
+        justifyContent: "flex-start",
+    },
+    tipsLayer: {},
+    carouselWrapper: {
+        flex: 1,
     },
     tipsOverlay: {
         position: 'absolute',
@@ -349,13 +438,15 @@ const styles = StyleSheet.create({
         ...AppTextStyle.subtitle2,
         fontFamily: AeonikFonts.regular,
         color: Colors.light.white,
-        alignSelf: 'center',
+        alignSelf: "center",
+        marginTop: verticalScale(8),
     },
     paginationDot: {
         height: scale(8),
         borderRadius: BorderRadius.full,
     },
     buttonContainer: {
+        marginTop: verticalScale(15),
         gap: verticalScale(16),
     },
     primaryButton: {
@@ -365,7 +456,6 @@ const styles = StyleSheet.create({
         borderRadius: BorderRadius.full,
         paddingVertical: verticalScale(18),
         paddingHorizontal: scale(8),
-        marginTop: 0,
     },
     secondaryButton: {
         backgroundColor: Colors.light.white,

@@ -44,7 +44,7 @@ export default function StartAnalysisScreen() {
         <ThemedView style={styles.container}>
                 <Animated.View style={[styles.backgroundImage, { opacity: fadeAnim }]}>
                     <Image
-                        source={require("@/assets/images/BackgroundImage.webp")}
+                        source={require("@/assets/images/BackgroundImage.png")}
                         style={StyleSheet.absoluteFill}
                         contentFit="fill"
                         cachePolicy="memory-disk"

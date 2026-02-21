@@ -1,4 +1,5 @@
 export { CheckboxIcon } from "./checkbox-icon";
+export { CheckedRoundedIcon } from "./checked-rounded-icon";
 export { ClockIcon } from "./clock-icon";
 export { DistanceIcon } from "./distance-icon";
 export { FaceIcon } from "./face-icon";
@@ -40,4 +41,5 @@ export { ProfileMenuIcon } from "./profile-menu-icon";
 export { SkinProgressIcon } from "./skin-progress-icon";
 export { TermsIcon } from "./terms-icon";
 export { TreatmentStartsIcon } from "./treatment-starts-icon";
+export { UndoIcon } from "./undo-icon";
 export { WorkIcon } from "./work-icon";

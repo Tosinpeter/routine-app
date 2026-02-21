@@ -42,10 +42,13 @@ export interface ApiResult {
   error?: string;
 }
 
+export type ProfileUpdate = Partial<Pick<Profile, "skin_type" | "health_conditions" | "fullname" | "age" | "gender" | "skin_sensitivity" | "skin_concerns">>;
+
 interface AuthContextType extends AuthState {
   profile: Profile | null;
   requestOtp: (phone_number: string) => Promise<ApiResult>;
   verifyOtp: (phone_number: string, code: string) => Promise<Record<string, unknown>>;
+  updateProfile: (updates: ProfileUpdate) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -133,6 +136,38 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }, []
   );
 
+  const updateProfile = useCallback(async (updates: ProfileUpdate) => {
+    setProfile((prev) => {
+      if (!prev) return prev;
+      const next = new Profile(
+        prev.id,
+        prev.phone_number,
+        updates.fullname ?? prev.fullname,
+        updates.age ?? prev.age,
+        updates.gender ?? prev.gender,
+        updates.skin_type ?? prev.skin_type,
+        updates.skin_sensitivity ?? prev.skin_sensitivity,
+        updates.skin_concerns ?? prev.skin_concerns,
+        updates.health_conditions ?? prev.health_conditions
+      );
+      AsyncStorage.setItem(
+        PROFILE_STORAGE_KEY,
+        JSON.stringify({
+          id: next.id,
+          phone_number: next.phone_number,
+          fullname: next.fullname,
+          age: next.age,
+          gender: next.gender,
+          skin_type: next.skin_type,
+          skin_sensitivity: next.skin_sensitivity,
+          skin_concerns: next.skin_concerns,
+          health_conditions: next.health_conditions,
+        })
+      );
+      return next;
+    });
+  }, []);
+
   const value: AuthContextType = {
     token,
     isLoading,
@@ -140,6 +175,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     profile,
     requestOtp,
     verifyOtp,
+    updateProfile,
   };
 
   return (
