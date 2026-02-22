@@ -1,12 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
-import React, { useState } from "react";
-import {
-  ScrollView,
-  StyleSheet,
-  TouchableOpacity,
-  View
-} from "react-native";
+import React from "react";
+import { ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { Image } from "expo-image";
@@ -18,21 +13,24 @@ import { moderateScale, scale, verticalScale } from "@/constants/scaling";
 import { AeonikFonts, Colors } from "@/constants/theme";
 import { AppTextStyle } from "@/constants/typography";
 import { t } from "@/i18n";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { removeCoupon, setDeliveryMethod } from "@/store/slices/payment-slice";
 
-type DeliveryMethod = "delivery" | "pickup";
+const SUBTOTAL_CENTS = 25000; // $250.00
 
 export default function CheckoutScreen() {
-  const [deliveryMethod, setDeliveryMethod] = useState<DeliveryMethod>("delivery");
+  const dispatch = useAppDispatch();
+  const deliveryMethod = useAppSelector((state) => state.payment.deliveryMethod);
+  const appliedCoupon = useAppSelector((state) => state.payment.appliedCoupon);
 
   const handleContinueToPurchase = () => {
-    // Navigate to delivery form
     router.push("/payment/delivery-form");
   };
 
-  const handleApplyCoupon = () => {
-    // Handle apply coupon
-    // router.push("/payment/apply-coupon");
-  };
+  const subtotalDollars = SUBTOTAL_CENTS / 100;
+  const discountCents = appliedCoupon?.discount_cents ?? 0;
+  const totalCents = Math.max(0, SUBTOTAL_CENTS - discountCents);
+  const totalDollars = totalCents / 100;
 
   return (
     <SafeAreaView style={styles.container} edges={["top"]}>
@@ -74,7 +72,7 @@ export default function CheckoutScreen() {
                 styles.deliveryOption,
                 deliveryMethod === "delivery" && styles.deliveryOptionActive,
               ]}
-              onPress={() => setDeliveryMethod("delivery")}
+              onPress={() => dispatch(setDeliveryMethod("delivery"))}
               activeOpacity={0.8}
             >
               <Text
@@ -92,7 +90,7 @@ export default function CheckoutScreen() {
                 styles.deliveryOption,
                 deliveryMethod === "pickup" && styles.deliveryOptionActive,
               ]}
-              onPress={() => setDeliveryMethod("pickup")}
+              onPress={() => dispatch(setDeliveryMethod("pickup"))}
               activeOpacity={0.8}
             >
               <Text
@@ -110,7 +108,7 @@ export default function CheckoutScreen() {
         {/* Apply Coupon */}
         <TouchableOpacity
           style={styles.couponContainer}
-          onPress={handleApplyCoupon}
+          onPress={() => router.push("/payment/apply-coupon")}
           activeOpacity={0.7}
         >
           <View style={styles.couponLeft}>
@@ -125,13 +123,19 @@ export default function CheckoutScreen() {
                 contentPosition="center"
               />
             </View>
-            <Text style={styles.couponText}>{t("payment.checkout.applyCoupon")}</Text>
+            <Text style={styles.couponText}>
+              {appliedCoupon
+                ? `${t("payment.checkout.couponDiscount")}: ${appliedCoupon.code} (-$${(appliedCoupon.discount_cents / 100).toFixed(2)})`
+                : t("payment.checkout.applyCoupon")}
+            </Text>
           </View>
-          <Ionicons
-            name="chevron-forward"
-            size={scale(20)}
-            color={Colors.light.grey525}
-          />
+          {appliedCoupon ? (
+            <TouchableOpacity onPress={() => dispatch(removeCoupon())} hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}>
+              <Ionicons name="close-circle" size={scale(22)} color={Colors.light.grey525} />
+            </TouchableOpacity>
+          ) : (
+            <Ionicons name="chevron-forward" size={scale(20)} color={Colors.light.grey525} />
+          )}
         </TouchableOpacity>
 
         {/* Cost Breakdown */}
@@ -148,14 +152,21 @@ export default function CheckoutScreen() {
 
           <View style={styles.costRow}>
             <Text style={styles.costLabel}>{t("payment.checkout.totalPayment")}</Text>
-            <Text style={styles.costValue}>$250.00</Text>
+            <Text style={styles.costValue}>${subtotalDollars.toFixed(2)}</Text>
           </View>
+
+          {appliedCoupon && (
+            <View style={styles.costRow}>
+              <Text style={[styles.costLabel, styles.discountLabel]}>{t("payment.checkout.couponDiscount")} ({appliedCoupon.code})</Text>
+              <Text style={styles.discountValue}>-${(appliedCoupon.discount_cents / 100).toFixed(2)}</Text>
+            </View>
+          )}
 
           <View style={styles.divider} />
 
           <View style={styles.costRow}>
             <Text style={styles.totalLabel}>{t("payment.checkout.total")}</Text>
-            <Text style={styles.totalValue}>$200.00</Text>
+            <Text style={styles.totalValue}>${totalDollars.toFixed(2)}</Text>
           </View>
         </View>
 
@@ -170,6 +181,7 @@ export default function CheckoutScreen() {
           onPress={handleContinueToPurchase}
         />
       </View>
+
     </SafeAreaView>
   );
 }
@@ -313,6 +325,14 @@ const styles = StyleSheet.create({
     ...AppTextStyle.headline6,
     fontFamily: AeonikFonts.medium,
     color: Colors.light.mainDarkColor,
+  },
+  discountLabel: {
+    color: Colors.light.tint,
+  },
+  discountValue: {
+    fontSize: moderateScale(17),
+    fontFamily: AeonikFonts.medium,
+    color: Colors.light.tint,
   },
   bottomButtonContainer: {
     paddingHorizontal: scale(20),

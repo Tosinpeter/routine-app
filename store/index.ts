@@ -6,6 +6,7 @@ import profileReducer from "./slices/profile-slice";
 import authReducer from "./slices/auth-slice";
 import photoPrepReducer from "./slices/photo-prep-slice";
 import usecaseReducer from "./slices/usercase-slice";
+import paymentReducer from "./slices/payment-slice";
 
 export const store = configureStore({
   reducer: {
@@ -15,6 +16,7 @@ export const store = configureStore({
     auth: authReducer,
     photoPrep: photoPrepReducer,
     usecase: usecaseReducer,
+    payment: paymentReducer,
   },
 });
 

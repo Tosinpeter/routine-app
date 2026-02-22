@@ -4,49 +4,69 @@ import { BenefitsGrid } from '@/components/treatment-plan/BenefitsGrid';
 import { PreparationStatus } from '@/components/treatment-plan/PreparationStatus';
 import { ProtocolSection } from '@/components/treatment-plan/ProtocolSection';
 import { TrustRating } from '@/components/treatment-plan/TrustRating';
-import { TryAgainButton } from '@/components/treatment-plan/TryAgainButton';
 import { WhatsInsideAccordion } from '@/components/treatment-plan/WhatsInsideAccordion';
 import { scale, verticalScale, SCREEN_WIDTH } from '@/constants/scaling';
 import { AeonikFonts, Colors, Fonts } from '@/constants/theme';
 import { AppTextStyle } from '@/constants/typography';
-import React, { useState, useRef } from 'react';
+import { router } from 'expo-router';
+import React, { useState, useRef, useEffect } from 'react';
 import { ScrollView, StyleSheet, View, FlatList, NativeSyntheticEvent, NativeScrollEvent } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { Image } from "expo-image";
 import { DermatologistSupportCard } from '@/components/home/DermatologistSupportCard';
 import { t } from "@/i18n";
+import { ComparisonSlider } from '@/components/treatment-plan/ComparisonSlider';
+import type { ImageSourcePropType } from 'react-native';
+import { PrimaryButton } from '@/components/primary-button';
+import { Asset } from 'expo-asset';
 
-// Treatment plan slides data
-const TREATMENT_SLIDES = [
-    { id: '1', image: require("@/assets/images/img_treatment-plan.webp") },
-    { id: '2', image: require("@/assets/images/img_treatment-plan.webp") },
-    { id: '3', image: require("@/assets/images/img_treatment-plan.webp") },
-    { id: '4', image: require("@/assets/images/img_treatment-plan.webp") },
+// Before/after client result slides (3 slides for carousel)
+const BEFORE_AFTER_SLIDES: { id: string; beforeImage: ImageSourcePropType; afterImage: ImageSourcePropType }[] = [
+    { id: '1', beforeImage: require("@/assets/images/client1afterimage.png"), afterImage: require("@/assets/images/client1beforeimage.png") },
+    { id: '2', beforeImage: require("@/assets/images/client2afterimage.png"), afterImage: require("@/assets/images/client2beforeimage.png") },
+    { id: '3', beforeImage: require("@/assets/images/client3beforeimage.png"), afterImage: require("@/assets/images/client3afterimage.png") },
 ];
 
-export default function TreatmentPlanScreen() {
-    const [activeIndex, setActiveIndex] = useState(0);
-    const flatListRef = useRef<FlatList>(null);
+/** Preload all carousel images so they show faster on mount */
+function preloadBeforeAfterImages() {
+    const modules = BEFORE_AFTER_SLIDES.flatMap((s) => [s.beforeImage, s.afterImage]) as number[];
+    return Promise.all(modules.map((mod) => Asset.fromModule(mod).downloadAsync()));
+}
 
-    const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
-        const index = Math.round(event.nativeEvent.contentOffset.x / SCREEN_WIDTH);
-        setActiveIndex(index);
+const slideGap = scale(16);
+const slideWidth = SCREEN_WIDTH - scale(32);
+const beforeAfterSnapInterval = slideWidth + slideGap;
+
+
+export default function TreatmentPlanScreen() {
+    const [beforeAfterIndex, setBeforeAfterIndex] = useState(0);
+    const beforeAfterListRef = useRef<FlatList>(null);
+
+    useEffect(() => {
+        preloadBeforeAfterImages();
+    }, []);
+
+    const handleBeforeAfterScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+        const offset = event.nativeEvent.contentOffset.x;
+        const index = Math.round(offset / beforeAfterSnapInterval);
+        setBeforeAfterIndex(Math.min(Math.max(0, index), BEFORE_AFTER_SLIDES.length - 1));
     };
 
-    const renderSlide = ({ item }: { item: typeof TREATMENT_SLIDES[0] }) => (
-        <View style={styles.slideContainer}>
-            <Image
-                source={item.image}
-                style={styles.slideImage}
-                contentFit="contain"
+    const renderBeforeAfterSlide = ({ item }: { item: typeof BEFORE_AFTER_SLIDES[0] }) => (
+        <View style={[styles.beforeAfterSlide, { width: slideWidth }]}>
+            <ComparisonSlider
+                beforeImage={item.beforeImage}
+                afterImage={item.afterImage}
             />
         </View>
     );
 
     return (
-        <SafeAreaView style={styles.container} edges={["top"]}>
-            <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
+        <View style={styles.container}>
+            <ScrollView
+                contentInsetAdjustmentBehavior='always'
+                contentContainerStyle={styles.scrollContent}
+                showsVerticalScrollIndicator={false}>
                 {/* Header Section */}
                 <View style={styles.header}>
                     <Text style={styles.title}>{t("treatmentPlan.title")}</Text>
@@ -54,32 +74,30 @@ export default function TreatmentPlanScreen() {
                     <Text style={styles.caption}>{t("treatmentPlan.caption")}</Text>
                 </View>
 
-                {/* Treatment Plan Slider */}
-                <View style={styles.sliderWrapper}>
+                {/* Before/After client results carousel (3 slides) */}
+                <View style={styles.beforeAfterCarousel}>
                     <FlatList
-                        ref={flatListRef}
-                        data={TREATMENT_SLIDES}
-                        renderItem={renderSlide}
+                        ref={beforeAfterListRef}
+                        data={BEFORE_AFTER_SLIDES}
+                        renderItem={renderBeforeAfterSlide}
                         keyExtractor={(item) => item.id}
                         horizontal
-                        pagingEnabled
                         showsHorizontalScrollIndicator={false}
-                        onScroll={handleScroll}
+                        onScroll={handleBeforeAfterScroll}
                         scrollEventThrottle={16}
+                        snapToOffsets={BEFORE_AFTER_SLIDES.map((_, i) => i * beforeAfterSnapInterval)}
+                        snapToInterval={beforeAfterSnapInterval}
+                        snapToAlignment="start"
                         decelerationRate="fast"
-                        snapToInterval={SCREEN_WIDTH}
-                        snapToAlignment="center"
-                        style={styles.flatList}
+                        contentContainerStyle={styles.beforeAfterListContent}
                     />
-
-                    {/* Pagination Dots */}
                     <View style={styles.dotsContainer}>
-                        {TREATMENT_SLIDES.map((_, index) => (
+                        {BEFORE_AFTER_SLIDES.map((_, i) => (
                             <View
-                                key={index}
+                                key={i}
                                 style={[
                                     styles.dot,
-                                    activeIndex === index && styles.activeDot,
+                                    i === beforeAfterIndex && styles.activeDot,
                                 ]}
                             />
                         ))}
@@ -109,10 +127,12 @@ export default function TreatmentPlanScreen() {
                 {/* Preparation Status */}
                 <PreparationStatus />
 
-                {/* Try Again Button */}
-                <TryAgainButton />
+                <PrimaryButton
+                    title={"Continue"}
+                    onPress={() => router.push("/payment")}
+                />
             </ScrollView>
-        </SafeAreaView>
+        </View>
     );
 }
 
@@ -151,6 +171,19 @@ const styles = StyleSheet.create({
         fontSize: scale(16),
         color: Colors.light.mainDarkColor,
         textAlign: 'center',
+    },
+    beforeAfterCarousel: {
+        width: '100%',
+        alignItems: 'center',
+        marginBottom: verticalScale(8),
+    },
+    beforeAfterListContent: {
+        paddingRight: scale(16),
+    },
+    beforeAfterSlide: {
+        marginRight: scale(16),
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     placeholderSection: {
         width: '90%',

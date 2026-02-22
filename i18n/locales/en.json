@@ -403,7 +403,14 @@
       "insurance": "Insurance:",
       "totalPayment": "Total Payment:",
       "total": "Total:",
-      "continueButton": "Continue to Purchase"
+      "continueButton": "Continue to Purchase",
+      "couponSheetTitle": "Enter coupon code",
+      "couponCodeLabel": "Coupon code",
+      "couponPlaceholder": "e.g. WELCOME10",
+      "couponApply": "Apply",
+      "couponSuccess": "Coupon applied",
+      "couponError": "Invalid or expired coupon",
+      "couponDiscount": "Discount"
     },
     "delivery": {
       "title": "Delivery",

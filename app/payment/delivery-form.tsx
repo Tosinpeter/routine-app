@@ -14,7 +14,7 @@ import { AppText as Text } from "@/components/app-text";
 import { AppTextInput as TextInput } from "@/components/app-text-input";
 import { PrimaryButton } from "@/components/primary-button";
 import { moderateScale, scale, verticalScale } from "@/constants/scaling";
-import { AeonikFonts, Colors } from "@/constants/theme";
+import { AeonikFonts, BorderRadius, Colors } from "@/constants/theme";
 import { AppTextStyle } from "@/constants/typography";
 import { t } from "@/i18n";
 
@@ -65,6 +65,7 @@ export default function DeliveryFormScreen() {
     <SafeAreaView style={styles.container} edges={["top"]}>
       <ScrollView
         style={styles.scrollView}
+        contentInsetAdjustmentBehavior="always"
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
@@ -178,11 +179,16 @@ export default function DeliveryFormScreen() {
           />
         </View>
 
-        {/* County Dropdown */}
+        {/* County / Country Dropdown */}
         <View style={styles.inputContainer}>
-          <Text style={styles.inputLabel}>{t("payment.delivery.county")}</Text>
-          <TouchableOpacity style={styles.dropdownInput} activeOpacity={0.7}>
-            <Text style={styles.dropdownPlaceholder}>{t("payment.delivery.county")}</Text>
+          <TouchableOpacity
+            style={styles.dropdownInput}
+            activeOpacity={0.7}
+            onPress={() => setShowCountryPicker(true)}
+          >
+            <Text style={countryName ? styles.dropdownText : styles.dropdownPlaceholder}>
+              {countryName || t("payment.delivery.county")}
+            </Text>
             <Ionicons
               name="chevron-down"
               size={scale(20)}
@@ -232,13 +238,11 @@ export default function DeliveryFormScreen() {
         </View>
 
         {/* Bottom Spacing */}
-        <View style={{ height: verticalScale(24) }} />
+        <PrimaryButton title={t("payment.delivery.placeOrder")} onPress={handlePlaceOrder} />
+
       </ScrollView>
 
       {/* Bottom Button */}
-      <View style={styles.bottomButtonContainer}>
-        <PrimaryButton title={t("payment.delivery.placeOrder")} onPress={handlePlaceOrder} />
-      </View>
 
       {/* Country Picker Modal */}
       <CountryPicker
@@ -351,14 +355,14 @@ const styles = StyleSheet.create({
     marginBottom: verticalScale(16),
   },
   logoText: {
-    fontSize: moderateScale(22),
-    fontFamily: AeonikFonts.medium,
-    color: Colors.light.mainDarkColor,
+    fontSize: moderateScale(24),
+    fontFamily: AeonikFonts.bold,
+    color: 'rgba(70, 26, 4, 1)',
   },
   logoDot: {
-    width: scale(8),
-    height: scale(8),
-    borderRadius: scale(4),
+    width: scale(15),
+    height: scale(15),
+    borderRadius: BorderRadius.full,
     backgroundColor: "#4F8FF7",
     marginLeft: scale(4),
   },
@@ -405,7 +409,7 @@ const styles = StyleSheet.create({
     marginBottom: verticalScale(16),
   },
   inputContainer: {
-    marginBottom: verticalScale(16),
+    marginBottom: verticalScale(14),
   },
   inputLabel: {
     ...AppTextStyle.bodyText1,
@@ -417,7 +421,7 @@ const styles = StyleSheet.create({
     height: verticalScale(56),
     borderWidth: 1,
     borderColor: Colors.light.grey200,
-    borderRadius: scale(8),
+    borderRadius: scale(10),
     paddingHorizontal: scale(16),
     fontSize: moderateScale(15),
     fontFamily: AeonikFonts.regular,

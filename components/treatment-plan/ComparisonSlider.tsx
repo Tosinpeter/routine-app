@@ -1,5 +1,6 @@
 import { scale, verticalScale } from '@/constants/scaling';
-import { Colors, Fonts } from '@/constants/theme';
+import { BorderRadius, Colors, Fonts } from '@/constants/theme';
+import { BlurView } from 'expo-blur';
 import { Ionicons } from '@expo/vector-icons';
 import React, { useState } from 'react';
 import { Image, ImageSourcePropType, LayoutChangeEvent, StyleSheet, View } from 'react-native';
@@ -24,19 +25,27 @@ export function ComparisonSlider({
 }: ComparisonSliderProps) {
     const [layoutWidth, setLayoutWidth] = useState(0);
     const sliderPos = useSharedValue(0);
+    const layoutWidthShared = useSharedValue(0);
+    const startPos = useSharedValue(0);
 
     const onLayout = (event: LayoutChangeEvent) => {
         const { width } = event.nativeEvent.layout;
         setLayoutWidth(width);
+        layoutWidthShared.value = width;
         sliderPos.value = width * initialProgress;
     };
 
     const panGesture = Gesture.Pan()
+        .onStart(() => {
+            "worklet";
+            startPos.value = sliderPos.value;
+        })
         .onUpdate((e) => {
-            // Clamp the position between 0 and layoutWidth
-            let newPos = e.x;
+            "worklet";
+            const w = layoutWidthShared.value;
+            let newPos = startPos.value + e.translationX;
             if (newPos < 0) newPos = 0;
-            if (newPos > layoutWidth) newPos = layoutWidth;
+            if (newPos > w) newPos = w;
             sliderPos.value = newPos;
         });
 
@@ -54,24 +63,24 @@ export function ComparisonSlider({
 
     return (
         <GestureHandlerRootView style={[styles.container, { height: verticalScale(545) }]}>
-            <GestureDetector gesture={panGesture}>
-                <View style={[styles.wrapper, { width: '100%', height: verticalScale(545) }]} onLayout={onLayout}>
+            <View style={[styles.wrapper, { width: '100%', height: verticalScale(545) }]} onLayout={onLayout}>
 
-                    {/* Background Layer (After Image - Right Side) */}
-                    <View style={StyleSheet.absoluteFill}>
-                        <Image source={afterImage} style={styles.image} resizeMode="cover" />
-                    </View>
+                {/* Background Layer (After Image - Right Side) */}
+                <View style={StyleSheet.absoluteFill}>
+                    <Image source={afterImage} style={styles.image} resizeMode="cover" />
+                </View>
 
-                    {/* Foreground Layer (Before Image - Left Side) - Clipped */}
-                    <Animated.View style={[styles.foregroundContainer, foregroundStyle]}>
-                        <Image
-                            source={beforeImage}
-                            style={[styles.image, { width: layoutWidth > 0 ? layoutWidth : scale(358) }]} // Dynamic width to prevent squashing
-                            resizeMode="cover"
-                        />
-                    </Animated.View>
+                {/* Foreground Layer (Before Image - Left Side) - Clipped */}
+                <Animated.View style={[styles.foregroundContainer, foregroundStyle]}>
+                    <Image
+                        source={beforeImage}
+                        style={[styles.image, { width: layoutWidth > 0 ? layoutWidth : scale(358) }]} // Dynamic width to prevent squashing
+                        resizeMode="cover"
+                    />
+                </Animated.View>
 
-                    {/* Slider Handle */}
+                {/* Slider Handle - only this area is draggable */}
+                <GestureDetector gesture={panGesture}>
                     <Animated.View style={[styles.handleContainer, handleStyle]}>
                         <View style={styles.line} />
                         <View style={styles.circle}>
@@ -80,19 +89,19 @@ export function ComparisonSlider({
                         </View>
                         <View style={styles.line} />
                     </Animated.View>
+                </GestureDetector>
 
-                    {/* Labels */}
-                    <View style={styles.labelsContainer}>
-                        <View style={styles.labelChip}>
-                            <Text style={styles.labelText}>{t("treatmentPlan.comparison.withoutProduct")}</Text>
-                        </View>
-                        <View style={styles.labelChip}>
-                            <Text style={styles.labelText}>{t("treatmentPlan.comparison.withProduct")}</Text>
-                        </View>
-                    </View>
-
+                {/* Labels */}
+                <View style={styles.labelsContainer}>
+                    <BlurView intensity={20} tint="dark" style={styles.labelChip}>
+                        <Text style={styles.labelText}>{t("treatmentPlan.comparison.withoutProduct")}</Text>
+                    </BlurView>
+                    <BlurView intensity={20} tint="dark" style={styles.labelChip}>
+                        <Text style={styles.labelText}>{t("treatmentPlan.comparison.withProduct")}</Text>
+                    </BlurView>
                 </View>
-            </GestureDetector>
+
+            </View>
         </GestureHandlerRootView>
     );
 }
@@ -163,17 +172,16 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         paddingHorizontal: 16,
         marginTop: -18, // Half of label height approx
-        zIndex: 5,
+        zIndex: 999,
         pointerEvents: 'none', // Allow clicks to pass through to slider
     },
     labelChip: {
-        backgroundColor: 'rgba(255, 255, 255, 0.24)',
+        overflow: 'hidden',
         paddingHorizontal: 16,
         paddingVertical: 8,
-        borderRadius: 100,
+        borderRadius: BorderRadius.full,
         borderWidth: 1,
-        borderColor: 'rgba(255, 255, 255, 0.08)',
-        backdropFilter: 'blur(12px)', // Note: backdrop-filter not supported natively in RN without Expo Blur, simulating with opacity
+        borderColor: 'rgba(243, 242, 242, 0.25)',
     },
     labelText: {
         fontFamily: Fonts.medium,
