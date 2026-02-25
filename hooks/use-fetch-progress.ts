@@ -1,11 +1,13 @@
-import { useEffect } from 'react';
-import { useAppDispatch } from '@/store/hooks';
+import { client } from "@/api/client";
+import { useAuth } from "@/contexts/AuthContext";
+import { useAppDispatch } from "@/store/hooks";
+import type { ProgressData } from "@/store/slices/progress-slice";
 import {
-  setProgressLoading,
   setProgressData,
   setProgressError,
-} from '@/store/slices/progress-slice';
-import type { ProgressData } from '@/store/slices/progress-slice';
+  setProgressLoading,
+} from "@/store/slices/progress-slice";
+import { useCallback, useEffect } from "react";
 
 interface ProgressApiResponse {
   success: boolean;
@@ -13,39 +15,39 @@ interface ProgressApiResponse {
 }
 
 /**
- * Hook to fetch progress data from the API
- * This should be called once when the app opens
+ * Hook to fetch progress data from the Hono backend.
  */
 export const useFetchProgress = () => {
   const dispatch = useAppDispatch();
+  const { profile } = useAuth();
+  const userId = profile?.id;
 
-  useEffect(() => {
-    fetchProgressData();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const fetchProgressData = useCallback(async () => {
+    if (!userId) return;
 
-  const fetchProgressData = async () => {
     try {
       dispatch(setProgressLoading(true));
 
-      const response = await fetch('/api/progress');
+      const { data: result } = await client.get<ProgressApiResponse>(
+        `/api/progress/${userId}`,
+      );
 
-      if (!response.ok) {
-        throw new Error('Failed to fetch progress data');
-      }
-
-      const result: ProgressApiResponse = await response.json();
-
-      if (result.success) {
+      if (result?.success && result.data) {
         dispatch(setProgressData(result.data));
+      } else {
+        dispatch(setProgressError("Failed to fetch progress data"));
       }
     } catch (err) {
       const errorMessage =
-        err instanceof Error ? err.message : 'An error occurred';
+        err instanceof Error ? err.message : "An error occurred";
       dispatch(setProgressError(errorMessage));
-      console.error('Error fetching progress:', err);
+      console.error("Error fetching progress:", err);
     }
-  };
+  }, [dispatch, userId]);
+
+  useEffect(() => {
+    fetchProgressData();
+  }, [fetchProgressData]);
 
   return { refetch: fetchProgressData };
 };

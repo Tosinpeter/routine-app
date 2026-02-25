@@ -1,6 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import { router, useLocalSearchParams } from "expo-router";
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import {
   Platform,
   ScrollView,
@@ -9,40 +9,89 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { Image } from "expo-image";
 import MapView, { Marker } from "react-native-maps";
 
 import { AppText as Text } from "@/components/app-text";
-import { AppTextInput as TextInput } from "@/components/app-text-input";
 import { BackButton } from "@/components/back-button";
 import { PrimaryButton } from "@/components/primary-button";
 import { moderateScale, scale, verticalScale } from "@/constants/scaling";
-import { AeonikFonts, Colors } from "@/constants/theme";
+import { AeonikFonts, BorderRadius, Colors } from "@/constants/theme";
 import { AppTextStyle } from "@/constants/typography";
 import { t } from "@/i18n";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import {
+  chargeCard,
+  fetchCards,
+  removeCoupon,
+  setCheckoutDeliveryInfo,
+} from "@/store/slices/payment-slice";
+import type { RootState } from "@/store";
+
+const selectOrderSummary = (state: RootState) => state.order;
+
+const defaultDeliveryInfo = {
+  firstName: "",
+  email: "",
+  address: "",
+  apartment: "",
+  city: "",
+  county: "",
+  postalCode: "",
+  phone: "",
+  countryName: "United States",
+};
 
 export default function CheckoutSummaryScreen() {
-  const params = useLocalSearchParams();
-  const [discountCode, setDiscountCode] = useState("");
-  
-  // Extract delivery information from params
-  const deliveryInfo = {
-    firstName: params.firstName as string || "",
-    email: params.email as string || "",
-    address: params.address as string || "",
-    apartment: params.apartment as string || "",
-    city: params.city as string || "",
-    county: params.county as string || "",
-    postalCode: params.postalCode as string || "",
-    phone: params.phone as string || "",
-    countryName: params.countryName as string || "United stated",
-  };
+  const params = useLocalSearchParams<Record<string, string>>();
+  const dispatch = useAppDispatch();
+  const order = useAppSelector(selectOrderSummary);
+  const {
+    cards,
+    cardsLoading,
+    chargeLoading,
+    checkoutDeliveryInfo,
+    appliedCoupon,
+  } = useAppSelector((state) => state.payment);
 
-  // Format full address
+  const discountCents = appliedCoupon?.discount_cents ?? 0;
+  const totalCents = Math.max(0, order.subtotalCents - discountCents);
+  const subtotalDollars = order.subtotalCents / 100;
+  const totalDollars = totalCents / 100;
+
+  useEffect(() => {
+    dispatch(fetchCards());
+  }, [dispatch]);
+
+  // Sync navigation params to Redux when coming from delivery form (params present)
+  useEffect(() => {
+    if (
+      params &&
+      (params.firstName ?? params.address ?? params.email)
+    ) {
+      dispatch(
+        setCheckoutDeliveryInfo({
+          firstName: params.firstName ?? "",
+          email: params.email ?? "",
+          address: params.address ?? "",
+          apartment: params.apartment ?? "",
+          city: params.city ?? "",
+          county: params.county ?? "",
+          postalCode: params.postalCode ?? "",
+          phone: params.phone ?? "",
+          countryName: params.countryName ?? "United States",
+        })
+      );
+    }
+  }, [dispatch, params?.firstName, params?.address, params?.email]);
+
+  const deliveryInfo = checkoutDeliveryInfo ?? defaultDeliveryInfo;
+  const defaultCard = cards.find((c) => c.is_default) ?? cards[0];
+
   const fullAddress = `${deliveryInfo.address}${
     deliveryInfo.apartment ? `, ${deliveryInfo.apartment}` : ""
   }, ${deliveryInfo.city}, ${deliveryInfo.postalCode}`;
-  
-  // Address coordinates (Allentown, New Mexico - default)
+
   const addressCoordinates = {
     latitude: 35.2227,
     longitude: -106.6630,
@@ -51,27 +100,18 @@ export default function CheckoutSummaryScreen() {
   };
 
   const handleChangePayment = () => {
-    // Handle payment method change
-    console.log("Change payment method");
-  };
-
-  const handleApplyDiscount = () => {
-    // Handle discount code application
-    console.log("Apply discount code:", discountCode);
+    router.push("/payment/add-card");
   };
 
   const handleConfirm = () => {
-    // Handle order confirmation
-    console.log("Order confirmed with details:", {
-      deliveryInfo,
-      discountCode,
-    });
-    // Navigate to success screen or show confirmation
-    // router.push("/payment/success");
+    if (!defaultCard) {
+      router.push("/payment/add-card");
+      return;
+    }
+    router.push("/payment/creating-order");
   };
 
   const handleEditAddress = () => {
-    // Handle edit address
     router.back();
   };
 
@@ -96,11 +136,16 @@ export default function CheckoutSummaryScreen() {
             <TouchableOpacity
               onPress={handleEditAddress}
               activeOpacity={0.7}
+              style={{
+                backgroundColor: 'rgba(237, 235, 227, 1)', 
+                borderRadius: BorderRadius.full, 
+                padding: scale(6)
+              }}
               hitSlop={{ top: 10, right: 10, bottom: 10, left: 10 }}
             >
               <Ionicons
                 name="pencil"
-                size={scale(20)}
+                size={scale(23)}
                 color={Colors.light.mainDarkColor}
               />
             </TouchableOpacity>
@@ -142,6 +187,10 @@ export default function CheckoutSummaryScreen() {
           </Text>
         </View>
 
+
+        <View style={styles.divider} />
+
+
         {/* Payment Section */}
         <View style={styles.sectionContainer}>
           <Text style={styles.sectionTitle}>{t("payment.summary.payment")}</Text>
@@ -149,22 +198,37 @@ export default function CheckoutSummaryScreen() {
           {/* Pay with Card */}
           <View style={styles.paymentCard}>
             <Text style={styles.payWithLabel}>{t("payment.summary.payWith")}</Text>
-            <View style={styles.cardInfoContainer}>
-              <View style={styles.cardBrandContainer}>
-                <View style={styles.mastercardLogo}>
-                  <View style={[styles.mastercardCircle, styles.mastercardRed]} />
-                  <View style={[styles.mastercardCircle, styles.mastercardOrange]} />
+            {cardsLoading ? (
+              <Text style={styles.cardNumber}>{t("common.loading")}</Text>
+            ) : defaultCard ? (
+              <View style={styles.cardInfoContainer}>
+                <View style={styles.cardBrandContainer}>
+                  <View style={styles.mastercardLogo}>
+                    <View style={[styles.mastercardCircle, styles.mastercardRed]} />
+                    <View style={[styles.mastercardCircle, styles.mastercardOrange]} />
+                  </View>
+                  <Text style={styles.cardNumber}>•••• {defaultCard.last4}</Text>
                 </View>
-                <Text style={styles.cardNumber}>•••• 5941</Text>
+                <TouchableOpacity
+                  style={styles.changeButton}
+                  onPress={handleChangePayment}
+                  activeOpacity={0.7}
+                >
+                  <Text style={styles.changeButtonText}>{t("common.change")}</Text>
+                </TouchableOpacity>
               </View>
-              <TouchableOpacity
-                style={styles.changeButton}
-                onPress={handleChangePayment}
-                activeOpacity={0.7}
-              >
-                <Text style={styles.changeButtonText}>{t("common.change")}</Text>
-              </TouchableOpacity>
-            </View>
+            ) : (
+              <View style={styles.cardInfoContainer}>
+                <Text style={styles.noCardsText}>{t("payment.card.noCards")}</Text>
+                <TouchableOpacity
+                  style={styles.changeButton}
+                  onPress={() => router.push("/payment/add-card")}
+                  activeOpacity={0.7}
+                >
+                  <Text style={styles.changeButtonText}>{t("payment.card.addCard")}</Text>
+                </TouchableOpacity>
+              </View>
+            )}
           </View>
         </View>
 
@@ -172,47 +236,77 @@ export default function CheckoutSummaryScreen() {
         <View style={styles.sectionContainer}>
           <Text style={styles.sectionTitle}>{t("payment.summary.orderSummary")}</Text>
 
-          {/* Discount Code Input */}
-          <View style={styles.discountContainer}>
-            <TextInput
-              style={styles.discountInput}
-              placeholder={t("payment.summary.discountCode")}
-              placeholderTextColor={Colors.light.grey500}
-              value={discountCode}
-              onChangeText={setDiscountCode}
-            />
-            <TouchableOpacity
-              style={styles.applyButton}
-              onPress={handleApplyDiscount}
-              activeOpacity={0.7}
-            >
-              <Text style={styles.applyButtonText}>{t("common.apply")}</Text>
-            </TouchableOpacity>
-          </View>
+          {/* Apply Coupon - same as payment index */}
+          <TouchableOpacity
+            style={styles.couponContainer}
+            onPress={() => router.push("/payment/apply-coupon")}
+            activeOpacity={0.7}
+          >
+            <View style={styles.couponLeft}>
+              <View style={styles.couponIconContainer}>
+                <Image
+                  source={require("@/assets/images/img_coupon-Icon.png")}
+                  style={{ width: scale(32), height: scale(32) }}
+                  contentFit="contain"
+                  contentPosition="center"
+                />
+              </View>
+              <Text style={styles.couponText}>
+                {appliedCoupon
+                  ? `${t("payment.checkout.couponDiscount")}: ${appliedCoupon.code} (-$${(appliedCoupon.discount_cents / 100).toFixed(2)})`
+                  : t("payment.checkout.applyCoupon")}
+              </Text>
+            </View>
+            {appliedCoupon ? (
+              <TouchableOpacity
+                onPress={(e) => {
+                  e.stopPropagation();
+                  dispatch(removeCoupon());
+                }}
+                hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
+              >
+                <Ionicons name="close-circle" size={scale(22)} color={Colors.light.grey525} />
+              </TouchableOpacity>
+            ) : (
+              <Ionicons name="chevron-forward" size={scale(20)} color={Colors.light.grey525} />
+            )}
+          </TouchableOpacity>
 
-          {/* Cost Breakdown */}
+          {/* Cost Breakdown - same as payment index */}
           <View style={styles.costBreakdown}>
             <View style={styles.costRow}>
               <Text style={styles.costLabel}>{t("payment.checkout.shipmentCost")}</Text>
-              <Text style={styles.costValue}>$200.00</Text>
+              <Text style={styles.costValue}>${(order.shipmentCents / 100).toFixed(2)}</Text>
             </View>
 
             <View style={styles.costRow}>
               <Text style={styles.costLabel}>{t("payment.checkout.insurance")}</Text>
-              <Text style={styles.costValue}>$50.00</Text>
+              <Text style={styles.costValue}>${(order.insuranceCents / 100).toFixed(2)}</Text>
             </View>
 
             <View style={styles.costRow}>
               <Text style={styles.costLabel}>{t("payment.checkout.totalPayment")}</Text>
-              <Text style={styles.costValue}>$250.00</Text>
+              <Text style={styles.costValue}>${subtotalDollars.toFixed(2)}</Text>
+            </View>
+
+            {appliedCoupon && (
+              <View style={styles.costRow}>
+                <Text style={[styles.costLabel, styles.discountLabel]}>
+                  {t("payment.checkout.couponDiscount")} ({appliedCoupon.code})
+                </Text>
+                <Text style={styles.discountValue}>
+                  -${(appliedCoupon.discount_cents / 100).toFixed(2)}
+                </Text>
+              </View>
+            )}
+
+            <View style={styles.dividerCost} />
+
+            <View style={styles.costRow}>
+              <Text style={styles.totalLabel}>{t("payment.checkout.total")}</Text>
+              <Text style={styles.totalValue}>${totalDollars.toFixed(2)}</Text>
             </View>
           </View>
-        </View>
-
-        {/* Total Section */}
-        <View style={styles.totalContainer}>
-          <Text style={styles.totalLabel}>{t("payment.checkout.total")}</Text>
-          <Text style={styles.totalValue}>$200.00</Text>
         </View>
 
         {/* Bottom Spacing */}
@@ -221,7 +315,12 @@ export default function CheckoutSummaryScreen() {
 
       {/* Bottom Button */}
       <View style={styles.bottomButtonContainer}>
-        <PrimaryButton title={t("common.confirm")} onPress={handleConfirm} />
+        <PrimaryButton
+          title={t("common.confirm")}
+          onPress={handleConfirm}
+          disabled={chargeLoading || (!defaultCard && !cardsLoading)}
+          loading={chargeLoading}
+        />
       </View>
     </SafeAreaView>
   );
@@ -230,7 +329,12 @@ export default function CheckoutSummaryScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.light.scaffold,
+    backgroundColor: 'rgba(245, 241, 238, 1)',
+  },
+  divider: {
+    height: 1,
+    backgroundColor: "rgba(234, 236, 240, 1)",
+    marginBottom: scale(40),
   },
   header: {
     flexDirection: "row",
@@ -238,7 +342,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingHorizontal: scale(20),
     paddingBottom: verticalScale(16),
-    backgroundColor: Colors.light.scaffold,
   },
   headerTitle: {
     ...AppTextStyle.headline5,
@@ -264,6 +367,7 @@ const styles = StyleSheet.create({
     ...AppTextStyle.headline6,
     fontFamily: AeonikFonts.medium,
     color: Colors.light.mainDarkColor,
+    marginBottom: scale(16)
   },
   mapContainer: {
     position: "relative",
@@ -308,14 +412,12 @@ const styles = StyleSheet.create({
     lineHeight: scale(20),
   },
   paymentCard: {
-    backgroundColor: Colors.light.white,
+    backgroundColor: 'rgba(237, 235, 227, 1)',
     borderRadius: scale(16),
     padding: scale(16),
-    borderWidth: 1,
-    borderColor: Colors.light.grey200,
   },
   payWithLabel: {
-    ...AppTextStyle.bodyText1,
+    ...AppTextStyle.headline6,
     fontFamily: AeonikFonts.medium,
     color: Colors.light.mainDarkColor,
     marginBottom: verticalScale(12),
@@ -368,37 +470,43 @@ const styles = StyleSheet.create({
     fontFamily: AeonikFonts.medium,
     color: Colors.light.white,
   },
-  discountContainer: {
+  noCardsText: {
+    flex: 1,
+    ...AppTextStyle.bodyText1,
+    fontFamily: AeonikFonts.regular,
+    color: Colors.light.grey500,
+  },
+  couponContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    padding: verticalScale(8),
+    backgroundColor: Colors.light.white,
+    borderRadius: scale(16),
+    marginBottom: verticalScale(16),
+    borderWidth: 1,
+    borderColor: "rgba(235, 235, 235, 1)",
+  },
+  couponLeft: {
     flexDirection: "row",
     alignItems: "center",
     gap: scale(12),
-    marginBottom: verticalScale(16),
   },
-  discountInput: {
-    flex: 1,
-    height: verticalScale(48),
-    borderWidth: 1,
-    borderColor: Colors.light.grey200,
-    borderRadius: scale(12),
-    paddingHorizontal: scale(16),
-    fontSize: moderateScale(15),
-    fontFamily: AeonikFonts.regular,
-    color: Colors.light.mainDarkColor,
-    backgroundColor: Colors.light.white,
-  },
-  applyButton: {
-    height: verticalScale(48),
-    paddingHorizontal: scale(20),
+  couponIconContainer: {
+    width: scale(40),
+    height: scale(40),
+    borderRadius: scale(20),
     alignItems: "center",
     justifyContent: "center",
   },
-  applyButtonText: {
+  couponText: {
     ...AppTextStyle.bodyText1,
     fontFamily: AeonikFonts.medium,
-    color: Colors.light.grey500,
+    color: Colors.light.mainDarkColor,
   },
   costBreakdown: {
     gap: verticalScale(12),
+    marginBottom: verticalScale(24),
   },
   costRow: {
     flexDirection: "row",
@@ -415,14 +523,17 @@ const styles = StyleSheet.create({
     fontFamily: AeonikFonts.medium,
     color: Colors.light.mainDarkColor,
   },
-  totalContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    paddingTop: verticalScale(16),
-    borderTopWidth: 1,
-    borderTopColor: Colors.light.grey200,
-    marginBottom: verticalScale(24),
+  discountLabel: {
+    color: Colors.light.tint,
+  },
+  discountValue: {
+    fontSize: moderateScale(17),
+    fontFamily: AeonikFonts.medium,
+    color: Colors.light.tint,
+  },
+  dividerCost: {
+    height: 1,
+    backgroundColor: Colors.light.grey200,
   },
   totalLabel: {
     fontSize: moderateScale(15),

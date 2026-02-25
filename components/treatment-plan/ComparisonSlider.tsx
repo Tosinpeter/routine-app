@@ -1,27 +1,36 @@
+import { AppText as Text } from '@/components/app-text';
 import { scale, verticalScale } from '@/constants/scaling';
 import { BorderRadius, Colors, Fonts } from '@/constants/theme';
-import { BlurView } from 'expo-blur';
+import { t } from "@/i18n";
 import { Ionicons } from '@expo/vector-icons';
+import { BlurView } from 'expo-blur';
+import { Image, ImageSource } from 'expo-image';
 import React, { useState } from 'react';
-import { Image, ImageSourcePropType, LayoutChangeEvent, StyleSheet, View } from 'react-native';
-import { AppText as Text } from '@/components/app-text';
+import { LayoutChangeEvent, StyleSheet, View } from 'react-native';
 import { Gesture, GestureDetector, GestureHandlerRootView } from 'react-native-gesture-handler';
 import Animated, {
     useAnimatedStyle,
     useSharedValue
 } from 'react-native-reanimated';
-import { t } from "@/i18n";
 
 interface ComparisonSliderProps {
-    beforeImage: ImageSourcePropType;
-    afterImage: ImageSourcePropType;
-    initialProgress?: number; // 0 to 1
+    beforeImage: ImageSource;
+    afterImage: ImageSource;
+    height: number;
+    initialProgress?: number;
+    overlay?: React.ReactNode;
+    beforeLabel?: string;
+    afterLabel?: string;
 }
 
 export function ComparisonSlider({
     beforeImage,
     afterImage,
+    height,
     initialProgress = 0.5,
+    overlay,
+    beforeLabel = t("treatmentPlan.comparison.withoutProduct"),
+    afterLabel = t("treatmentPlan.comparison.withProduct"),
 }: ComparisonSliderProps) {
     const [layoutWidth, setLayoutWidth] = useState(0);
     const sliderPos = useSharedValue(0);
@@ -62,20 +71,32 @@ export function ComparisonSlider({
     });
 
     return (
-        <GestureHandlerRootView style={[styles.container, { height: verticalScale(545) }]}>
-            <View style={[styles.wrapper, { width: '100%', height: verticalScale(545) }]} onLayout={onLayout}>
+        <GestureHandlerRootView style={[styles.container, { height }]}>
+            <View style={[styles.wrapper, { width: '100%', height }]} onLayout={onLayout}>
 
                 {/* Background Layer (After Image - Right Side) */}
                 <View style={StyleSheet.absoluteFill}>
-                    <Image source={afterImage} style={styles.image} resizeMode="cover" />
+                    <Image
+                        source={afterImage}
+                        style={styles.image}
+                        contentFit="cover"
+                        cachePolicy="memory-disk"
+                        transition={100}
+                        priority="high"
+                        recyclingKey="after"
+                    />
                 </View>
 
                 {/* Foreground Layer (Before Image - Left Side) - Clipped */}
                 <Animated.View style={[styles.foregroundContainer, foregroundStyle]}>
                     <Image
                         source={beforeImage}
-                        style={[styles.image, { width: layoutWidth > 0 ? layoutWidth : scale(358) }]} // Dynamic width to prevent squashing
-                        resizeMode="cover"
+                        style={[styles.image, { width: layoutWidth > 0 ? layoutWidth : scale(358) }]}
+                        contentFit="cover"
+                        cachePolicy="memory-disk"
+                        transition={100}
+                        priority="high"
+                        recyclingKey="before"
                     />
                 </Animated.View>
 
@@ -94,14 +115,17 @@ export function ComparisonSlider({
                 {/* Labels */}
                 <View style={styles.labelsContainer}>
                     <BlurView intensity={20} tint="dark" style={styles.labelChip}>
-                        <Text style={styles.labelText}>{t("treatmentPlan.comparison.withoutProduct")}</Text>
+                        <Text style={styles.labelText}>{beforeLabel}</Text>
                     </BlurView>
                     <BlurView intensity={20} tint="dark" style={styles.labelChip}>
-                        <Text style={styles.labelText}>{t("treatmentPlan.comparison.withProduct")}</Text>
+                        <Text style={styles.labelText}>{afterLabel}</Text>
                     </BlurView>
                 </View>
 
+
+
             </View>
+            {overlay}
         </GestureHandlerRootView>
     );
 }
@@ -170,15 +194,15 @@ const styles = StyleSheet.create({
         width: '100%',
         flexDirection: 'row',
         justifyContent: 'space-between',
-        paddingHorizontal: 16,
+        paddingHorizontal: 30,
         marginTop: -18, // Half of label height approx
         zIndex: 999,
         pointerEvents: 'none', // Allow clicks to pass through to slider
     },
     labelChip: {
         overflow: 'hidden',
-        paddingHorizontal: 16,
-        paddingVertical: 8,
+        paddingHorizontal: scale(22),
+        paddingVertical: verticalScale(6),
         borderRadius: BorderRadius.full,
         borderWidth: 1,
         borderColor: 'rgba(243, 242, 242, 0.25)',

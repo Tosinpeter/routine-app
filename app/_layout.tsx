@@ -4,7 +4,7 @@ import * as NavigationBar from 'expo-navigation-bar';
 import { Stack, useRouter } from "expo-router";
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Platform } from 'react-native';
 import { Toasts } from '@backpackapp-io/react-native-toast';
 import 'react-native-reanimated';
@@ -19,33 +19,67 @@ import { AuthProvider } from '@/contexts/AuthContext';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { store } from '@/store';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { setupScheduledNotifications } from '@/utils/notifications';
+import { createNotification, fetchNotifications } from '@/store/slices/notification-slice';
+import { useAuth } from '@/contexts/AuthContext';
 
 SplashScreen.preventAutoHideAsync();
 
 function RootLayoutNav() {
   const router = useRouter();
+  const { profile } = useAuth();
   const [hasNavigated, setHasNavigated] = useState(false);
+  const notificationListener = useRef<Notifications.EventSubscription | null>(null);
+  const responseListener = useRef<Notifications.EventSubscription | null>(null);
 
   useEffect(() => {
-    // const checkNotificationPermission = async () => {
-    //   if (!hasNavigated) {
-    //     try {
-    //       const { status } = await Notifications.getPermissionsAsync();
-          
-    //       const timer = setTimeout(() => {
-    //         if (status !== 'granted') {
-    //           router.push('/notification-sheet');
-    //         }
-    //         setHasNavigated(true);
-    //       }, 1000);
+    setupScheduledNotifications();
 
-    //       return () => clearTimeout(timer);
-    //     } catch (error) {
-    //       console.error("Error checking notification permission:", error);
-    //       setHasNavigated(true);
-    //     }
-    //   }
-    // };
+    notificationListener.current = Notifications.addNotificationReceivedListener((notification) => {
+      const data = notification.request.content.data;
+      if (data?.type && profile?.id) {
+        store.dispatch(createNotification({
+          user_id: profile.id,
+          title: notification.request.content.title ?? "New notification",
+          subtitle: notification.request.content.body ?? "",
+          notification_type: (data.type as "prescription_ready" | "review_completed" | "night_routine" | "order_shipped") ?? "night_routine",
+        }));
+      }
+    });
+
+    responseListener.current = Notifications.addNotificationResponseReceivedListener(() => {
+      if (profile?.id) {
+        store.dispatch(fetchNotifications(profile.id));
+      }
+      router.push("/notification");
+    });
+
+    return () => {
+      notificationListener.current?.remove();
+      responseListener.current?.remove();
+    };
+  }, [profile?.id]);
+
+  useEffect(() => {
+    const checkNotificationPermission = async () => {
+      if (!hasNavigated) {
+        try {
+          const { status } = await Notifications.getPermissionsAsync();
+
+          const timer = setTimeout(() => {
+            if (status !== 'granted') {
+              router.push('/notification-sheet');
+            }
+            setHasNavigated(true);
+          }, 1000);
+
+          return () => clearTimeout(timer);
+        } catch (error) {
+          console.error("Error checking notification permission:", error);
+          setHasNavigated(true);
+        }
+      }
+    };
 
     // checkNotificationPermission();
   }, [hasNavigated]);

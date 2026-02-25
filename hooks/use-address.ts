@@ -1,8 +1,8 @@
-import { useState, useCallback } from 'react';
-import type { Address } from '@/app/api/address+api';
+import type { Address } from "@/app/a/address+api";
+import { useCallback, useState } from "react";
 
 interface SaveAddressParams {
-  type: 'home' | 'work' | 'new';
+  type: "home" | "work" | "new";
   address: string;
   latitude: number;
   longitude: number;
@@ -21,7 +21,7 @@ interface UseAddressReturn {
   isLoading: boolean;
   error: string | null;
   saveAddress: (params: SaveAddressParams) => Promise<Address | null>;
-  fetchAddresses: (type?: 'home' | 'work' | 'new') => Promise<void>;
+  fetchAddresses: (type?: "home" | "work" | "new") => Promise<void>;
   deleteAddress: (id: string) => Promise<boolean>;
 }
 
@@ -43,10 +43,10 @@ export const useAddress = (): UseAddressReturn => {
       setError(null);
 
       try {
-        const response = await fetch('/api/address', {
-          method: 'POST',
+        const response = await fetch("/api/address", {
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
           body: JSON.stringify(params),
         });
@@ -54,14 +54,16 @@ export const useAddress = (): UseAddressReturn => {
         const result: AddressApiResponse = await response.json();
 
         if (!response.ok || !result.success) {
-          throw new Error(result.message || 'Failed to save address');
+          throw new Error(result.message || "Failed to save address");
         }
 
         // Update local state if address was saved successfully
         if (result.data) {
           setAddresses((prev) => {
             // Check if updating existing address
-            const existingIndex = prev.findIndex((addr) => addr.id === result.data!.id);
+            const existingIndex = prev.findIndex(
+              (addr) => addr.id === result.data!.id,
+            );
             if (existingIndex !== -1) {
               const updated = [...prev];
               updated[existingIndex] = result.data!;
@@ -76,47 +78,50 @@ export const useAddress = (): UseAddressReturn => {
 
         return null;
       } catch (err) {
-        const errorMessage = err instanceof Error ? err.message : 'An error occurred';
+        const errorMessage =
+          err instanceof Error ? err.message : "An error occurred";
         setError(errorMessage);
-        console.error('Error saving address:', err);
+        console.error("Error saving address:", err);
         return null;
       } finally {
         setIsLoading(false);
       }
     },
-    []
+    [],
   );
 
   /**
    * Fetch all saved addresses, optionally filtered by type
    */
   const fetchAddresses = useCallback(
-    async (type?: 'home' | 'work' | 'new'): Promise<void> => {
+    async (type?: "home" | "work" | "new"): Promise<void> => {
       setIsLoading(true);
       setError(null);
 
       try {
-        const queryParams = type ? `?type=${type}` : '';
+        const queryParams = type ? `?type=${type}` : "";
         const response = await fetch(`/api/address${queryParams}`);
 
         if (!response.ok) {
-          throw new Error('Failed to fetch addresses');
+          throw new Error("Failed to fetch addresses");
         }
 
-        const result: AddressApiResponse & { data?: Address[] } = await response.json();
+        const result: AddressApiResponse & { data?: Address[] } =
+          await response.json();
 
         if (result.success && result.data) {
           setAddresses(result.data);
         }
       } catch (err) {
-        const errorMessage = err instanceof Error ? err.message : 'An error occurred';
+        const errorMessage =
+          err instanceof Error ? err.message : "An error occurred";
         setError(errorMessage);
-        console.error('Error fetching addresses:', err);
+        console.error("Error fetching addresses:", err);
       } finally {
         setIsLoading(false);
       }
     },
-    []
+    [],
   );
 
   /**
@@ -128,13 +133,13 @@ export const useAddress = (): UseAddressReturn => {
 
     try {
       const response = await fetch(`/api/address?id=${id}`, {
-        method: 'DELETE',
+        method: "DELETE",
       });
 
       const result: AddressApiResponse = await response.json();
 
       if (!response.ok || !result.success) {
-        throw new Error(result.message || 'Failed to delete address');
+        throw new Error(result.message || "Failed to delete address");
       }
 
       // Remove from local state
@@ -142,9 +147,10 @@ export const useAddress = (): UseAddressReturn => {
 
       return true;
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'An error occurred';
+      const errorMessage =
+        err instanceof Error ? err.message : "An error occurred";
       setError(errorMessage);
-      console.error('Error deleting address:', err);
+      console.error("Error deleting address:", err);
       return false;
     } finally {
       setIsLoading(false);

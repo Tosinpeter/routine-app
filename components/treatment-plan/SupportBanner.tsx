@@ -3,7 +3,8 @@ import { scale, verticalScale } from '@/constants/scaling';
 import { Fonts } from '@/constants/theme';
 import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
-import { Image, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import { Image } from 'expo-image';
 import { t } from "@/i18n";
 
 export function SupportBanner() {
@@ -13,14 +14,18 @@ export function SupportBanner() {
             <Image
                 source={require('@/assets/images/banner-gradient.png')}
                 style={styles.backgroundImage}
-                resizeMode="cover"
+                contentFit="cover"
+                cachePolicy="memory-disk"
+                transition={200}
             />
 
             {/* Doctor Image */}
             <Image
                 source={require('@/assets/images/doctor-cutout.png')}
                 style={styles.doctorImage}
-                resizeMode="contain"
+                contentFit="contain"
+                cachePolicy="memory-disk"
+                transition={200}
             />
 
             {/* Text Content */}

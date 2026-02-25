@@ -2,9 +2,9 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface ProfileData {
   id: string;
-  name: string;
+  fullname: string;
   targetGoal: string;
-  gender: 'Male' | 'Female' | 'Other';
+  gender: "male" | "female" | "non_binary" | "other";
   age: string;
   skinType: string;
   skinSensitivity: boolean;
@@ -41,6 +41,7 @@ const profileSlice = createSlice({
       state.profileData = action.payload;
       state.error = null;
       state.isLoading = false;
+      state.isUpdating = false;
     },
     setProfileError: (state, action: PayloadAction<string>) => {
       state.error = action.payload;

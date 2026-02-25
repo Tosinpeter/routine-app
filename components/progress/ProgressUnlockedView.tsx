@@ -1,14 +1,16 @@
-import React from 'react';
-import { StyleSheet, View } from 'react-native';
 import { AppText as Text } from '@/components/app-text';
-import { scale, verticalScale } from '@/constants/scaling';
-import { ComparisonCard } from '@/components/progress/ComparisonCard';
-import { TopImprovementsCard } from '@/components/progress/TopImprovementsCard';
 import { ProgressHelpedCard } from '@/components/progress/ProgressHelpedCard';
 import { ScanHistoryCard } from '@/components/progress/ScanHistoryCard';
-import { AppTextStyle } from '@/constants/typography';
+import { TopImprovementsCard } from '@/components/progress/TopImprovementsCard';
+import { scale, scaledRadius, verticalScale } from '@/constants/scaling';
 import { AeonikFonts } from '@/constants/theme';
+import { AppTextStyle } from '@/constants/typography';
 import { t } from "@/i18n";
+import { BlurView } from 'expo-blur';
+import React from 'react';
+import { StyleSheet, View } from 'react-native';
+import { CalendarIcon } from '../icons/CalendarIcon';
+import { ComparisonSlider } from '../treatment-plan/ComparisonSlider';
 
 export function ProgressUnlockedView() {
     return (
@@ -17,7 +19,48 @@ export function ProgressUnlockedView() {
             <Text style={styles.screenTitle}>{t("progress.unlocked.title")}</Text>
 
             {/* Comparison Card (Before/After) */}
-            <ComparisonCard />
+            <ComparisonSlider
+                beforeImage={require("@/assets/images/client1beforeimage.webp")}
+                afterImage={require("@/assets/images/client1afterimage.webp")}
+                height={verticalScale(213)}
+                beforeLabel='Before'
+                afterLabel='After'
+                overlay={<>
+
+                    <View style={{
+                        bottom: 10,
+                        left: 10,
+                        paddingHorizontal: scale(10),
+                        paddingVertical: verticalScale(8),
+                        position: 'absolute',
+                        borderRadius: scaledRadius(10),
+                        alignItems: 'center',
+                        backgroundColor: 'rgba(118, 115, 115, 0.16)'
+                    }}>
+                        <BlurView intensity={10} />
+                        <CalendarIcon size={16} />
+                        <Text style={styles.dateTitle}>Feb 02</Text>
+                        <Text style={styles.dateSubtitle}>2025</Text>
+                    </View>
+
+                    <View style={{
+                        bottom: 10,
+                        right: 10,
+                        paddingHorizontal: scale(10),
+                        paddingVertical: verticalScale(8),
+                        position: 'absolute',
+                        borderRadius: scaledRadius(10),
+                        alignItems: 'center',
+                        backgroundColor: 'rgba(118, 115, 115, 0.16)'
+                    }}>
+                        <BlurView intensity={10} />
+                        <CalendarIcon size={16} />
+                        <Text style={styles.dateTitle}>Feb 02</Text>
+                        <Text style={styles.dateSubtitle}>2025</Text>
+                    </View>
+                </>}
+            />
+
 
             <View style={{ height: verticalScale(24) }} />
 
@@ -43,6 +86,18 @@ const styles = StyleSheet.create({
     contentContainer: {
         alignItems: 'center',
         width: '100%',
+    },
+    dateTitle: {
+        ...AppTextStyle.bodyText2,
+        textAlign: 'center',
+        fontFamily: AeonikFonts.medium,
+        color: 'rgba(255, 255, 255, 1)',
+    },
+    dateSubtitle: {
+        ...AppTextStyle.bodyText2,
+        textAlign: 'center',
+        fontFamily: AeonikFonts.medium,
+        color: 'rgba(255, 255, 255, 1)'
     },
     screenTitle: {
         ...AppTextStyle.headline1,

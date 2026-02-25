@@ -70,7 +70,7 @@ interface HomeState {
 const initialRoutineSteps: RoutineStep[] = [
   {
     id: "1",
-    stepNumber: 1,
+    stepNumber: 0,
     category: "Cleansing",
     product: {
       id: "p1",
@@ -206,7 +206,7 @@ const initialReviewSteps: ReviewStep[] = [
   {
     id: "2",
     title: "Clinic Test",
-    status: RoutineStatus.Approved,
+    status: RoutineStatus.Pending,
   },
   {
     id: "3",

@@ -2,6 +2,8 @@ import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import React, { useState } from "react";
 import {
+  KeyboardAvoidingView,
+  Platform,
   ScrollView,
   StyleSheet,
   TouchableOpacity,
@@ -17,8 +19,13 @@ import { moderateScale, scale, verticalScale } from "@/constants/scaling";
 import { AeonikFonts, BorderRadius, Colors } from "@/constants/theme";
 import { AppTextStyle } from "@/constants/typography";
 import { t } from "@/i18n";
+import { useAppDispatch } from "@/store/hooks";
+import { setCheckoutDeliveryInfo } from "@/store/slices/payment-slice";
+import { useProfile } from "@/hooks/use-profile";
 
 export default function DeliveryFormScreen() {
+  const dispatch = useAppDispatch();
+  const { updateProfile } = useProfile();
   const [email, _setEmail] = useState("example@gmail.com");
   const [signUpForNews, setSignUpForNews] = useState(false);
   const [showCountryPicker, setShowCountryPicker] = useState(false);
@@ -36,17 +43,14 @@ export default function DeliveryFormScreen() {
   const [postalCode, setPostalCode] = useState("");
   const [phone, setPhone] = useState("6 84562056");
 
-  const handlePlaceOrder = () => {
-    // Validate required fields
+  const handlePlaceOrder = async () => {
     if (!firstName || !formEmail || !address || !city || !postalCode) {
       alert(t("payment.delivery.fillRequired"));
       return;
     }
 
-    // Navigate to checkout summary with form data
-    router.push({
-      pathname: "/payment/checkout-summary",
-      params: {
+    dispatch(
+      setCheckoutDeliveryInfo({
         firstName,
         email: formEmail,
         address,
@@ -55,20 +59,29 @@ export default function DeliveryFormScreen() {
         county,
         postalCode,
         phone: `${phoneCountryCode} ${phone}`,
-        countryCode,
-        countryName,
-      },
-    });
+        countryName: countryName || "United States",
+      })
+    );
+
+    await updateProfile({ fullname: firstName });
+
+    router.push("/payment/checkout-summary");
   };
 
   return (
     <SafeAreaView style={styles.container} edges={["top"]}>
-      <ScrollView
-        style={styles.scrollView}
-        contentInsetAdjustmentBehavior="always"
-        contentContainerStyle={styles.scrollContent}
-        showsVerticalScrollIndicator={false}
+      <KeyboardAvoidingView
+        style={styles.keyboardAvoid}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 20}
       >
+        <ScrollView
+          style={styles.scrollView}
+          contentInsetAdjustmentBehavior="always"
+          contentContainerStyle={styles.scrollContent}
+          showsVerticalScrollIndicator={false}
+          keyboardShouldPersistTaps="handled"
+        >
         {/* Header with Logo and Email */}
         <View style={styles.headerSection}>
           <View style={styles.logoContainer}>
@@ -213,6 +226,14 @@ export default function DeliveryFormScreen() {
         <View style={styles.inputContainer}>
           <Text style={styles.inputLabel}>{t("payment.delivery.phone")}</Text>
           <View style={styles.phoneInputContainer}>
+            <TextInput
+              style={styles.phoneInput}
+              placeholder={`${phoneCountryCode} 6 84562056`}
+              placeholderTextColor={Colors.light.grey500}
+              value={phone}
+              onChangeText={setPhone}
+              keyboardType="phone-pad"
+            />
             <TouchableOpacity
               style={styles.countryCodeButton}
               activeOpacity={0.7}
@@ -226,23 +247,16 @@ export default function DeliveryFormScreen() {
                 color={Colors.light.mainDarkColor}
               />
             </TouchableOpacity>
-            <TextInput
-              style={styles.phoneInput}
-              placeholder={`${phoneCountryCode} 6 84562056`}
-              placeholderTextColor={Colors.light.grey500}
-              value={phone}
-              onChangeText={setPhone}
-              keyboardType="phone-pad"
-            />
           </View>
         </View>
 
         {/* Bottom Spacing */}
-        <PrimaryButton title={t("payment.delivery.placeOrder")} onPress={handlePlaceOrder} />
+          <PrimaryButton style={{
+          marginTop: verticalScale(36)
+        }} title={t("payment.delivery.placeOrder")} onPress={handlePlaceOrder} />
 
-      </ScrollView>
-
-      {/* Bottom Button */}
+        </ScrollView>
+      </KeyboardAvoidingView>
 
       {/* Country Picker Modal */}
       <CountryPicker
@@ -338,6 +352,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.light.scaffold,
+  },
+  keyboardAvoid: {
+    flex: 1,
   },
   scrollView: {
     flex: 1,
@@ -452,34 +469,34 @@ const styles = StyleSheet.create({
   phoneInputContainer: {
     flexDirection: "row",
     alignItems: "center",
-    gap: scale(12),
-  },
-  countryCodeButton: {
     height: verticalScale(56),
     borderWidth: 1,
     borderColor: Colors.light.grey200,
     borderRadius: scale(12),
-    paddingHorizontal: scale(12),
+    backgroundColor: Colors.light.white,
+    overflow: "hidden",
+  },
+  countryCodeButton: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
     gap: scale(6),
-    backgroundColor: Colors.light.white,
+    paddingHorizontal: scale(12),
+    height: "100%",
+    borderLeftWidth: 1,
+    borderLeftColor: Colors.light.grey200,
   },
   flagEmoji: {
     fontSize: moderateScale(20),
   },
   phoneInput: {
     flex: 1,
-    height: verticalScale(56),
-    borderWidth: 1,
-    borderColor: Colors.light.grey200,
-    borderRadius: scale(12),
+    height: "100%",
     paddingHorizontal: scale(16),
     fontSize: moderateScale(15),
     fontFamily: AeonikFonts.regular,
     color: Colors.light.mainDarkColor,
-    backgroundColor: Colors.light.white,
+    backgroundColor: "transparent",
   },
   bottomButtonContainer: {
     paddingHorizontal: scale(20),

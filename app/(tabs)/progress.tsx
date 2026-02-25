@@ -1,12 +1,12 @@
 import { scale, verticalScale } from '@/constants/scaling';
 import React from 'react';
-import { ScrollView, StyleSheet, View, ActivityIndicator } from 'react-native';
+import { ActivityIndicator, ScrollView, StyleSheet, View } from 'react-native';
 
-import { ProgressLogView } from '@/components/progress/ProgressLogView';
-import { ProgressUnlockedView } from '@/components/progress/ProgressUnlockedView';
 import { AppText as Text } from '@/components/app-text';
-import { useAppSelector } from '@/store/hooks';
+import { ProgressLockView } from '@/components/progress/ProgressLockView';
+import { ProgressUnlockedView } from '@/components/progress/ProgressUnlockedView';
 import { t } from '@/i18n';
+import { useAppSelector } from '@/store/hooks';
 
 export default function ProgressScreen() {
     const { data: progressData, isLoading, error } = useAppSelector(
@@ -43,7 +43,7 @@ export default function ProgressScreen() {
                 {isUnlocked ? (
                     <ProgressUnlockedView />
                 ) : (
-                    <ProgressLogView />
+                    <ProgressLockView />
                 )}
 
                 {/* Bottom Padding for TabBar */}

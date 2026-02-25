@@ -9,57 +9,52 @@ import { scale, verticalScale, SCREEN_WIDTH } from '@/constants/scaling';
 import { AeonikFonts, Colors, Fonts } from '@/constants/theme';
 import { AppTextStyle } from '@/constants/typography';
 import { router } from 'expo-router';
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
 import { ScrollView, StyleSheet, View, FlatList, NativeSyntheticEvent, NativeScrollEvent } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { DermatologistSupportCard } from '@/components/home/DermatologistSupportCard';
 import { t } from "@/i18n";
 import { ComparisonSlider } from '@/components/treatment-plan/ComparisonSlider';
-import type { ImageSourcePropType } from 'react-native';
+import type { ImageSource } from 'expo-image';
 import { PrimaryButton } from '@/components/primary-button';
-import { Asset } from 'expo-asset';
 
-// Before/after client result slides (3 slides for carousel)
-const BEFORE_AFTER_SLIDES: { id: string; beforeImage: ImageSourcePropType; afterImage: ImageSourcePropType }[] = [
-    { id: '1', beforeImage: require("@/assets/images/client1afterimage.png"), afterImage: require("@/assets/images/client1beforeimage.png") },
-    { id: '2', beforeImage: require("@/assets/images/client2afterimage.png"), afterImage: require("@/assets/images/client2beforeimage.png") },
-    { id: '3', beforeImage: require("@/assets/images/client3beforeimage.png"), afterImage: require("@/assets/images/client3afterimage.png") },
+const BEFORE_AFTER_SLIDES: { id: string; beforeImage: ImageSource; afterImage: ImageSource }[] = [
+    { id: '1', beforeImage: require("@/assets/images/client1beforeimage.webp"), afterImage: require("@/assets/images/client1afterimage.webp") },
+    { id: '2', beforeImage: require("@/assets/images/client2beforeimage.webp"), afterImage: require("@/assets/images/client2afterimage.webp") },
+    { id: '3', beforeImage: require("@/assets/images/client3beforeimage.webp"), afterImage: require("@/assets/images/client3afterimage.webp") },
 ];
-
-/** Preload all carousel images so they show faster on mount */
-function preloadBeforeAfterImages() {
-    const modules = BEFORE_AFTER_SLIDES.flatMap((s) => [s.beforeImage, s.afterImage]) as number[];
-    return Promise.all(modules.map((mod) => Asset.fromModule(mod).downloadAsync()));
-}
 
 const slideGap = scale(16);
 const slideWidth = SCREEN_WIDTH - scale(32);
 const beforeAfterSnapInterval = slideWidth + slideGap;
 
 
+const keyExtractor = (item: typeof BEFORE_AFTER_SLIDES[0]) => item.id;
+const getItemLayout = (_: unknown, index: number) => ({
+    length: beforeAfterSnapInterval,
+    offset: beforeAfterSnapInterval * index,
+    index,
+});
+
 export default function TreatmentPlanScreen() {
     const [beforeAfterIndex, setBeforeAfterIndex] = useState(0);
     const beforeAfterListRef = useRef<FlatList>(null);
 
-    useEffect(() => {
-        preloadBeforeAfterImages();
-    }, []);
-
-    const handleBeforeAfterScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+    const handleBeforeAfterScroll = useCallback((event: NativeSyntheticEvent<NativeScrollEvent>) => {
         const offset = event.nativeEvent.contentOffset.x;
         const index = Math.round(offset / beforeAfterSnapInterval);
         setBeforeAfterIndex(Math.min(Math.max(0, index), BEFORE_AFTER_SLIDES.length - 1));
-    };
+    }, []);
 
-    const renderBeforeAfterSlide = ({ item }: { item: typeof BEFORE_AFTER_SLIDES[0] }) => (
+    const renderBeforeAfterSlide = useCallback(({ item }: { item: typeof BEFORE_AFTER_SLIDES[0] }) => (
         <View style={[styles.beforeAfterSlide, { width: slideWidth }]}>
             <ComparisonSlider
                 beforeImage={item.beforeImage}
                 afterImage={item.afterImage}
+                height={verticalScale(545)}
             />
         </View>
-    );
+    ), []);
 
     return (
         <View style={styles.container}>
@@ -80,7 +75,7 @@ export default function TreatmentPlanScreen() {
                         ref={beforeAfterListRef}
                         data={BEFORE_AFTER_SLIDES}
                         renderItem={renderBeforeAfterSlide}
-                        keyExtractor={(item) => item.id}
+                        keyExtractor={keyExtractor}
                         horizontal
                         showsHorizontalScrollIndicator={false}
                         onScroll={handleBeforeAfterScroll}
@@ -90,6 +85,11 @@ export default function TreatmentPlanScreen() {
                         snapToAlignment="start"
                         decelerationRate="fast"
                         contentContainerStyle={styles.beforeAfterListContent}
+                        initialNumToRender={1}
+                        maxToRenderPerBatch={1}
+                        windowSize={3}
+                        removeClippedSubviews
+                        getItemLayout={getItemLayout}
                     />
                     <View style={styles.dotsContainer}>
                         {BEFORE_AFTER_SLIDES.map((_, i) => (

@@ -14,6 +14,9 @@ export default function LabTestLayout() {
             }}
         >
             <Stack.Screen name="index" />
+            <Stack.Screen name="select-lab-location" />
+            <Stack.Screen name="book-lab-test" />
+            <Stack.Screen name="lab-test-completed" />
         </Stack>
     );
 }

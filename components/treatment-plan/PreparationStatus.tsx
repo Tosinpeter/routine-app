@@ -2,7 +2,8 @@ import { AppText as Text } from '@/components/app-text';
 import { scale, verticalScale } from '@/constants/scaling';
 import { Fonts } from '@/constants/theme';
 import React from 'react';
-import { Image, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import { Image } from 'expo-image';
 import { t } from "@/i18n";
 
 export function PreparationStatus() {
@@ -20,7 +21,9 @@ export function PreparationStatus() {
                 <Image
                     source={require('@/assets/images/preparation-man.png')}
                     style={styles.illustration}
-                    resizeMode="contain"
+                    contentFit="contain"
+                    cachePolicy="memory-disk"
+                    transition={200}
                 />
             </View>
         </View>

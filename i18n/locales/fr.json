@@ -362,6 +362,13 @@
       "title": "Your prescription is ready",
       "subtitle": "Based on your skin analysis and doctor review,\nyour prescription has been prepared.",
       "downloadButton": "Download Prescription (PDF)"
+    },
+    "completed": {
+      "title": "Request Sent Successfully",
+      "subtitle": "Your test request has been sent to Medicina Lab.",
+      "emailNotice": "A copy of your request and prescription has been sent to your registered email address.",
+      "reviewNotice": "The lab will review your request and\nnotify you shortly.",
+      "viewStatus": "View Request Status"
     }
   },
   "payment": {
@@ -521,6 +528,12 @@
     "modal": {
       "editName": "Edit Name",
       "namePlaceholder": "Enter your name"
+    },
+    "gender": {
+      "title": "Sélectionner le genre",
+      "male": "Homme",
+      "female": "Femme",
+      "other": "Autre"
     }
   },
   "support": {
@@ -543,6 +556,10 @@
     "availableTime": "Heure disponible",
     "viewAllAvailability": "Voir toutes les disponibilités",
     "sendTestRequest": "Envoyer la demande de test"
+  },
+  "labLocation": {
+    "title": "Select a lab for your test",
+    "searchPlaceholder": "Choose a lab or enter address"
   },
   "days": {
     "fri": "Ven",
@@ -602,6 +619,7 @@
     "privacy": "Confidentialité",
     "termsOfUse": "Conditions d'utilisation",
     "logOut": "Se déconnecter",
+    "logOutConfirmation": "Êtes-vous sûr de vouloir vous déconnecter ?",
     "yearsOld": "{{age}} years old"
   },
   "address": {

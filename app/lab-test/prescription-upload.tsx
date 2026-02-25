@@ -1,5 +1,6 @@
 import * as DocumentPicker from "expo-document-picker";
-import { useState } from "react";
+import { router } from "expo-router";
+import { useEffect, useState } from "react";
 import {
   Platform,
   ScrollView,
@@ -24,35 +25,45 @@ import {
 } from "@/constants/scaling";
 import { AeonikFonts, BorderRadius, Colors, Fonts, HitSlop } from "@/constants/theme";
 import { AppTextStyle } from "@/constants/typography";
+import { useAuth } from "@/contexts/AuthContext";
+import { useFileUpload } from "@/hooks/use-file-upload";
 import { t } from "@/i18n";
 
-interface UploadedFile {
-  id: string;
+function formatFileSize(bytes: number): string {
+  if (bytes === 0) return "0 KB";
+  const k = 1024;
+  const sizes = ["Bytes", "KB", "MB", "GB"];
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+  return parseFloat((bytes / Math.pow(k, i)).toFixed(0)) + " " + sizes[i];
+}
+
+interface UploadingItem {
+  key: string;
   name: string;
-  size: string;
+  sizeBytes: number;
   progress: number;
-  isCompleted: boolean;
 }
 
 export default function UploadScreen() {
-  const [files, setFiles] = useState<UploadedFile[]>([
-    {
-      id: "1",
-      name: "Lab test.pdf",
-      size: "200 KB",
-      progress: 100,
-      isCompleted: true,
-    },
-    {
-      id: "2",
-      name: "Medical reports.pdf",
-      size: "200 KB",
-      progress: 10,
-      isCompleted: false,
-    },
-  ]);
+  const { profile } = useAuth();
+  const userId = profile?.id ?? undefined;
+  const {
+    files,
+    error: uploadError,
+    uploadFile,
+    fetchFiles,
+    deleteFile,
+  } = useFileUpload();
+  const [uploadingFiles, setUploadingFiles] = useState<UploadingItem[]>([]);
+
+  useEffect(() => {
+    if (userId) {
+      fetchFiles(userId);
+    }
+  }, [userId, fetchFiles]);
 
   const handlePickDocument = async () => {
+    if (!userId) return;
     try {
       const result = await DocumentPicker.getDocumentAsync({
         type: ["application/pdf", "image/*"],
@@ -61,62 +72,53 @@ export default function UploadScreen() {
       });
 
       if (!result.canceled && result.assets) {
-        const newFiles: UploadedFile[] = result.assets.map((asset, index) => ({
-          id: `${Date.now()}-${index}`,
+        const now = Date.now();
+        const newItems: UploadingItem[] = result.assets.map((asset, i) => ({
+          key: `upload-${now}-${i}`,
           name: asset.name,
-          size: formatFileSize(asset.size || 0),
+          sizeBytes: asset.size ?? 0,
           progress: 0,
-          isCompleted: false,
         }));
+        setUploadingFiles((prev) => [...prev, ...newItems]);
 
-        setFiles((prev) => [...prev, ...newFiles]);
-
-        // Simulate upload progress
-        newFiles.forEach((file) => {
-          simulateUpload(file.id);
-        });
+        for (let i = 0; i < result.assets.length; i++) {
+          const asset = result.assets[i];
+          const itemKey = newItems[i].key;
+          try {
+            await uploadFile(
+              {
+                uri: asset.uri,
+                name: asset.name,
+                mimeType: asset.mimeType ?? "application/octet-stream",
+                size: asset.size,
+              },
+              userId,
+              {
+                onProgress: (percent) => {
+                  setUploadingFiles((prev) =>
+                    prev.map((f) =>
+                      f.key === itemKey ? { ...f, progress: percent } : f,
+                    ),
+                  );
+                },
+              },
+            );
+          } finally {
+            setUploadingFiles((prev) => prev.filter((f) => f.key !== itemKey));
+          }
+        }
       }
-    } catch (error) {
-      console.error("Error picking document:", error);
+    } catch (err) {
+      console.error("Error picking document:", err);
     }
   };
 
-  const formatFileSize = (bytes: number): string => {
-    if (bytes === 0) return "0 KB";
-    const k = 1024;
-    const sizes = ["Bytes", "KB", "MB", "GB"];
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(0)) + " " + sizes[i];
-  };
-
-  const simulateUpload = (fileId: string) => {
-    let progress = 0;
-    const interval = setInterval(() => {
-      progress += 10;
-      setFiles((prev) =>
-        prev.map((f) =>
-          f.id === fileId
-            ? {
-              ...f,
-              progress,
-              isCompleted: progress >= 100,
-            }
-            : f
-        )
-      );
-
-      if (progress >= 100) {
-        clearInterval(interval);
-      }
-    }, 500);
-  };
-
-  const handleDeleteFile = (fileId: string) => {
-    setFiles((prev) => prev.filter((f) => f.id !== fileId));
+  const handleDeleteFile = async (fileId: string) => {
+    await deleteFile(fileId);
   };
 
   const handleSubmit = () => {
-    // router.push("/select-lab-test");
+    router.push("/lab-test/precription-download");
   };
 
   return (
@@ -153,24 +155,50 @@ export default function UploadScreen() {
             <Text style={styles.browseText}>{t("upload.orBrowse")}</Text>
           </TouchableOpacity>
 
-          {/* File List */}
+          {uploadError ? (
+            <Text style={styles.errorText}>{uploadError}</Text>
+          ) : null}
+
+          {/* File List: uploading first, then completed */}
           <View style={styles.fileList}>
+            {uploadingFiles.map((item) => (
+              <FileItem
+                key={item.key}
+                file={{
+                  id: item.key,
+                  name: item.name,
+                  size: formatFileSize(item.sizeBytes),
+                  progress: item.progress,
+                  isCompleted: false,
+                }}
+                onDelete={() =>
+                  setUploadingFiles((prev) =>
+                    prev.filter((f) => f.key !== item.key),
+                  )
+                }
+              />
+            ))}
             {files.map((file) => (
               <FileItem
                 key={file.id}
-                file={file}
+                file={{
+                  id: file.id,
+                  name: file.name,
+                  size: formatFileSize(file.size ?? 0),
+                  progress: 100,
+                  isCompleted: true,
+                }}
                 onDelete={() => handleDeleteFile(file.id)}
               />
             ))}
           </View>
-          {/* Submit Button */}
-          
 
           <View style={styles.bottomContainer}>
             <PrimaryButton
               onPress={handleSubmit}
               title={t("upload.submit")}
               withShadow
+              disabled={files.length === 0 || uploadingFiles.length > 0}
             />
           </View>
         </ScrollView>
@@ -180,7 +208,13 @@ export default function UploadScreen() {
 }
 
 interface FileItemProps {
-  file: UploadedFile;
+  file: {
+    id: string;
+    name: string;
+    size: string;
+    progress: number;
+    isCompleted: boolean;
+  };
   onDelete: () => void;
 }
 
@@ -372,5 +406,10 @@ const styles = StyleSheet.create({
   // Bottom Container
   bottomContainer: {
     paddingTop: verticalScale(16),
+  },
+  errorText: {
+    ...AppTextStyle.bodyText2,
+    color: Colors.light.grey700,
+    marginBottom: verticalScale(8),
   },
 });

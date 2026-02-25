@@ -131,7 +131,7 @@ export function RoutineStepCard({ step, isLast, onToggleComplete }: RoutineStepC
             <TouchableOpacity
               style={styles.bottomButton}
               activeOpacity={0.8}
-              onPress={() => router.push("/lab-test")}
+              onPress={() => router.push("/lab-test/prescription-upload")}
             >
               <Text style={styles.bottomButtonText}>{t("routineStep.clickHere")}</Text>
             </TouchableOpacity>

@@ -177,9 +177,7 @@ export default function ProfileDetailsScreen() {
               <ProfileField
                 label={t("profileDetails.fields.gender")}
                 value={profile?.gender || t("common.notSet")}
-                onPress={() => {
-                  // Navigate to gender selection
-                }}
+                onPress={() => router.push("/profile/select-gender")}
               />
               
               <View style={styles.divider} />
@@ -197,9 +195,7 @@ export default function ProfileDetailsScreen() {
               <ProfileField
                 label={t("profileDetails.fields.skinType")}
                 value={profile?.skinType || t("common.notSet")}
-                onPress={() => {
-                  // Navigate to skin type selection
-                }}
+                onPress={() => router.push("/quiz")}
               />
               
               <View style={styles.divider} />
@@ -221,9 +217,7 @@ export default function ProfileDetailsScreen() {
                     ? profile.skinConcerns.join(", ")
                     : t("common.notSet")
                 }
-                onPress={() => {
-                  // Navigate to skin concerns selection
-                }}
+                onPress={() => router.push("/quiz")}
               />
               
               <View style={styles.divider} />
@@ -231,9 +225,7 @@ export default function ProfileDetailsScreen() {
               <ProfileField
                 label={t("profileDetails.fields.skinConditions")}
                 value={profile?.skinConditions || t("common.notSet")}
-                onPress={() => {
-                  // Navigate to skin conditions selection
-                }}
+                onPress={() => router.push("/quiz")}
               />
               
               <View style={styles.divider} />
@@ -241,9 +233,7 @@ export default function ProfileDetailsScreen() {
               <ProfileField
                 label={t("profileDetails.fields.healthConditions")}
                 value={profile?.healthConditions || t("common.notSet")}
-                onPress={() => {
-                  // Navigate to health conditions selection
-                }}
+                onPress={() => router.push("/quiz")}
               />
               
               <View style={styles.divider} />
@@ -332,6 +322,7 @@ export default function ProfileDetailsScreen() {
           </View>
         </KeyboardAvoidingView>
       </Modal>
+
     </ThemedView>
   );
 }

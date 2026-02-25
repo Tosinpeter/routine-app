@@ -7,6 +7,8 @@ import authReducer from "./slices/auth-slice";
 import photoPrepReducer from "./slices/photo-prep-slice";
 import usecaseReducer from "./slices/usercase-slice";
 import paymentReducer from "./slices/payment-slice";
+import orderReducer from "./slices/order-slice";
+import notificationReducer from "./slices/notification-slice";
 
 export const store = configureStore({
   reducer: {
@@ -17,6 +19,8 @@ export const store = configureStore({
     photoPrep: photoPrepReducer,
     usecase: usecaseReducer,
     payment: paymentReducer,
+    order: orderReducer,
+    notification: notificationReducer,
   },
 });
 

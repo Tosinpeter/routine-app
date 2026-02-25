@@ -5,6 +5,8 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useFocusEffect } from "expo-router";
+import { useCallback } from "react";
 import { ThemedView } from "@/components/themed-view";
 import {
   scale,
@@ -20,15 +22,23 @@ import { HomeUnlockedView } from "@/components/home/HomeUnlockedView";
 import { StatusBar } from "expo-status-bar";
 import { AppText as Text } from "@/components/app-text";
 import { useAppSelector } from "@/store/hooks";
+import { useFetchProfile } from "@/hooks/use-fetch-profile";
+import { useFetchHome } from "@/hooks/use-fetch-home";
 import { t } from "@/i18n";
 
 export default function HomeScreen() {
   const { homeData, error } = useAppSelector((state) => state.home);
+  useFetchProfile(); // Ensures profile is fetched on app load (no refetch on focus to avoid 403 loop)
+  const { refetch: refetchHome } = useFetchHome();
 
-  const isUnlocked = homeData?.isUnlocked ?? true;
+  const isUnlocked = homeData?.isUnlocked ?? false;
 
-  // Loading happens in background - no loading screen
-  // Data will populate when available
+  // Refetch home data when the home tab is focused (profile is not refetched here to avoid loop on 403)
+  useFocusEffect(
+    useCallback(() => {
+      refetchHome();
+    }, [refetchHome])
+  );
 
   if (error && !homeData) {
     return (
@@ -61,7 +71,7 @@ export default function HomeScreen() {
           contentContainerStyle={styles.scrollContent}
           showsVerticalScrollIndicator={false}
         >
-          {!isUnlocked ? (
+          {isUnlocked ? (
             <HomeUnlockedView />
           ) : (
             <HomeLockedView />

@@ -16,10 +16,9 @@ import { t } from "@/i18n";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { removeCoupon, setDeliveryMethod } from "@/store/slices/payment-slice";
 
-const SUBTOTAL_CENTS = 25000; // $250.00
-
 export default function CheckoutScreen() {
   const dispatch = useAppDispatch();
+  const order = useAppSelector((state) => state.order);
   const deliveryMethod = useAppSelector((state) => state.payment.deliveryMethod);
   const appliedCoupon = useAppSelector((state) => state.payment.appliedCoupon);
 
@@ -27,9 +26,9 @@ export default function CheckoutScreen() {
     router.push("/payment/delivery-form");
   };
 
-  const subtotalDollars = SUBTOTAL_CENTS / 100;
+  const subtotalDollars = order.subtotalCents / 100;
   const discountCents = appliedCoupon?.discount_cents ?? 0;
-  const totalCents = Math.max(0, SUBTOTAL_CENTS - discountCents);
+  const totalCents = Math.max(0, order.subtotalCents - discountCents);
   const totalDollars = totalCents / 100;
 
   return (
@@ -142,12 +141,12 @@ export default function CheckoutScreen() {
         <View style={styles.costBreakdownContainer}>
           <View style={styles.costRow}>
             <Text style={styles.costLabel}>{t("payment.checkout.shipmentCost")}</Text>
-            <Text style={styles.costValue}>$200.00</Text>
+            <Text style={styles.costValue}>${(order.shipmentCents / 100).toFixed(2)}</Text>
           </View>
 
           <View style={styles.costRow}>
             <Text style={styles.costLabel}>{t("payment.checkout.insurance")}</Text>
-            <Text style={styles.costValue}>$50.00</Text>
+            <Text style={styles.costValue}>${(order.insuranceCents / 100).toFixed(2)}</Text>
           </View>
 
           <View style={styles.costRow}>

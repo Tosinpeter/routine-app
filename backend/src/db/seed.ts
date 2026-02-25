@@ -1,5 +1,6 @@
 import { db } from './index.js'
-import { users, coupons } from './schema.js'
+import { users, coupons, staff } from './schema.js'
+import { hashPassword } from '../lib/password.js'
 
 async function seed() {
   // Seed users (onConflictDoNothing so re-running is safe)
@@ -9,6 +10,18 @@ async function seed() {
       { phone_number: '+1234567890' }
     ])
     .onConflictDoNothing({ target: users.phone_number })
+
+  // Demo staff for gloord (admin & doctor)
+  const demoAdminPassword = 'DemoAdmin123!'
+  const demoDoctorPassword = 'DemoDoctor123!'
+  await db
+    .insert(staff)
+    .values([
+      { email: 'admin@demo.com', password_hash: hashPassword(demoAdminPassword), role: 'admin' },
+      { email: 'doctor@demo.com', password_hash: hashPassword(demoDoctorPassword), role: 'doctor' }
+    ])
+    .onConflictDoNothing({ target: staff.email })
+  console.log('Demo staff: admin@demo.com / DemoAdmin123!  |  doctor@demo.com / DemoDoctor123!')
 
   // Seed coupons (replace by code so re-running updates nothing if codes exist)
   const couponRows = [

@@ -2,7 +2,8 @@ import { AppText as Text } from '@/components/app-text';
 import { scale, verticalScale } from '@/constants/scaling';
 import { Fonts } from '@/constants/theme';
 import React from 'react';
-import { Image, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import { Image } from 'expo-image';
 import { t } from "@/i18n";
 
 // Left Column Data
@@ -35,7 +36,9 @@ export function BenefitsGrid() {
               <Image
                 source={item.icon}
                 style={styles.icon}
-                resizeMode="contain"
+                contentFit="contain"
+                cachePolicy="memory-disk"
+                transition={150}
               />
               <Text style={styles.labelText}>{item.label}</Text>
             </View>
@@ -49,7 +52,9 @@ export function BenefitsGrid() {
               <Image
                 source={item.icon}
                 style={styles.icon}
-                resizeMode="contain"
+                contentFit="contain"
+                cachePolicy="memory-disk"
+                transition={150}
               />
               <Text style={styles.labelText}>{item.label}</Text>
             </View>

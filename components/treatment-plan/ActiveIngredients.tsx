@@ -2,7 +2,8 @@ import { AppText as Text } from '@/components/app-text';
 import { scale, verticalScale } from '@/constants/scaling';
 import { Fonts } from '@/constants/theme';
 import React from 'react';
-import { Image, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import { Image } from 'expo-image';
 import { t } from "@/i18n";
 
 function getIngredients() {
@@ -23,7 +24,9 @@ export function ActiveIngredients() {
                             <Image
                                 source={require('@/assets/images/img_anua.png')}
                                 style={styles.icon}
-                                resizeMode="contain"
+                                contentFit="contain"
+                                cachePolicy="memory-disk"
+                                transition={150}
                             />
                         </View>
                         <Text style={styles.label}>{item}</Text>

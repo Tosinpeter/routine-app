@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react";
-import { StyleSheet, View, Image, ScrollView, NativeSyntheticEvent, NativeScrollEvent, Dimensions } from "react-native";
+import { StyleSheet, View, ScrollView, NativeSyntheticEvent, NativeScrollEvent, Dimensions } from "react-native";
+import { Image } from "expo-image";
 import { AppText as Text } from "@/components/app-text";
 import { Colors } from "@/constants/theme";
 import { moderateScale, scale, verticalScale } from "@/constants/scaling";
@@ -83,7 +84,9 @@ export function DermatologistSupportCard() {
                             <Image
                                 source={require('@/assets/images/OnboardingTextHeader.png')}
                                 style={styles.badge}
-                                resizeMode="contain"
+                                contentFit="contain"
+                                cachePolicy="memory-disk"
+                                transition={150}
                             />
 
                             <Text style={styles.title}>{slide.title}</Text>
@@ -107,7 +110,9 @@ export function DermatologistSupportCard() {
                         <Image
                             source={slide.imageSource}
                             style={styles.doctorImage}
-                            resizeMode="contain"
+                            contentFit="contain"
+                            cachePolicy="memory-disk"
+                            transition={200}
                         />
                     </View>
                 ))}

@@ -362,6 +362,13 @@
       "title": "Your prescription is ready",
       "subtitle": "Based on your skin analysis and doctor review,\nyour prescription has been prepared.",
       "downloadButton": "Download Prescription (PDF)"
+    },
+    "completed": {
+      "title": "Request Sent Successfully",
+      "subtitle": "Your test request has been sent to Medicina Lab.",
+      "emailNotice": "A copy of your request and prescription has been sent to your registered email address.",
+      "reviewNotice": "The lab will review your request and\nnotify you shortly.",
+      "viewStatus": "View Request Status"
     }
   },
   "payment": {
@@ -521,6 +528,12 @@
     "modal": {
       "editName": "Edit Name",
       "namePlaceholder": "Enter your name"
+    },
+    "gender": {
+      "title": "性別を選択",
+      "male": "男性",
+      "female": "女性",
+      "other": "その他"
     }
   },
   "support": {
@@ -543,6 +556,10 @@
     "availableTime": "利用可能時間",
     "viewAllAvailability": "すべての空き状況を表示",
     "sendTestRequest": "検査リクエストを送信"
+  },
+  "labLocation": {
+    "title": "Select a lab for your test",
+    "searchPlaceholder": "Choose a lab or enter address"
   },
   "days": {
     "fri": "金",
@@ -602,6 +619,7 @@
     "privacy": "プライバシー",
     "termsOfUse": "利用規約",
     "logOut": "ログアウト",
+    "logOutConfirmation": "ログアウトしてもよろしいですか？",
     "yearsOld": "{{age}} years old"
   },
   "address": {

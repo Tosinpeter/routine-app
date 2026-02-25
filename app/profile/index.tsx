@@ -1,6 +1,6 @@
 import { router } from "expo-router";
 import React from "react";
-import { ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
+import { Alert, ScrollView, StyleSheet, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { AppText as Text } from "@/components/app-text";
@@ -9,6 +9,7 @@ import { ProfileMenuItem } from "@/components/profile/ProfileMenuItem";
 import { ProfileSection } from "@/components/profile/ProfileSection";
 import { ThemedView } from "@/components/themed-view";
 import { useTranslation } from "@/contexts/AppDataProvider";
+import { useAuth } from "@/contexts/AuthContext";
 
 import {
   AddressIcon,
@@ -32,6 +33,21 @@ import { AeonikFonts, Colors } from "@/constants/theme";
 
 export default function ProfileScreen() {
   const { t } = useTranslation();
+  const { logout, profile } = useAuth();
+
+  const handleLogout = () => {
+    Alert.alert(t("profile.logOut"), t("profile.logOutConfirmation"), [
+      { text: t("common.cancel"), style: "cancel" },
+      {
+        text: t("profile.logOut"),
+        style: "destructive",
+        onPress: async () => {
+          await logout();
+          router.replace("/auth/phone-verification");
+        },
+      },
+    ]);
+  };
 
   return (
     <ThemedView style={styles.container}>
@@ -45,9 +61,8 @@ export default function ProfileScreen() {
         >
           {/* Profile Header */}
           <ProfileHeader
-            name="Sarah Islam"
-            age={24}
-          // You can pass a profileImage URL here when available
+            name={profile?.fullname ?? ""}
+            age={profile?.age ?? 10}
           />
 
           {/* Account Section - First Group */}
@@ -116,7 +131,7 @@ export default function ProfileScreen() {
               }
               title={t("profile.history")}
               onPress={() => {
-                // Navigate to history
+                router.push('/face-scan-history')
               }}
             />
             <View style={styles.divider} />
@@ -250,9 +265,7 @@ export default function ProfileScreen() {
           {/* Log Out Button */}
           <TouchableOpacity
             style={styles.logoutButton}
-            onPress={() => {
-              // Handle logout
-            }}
+            onPress={handleLogout}
             activeOpacity={0.7}
           >
             <Text style={styles.logoutText}>{t("profile.logOut")}</Text>

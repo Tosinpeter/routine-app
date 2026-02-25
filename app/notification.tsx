@@ -6,7 +6,8 @@ import {
     View
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
 import { AppText as Text } from "@/components/app-text";
 import { ThemedView } from "@/components/themed-view";
@@ -23,19 +24,16 @@ import { CubeIcon } from "@/components/icons/cube-icon";
 import { MoonIcon } from "@/components/icons/moon-icon";
 import { Loader } from "@/components/loader";
 import { t } from "@/i18n";
-
-// Notification type
-interface Notification {
-    id: string;
-    title: string;
-    subtitle: string;
-    timestamp: string; // ISO format
-    notificationType: "prescription_ready" | "review_completed" | "night_routine" | "order_shipped";
-    isRead: boolean;
-}
+import type { RootState, AppDispatch } from "@/store";
+import {
+    fetchNotifications,
+    markNotificationRead,
+    type AppNotification,
+} from "@/store/slices/notification-slice";
+import { useAuth } from "@/contexts/AuthContext";
 
 // Helper function to get icon component and color
-const getIconComponent = (notificationType: Notification["notificationType"]) => {
+const getIconComponent = (notificationType: AppNotification["notification_type"]) => {
     switch (notificationType) {
         case "prescription_ready":
             return { icon: <HealthIcon size={24} color="#CF604A" />, color: "#F3EDE7" };
@@ -108,7 +106,7 @@ const getTimeAgo = (timestamp: string) => {
 };
 
 // Helper function to group notifications by date
-const groupNotificationsByDate = (notifications: Notification[]) => {
+const groupNotificationsByDate = (notifications: AppNotification[]) => {
     const now = new Date();
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     const yesterday = new Date(today);
@@ -120,14 +118,14 @@ const groupNotificationsByDate = (notifications: Notification[]) => {
     const yesterdayLabel = t("notification.groups.yesterday");
     const thisWeekLabel = t("notification.groups.thisWeek");
 
-    const groups: { [key: string]: Notification[] } = {
+    const groups: { [key: string]: AppNotification[] } = {
         [todayLabel]: [],
         [yesterdayLabel]: [],
         [thisWeekLabel]: [],
     };
 
     notifications.forEach((notification) => {
-        const notificationDate = new Date(notification.timestamp);
+        const notificationDate = new Date(notification.createdAt);
         const notificationDay = new Date(
             notificationDate.getFullYear(),
             notificationDate.getMonth(),
@@ -192,11 +190,12 @@ const AnimatedSectionHeader: React.FC<AnimatedSectionHeaderProps> = ({ title, in
 
 // Animated Notification Card Component
 interface AnimatedNotificationItemProps {
-    notification: Notification;
+    notification: AppNotification;
     index: number;
+    onPress: (id: string) => void;
 }
 
-const AnimatedNotificationItem: React.FC<AnimatedNotificationItemProps> = ({ notification, index }) => {
+const AnimatedNotificationItem: React.FC<AnimatedNotificationItemProps> = ({ notification, index, onPress }) => {
     const fadeAnim = useRef(new Animated.Value(0)).current;
     const slideAnim = useRef(new Animated.Value(50)).current;
 
@@ -217,7 +216,7 @@ const AnimatedNotificationItem: React.FC<AnimatedNotificationItemProps> = ({ not
         ]).start();
     }, [fadeAnim, slideAnim, index]);
 
-    const { icon, color } = getIconComponent(notification.notificationType);
+    const { icon, color } = getIconComponent(notification.notification_type);
 
     return (
         <Animated.View
@@ -230,51 +229,35 @@ const AnimatedNotificationItem: React.FC<AnimatedNotificationItemProps> = ({ not
                 key={notification.id}
                 title={notification.title}
                 subtitle={notification.subtitle}
-                date={getTimeAgo(notification.timestamp)}
+                date={getTimeAgo(notification.createdAt)}
                 icon={icon}
                 iconBackgroundColor={color}
-                showUnreadIndicator={!notification.isRead}
-                onPress={() => console.log(`Notification ${notification.id} pressed`)}
+                showUnreadIndicator={!notification.is_read}
+                onPress={() => onPress(notification.id)}
             />
         </Animated.View>
     );
 };
 
 export default function NotificationScreen() {
-    const [notifications, setNotifications] = useState<Notification[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
-    
+    const dispatch = useDispatch<AppDispatch>();
+    const { profile } = useAuth();
+    const { notifications, loading, error } = useSelector(
+        (state: RootState) => state.notification
+    );
+
     const headerFadeAnim = useRef(new Animated.Value(0)).current;
-    
-    // Fetch notifications from API
-    const fetchNotifications = async () => {
-        try {
-            setIsLoading(true);
-            setError(null);
-            
-            // To test error state, add ?error=true to the URL
-            // Example: const response = await fetch('/api/notification?error=true');
-            const response = await fetch('/api/notification');
-            
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            
-            const data = await response.json();
-            setNotifications(data);
-        } catch (err) {
-            console.error('Error fetching notifications:', err);
-            setError(err instanceof Error ? err.message : t("notification.error.failedToLoad"));
-        } finally {
-            setIsLoading(false);
+
+    const handleFetch = () => {
+        if (profile?.id) {
+            dispatch(fetchNotifications(profile.id));
         }
     };
-    
+
     useEffect(() => {
-        fetchNotifications();
-    }, []);
-    
+        handleFetch();
+    }, [profile?.id]);
+
     useEffect(() => {
         Animated.timing(headerFadeAnim, {
             toValue: 1,
@@ -282,26 +265,27 @@ export default function NotificationScreen() {
             useNativeDriver: true,
         }).start();
     }, [headerFadeAnim]);
-    
+
+    const handleNotificationPress = (id: string) => {
+        dispatch(markNotificationRead(id));
+    };
+
     const groupedNotifications = groupNotificationsByDate(notifications);
-    
-    // Calculate global index for staggered animations across groups
+
     let globalIndex = 0;
-    
+
     return (
         <ThemedView style={styles.container}>
             <SafeAreaView style={styles.safeArea}>
 
-                {/* Back Button */}
                 <BackButton style={styles.backButton} />
 
-                {/* Content */}
                 <View style={{ ...styles.scrollContent, flex: 1 }} >
                     <Animated.View style={{ opacity: headerFadeAnim }}>
                         <Text style={styles.headerText}>{t("notification.title")}</Text>
                     </Animated.View>
 
-                    {isLoading ? (
+                    {loading ? (
                         <View style={styles.loadingContainer}>
                             <Loader size={70} />
                         </View>
@@ -310,7 +294,7 @@ export default function NotificationScreen() {
                             title={t("error.apiError.title")}
                             errorMessage={t("notification.error.failedToLoad")}
                             description={error || t("notification.error.description")}
-                            onRetry={fetchNotifications}
+                            onRetry={handleFetch}
                             showRetryButton={true}
                         />
                     ) : notifications.length === 0 ? (
@@ -318,24 +302,25 @@ export default function NotificationScreen() {
                     ) : (
                         <ScrollView style={styles.scrollView}
                             showsVerticalScrollIndicator={false}>
-                                {Object.entries(groupedNotifications).map(([groupName, notifications], groupIndex) => {
+                                {Object.entries(groupedNotifications).map(([groupName, groupItems], groupIndex) => {
                                     const sectionStartIndex = globalIndex;
-                                    globalIndex += notifications.length;
-                                    
+                                    globalIndex += groupItems.length;
+
                                     return (
                                         <React.Fragment key={groupName}>
                                             <AnimatedSectionHeader title={groupName} index={groupIndex} />
-                                            <View style={{ 
-                                                gap: scale(12), 
-                                                marginBottom: groupIndex === Object.keys(groupedNotifications).length - 1 
-                                                    ? 0 
-                                                    : verticalScale(24) 
+                                            <View style={{
+                                                gap: scale(12),
+                                                marginBottom: groupIndex === Object.keys(groupedNotifications).length - 1
+                                                    ? 0
+                                                    : verticalScale(24)
                                             }}>
-                                                {notifications.map((notification, notificationIndex) => (
+                                                {groupItems.map((notification, notificationIndex) => (
                                                     <AnimatedNotificationItem
                                                         key={notification.id}
                                                         notification={notification}
                                                         index={sectionStartIndex + notificationIndex}
+                                                        onPress={handleNotificationPress}
                                                     />
                                                 ))}
                                             </View>

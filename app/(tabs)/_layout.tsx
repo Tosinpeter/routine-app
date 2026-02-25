@@ -5,7 +5,6 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { HapticTab } from '@/components/haptic-tab';
 import {
-  FaceIcon,
   HomeIcon,
   ProfileIcon,
   RoutineIcon,
@@ -15,9 +14,9 @@ import { scaleIcon, tabBarHeight } from '@/constants/scaling';
 import { Colors, Shadows } from '@/constants/theme';
 import { AppTextStyle } from '@/constants/typography';
 import { useColorScheme } from '@/hooks/use-color-scheme';
-import { useFetchProgress } from '@/hooks/use-fetch-progress';
 import { useFetchHome } from '@/hooks/use-fetch-home';
 import { useFetchProfile } from '@/hooks/use-fetch-profile';
+import { useFetchProgress } from '@/hooks/use-fetch-progress';
 import { t } from '@/i18n';
 
 // Icon size that works well on both platforms
@@ -26,12 +25,12 @@ const TAB_ICON_SIZE = scaleIcon(24);
 export default function TabLayout() {
   const colorScheme = useColorScheme();
   const insets = useSafeAreaInsets();
-  
+
   // Fetch data when app opens
   useFetchHome();
   useFetchProgress();
   useFetchProfile();
-  
+
   console.log(insets.bottom);
   return (
     <Tabs
@@ -78,13 +77,13 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => <RoutineIcon size={TAB_ICON_SIZE} color={color} />,
         }}
       />
-      <Tabs.Screen
+      {/* <Tabs.Screen
         name="skincare"
         options={{
           title: t("tabs.skincare"),
           tabBarIcon: ({ color }) => <FaceIcon size={TAB_ICON_SIZE} color={color} />,
         }}
-      />
+      /> */}
       <Tabs.Screen
         name="progress"
         options={{

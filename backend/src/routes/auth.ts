@@ -1,7 +1,8 @@
 import { Hono } from "hono";
 import { db } from "../db/index.js";
-import { users, profile, type Profile } from "../db/schema.js";
-import { eq } from "drizzle-orm";
+import { users, profile, staff, type Profile, type StaffRole } from "../db/schema.js";
+import { eq, and } from "drizzle-orm";
+import { verifyPassword } from "../lib/password.js";
 
 const DEMO_OTP_CODE = "123456";
 
@@ -90,6 +91,47 @@ auth.post("/verify-otp", async (c) => {
         }),
       },
       token: "placeholder-token",
+    });
+  } catch {
+    return c.json({ success: false, error: "invalid_request_body" }, 400);
+  }
+});
+
+// POST /api/auth/staff-login - for gloord (admin/doctor email + password)
+auth.post("/staff-login", async (c) => {
+  try {
+    const body = await c.req.json<{ email: string; password: string; role: StaffRole }>();
+    const { email, password, role } = body;
+
+    if (!email || !password || !role) {
+      return c.json({ success: false, error: "email_password_and_role_required" }, 400);
+    }
+
+    if (role !== "admin" && role !== "doctor") {
+      return c.json({ success: false, error: "invalid_role" }, 400);
+    }
+
+    const [staffUser] = await db
+      .select()
+      .from(staff)
+      .where(and(eq(staff.email, email.toLowerCase().trim()), eq(staff.role, role)))
+      .limit(1);
+
+    if (!staffUser || !verifyPassword(password, staffUser.password_hash)) {
+      return c.json({ success: false, error: "invalid_credentials" }, 401);
+    }
+
+    // TODO: issue real token (e.g. JWT)
+    return c.json({
+      success: true,
+      message: "Login successful",
+      data: {
+        id: staffUser.id,
+        email: staffUser.email,
+        role: staffUser.role,
+        createdAt: staffUser.createdAt,
+      },
+      token: `staff-${staffUser.id}-placeholder`,
     });
   } catch {
     return c.json({ success: false, error: "invalid_request_body" }, 400);

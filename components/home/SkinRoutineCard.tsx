@@ -9,7 +9,7 @@ import { t } from "@/i18n";
 
 export function SkinRoutineCard() {
     // Current state from new design: 1/4
-    const current = 2;
+    const current = 0;
     const total = 4;
 
     // Dimensions

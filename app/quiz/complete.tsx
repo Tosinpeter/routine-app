@@ -11,12 +11,12 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { client } from "@/api/client";
 import { AppText as Text } from "@/components/app-text";
 import { BackButton } from "@/components/back-button";
-import { useAuth } from "@/contexts/AuthContext";
 import { Loader } from "@/components/loader";
 import { PrimaryButton } from "@/components/primary-button";
 import { scale, verticalScale } from "@/constants/scaling";
 import { AeonikFonts, Colors } from "@/constants/theme";
 import { AppTextStyle } from "@/constants/typography";
+import { useAuth } from "@/contexts/AuthContext";
 import { t } from "@/i18n";
 import { useAppSelector } from "@/store/hooks";
 
@@ -129,7 +129,7 @@ export default function QuizCompleteScreen() {
             </View>
 
             {/* Bottom Button */}
-            <Animated.View 
+            <Animated.View
               style={[
                 styles.buttonContainer,
                 { opacity: buttonOpacity }

@@ -12,18 +12,19 @@ import { t } from "@/i18n";
 
 export default function SupportScreen() {
     const handleCallPress = () => {
-        const phoneNumber = 'tel:2015550124';
-        Linking.canOpenURL(phoneNumber)
+        const phone = '2015550124';
+        const whatsappUrl = `whatsapp://send?phone=${phone}`;
+        Linking.canOpenURL(whatsappUrl)
             .then((supported) => {
                 if (supported) {
-                    return Linking.openURL(phoneNumber);
+                    return Linking.openURL(whatsappUrl);
                 } else {
-                    Alert.alert(t("common.error"), t("support.error.phoneNotSupported"));
+                    return Linking.openURL(`https://wa.me/${phone}`);
                 }
             })
             .catch((err) => {
                 Alert.alert(t("common.error"), t("support.error.callFailed"));
-                console.error('Error opening phone dialer:', err);
+                console.error('Error opening WhatsApp:', err);
             });
     };
 

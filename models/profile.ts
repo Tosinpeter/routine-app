@@ -35,7 +35,6 @@ export class Profile {
 
   isProfileComplete(): boolean {
     return (
-      this.age !== null &&
       this.skin_type !== null &&
       this.health_conditions !== null
     );

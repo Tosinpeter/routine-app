@@ -20,17 +20,16 @@ import { t } from "@/i18n";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { validateCoupon } from "@/store/slices/payment-slice";
 
-const SUBTOTAL_CENTS = 25000;
-
 export default function ApplyCouponScreen() {
   const dispatch = useAppDispatch();
+  const subtotalCents = useAppSelector((state) => state.order.subtotalCents);
   const appliedCoupon = useAppSelector((state) => state.payment.appliedCoupon);
   const couponLoading = useAppSelector((state) => state.payment.couponLoading);
   const [couponCode, setCouponCode] = useState(appliedCoupon?.code ?? "");
 
   const handleApply = async () => {
     const result = await dispatch(
-      validateCoupon({ code: couponCode, subtotal_cents: SUBTOTAL_CENTS })
+      validateCoupon({ code: couponCode, subtotal_cents: subtotalCents })
     );
     if (validateCoupon.fulfilled.match(result)) {
       router.back();

@@ -11,8 +11,9 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 import { AppText as Text } from "@/components/app-text";
 import { BackButton } from "@/components/back-button";
-import { ThemedView } from "@/components/themed-view";
+import { SuccessIllustrationIcon } from "@/components/icons/success-illustration-icon";
 import { PrimaryButton } from "@/components/primary-button";
+import { ThemedView } from "@/components/themed-view";
 import {
     moderateScale,
     scale,
@@ -22,7 +23,6 @@ import {
 } from "@/constants/scaling";
 import { AeonikFonts, BorderRadius, Colors, Fonts } from "@/constants/theme";
 import { AppTextStyle } from "@/constants/typography";
-import { SuccessIllustrationIcon } from "@/components/icons/success-illustration-icon";
 import { t } from "@/i18n";
 
 export default function PrecriptionDownLoadScreen() {
@@ -44,11 +44,11 @@ export default function PrecriptionDownLoadScreen() {
                 useNativeDriver: true,
             }),
         ]).start();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const handleSubmit = () => {
-        router.push("/select-lab-test");
+        router.push("/lab-test/select-lab-location");
     };
 
     return (

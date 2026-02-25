@@ -3,7 +3,8 @@ import { scale, verticalScale } from '@/constants/scaling';
 import { Fonts } from '@/constants/theme';
 import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
-import { Image, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import { Image } from 'expo-image';
 import { t } from "@/i18n";
 
 const CheckItem = ({ text }: { text: string }) => (
@@ -32,7 +33,7 @@ const ProtocolCard = ({
     <View style={styles.cardContent}>
       {/* Icon */}
       <View style={styles.iconContainer}>
-        <Image source={icon} style={styles.icon} resizeMode="contain" />
+        <Image source={icon} style={styles.icon} contentFit="contain" cachePolicy="memory-disk" transition={150} />
       </View>
 
       {/* Content */}

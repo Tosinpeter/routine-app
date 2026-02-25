@@ -389,6 +389,13 @@
       "title": "Your prescription is ready",
       "subtitle": "Based on your skin analysis and doctor review,\nyour prescription has been prepared.",
       "downloadButton": "Download Prescription (PDF)"
+    },
+    "completed": {
+      "title": "Request Sent Successfully",
+      "subtitle": "Your test request has been sent to Medicina Lab.",
+      "emailNotice": "A copy of your request and prescription has been sent to your registered email address.",
+      "reviewNotice": "The lab will review your request and\nnotify you shortly.",
+      "viewStatus": "View Request Status"
     }
   },
   "payment": {
@@ -433,6 +440,47 @@
       "payWith": "Pay with",
       "orderSummary": "Order Summary",
       "discountCode": "Discount code"
+    },
+    "card": {
+      "addCard": "Add card",
+      "addCardTitle": "Card details",
+      "cardNumber": "Card number",
+      "cardNumberPlaceholder": "1234 5678 9012 3456",
+      "expiry": "Expiry",
+      "expiryPlaceholder": "MM / YY",
+      "cvc": "CVC",
+      "cvcPlaceholder": "123",
+      "saveCard": "Save card for future use",
+      "setAsDefault": "Set as default card",
+      "useExisting": "Use existing card",
+      "noCards": "No saved cards. Add a card to pay.",
+      "mastercardOnly": "We accept Mastercard only.",
+      "testCardSuccess": "Test success: …4444",
+      "testCardFail": "Test decline: …0009"
+    },
+    "order": {
+      "creatingTitle": "Just a sec...",
+      "creatingSubtitle": "Creating your order...",
+      "success": "Order placed successfully",
+      "errorTitle": "Something went wrong",
+      "errorGeneric": "We couldn't complete your order. Please try again."
+    },
+    "orderSuccess": {
+      "title": "Start Your Skincare\nRoutine",
+      "orderId": "Order ID #{{id}}",
+      "cardTitle": "Order Successful",
+      "total": "Total",
+      "viewRoutine": "View Routine"
+    },
+    "tracking": {
+      "arrivesDay": "Arrives {{day}}",
+      "inTransit": "In transit",
+      "trackingNo": "Tracking no.",
+      "copiedToClipboard": "Tracking number copied",
+      "delivered": "Delivered",
+      "outForDelivery": "Out for delivery",
+      "shipped": "Shipped",
+      "viewTracking": "View tracking"
     }
   },
   "order": {
@@ -555,6 +603,12 @@
     "modal": {
       "editName": "Edit Name",
       "namePlaceholder": "Enter your name"
+    },
+    "gender": {
+      "title": "Select Gender",
+      "male": "Male",
+      "female": "Female",
+      "other": "Other"
     }
   },
   "support": {
@@ -577,6 +631,10 @@
     "availableTime": "Available Time",
     "viewAllAvailability": "View all availability",
     "sendTestRequest": "Send Test Request"
+  },
+  "labLocation": {
+    "title": "Select a lab for your test",
+    "searchPlaceholder": "Choose a lab or enter address"
   },
   "days": {
     "fri": "Fri",
@@ -636,6 +694,7 @@
     "privacy": "Privacy",
     "termsOfUse": "Terms of Use",
     "logOut": "Log Out",
+    "logOutConfirmation": "Are you sure you want to log out?",
     "yearsOld": "{{age}} years old"
   },
   "address": {

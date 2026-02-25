@@ -6,11 +6,12 @@ import { AppText as Text } from "@/components/app-text";
 import { NotificationIcon } from "@/components/icons/notification-icon";
 import { Colors, Fonts } from "@/constants/theme";
 import { scale, touchTarget } from "@/constants/scaling";
-import { useAppSelector } from "@/store/hooks";
+import { useAuth } from "@/contexts/AuthContext";
 import { t } from "@/i18n";
 
 export function HomeHeader() {
-    const { userName } = useAppSelector((state) => state.home);
+    const { profile } = useAuth();
+    const userName = profile?.fullname ?? "";
 
     const getGreeting = () => {
         const hour = new Date().getHours();
