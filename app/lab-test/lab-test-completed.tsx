@@ -29,6 +29,7 @@ export default function LabTestCompletedScreen() {
                 useNativeDriver: true,
             }).start();
         }, 300);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const handleViewStatus = () => {

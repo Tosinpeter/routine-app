@@ -1,4 +1,4 @@
-import Svg, { Path, Rect } from "react-native-svg";
+import Svg, { Path } from "react-native-svg";
 
 interface FilterCTAIconProps {
   size?: number;

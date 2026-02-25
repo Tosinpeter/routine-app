@@ -79,7 +79,7 @@ const INITIAL_REGION: Region = {
 
 export default function SelectLabLocationScreen() {
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedLabId, setSelectedLabId] = useState<string | null>(null);
+  const [_selectedLabId, setSelectedLabId] = useState<string | null>(null);
 
   const filteredLabs = searchQuery
     ? LABS.filter(

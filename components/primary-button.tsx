@@ -1,5 +1,5 @@
 import React from "react";
-import { TouchableOpacity, StyleSheet, ViewStyle, TextStyle, ActivityIndicator, View } from "react-native";
+import { StyleSheet, ViewStyle, TextStyle, ActivityIndicator, View } from "react-native";
 import { AppText as Text } from "@/components/app-text";
 import { Colors, BorderRadius, Shadows } from "@/constants/theme";
 import { verticalScale, scale } from "@/constants/scaling";

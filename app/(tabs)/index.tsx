@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import {
   ScrollView,
   StyleSheet,
@@ -6,7 +6,6 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useFocusEffect } from "expo-router";
-import { useCallback } from "react";
 import { ThemedView } from "@/components/themed-view";
 import {
   scale,

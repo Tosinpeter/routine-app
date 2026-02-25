@@ -256,6 +256,7 @@ export default function NotificationScreen() {
 
     useEffect(() => {
         handleFetch();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [profile?.id]);
 
     useEffect(() => {

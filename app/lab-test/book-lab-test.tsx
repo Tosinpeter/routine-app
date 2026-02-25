@@ -6,8 +6,6 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-
 import { AppText as Text } from "@/components/app-text";
 import { CalendarPicker, DayItem, TimeSlot } from "@/components/calendar-picker";
 import { DistanceIcon } from "@/components/icons/distance-icon";

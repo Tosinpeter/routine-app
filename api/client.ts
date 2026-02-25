@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { isAxiosError } from "axios";
 
 const API_BASE_URL =
   (typeof process !== "undefined" && process.env?.EXPO_PUBLIC_API_URL) ||
@@ -12,7 +12,7 @@ export const client = axios.create({
 function getErrorType(
   err: unknown,
 ): "network" | "timeout" | "server" | "badRequest" | "generic" {
-  if (axios.isAxiosError(err)) {
+  if (isAxiosError(err)) {
     if (err.code === "ERR_NETWORK" || err.message === "Network Error")
       return "network";
     if (
@@ -31,7 +31,7 @@ function getErrorType(
 
 export function getErrorMessage(err: unknown): string {
   if (
-    axios.isAxiosError(err) &&
+    isAxiosError(err) &&
     err.response?.data?.error &&
     typeof err.response.data.error === "string"
   ) {

@@ -9,7 +9,7 @@ import {
   setProfileLoading,
 } from "@/store/slices/profile-slice";
 import { useCallback, useEffect, useRef } from "react";
-import axios from "axios";
+import { isAxiosError } from "axios";
 
 interface ProfileApiResponse {
   success: boolean;
@@ -122,7 +122,7 @@ export const useFetchProfile = () => {
           await refreshProfile(profile);
         }
       } catch (err) {
-        const status = axios.isAxiosError(err) ? err.response?.status : null;
+        const status = isAxiosError(err) ? err.response?.status : null;
         const errorMessage =
           err instanceof Error ? err.message : "An error occurred";
         dispatch(setProfileError(errorMessage));

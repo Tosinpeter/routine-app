@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { AppText as Text } from '@/components/app-text';
 import { scale, verticalScale } from '@/constants/scaling';
-import { ComparisonCard } from '@/components/progress/ComparisonCard';
+import { ComparisonCard } from './ComparisonCard';
 import { TopImprovementsCard } from '@/components/progress/TopImprovementsCard';
 import { ProgressHelpedCard } from '@/components/progress/ProgressHelpedCard';
 import { ScanHistoryCard } from '@/components/progress/ScanHistoryCard';

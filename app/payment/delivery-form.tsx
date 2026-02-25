@@ -30,7 +30,7 @@ export default function DeliveryFormScreen() {
   const [signUpForNews, setSignUpForNews] = useState(false);
   const [showCountryPicker, setShowCountryPicker] = useState(false);
   const [showPhoneCountryPicker, setShowPhoneCountryPicker] = useState(false);
-  const [countryCode, setCountryCode] = useState("US");
+  const [_countryCode, setCountryCode] = useState("US");
   const [countryName, setCountryName] = useState("United stated");
   const [phoneCountryCode, setPhoneCountryCode] = useState("+31");
   const [phoneCountryFlag, setPhoneCountryFlag] = useState("🇳🇱");

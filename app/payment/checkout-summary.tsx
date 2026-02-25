@@ -21,7 +21,6 @@ import { AppTextStyle } from "@/constants/typography";
 import { t } from "@/i18n";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import {
-  chargeCard,
   fetchCards,
   removeCoupon,
   setCheckoutDeliveryInfo,
@@ -83,6 +82,7 @@ export default function CheckoutSummaryScreen() {
         })
       );
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, params?.firstName, params?.address, params?.email]);
 
   const deliveryInfo = checkoutDeliveryInfo ?? defaultDeliveryInfo;

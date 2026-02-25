@@ -1,11 +1,8 @@
 import React, { useEffect, useRef } from "react";
 import { Animated, View, Text, StyleSheet } from "react-native";
-import { router, useLocalSearchParams } from "expo-router";
 import { AppTextStyle } from "@/constants/typography";
 import { AeonikFonts, Colors } from "@/constants/theme";
 import { scale, verticalScale } from "@/constants/scaling";
-import { PrimaryButton } from "@/components/primary-button";
-import { t } from "@/i18n";
 import { Image } from "expo-image";
 
 
