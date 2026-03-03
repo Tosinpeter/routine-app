@@ -1,153 +1,60 @@
 # Changelog
 
-All notable changes to the Routine App will be documented in this file.
+All notable changes to the **Gloord** app will be documented in this file.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+---
 
-## [Unreleased]
+## Version 1.0 — February 2026
 
 ### Added
 
-#### API Endpoints & Backend
-- **New API Routes**:
-  - `app/api/home+api.ts` - Home page data and treatment plan information
-  - `app/api/profile+api.ts` - User profile management with comprehensive documentation
-  - `app/api/address+api.ts` - Address CRUD operations (create, read, update, delete)
-  - `app/api/routine+api.ts` - Routine management and tracking
-  - `app/api/notification+api.ts` - Notification handling and preferences
-  
-- **API Documentation**:
-  - `PROFILE_API_README.md` - Comprehensive profile API documentation (565 lines)
-  - `ADDRESS_API_README.md` - Complete address API specification (182 lines)
-  - Enhanced error handling and response formats across all APIs
-
-#### Custom Hooks
-- `hooks/use-fetch-home.ts` - Hook for fetching home page data
-- `hooks/use-fetch-progress.ts` - Hook for fetching user progress data
-- `hooks/use-profile.ts` - Hook for profile data management
-- `hooks/use-address.ts` - Hook for address operations (163 lines)
-
-#### Redux Store
-- `store/slices/profile-slice.ts` - Profile state management
-- `store/slices/progress-slice.ts` - Progress tracking state
-- Enhanced `store/slices/home-slice.ts` with:
-  - Home data management
-  - Treatment plan tracking
-  - Loading and error states
-  - User unlock status
-
-#### UI Components
-- `components/api-error-display.tsx` - Reusable error display component
-- `components/loader.tsx` - Loading state component
-- `components/routine-shimmer.tsx` - Shimmer effect for routine loading states
-
-#### Features
-- Performance monitoring scripts in `package.json`:
-  - `perf:devtools` - React DevTools for performance analysis
-  - `perf:bundle` - Bundle size visualization
-  - `perf:analyze` - Source map analysis for bundle optimization
-- Bun package manager support with `bun.lock`
-- Enhanced tab navigation with updated layouts
-
-### Changed
-
-#### Core App Files
-- **`app.json`**: Updated app configuration (16 changes)
-- **`app/_layout.tsx`**: Enhanced root layout with new providers and initialization (37+ changes)
-- **`app/(tabs)/_layout.tsx`**: Improved tab navigation layout (7 changes)
-
-#### Tab Screens
-- **`app/(tabs)/index.tsx`**: 
-  - Integrated home data fetching
-  - Added treatment plan card
-  - Improved loading states (62+ changes)
-  
-- **`app/(tabs)/progress.tsx`**:
-  - Connected to Redux store
-  - Added progress data fetching
-  - Enhanced error handling (54+ changes)
-  
-- **`app/(tabs)/routine.tsx`**:
-  - Improved routine tracking
-  - Better user experience (84+ changes)
-
-#### Feature Screens
-- **`app/notification.tsx`**: Enhanced notification handling (97 changes)
-- **`app/notification-sheet.tsx`**: Improved bottom sheet functionality (77+ changes)
-- **`app/lab-test/index.tsx`**: Updated lab test interface (79+ changes)
-- **`app/profile/profile-details.tsx`**: 
-  - Connected to profile hooks
-  - Enhanced form handling
-  - Better error states (119+ changes)
-- **`app/profile/saved-address/add-address.tsx`**: Improved address form (44+ changes)
-
-#### Components
-- **`components/home/ProductReminderCard.tsx`**: Minor improvements (4 changes)
-- **`components/home/TreatmentPlanCard.tsx`**: Enhanced treatment plan display (20 changes)
-- **`components/primary-button.tsx`**: Improved button component (31 changes)
-
-#### API Changes
-- **`app/api/progress+api.ts`**: 
-  - Migrated from `ExpoRequest/ExpoResponse` to standard `Request/Response`
-  - Added error simulation for testing
-  - Increased API delay to 1500ms for realistic testing
-  - Improved error handling (64 changes)
-  
-- **`app/api/hello+api.ts`**: Simplified implementation (70 changes)
-
-#### Store & State Management
-- **`store/index.ts`**: Added new slices to store configuration (4 changes)
-- **`store/slices/home-slice.ts`**: Added comprehensive home data management (53+ changes)
-
-#### Utilities
-- **`utils/api-client.ts`**: Major refactoring of API client implementation (478 changes)
-
-### Removed
-- **`app/api/README.md`**: Deleted old API documentation (104 lines removed)
-  - Replaced with more specific API documentation files
+- Phone number authentication with OTP verification and country code picker
+- Onboarding flow with personalized skin quiz (single and multi-select questions)
+- Home dashboard with treatment plan card, skin routine card, progress steps, and dermatology insights
+- AI-powered face scan with photo preparation guide, camera capture, and scan result analysis
+- Face scan history screen to review past analyses
+- Treatment plan screen with comparison slider, protocol details, and "What's Inside" accordion
+- Product details screen with expandable sections, info cards, and progress ring
+- Skincare tab with curated product recommendations
+- Routine tab for daily skincare routine management with step cards and time toggles
+- Progress tab with before/after comparison cards, routine consistency tracking, and improvement metrics
+- Top improvements breakdown screen
+- Full payment flow: checkout summary, delivery form, card entry, coupon application, order creation, tracking, and success/error screens
+- Order management with order history, order details, and real-time order tracking with map integration
+- Lab test module: booking, prescription upload, prescription download, lab location selection with map, and completion screen
+- Profile section with profile details, gender selection, saved addresses, order history, permissions, and language preferences
+- Notification system with notification sheet and push notification support via expo-notifications
+- Legal pages: privacy policy, terms of use, cookie policy, and FAQ
+- Contact support button with WhatsApp deep linking
+- Upload prescription card for lab report submission
+- Network connectivity monitoring with offline fallback screen
+- API error display with retry functionality
+- Redux state management with slices for auth, home, payment, orders, notifications, profile, progress, and photo prep
+- Backend API server with routes for auth, home, profile, orders, cards, coupons, notifications, progress, and file uploads
+- SQLite database with schema and seed data
+- Internationalization (i18n) support with English, French, Arabic, and Japanese translations
+- Custom icon system with 50+ SVG icons for UI consistency
+- Haptic feedback on tab interactions
+- Edge-to-edge display support on Android
+- React Compiler and New Architecture enabled for improved performance
+- ESLint CI workflow with GitHub Actions
+- Expo Router with typed routes for type-safe navigation
 
 ### Improved
-- **Error Handling**: Consistent error handling across all API endpoints
-- **Loading States**: Added proper loading states throughout the app
-- **Type Safety**: Enhanced TypeScript types for better type safety
-- **Code Organization**: Better separation of concerns with custom hooks
-- **API Responses**: Standardized API response formats
-- **Developer Experience**: Added performance monitoring tools
 
-### Dependencies
-- Added performance analysis tools
-- Updated various Expo packages
-- Enhanced Redux Toolkit integration
+- App branding updated to Gloord with new icon, splash screen, and adaptive icons
+- OTP verification screen refined with enhanced input handling and error states
+- Photo preparation flow streamlined with better camera guidance and preview
+- Treatment plan UI enhanced with comparison slider and trust badges
+- Error handling strengthened across API client with structured error responses
+- ESLint workflow migrated to Bun for faster dependency management and linting
+- Navigation bar and status bar configured for seamless edge-to-edge experience
+- Performance tooling added with bundle visualizer, source map explorer, and React DevTools support
 
-### Technical Improvements
-- **State Management**: Centralized state with Redux slices
-- **Data Fetching**: Custom hooks for cleaner data fetching
-- **API Architecture**: RESTful API design with proper documentation
-- **Component Reusability**: Shared components for common UI patterns
-- **Error Recovery**: Better error states and recovery mechanisms
+### Fixed
 
-## Statistics
-- **Files Changed**: 22 files
-- **Lines Added**: 947
-- **Lines Removed**: 612
-- **Net Change**: +335 lines
-- **New Files**: 18
-- **Deleted Files**: 1
-
----
-
-## Previous Releases
-
-### [1.0.0] - 2025-02-11
-- feat: Add comprehensive app features and UI enhancements
-- feat: Introduce new Home and Progress tabs with comprehensive UI components, icons, and assets
-- Update app configuration and enhance UI components
-- Initial commit
-
----
-
-## Notes
-- All API endpoints include mock data for development
-- Error simulation available via query parameters for testing
-- Comprehensive documentation added for all major features
+- Network status wrapper correctly detects connectivity changes and shows appropriate fallback
+- Order tracking map renders properly on both native and web platforms
+- OTP input field handles paste and backspace events reliably
+- API client gracefully handles timeout and network errors with user-friendly messages
+- Country code picker displays correctly across different screen sizes

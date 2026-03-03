@@ -7,7 +7,7 @@ import {
   View,
 } from "react-native";
 import * as Clipboard from "expo-clipboard";
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { Image } from "expo-image";
 import MapView, { Marker } from "react-native-maps";
 import { toast } from "@backpackapp-io/react-native-toast";
@@ -85,6 +85,7 @@ export default function OrderTrackingScreen() {
         {/* Back button overlay */}
         <View style={styles.backButtonOverlay}>
           <BackButton
+            onPress={() => {router.replace('/')}}
             style={styles.backButton}
           />
         </View>

@@ -52,6 +52,7 @@ export default function PhoneVerificationScreen() {
           pathname: "/auth/otp-verification",
           params: {
             phoneNumber: `${countryCode} ${formatPhoneNumber(phoneNumber)}`,
+            rawPhone: phoneForApi,
           },
         });
       } else {

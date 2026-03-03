@@ -70,7 +70,7 @@ export default function HomeScreen() {
           contentContainerStyle={styles.scrollContent}
           showsVerticalScrollIndicator={false}
         >
-          {isUnlocked ? (
+          {!isUnlocked ? (
             <HomeUnlockedView />
           ) : (
             <HomeLockedView />

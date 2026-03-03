@@ -2,7 +2,7 @@ import axios, { isAxiosError } from "axios";
 
 const API_BASE_URL =
   (typeof process !== "undefined" && process.env?.EXPO_PUBLIC_API_URL) ||
-  "https://gloord-hono.onrender.com";
+  "https://terra-epigastric-superobediently.ngrok-free.dev";
 
 export const client = axios.create({
   baseURL: API_BASE_URL,

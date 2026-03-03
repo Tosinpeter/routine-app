@@ -13,9 +13,9 @@ import { t } from "@/i18n";
 
 export function ProductReminderCard() {
     const products = [
-        { id: 1, type: 'purple', days: 0, progress: 0 },
-        { id: 2, type: 'green', days: 0, progress: 0 },
-        { id: 3, type: 'orange', days: 0, progress: 0 },
+        { id: 1, type: 'purple', days: 4, progress: 0.60 },
+        { id: 2, type: 'green', days: 5, progress: 0.90 },
+        { id: 3, type: 'orange', days: 6, progress: 0.30 },
     ];
 
     // Gradient colors for different product types

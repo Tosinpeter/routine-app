@@ -194,7 +194,7 @@ const styles = StyleSheet.create({
         width: '100%',
         flexDirection: 'row',
         justifyContent: 'space-between',
-        paddingHorizontal: 30,
+        paddingHorizontal: 10,
         marginTop: -18, // Half of label height approx
         zIndex: 999,
         pointerEvents: 'none', // Allow clicks to pass through to slider

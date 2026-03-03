@@ -17,7 +17,9 @@
       "bundleIdentifier": "com.gloord.app",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false,
-        "LSApplicationQueriesSchemes": ["whatsapp"]
+        "LSApplicationQueriesSchemes": [
+          "whatsapp"
+        ]
       }
     },
     "android": {
@@ -34,7 +36,10 @@
         "googleMaps": {
           "apiKey": "YOUR_GOOGLE_MAPS_API_KEY"
         }
-      }
+      },
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ]
     },
     "web": {
       "output": "server",
@@ -76,8 +81,9 @@
         "origin": "https://routine-app.expo.app"
       },
       "eas": {
-        "projectId": "7a2f83fe-7f1b-4fcf-856b-a01f1f21cf98"
+        "projectId": "e71ccaad-a5bd-418b-a79d-d2c9d1bdeab6"
       }
-    }
+    },
+    "owner": "gloord-app"
   }
 }

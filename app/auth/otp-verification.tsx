@@ -42,7 +42,7 @@ const autoComplete = Platform.select<TextInputProps["autoComplete"]>({
 });
 
 export default function OTPVerificationScreen() {
-  const { phoneNumber } = useLocalSearchParams();
+  const { phoneNumber, rawPhone } = useLocalSearchParams();
   const { verifyOtp } = useAuth();
   const dispatch = useAppDispatch();
   const { otp, isLoading, otpResendTimer } = useAppSelector((state) => state.auth);
@@ -67,7 +67,7 @@ export default function OTPVerificationScreen() {
     Keyboard.dismiss();
 
     if (otp.length !== 6) return;
-    const phone = typeof phoneNumber === "string" ? phoneNumber : "";
+    const phone = typeof rawPhone === "string" ? rawPhone : (typeof phoneNumber === "string" ? phoneNumber : "");
     if (!phone) {
       toast.error(t("auth.otp.errorMissingPhone"));
       return;
@@ -75,6 +75,7 @@ export default function OTPVerificationScreen() {
     try {
       dispatch(setAuthLoading(true));
       const result = await verifyOtp(phone, otp);
+      console.log("[verify-otp] result:", JSON.stringify(result));
       if (result.success) {
         if (!!(result.data as Profile).isProfileComplete) {
           router.replace("/start-analysis");
