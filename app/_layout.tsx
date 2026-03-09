@@ -16,7 +16,6 @@ import { Colors, FontAssets } from '@/constants/theme';
 import { AppDataProvider } from '@/contexts/AppDataProvider';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { store } from '@/store';
-import { hasCompletedOnboarding } from '@/utils/onboarding';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -78,7 +77,7 @@ function RootLayoutNav() {
     // };
 
     // checkOnboardingStatus();
-  }, [hasNavigated]);
+  }, [hasNavigated, router]);
 
   return (
     <Stack

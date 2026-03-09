@@ -22,7 +22,7 @@ import { AppText as Text } from "@/components/app-text";
 import { useAppSelector } from "@/store/hooks";
 
 export default function HomeScreen() {
-  const { homeData, isLoading, error } = useAppSelector((state) => state.home);
+  const { homeData, error } = useAppSelector((state) => state.home);
 
   const isUnlocked = homeData?.isUnlocked ?? true;
 

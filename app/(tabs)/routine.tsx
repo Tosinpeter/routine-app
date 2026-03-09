@@ -51,12 +51,13 @@ export default function RoutineScreen() {
   );
 
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [, setError] = useState<string | null>(null);
   const [routineSteps, setRoutineSteps] = useState<RoutineStep[]>(storeRoutineSteps);
   const [userName, setUserName] = useState(storeUserName);
 
   useEffect(() => {
     fetchRoutineData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedDay, timeOfDay]);
 
   const fetchRoutineData = async () => {

@@ -1,4 +1,3 @@
-import { router } from "expo-router";
 import React from "react";
 import {
   StatusBar,
@@ -10,7 +9,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "expo-image";
 
 import { AppText as Text } from "@/components/app-text";
-import { PrimaryButton } from "@/components/primary-button";
 import { scale, verticalScale } from "@/constants/scaling";
 import { AeonikFonts, Colors } from "@/constants/theme";
 import { AppTextStyle } from "@/constants/typography";
@@ -20,17 +18,6 @@ interface NoInternetScreenProps {
 }
 
 export default function ApiErrorScreen({ onRetry }: NoInternetScreenProps) {
-  const handleTryAgain = () => {
-    if (onRetry) {
-      onRetry();
-    } else {
-      // Default behavior: go back or reload
-      if (router.canGoBack()) {
-        router.back();
-      }
-    }
-  };
-
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" />
