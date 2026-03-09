@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, View, Image } from "react-native";
 import { AppText as Text } from "@/components/app-text";
-import { Colors } from "@/constants/theme";
+import { AeonikFonts, Colors } from "@/constants/theme";
 import { scale, verticalScale } from "@/constants/scaling";
 import { t } from "@/i18n";
 
@@ -83,21 +83,21 @@ const styles = StyleSheet.create({
         borderRadius: scale(100),
         alignSelf: 'flex-start',
         borderWidth: 1,
-        borderColor: 'rgba(255,255,255,0.2)',
+        borderColor: Colors.light.whiteAlpha20,
     },
     badgeText: {
-        fontFamily: 'Aeonik-Medium',
+        fontFamily: AeonikFonts.medium,
         fontSize: scale(12),
         color: Colors.light.dermatologistBadgeText,
     },
     title: {
-        fontFamily: 'Aeonik-Bold',
+        fontFamily: AeonikFonts.bold,
         fontSize: scale(18),
         color: Colors.light.grey800,
         lineHeight: scale(22),
     },
     description: {
-        fontFamily: 'Aeonik-Regular',
+        fontFamily: AeonikFonts.regular,
         fontSize: scale(14),
         color: Colors.light.grey800,
         opacity: 0.8,

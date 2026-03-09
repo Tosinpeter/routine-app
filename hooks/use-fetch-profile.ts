@@ -1,34 +1,38 @@
-import { client } from "@/api/client";
-import { useAuth } from "@/contexts/AuthContext";
-import { Profile } from "@/models/profile";
-import { useAppDispatch } from "@/store/hooks";
-import type { ProfileData } from "@/store/slices/profile-slice";
+import { useAuth } from "@/shared/store/hooks/use-auth";
+import { Profile } from "@/features/profile/models/profile";
+import { client } from "@/shared/api/client";
+import { useAppDispatch } from "@/shared/store/hooks";
+import type { ProfileData } from "@/shared/store/slices/profile-slice";
 import {
   setProfileData,
   setProfileError,
   setProfileLoading,
-} from "@/store/slices/profile-slice";
-import { useCallback, useEffect, useRef } from "react";
+} from "@/shared/store/slices/profile-slice";
 import { isAxiosError } from "axios";
+import { useCallback, useEffect, useRef } from "react";
 
 interface ProfileApiResponse {
   success: boolean;
   data: ProfileData;
 }
 
+function toProfileGender(
+  value: string | null | undefined
+): "male" | "female" | "non_binary" | "other" {
+  if (!value) return "other";
+  const v = String(value).toLowerCase();
+  if (v === "male" || v === "female" || v === "non_binary" || v === "other")
+    return v;
+  return "other";
+}
+
 /** Map backend/snake_case profile to slice ProfileData (camelCase) */
 function profileToProfileData(p: Profile): ProfileData {
-  const genderMap: Record<string, "Male" | "Female" | "Other"> = {
-    male: "Male",
-    female: "Female",
-    non_binary: "Other",
-    other: "Other",
-  };
   return {
     id: p.id,
     fullname: p.fullname ?? "",
     targetGoal: "",
-    gender: (p.gender && genderMap[p.gender]) ?? "Other",
+    gender: toProfileGender(p.gender ?? undefined),
     age: p.age ?? "",
     skinType: p.skin_type ?? "",
     skinSensitivity: String(p.skin_sensitivity ?? "") === "true",
@@ -43,20 +47,12 @@ function profileToProfileData(p: Profile): ProfileData {
 /** Map API response (snake_case) to ProfileData if needed */
 function apiProfileToProfileData(data: Record<string, unknown>): ProfileData {
   const p = data as Record<string, unknown>;
-  const genderMap: Record<string, "Male" | "Female" | "Other"> = {
-    male: "Male",
-    female: "Female",
-    non_binary: "Other",
-    other: "Other",
-  };
   const rawGender = (p.gender as string) ?? "";
-  const genderVal =
-    (rawGender && genderMap[String(rawGender).toLowerCase()]) || "Other";
   return {
     id: String(p.id ?? ""),
     fullname: (p.fullname as string) ?? "",
     targetGoal: (p.targetGoal as string) ?? "",
-    gender: genderVal as "Male" | "Female" | "Other",
+    gender: toProfileGender(rawGender),
     age: (p.age as string) ?? "",
     skinType: (p.skin_type as string) ?? (p.skinType as string) ?? "",
     skinSensitivity:

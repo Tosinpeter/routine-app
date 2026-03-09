@@ -75,12 +75,16 @@
       "unlocksIn": "Unlocks in {{days}}days"
     },
     "progressSteps": {
-      "pending": "Pending"
+      "pending": "Pending",
+      "faceScan": "Face Scan",
+      "clinicTest": "Clinic Test",
+      "doctorReview": "Doctor Review"
     },
     "treatmentPlan": {
       "defaultTitle": "Your Skin Routine",
       "defaultSubtitle": "Treatment Plan",
-      "completed": "Completed"
+      "completed": "Completed",
+      "statusText": "{{current}}/{{total}} Completed"
     },
     "skinRoutine": {
       "treatmentPlan": "Treatment Plan",
@@ -183,16 +187,39 @@
     "tips": {
       "tip1": "Remove extensive make-up or mask",
       "tip2": "Ensure good lighting conditions",
+      "tip2RemoveGlass": "Remove Glass",
       "tip3": "Position your face in the frame",
       "tip4": "Keep a neutral facial expression"
     },
     "tipBadge": "Tip {{number}}/4",
     "takePhoto": "Take a photo",
     "uploadFromDevice": "Upload from device",
+    "analyzing": {
+      "title": "Just a sec...",
+      "subtitle": "Analyzing pigmentation patterns..."
+    },
+    "views": {
+      "front": "Front view",
+      "left": "Left view",
+      "right": "Right view"
+    },
+    "helpPhoto": "How to take a great photo",
+    "allSetContinue": "All set! Review and continue.",
+    "scanResult": {
+      "skinConcern": "Skin Concern",
+      "suggestion1": "Based on your answers, your\ndark circles are mild.",
+      "suggestion2": "Try getting 7–8 hours of sleep\nto help reduce puffiness.",
+      "suggestion3": "Use a gentle eye cream with\ncaffeine or vitamin C.",
+      "suggestion4": "Stay hydrated and limit\nsalt before bed.",
+      "suggestion5": "Consider cold compresses\nin the morning."
+    },
     "preview": {
+      "wellDone": "Well done",
+      "retake": "Retake",
+      "retakePhoto": "Retake Photo",
+      "send": "Send",
       "title": "Photo Preview",
       "subtitle": "Make sure your face is clearly visible and well-lit",
-      "retake": "Retake Photo",
       "cropAgain": "Crop Again",
       "continue": "Continue with this Photo",
       "guidelines": {
@@ -232,6 +259,7 @@
     }
   },
   "notification": {
+    "defaultTitle": "New notification",
     "title": "Notification",
     "time": {
       "justNow": "Just now",
@@ -373,11 +401,18 @@
     }
   },
   "labTest": {
+    "demoLabName": "Medicina Lab",
+    "demoLabDescription": "Certified diagnostic laboratory specializing in clinical and dermatology-related tests.",
     "title": "Lab test is ready",
     "subtitle": "Download the lab request and\nbring it to any facility",
     "downloadPdf": "Download PDF",
     "downloading": "Downloading...",
     "warning": "Make sure to Present this prescription to\nthe Pharmacist as-is, without any edits.",
+    "warningPrefix": "Make sure to ",
+    "warningBoldPresent": "Present",
+    "warningMiddle": " this prescription to\n the ",
+    "warningBoldPharmacist": "Pharmacist",
+    "warningSuffix": " as-is, without any edits.",
     "download": {
       "dialogTitle": "Save Lab Test PDF",
       "completeTitle": "Download Complete",
@@ -465,6 +500,12 @@
       "errorTitle": "Something went wrong",
       "errorGeneric": "We couldn't complete your order. Please try again."
     },
+    "orderError": {
+      "title": "Payment not completed"
+    },
+    "orderSheet": {
+      "title": "Payment completed"
+    },
     "orderSuccess": {
       "title": "Start Your Skincare\nRoutine",
       "orderId": "Order ID #{{id}}",
@@ -480,17 +521,24 @@
       "delivered": "Delivered",
       "outForDelivery": "Out for delivery",
       "shipped": "Shipped",
-      "viewTracking": "View tracking"
+      "viewTracking": "View tracking",
+      "customer": "Customer",
+      "orderBadge": "#{{id}}. {{date}}",
+      "loadError": "Unable to load tracking information",
+      "retry": "Retry"
     }
   },
   "order": {
     "history": {
-      "title": "Order History"
+      "title": "Order History",
+      "monthFormat": "{{month}} {{year}}"
     },
     "status": {
       "active": "Active",
       "completed": "Completed"
     },
+    "estimatedTimeDemo": "Estimated to last {{days}} days",
+    "dateRange": "{{start}} - {{end}}",
     "details": {
       "doctorApproved": "Doctor-approved routine",
       "productIncluded": "{{count}} Product Included",
@@ -503,9 +551,14 @@
     "empty": {
       "title": "No orders yet",
       "subtitle": "Your order history will appear here"
+    },
+    "demo": {
+      "plan1": "Acne Control - 30 Day Plan",
+      "plan2": "Hydration Boost - 30 Day Plan"
     }
   },
   "product": {
+    "reorder": "Reorder",
     "details": {
       "title": "Product Details",
       "description": "Description",
@@ -540,6 +593,10 @@
       "redness": "Redness",
       "hydration": "Hydration",
       "viewAllMetrics": "View All Metrics"
+    },
+    "comparison": {
+      "before": "Before",
+      "after": "After"
     },
     "routineConsistency": {
       "title": "Routine Consistency",

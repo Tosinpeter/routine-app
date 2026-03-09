@@ -1,7 +1,7 @@
 import { Image, ImageBackground, StyleSheet, View } from "react-native";
 import { BlurView } from "expo-blur";
 import { AppText as Text } from "@/components/app-text";
-import { Fonts } from "@/constants/theme";
+import { Colors, Fonts } from "@/constants/theme";
 import { scale, verticalScale } from "@/constants/scaling";
 import { t } from "@/i18n";
 
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     },
     overlayColor: {
         ...StyleSheet.absoluteFillObject,
-        backgroundColor: 'rgba(0, 0, 0, 0.38)',
+        backgroundColor: Colors.light.blackAlpha38,
     },
     contentContainer: {
         alignItems: 'center',
@@ -93,13 +93,13 @@ const styles = StyleSheet.create({
         fontSize: scale(20),
         lineHeight: scale(24), // 120%
         textAlign: 'center',
-        color: '#FFFFFF',
+        color: Colors.light.white,
     },
     description: {
         fontFamily: Fonts.regular, // Aeonik Regular
         fontSize: scale(16),
         lineHeight: scale(16), // 100%
         textAlign: 'center',
-        color: '#FFFFFF',
+        color: Colors.light.white,
     }
 });

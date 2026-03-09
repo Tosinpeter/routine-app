@@ -4,6 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { AppText as Text } from '@/components/app-text';
 import { scale, verticalScale } from '@/constants/scaling';
+import { AeonikFonts, Colors } from '@/constants/theme';
 // eslint-disable-next-line import/no-named-as-default
 import ImprovementIcon from '@/components/progress/ImprovementIcon';
 import { t } from "@/i18n";
@@ -50,7 +51,7 @@ function ImprovementItem({ label, value, trend, progress, color = '#3736FD', del
                     <Ionicons
                         name={trend === 'down' ? 'arrow-down' : 'arrow-up'}
                         size={scale(16)}
-                        color={trend === 'down' ? '#F41D12' : '#077C46'}
+                        color={trend === 'down' ? Colors.light.errorRed : Colors.light.successGreen}
                     />
                     <Text style={styles.trendValue}>{value}</Text>
                 </View>
@@ -141,7 +142,7 @@ const styles = StyleSheet.create({
         gap: 8,
     },
     itemLabel: {
-        fontFamily: 'Aeonik-Medium',
+        fontFamily: AeonikFonts.medium,
         fontSize: scale(16),
         color: '#20201E',
     },
@@ -151,7 +152,7 @@ const styles = StyleSheet.create({
         gap: 2,
     },
     trendValue: {
-        fontFamily: 'Aeonik-Regular',
+        fontFamily: AeonikFonts.regular,
         fontSize: scale(13),
         color: '#000000',
     },
@@ -175,7 +176,7 @@ const styles = StyleSheet.create({
         marginTop: 8,
     },
     ctaText: {
-        fontFamily: 'Aeonik-Medium',
+        fontFamily: AeonikFonts.medium,
         fontSize: scale(14),
         color: '#344054',
     }

@@ -75,12 +75,16 @@
       "unlocksIn": "Unlocks in {{days}}days"
     },
     "progressSteps": {
-      "pending": "Pending"
+      "pending": "保留中",
+      "faceScan": "フェイススキャン",
+      "clinicTest": "クリニック検査",
+      "doctorReview": "医師のレビュー"
     },
     "treatmentPlan": {
-      "defaultTitle": "Your Skin Routine",
-      "defaultSubtitle": "Treatment Plan",
-      "completed": "Completed"
+      "defaultTitle": "あなたのスキンルーティン",
+      "defaultSubtitle": "トリートメントプラン",
+      "completed": "完了",
+      "statusText": "{{current}}/{{total}} 完了"
     },
     "skinRoutine": {
       "treatmentPlan": "Treatment Plan",
@@ -131,10 +135,12 @@
       "placeholder": "(316) 555-0116"
     },
     "otp": {
-      "title": "Enter the 6-digit code",
-      "subtitle": "We sent a code to {{phoneNumber}}",
-      "resendCodeIn": "Resend code in {{time}}",
-      "resendCode": "Resend code"
+      "title": "6桁のコードを入力",
+      "subtitle": "{{phoneNumber}}にコードを送信しました",
+      "resendCodeIn": "{{time}}で再送信",
+      "resendCode": "コードを再送信",
+      "errorMissingPhone": "電話番号がありません。戻って入力してください。",
+      "errorVerificationFailed": "コードが無効または期限切れです。もう一度お試しください。"
     },
     "skipAnalysis": "I haven't done my skin analysis yet"
   },
@@ -167,14 +173,50 @@
   },
   "photoPrep": {
     "tips": {
-      "tip1": "Remove extensive make-up or mask",
-      "tip2": "Ensure good lighting conditions",
-      "tip3": "Position your face in the frame",
-      "tip4": "Keep a neutral facial expression"
+      "tip1": "メイクやマスクをしっかり落とす",
+      "tip2": "照明を十分に",
+      "tip2RemoveGlass": "メガネを外す",
+      "tip3": "顔をフレームに合わせる",
+      "tip4": "自然な表情で"
     },
-    "tipBadge": "Tip {{number}}/4",
-    "takePhoto": "Take a photo",
-    "uploadFromDevice": "Upload from device"
+    "tipBadge": "ヒント {{number}}/4",
+    "takePhoto": "写真を撮る",
+    "uploadFromDevice": "デバイスからアップロード",
+    "analyzing": {
+      "title": "少々お待ちください...",
+      "subtitle": "色素沈着パターンを分析中..."
+    },
+    "views": {
+      "front": "正面",
+      "left": "左側",
+      "right": "右側"
+    },
+    "helpPhoto": "良い写真の撮り方",
+    "allSetContinue": "準備完了！確認して続ける。",
+    "scanResult": {
+      "skinConcern": "肌の悩み",
+      "suggestion1": "回答に基づくと、\nくまは軽度です。",
+      "suggestion2": "7〜8時間の睡眠で\nむくみを軽減。",
+      "suggestion3": "カフェインやビタミンC入り\nアイクリームを。",
+      "suggestion4": "水分をとり、寝る前の\n塩分を控えて。",
+      "suggestion5": "朝の冷たい compress を\n検討してください。"
+    },
+    "preview": {
+      "wellDone": "よくできました",
+      "retake": "撮り直す",
+      "retakePhoto": "写真を撮り直す",
+      "send": "送信",
+      "title": "写真プレビュー",
+      "subtitle": "顔がはっきり見え、明るいことを確認してください",
+      "cropAgain": "もう一度切り抜く",
+      "continue": "この写真で続ける",
+      "guidelines": {
+        "title": "クイックチェック",
+        "lighting": "明るさ",
+        "centered": "顔が中央",
+        "clear": "くっきり"
+      }
+    }
   },
   "quiz": {
     "intro": {
@@ -205,6 +247,7 @@
     }
   },
   "notification": {
+    "defaultTitle": "新しい通知",
     "title": "Notification",
     "time": {
       "justNow": "Just now",
@@ -346,11 +389,18 @@
     }
   },
   "labTest": {
-    "title": "Lab test is ready",
-    "subtitle": "Download the lab request and\nbring it to any facility",
-    "downloadPdf": "Download PDF",
-    "downloading": "Downloading...",
-    "warning": "Make sure to Present this prescription to\nthe Pharmacist as-is, without any edits.",
+    "demoLabName": "Medicina Lab",
+    "demoLabDescription": "臨床および皮膚科関連検査を専門とする認定診断検査所。",
+    "title": "検査の準備ができました",
+    "subtitle": "検査依頼書をダウンロードして\n施設にお持ちください",
+    "downloadPdf": "PDFをダウンロード",
+    "downloading": "ダウンロード中...",
+    "warning": "この処方箋をそのまま\n薬剤師に提出してください。",
+    "warningPrefix": "必ず",
+    "warningBoldPresent": "提出",
+    "warningMiddle": "この処方箋を\n",
+    "warningBoldPharmacist": "薬剤師",
+    "warningSuffix": "にそのまま、編集せずにお渡しください。",
     "download": {
       "dialogTitle": "Save Lab Test PDF",
       "completeTitle": "Download Complete",
@@ -383,7 +433,41 @@
       "insurance": "Insurance:",
       "totalPayment": "Total Payment:",
       "total": "Total:",
-      "continueButton": "Continue to Purchase"
+      "continueButton": "Continue to Purchase",
+      "couponSheetTitle": "クーポンコードを入力",
+      "couponCodeLabel": "クーポンコード",
+      "couponPlaceholder": "例: WELCOME10",
+      "couponApply": "適用",
+      "couponSuccess": "クーポンを適用しました",
+      "couponError": "無効または期限切れのクーポン",
+      "couponDiscount": "割引"
+    },
+    "orderSuccess": {
+      "title": "スキンケアルーチンを始める",
+      "orderId": "注文ID #{{id}}",
+      "cardTitle": "注文完了",
+      "total": "合計",
+      "viewRoutine": "ルーチンを見る"
+    },
+    "tracking": {
+      "arrivesDay": "{{day}}に到着",
+      "inTransit": "配送中",
+      "trackingNo": "追跡番号",
+      "copiedToClipboard": "追跡番号をコピーしました",
+      "delivered": "配達完了",
+      "outForDelivery": "配達中",
+      "shipped": "発送済み",
+      "viewTracking": "追跡を見る",
+      "customer": "お客様",
+      "orderBadge": "#{{id}}. {{date}}",
+      "loadError": "追跡情報を読み込めませんでした",
+      "retry": "再試行"
+    },
+    "orderError": {
+      "title": "お支払いが完了していません"
+    },
+    "orderSheet": {
+      "title": "お支払い完了"
     },
     "delivery": {
       "title": "Delivery",
@@ -410,8 +494,11 @@
   },
   "order": {
     "history": {
-      "title": "Order History"
+      "title": "注文履歴",
+      "monthFormat": "{{month}} {{year}}"
     },
+    "estimatedTimeDemo": "約{{days}}日分",
+    "dateRange": "{{start}} - {{end}}",
     "status": {
       "active": "Active",
       "completed": "Completed"
@@ -426,11 +513,16 @@
     "reorder": "Reorder",
     "estimatedTime": "Estimated to last {{days}} days",
     "empty": {
-      "title": "No orders yet",
-      "subtitle": "Your order history will appear here"
+      "title": "注文はまだありません",
+      "subtitle": "注文履歴はここに表示されます"
+    },
+    "demo": {
+      "plan1": "ニキビケア - 30日プラン",
+      "plan2": "保湿ブースト - 30日プラン"
     }
   },
   "product": {
+    "reorder": "再注文",
     "details": {
       "title": "Product Details",
       "description": "Description",
@@ -465,6 +557,10 @@
       "redness": "Redness",
       "hydration": "Hydration",
       "viewAllMetrics": "View All Metrics"
+    },
+    "comparison": {
+      "before": "前",
+      "after": "後"
     },
     "routineConsistency": {
       "title": "Routine Consistency",

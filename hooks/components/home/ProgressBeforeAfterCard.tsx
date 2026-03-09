@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, View, ImageBackground } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { AppText as Text } from "@/components/app-text";
-import { Colors, Fonts } from "@/constants/theme";
+import { AeonikFonts, Colors, Fonts } from "@/constants/theme";
 import { scale, verticalScale } from "@/constants/scaling";
 import { t } from "@/i18n";
 
@@ -24,12 +24,12 @@ export function ProgressBeforeAfterCard() {
 
                         {/* Before Label */}
                         <View style={[styles.labelBadge, { left: scale(16) }]}>
-                            <Text style={styles.labelText}>Before</Text>
+                            <Text style={styles.labelText}>{t("progress.comparison.before")}</Text>
                         </View>
 
                         {/* After Label */}
                         <View style={[styles.labelBadge, { right: scale(16) }]}>
-                            <Text style={styles.labelText}>After</Text>
+                            <Text style={styles.labelText}>{t("progress.comparison.after")}</Text>
                         </View>
 
                         {/* Center Slider Handle */}
@@ -79,20 +79,20 @@ const styles = StyleSheet.create({
     overlay: {
         flex: 1,
         position: 'relative',
-        backgroundColor: 'rgba(0,0,0,0.1)', // Light tint
+        backgroundColor: Colors.light.blackAlpha10,
     },
     labelBadge: {
         position: 'absolute',
         top: '50%',
         marginTop: -15, // Approx center vertically relative to face center
-        backgroundColor: 'rgba(0,0,0,0.3)',
+        backgroundColor: Colors.light.blackAlpha30,
         paddingHorizontal: scale(12),
         paddingVertical: verticalScale(6),
         borderRadius: 100,
     },
     labelText: {
         color: Colors.light.white,
-        fontFamily: 'Aeonik-Medium',
+        fontFamily: AeonikFonts.medium,
         fontSize: scale(12),
     },
     sliderHandle: {
@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.light.white,
         justifyContent: 'center',
         alignItems: 'center',
-        shadowColor: '#000',
+        shadowColor: Colors.light.black,
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.2,
         shadowRadius: 4,
@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
     },
     dateBadge: {
         position: 'absolute',
-        backgroundColor: 'rgba(255,255,255,0.2)',
+        backgroundColor: Colors.light.whiteAlpha20,
         backdropFilter: 'blur(4px)',
         padding: scale(8),
         borderRadius: scale(10),
@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
     },
     dateText: {
         color: Colors.light.white,
-        fontFamily: 'Aeonik-Medium',
+        fontFamily: AeonikFonts.medium,
         fontSize: scale(10),
         textAlign: 'center',
         lineHeight: 12,

@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { AppText as Text } from '@/components/app-text';
 import { scale, verticalScale } from '@/constants/scaling';
+import { AeonikFonts } from '@/constants/theme';
 import { ProgressPreviewCard } from '@/components/home/ProgressPreviewCard';
 import { MetricCard } from '@/components/progress/MetricCard';
 import { RoutineConsistencyCard } from '@/components/progress/RoutineConsistencyCard';
@@ -17,7 +18,7 @@ export function ProgressLogView() {
 
             {/* Description Text */}
             <Text style={styles.description}>
-                We’re tracking changes in your skin. Full visual comparison unlocks after 30 days
+                {t("progress.log.description")}
             </Text>
 
             {/* Metrics Grid */}
@@ -103,7 +104,7 @@ const styles = StyleSheet.create({
         width: '100%',
     },
     headerTitle: {
-        fontFamily: 'Aeonik-Medium',
+        fontFamily: AeonikFonts.medium,
         fontSize: scale(30),
         color: "#20201E",
         marginBottom: scale(16),
@@ -111,7 +112,7 @@ const styles = StyleSheet.create({
         width: '100%',
     },
     description: {
-        fontFamily: 'Aeonik-Regular',
+        fontFamily: AeonikFonts.regular,
         fontSize: scale(16),
         lineHeight: scale(22),
         color: '#20201E',

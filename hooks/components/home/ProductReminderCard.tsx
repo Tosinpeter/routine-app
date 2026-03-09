@@ -3,7 +3,7 @@ import Svg, { Circle, Defs, LinearGradient, Stop } from "react-native-svg";
 
 import { AppText as Text } from "@/components/app-text";
 import { AlarmIcon } from "@/components/icons/alarm-icon";
-import { Colors, Fonts } from "@/constants/theme";
+import { AeonikFonts, Colors, Fonts } from "@/constants/theme";
 import { scale, verticalScale } from "@/constants/scaling";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -19,7 +19,7 @@ export function ProductReminderCard() {
             {/* Header */}
             <View style={styles.header}>
                 <View style={styles.headerLeft}>
-                    <AlarmIcon width={scale(24)} height={scale(24)} color="#CF604A" />
+                    <AlarmIcon width={scale(24)} height={scale(24)} color={Colors.light.tint} />
                     <Text style={styles.headerTitle}>Product Reminder</Text>
                 </View>
 
@@ -94,10 +94,10 @@ function ProgressCircle({ type, progress }: ProgressCircleProps) {
     const strokeDashoffset = circumference * (1 - clampedProgress);
 
     const gradients: Record<string, string[]> = {
-        purple: ['#A7CDFF', '#614BE1'],
-        green: ['#D0F230', '#32D583'],
-        orange: ['#FDA29B', '#F79009'],
-        locked: ['#F2F4F7', '#F2F4F7'],
+        purple: [Colors.light.gradientBlue, Colors.light.gradientPurple],
+        green: [Colors.light.gradientGreenStart, Colors.light.gradientGreenEnd],
+        orange: [Colors.light.gradientOrangeStart, Colors.light.warning],
+        locked: [Colors.light.lightGrey, Colors.light.lightGrey],
     };
 
     const colors = gradients[type] || gradients.locked;
@@ -116,7 +116,7 @@ function ProgressCircle({ type, progress }: ProgressCircleProps) {
                     cx={center}
                     cy={center}
                     r={radius}
-                    stroke="#F2F4F7"
+                    stroke={Colors.light.lightGrey}
                     strokeWidth={strokeWidth}
                     fill="transparent"
                 />
@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
     headerTitle: {
         fontFamily: Fonts.medium,
         fontSize: scale(18),
-        color: "#20201E"
+        color: Colors.light.mainDarkColor
     },
     headerRight: {
         flexDirection: 'row',
@@ -174,7 +174,7 @@ const styles = StyleSheet.create({
     viewText: {
         fontFamily: Fonts.regular,
         fontSize: scale(14),
-        color: "#20201E",
+        color: Colors.light.mainDarkColor,
         marginRight: scale(4)
     },
     // List
@@ -202,11 +202,11 @@ const styles = StyleSheet.create({
         width: scale(68),
         height: scale(68),
         borderRadius: scale(34),
-        backgroundColor: '#FFFFFF',
+        backgroundColor: Colors.light.white,
         borderWidth: 2,
-        borderColor: '#F9FAFB',
+        borderColor: Colors.light.lightGrey50,
         // Shadow: 0px 0px 12px rgba(37, 62, 111, 0.08)
-        shadowColor: "rgba(37, 62, 111, 0.08)",
+        shadowColor: Colors.light.cardShadow,
         shadowOffset: { width: 0, height: 0 },
         shadowOpacity: 1,
         shadowRadius: 12,
@@ -227,7 +227,7 @@ const styles = StyleSheet.create({
         width: scale(50.87),
         height: scale(50.87),
         borderRadius: scale(25.4),
-        backgroundColor: '#FFFFFF',
+        backgroundColor: Colors.light.white,
         justifyContent: 'center',
         alignItems: 'center',
         elevation: 1, // Ensure white bg is on top of ring if filled, but ring is stroke only so fine.
@@ -237,9 +237,9 @@ const styles = StyleSheet.create({
         height: scale(38.98),
     },
     daysText: {
-        fontFamily: 'Aeonik-Medium', // 500
+        fontFamily: AeonikFonts.medium, // 500
         fontSize: scale(10),
-        color: "#20201E",
+        color: Colors.light.mainDarkColor,
         opacity: 0.7,
         textAlign: 'center'
     }

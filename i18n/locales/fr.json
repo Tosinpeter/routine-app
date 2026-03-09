@@ -75,12 +75,16 @@
       "unlocksIn": "Unlocks in {{days}}days"
     },
     "progressSteps": {
-      "pending": "Pending"
+      "pending": "En attente",
+      "faceScan": "Scan du visage",
+      "clinicTest": "Test clinique",
+      "doctorReview": "Avis du médecin"
     },
     "treatmentPlan": {
-      "defaultTitle": "Your Skin Routine",
-      "defaultSubtitle": "Treatment Plan",
-      "completed": "Completed"
+      "defaultTitle": "Votre routine peau",
+      "defaultSubtitle": "Plan de traitement",
+      "completed": "Terminé",
+      "statusText": "{{current}}/{{total}} Terminé"
     },
     "skinRoutine": {
       "treatmentPlan": "Treatment Plan",
@@ -131,10 +135,12 @@
       "placeholder": "(316) 555-0116"
     },
     "otp": {
-      "title": "Enter the 6-digit code",
-      "subtitle": "We sent a code to {{phoneNumber}}",
-      "resendCodeIn": "Resend code in {{time}}",
-      "resendCode": "Resend code"
+      "title": "Entrez le code à 6 chiffres",
+      "subtitle": "Nous avons envoyé un code à {{phoneNumber}}",
+      "resendCodeIn": "Renvoyer le code dans {{time}}",
+      "resendCode": "Renvoyer le code",
+      "errorMissingPhone": "Numéro de téléphone manquant. Veuillez revenir et l'entrer.",
+      "errorVerificationFailed": "Code invalide ou expiré. Veuillez réessayer."
     },
     "skipAnalysis": "I haven't done my skin analysis yet"
   },
@@ -167,14 +173,50 @@
   },
   "photoPrep": {
     "tips": {
-      "tip1": "Remove extensive make-up or mask",
-      "tip2": "Ensure good lighting conditions",
-      "tip3": "Position your face in the frame",
-      "tip4": "Keep a neutral facial expression"
+      "tip1": "Retirez le maquillage ou le masque",
+      "tip2": "Assurez un bon éclairage",
+      "tip2RemoveGlass": "Retirez les lunettes",
+      "tip3": "Positionnez votre visage dans le cadre",
+      "tip4": "Gardez une expression neutre"
     },
-    "tipBadge": "Tip {{number}}/4",
-    "takePhoto": "Take a photo",
-    "uploadFromDevice": "Upload from device"
+    "tipBadge": "Conseil {{number}}/4",
+    "takePhoto": "Prendre une photo",
+    "uploadFromDevice": "Télécharger depuis l'appareil",
+    "analyzing": {
+      "title": "Un instant...",
+      "subtitle": "Analyse des motifs de pigmentation..."
+    },
+    "views": {
+      "front": "Vue de face",
+      "left": "Vue gauche",
+      "right": "Vue droite"
+    },
+    "helpPhoto": "Comment prendre une bonne photo",
+    "allSetContinue": "Tout est prêt ! Vérifiez et continuez.",
+    "scanResult": {
+      "skinConcern": "Problème de peau",
+      "suggestion1": "D'après vos réponses, vos\ncernes sont légers.",
+      "suggestion2": "Essayez de dormir 7 à 8 h\npour réduire les poches.",
+      "suggestion3": "Utilisez un soin contour des yeux\nà la caféine ou vitamine C.",
+      "suggestion4": "Restez hydraté et limitez\nle sel avant le coucher.",
+      "suggestion5": "Pensez aux compresses froides\nle matin."
+    },
+    "preview": {
+      "wellDone": "Bien joué",
+      "retake": "Reprendre",
+      "retakePhoto": "Reprendre la photo",
+      "send": "Envoyer",
+      "title": "Aperçu photo",
+      "subtitle": "Assurez-vous que votre visage est bien visible et éclairé",
+      "cropAgain": "Recadrer à nouveau",
+      "continue": "Continuer avec cette photo",
+      "guidelines": {
+        "title": "Vérification rapide",
+        "lighting": "Bon éclairage",
+        "centered": "Visage centré",
+        "clear": "Net et précis"
+      }
+    }
   },
   "quiz": {
     "intro": {
@@ -205,6 +247,7 @@
     }
   },
   "notification": {
+    "defaultTitle": "Nouvelle notification",
     "title": "Notification",
     "time": {
       "justNow": "Just now",
@@ -346,11 +389,18 @@
     }
   },
   "labTest": {
-    "title": "Lab test is ready",
+    "demoLabName": "Medicina Lab",
+    "demoLabDescription": "Laboratoire de diagnostic certifié, spécialisé dans les tests cliniques et dermatologiques.",
+    "title": "Le test est prêt",
     "subtitle": "Download the lab request and\nbring it to any facility",
     "downloadPdf": "Download PDF",
     "downloading": "Downloading...",
-    "warning": "Make sure to Present this prescription to\nthe Pharmacist as-is, without any edits.",
+    "warning": "Présentez cette ordonnance au pharmacien telle quelle, sans modification.",
+    "warningPrefix": "Assurez-vous de ",
+    "warningBoldPresent": "présenter",
+    "warningMiddle": " cette ordonnance au ",
+    "warningBoldPharmacist": "pharmacien",
+    "warningSuffix": " telle quelle, sans modification.",
     "download": {
       "dialogTitle": "Save Lab Test PDF",
       "completeTitle": "Download Complete",
@@ -383,7 +433,41 @@
       "insurance": "Insurance:",
       "totalPayment": "Total Payment:",
       "total": "Total:",
-      "continueButton": "Continue to Purchase"
+      "continueButton": "Continue to Purchase",
+      "couponSheetTitle": "Entrez le code promo",
+      "couponCodeLabel": "Code promo",
+      "couponPlaceholder": "ex. WELCOME10",
+      "couponApply": "Appliquer",
+      "couponSuccess": "Code appliqué",
+      "couponError": "Code invalide ou expiré",
+      "couponDiscount": "Réduction"
+    },
+    "orderSuccess": {
+      "title": "Commencez votre routine\nsoins de la peau",
+      "orderId": "Commande n° {{id}}",
+      "cardTitle": "Commande réussie",
+      "total": "Total",
+      "viewRoutine": "Voir la routine"
+    },
+    "tracking": {
+      "arrivesDay": "Arrive {{day}}",
+      "inTransit": "En transit",
+      "trackingNo": "N° de suivi",
+      "copiedToClipboard": "Numéro copié",
+      "delivered": "Livré",
+      "outForDelivery": "En livraison",
+      "shipped": "Expédié",
+      "viewTracking": "Voir le suivi",
+      "customer": "Client",
+      "orderBadge": "#{{id}}. {{date}}",
+      "loadError": "Impossible de charger les informations de suivi",
+      "retry": "Réessayer"
+    },
+    "orderError": {
+      "title": "Paiement non finalisé"
+    },
+    "orderSheet": {
+      "title": "Paiement effectué"
     },
     "delivery": {
       "title": "Delivery",
@@ -410,8 +494,11 @@
   },
   "order": {
     "history": {
-      "title": "Order History"
+      "title": "Historique des commandes",
+      "monthFormat": "{{month}} {{year}}"
     },
+    "estimatedTimeDemo": "Environ {{days}} jours",
+    "dateRange": "{{start}} - {{end}}",
     "status": {
       "active": "Active",
       "completed": "Completed"
@@ -426,11 +513,16 @@
     "reorder": "Reorder",
     "estimatedTime": "Estimated to last {{days}} days",
     "empty": {
-      "title": "No orders yet",
-      "subtitle": "Your order history will appear here"
+      "title": "Aucune commande",
+      "subtitle": "Votre historique apparaîtra ici"
+    },
+    "demo": {
+      "plan1": "Contrôle acné - Forfait 30 jours",
+      "plan2": "Hydratation - Forfait 30 jours"
     }
   },
   "product": {
+    "reorder": "Recommander",
     "details": {
       "title": "Product Details",
       "description": "Description",
@@ -465,6 +557,10 @@
       "redness": "Redness",
       "hydration": "Hydration",
       "viewAllMetrics": "View All Metrics"
+    },
+    "comparison": {
+      "before": "Avant",
+      "after": "Après"
     },
     "routineConsistency": {
       "title": "Routine Consistency",

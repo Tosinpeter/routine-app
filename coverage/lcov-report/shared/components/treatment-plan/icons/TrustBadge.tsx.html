@@ -1,0 +1,109 @@
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Code coverage report for shared/components/treatment-plan/icons/TrustBadge.tsx</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../../../prettify.css" />
+    <link rel="stylesheet" href="../../../../base.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="../../../../favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+    
+<body>
+<div class='wrapper'>
+    <div class='pad1'>
+        <h1><a href="../../../../index.html">All files</a> / <a href="index.html">shared/components/treatment-plan/icons</a> TrustBadge.tsx</h1>
+        <div class='clearfix'>
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">0% </span>
+                <span class="quiet">Statements</span>
+                <span class='fraction'>0/2</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">0% </span>
+                <span class="quiet">Branches</span>
+                <span class='fraction'>0/2</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">0% </span>
+                <span class="quiet">Functions</span>
+                <span class='fraction'>0/1</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">0% </span>
+                <span class="quiet">Lines</span>
+                <span class='fraction'>0/2</span>
+            </div>
+        
+            
+        </div>
+        <p class="quiet">
+            Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
+        </p>
+        <template id="filterTemplate">
+            <div class="quiet">
+                Filter:
+                <input type="search" id="fileSearch">
+            </div>
+        </template>
+    </div>
+    <div class='status-line low'></div>
+    <pre><table class="coverage">
+<tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
+<a name='L2'></a><a href='#L2'>2</a>
+<a name='L3'></a><a href='#L3'>3</a>
+<a name='L4'></a><a href='#L4'>4</a>
+<a name='L5'></a><a href='#L5'>5</a>
+<a name='L6'></a><a href='#L6'>6</a>
+<a name='L7'></a><a href='#L7'>7</a>
+<a name='L8'></a><a href='#L8'>8</a>
+<a name='L9'></a><a href='#L9'>9</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import React from 'react';
+import Svg, { Path } from 'react-native-svg';
+&nbsp;
+export const TrustBadge = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >({</span> width = <span class="branch-0 cbranch-no" title="branch not covered" >32,</span> height = <span class="branch-0 cbranch-no" title="branch not covered" >32 </span>}: { width?: number; height?: number }) =&gt; (</span>
+<span class="cstat-no" title="statement not covered" >    &lt;Svg width={width} height={height} viewBox="0 0 32 32" fill="none"&gt;</span>
+        &lt;Path d="M28.3258 7.18145C28.1852 7.14082 28.0477 7.1002 27.9102 7.05645C27.7789 7.01582 27.6477 6.96895 27.5196 6.92207C27.4539 6.89707 27.3914 6.86895 27.3289 6.84395C27.3196 6.84082 27.2977 6.84707 27.2821 6.81582V6.81895C27.2758 6.81582 27.2727 6.81582 27.2633 6.81582C27.2571 6.8127 27.2508 6.8127 27.2477 6.8127C27.2477 6.8127 27.2508 6.81582 27.2539 6.81582H27.2508C27.2446 6.81582 27.2383 6.80957 27.2321 6.80645C26.7227 6.58145 26.2352 6.30332 25.7821 5.98145C25.7321 5.94707 25.6852 5.91895 25.6383 5.88145C25.6383 5.88145 25.6321 5.87832 25.6227 5.87832V5.86895L25.6196 5.8627V5.85957C25.6196 5.85957 25.6196 5.85645 25.6164 5.85645C25.6133 5.85332 25.6102 5.8502 25.6039 5.84707C25.6008 5.84707 25.6008 5.84395 25.5977 5.84395C25.5946 5.84082 25.5883 5.8377 25.5852 5.83457C25.5883 5.8377 25.5914 5.8377 25.5946 5.84082C25.5852 5.83457 25.5758 5.82832 25.5727 5.8252C25.4602 5.7377 25.3508 5.64707 25.2446 5.55332C25.0383 5.36895 24.8383 5.17832 24.6508 4.9752C24.5602 4.8752 24.4696 4.7752 24.3852 4.67207C24.3414 4.61895 24.2977 4.56895 24.2571 4.51582C24.2414 4.49707 24.2196 4.45957 24.2039 4.44707C24.2071 4.4502 24.2071 4.45332 24.2102 4.45645L24.2008 4.44707H24.2039C24.2008 4.44082 24.1946 4.43457 24.1914 4.42832C24.0289 4.2127 23.8789 3.9877 23.7383 3.75645C23.5727 3.48457 23.4258 3.20332 23.2946 2.91582C23.2821 2.8877 23.2633 2.85957 23.2508 2.83145C23.2477 2.8252 23.2664 2.81895 23.2352 2.80957C23.2352 2.78145 23.2227 2.7627 23.2164 2.75332C23.2164 2.75645 23.2227 2.7627 23.2258 2.76895C23.2321 2.78457 23.2414 2.79707 23.2477 2.8127V2.80645C23.2414 2.74395 23.1852 2.65645 23.1633 2.6002C23.1071 2.45645 23.0571 2.31895 23.0102 2.1752C22.9133 1.90645 22.6758 1.71895 22.3946 1.71895H11.1789C10.6633 1.71895 10.1446 1.69082 9.62894 1.70957C9.62269 1.70957 9.61332 1.70645 9.60707 1.70645C9.32269 1.70645 9.08832 1.9002 9.00394 2.1627C8.96644 2.27832 8.92582 2.39395 8.88207 2.50957C8.85707 2.5752 8.83519 2.6377 8.80707 2.70332C8.79769 2.7252 8.79144 2.74395 8.78207 2.7627L8.78832 2.7502C8.78832 2.7502 8.78207 2.76895 8.76957 2.79395C8.7727 2.78457 8.77894 2.7752 8.78207 2.76582C8.77894 2.7752 8.77269 2.7877 8.76644 2.80332C8.65394 3.05957 8.52894 3.30957 8.39144 3.55332C8.25394 3.79395 8.10394 4.03145 7.94457 4.25645C7.90394 4.3127 7.86644 4.36582 7.82582 4.41895C7.81957 4.42832 7.81019 4.4377 7.80082 4.44707C7.79769 4.45332 7.79144 4.45957 7.78519 4.46895C7.78207 4.4752 7.77582 4.47832 7.77269 4.48457C7.68207 4.59395 7.59457 4.70645 7.49769 4.8127C7.31957 5.01582 7.13207 5.20645 6.93519 5.39082C6.83832 5.48145 6.73519 5.57207 6.63207 5.65645C6.57894 5.7002 6.52894 5.74395 6.47582 5.78457C6.46019 5.79707 6.4477 5.80645 6.43207 5.81895C6.43519 5.81582 6.43832 5.8127 6.44457 5.80957C6.43519 5.81582 6.42582 5.8252 6.41957 5.82832C6.42269 5.8252 6.42894 5.81895 6.43519 5.81582C6.41957 5.8252 6.40707 5.8377 6.39144 5.84707C5.95082 6.1752 5.47895 6.4627 4.98519 6.69707C4.91019 6.73145 4.83519 6.76582 4.75707 6.8002C4.74769 6.80332 4.73832 6.80957 4.72895 6.8127C4.73832 6.80957 4.75082 6.80332 4.7602 6.8002C4.71644 6.8252 4.69769 6.83145 4.69457 6.83457C4.69769 6.83145 4.71332 6.82207 4.73207 6.81582L4.65707 6.84395C4.50707 6.90332 4.35707 6.95957 4.20394 7.00957C4.02894 7.06582 3.85394 7.11895 3.67894 7.17207C3.41332 7.2502 3.22269 7.49707 3.22269 7.7752V11.5439C3.22269 12.2064 3.21957 12.8689 3.26957 13.5314C3.36644 14.8221 3.58832 16.1096 3.95082 17.3533C4.66957 19.8158 5.91019 22.1064 7.56332 24.0658C8.36644 25.0189 9.26957 25.8846 10.2571 26.6502C10.8633 27.1189 11.4946 27.5439 12.1414 27.9564L15.6008 30.1502C15.6289 30.1689 15.6602 30.1814 15.6883 30.2002C15.7696 30.2502 15.8633 30.2783 15.9571 30.2783C16.0789 30.3096 16.2039 30.2721 16.3164 30.2002H16.3196C16.3352 30.1908 16.3539 30.1814 16.3696 30.1689C17.4102 29.5096 18.4477 28.8533 19.4883 28.1908C19.9696 27.8877 20.4539 27.5877 20.9196 27.2658C21.9821 26.5221 22.9727 25.6752 23.8571 24.7283C25.6071 22.8502 26.9446 20.6189 27.7852 18.1939C28.4852 16.1783 28.7821 14.0658 28.7821 11.9377V7.78457C28.7821 7.50332 28.5883 7.25957 28.3258 7.18145ZM22.1477 12.0721L21.2446 12.9752L17.3227 16.8971L14.8446 19.3752C14.4852 19.7346 13.8758 19.7346 13.5196 19.3752L13.0633 18.9189L9.85394 15.7096C9.48207 15.3377 9.51019 14.7596 9.85394 14.3846C10.1977 14.0127 10.8321 14.0377 11.1789 14.3877C11.3321 14.5408 11.4852 14.6939 11.6352 14.8471C12.4852 15.6971 13.3321 16.5346 14.1821 17.3908L14.4196 17.1533C15.7258 15.8439 17.0352 14.5314 18.3414 13.2252L20.8196 10.7471C21.1914 10.3752 21.7727 10.4033 22.1446 10.7471C22.5227 11.0908 22.4946 11.7252 22.1477 12.0721Z" fill="#1FA165" /&gt;
+    &lt;/Svg&gt;
+);
+&nbsp;</pre></td></tr></table></pre>
+
+                <div class='push'></div><!-- for sticky footer -->
+            </div><!-- /wrapper -->
+            <div class='footer quiet pad2 space-top1 center small'>
+                Code coverage generated by
+                <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
+                at 2026-03-09T09:59:22.075Z
+            </div>
+        <script src="../../../../prettify.js"></script>
+        <script>
+            window.onload = function () {
+                prettyPrint();
+            };
+        </script>
+        <script src="../../../../sorter.js"></script>
+        <script src="../../../../block-navigation.js"></script>
+    </body>
+</html>
+    

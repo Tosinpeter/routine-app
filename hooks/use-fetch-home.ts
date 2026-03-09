@@ -1,12 +1,12 @@
-import { client } from "@/api/client";
-import { useAuth } from "@/contexts/AuthContext";
-import { useAppDispatch } from "@/store/hooks";
-import type { HomeData } from "@/store/slices/home-slice";
+import { useAuth } from "@/shared/store/hooks/use-auth";
+import { client } from "@/shared/api/client";
+import { useAppDispatch } from "@/shared/store/hooks";
+import type { HomeData } from "@/shared/store/slices/home-slice";
 import {
   setHomeData,
   setHomeError,
   setHomeLoading,
-} from "@/store/slices/home-slice";
+} from "@/shared/store/slices/home-slice";
 import { useCallback, useEffect } from "react";
 
 interface HomeApiResponse {
@@ -41,6 +41,7 @@ export const useFetchHome = () => {
       treatmentPlan: defaultTreatmentPlan,
       hasNotifications: false,
       lastUpdated: new Date().toISOString(),
+      reviewSteps: [],
     };
     dispatch(setHomeData(initialHomeData));
 

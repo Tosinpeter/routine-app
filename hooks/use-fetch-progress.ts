@@ -1,12 +1,12 @@
-import { client } from "@/api/client";
-import { useAuth } from "@/contexts/AuthContext";
-import { useAppDispatch } from "@/store/hooks";
-import type { ProgressData } from "@/store/slices/progress-slice";
+import { useAuth } from "@/shared/store/hooks/use-auth";
+import { client } from "@/shared/api/client";
+import { useAppDispatch } from "@/shared/store/hooks";
+import type { ProgressData } from "@/shared/store/slices/progress-slice";
 import {
   setProgressData,
   setProgressError,
   setProgressLoading,
-} from "@/store/slices/progress-slice";
+} from "@/shared/store/slices/progress-slice";
 import { useCallback, useEffect } from "react";
 
 interface ProgressApiResponse {

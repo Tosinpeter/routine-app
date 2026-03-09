@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { AppText as Text } from '@/components/app-text';
 import { scale } from '@/constants/scaling';
+import { AeonikFonts } from '@/constants/theme';
 import RoutineConsistencyIcon from '@/components/progress/RoutineConsistencyIcon';
 import { t } from "@/i18n";
 
@@ -47,7 +48,7 @@ const styles = StyleSheet.create({
         gap: scale(16),
     },
     title: {
-        fontFamily: 'Aeonik-Medium',
+        fontFamily: AeonikFonts.medium,
         fontSize: scale(20),
         lineHeight: scale(20), // 100%
         letterSpacing: -0.005,
@@ -68,14 +69,14 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     description: {
-        fontFamily: 'Aeonik-Regular',
+        fontFamily: AeonikFonts.regular,
         fontSize: scale(16),
         lineHeight: scale(16),
         color: '#20201E',
         opacity: 0.8,
     },
     highlight: {
-        fontFamily: 'Aeonik-Regular', // CSS doesn't explicitly bold this, but context implies it.
+        fontFamily: AeonikFonts.regular, // CSS doesn't explicitly bold this, but context implies it.
         // Wait, CSS says "Routine Value" has only regular font. 
         // "You followed your routine 85%..." 
         // Screenshot shows text is uniform?

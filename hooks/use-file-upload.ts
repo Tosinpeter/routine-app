@@ -1,9 +1,9 @@
+import { client } from "@/shared/api/client";
 import type {
   FileListResponse,
   UploadedFile,
   UploadResponse,
 } from "@/types/upload";
-import { client } from "@/api/client";
 import { useCallback, useState } from "react";
 
 export interface UploadFileOptions {
@@ -118,9 +118,12 @@ export const useFileUpload = (): UseFileUploadReturn => {
 
     try {
       const params = userId ? { userId } : {};
-      const { data: result } = await client.get<FileListResponse>("/api/upload", {
-        params,
-      });
+      const { data: result } = await client.get<FileListResponse>(
+        "/api/upload",
+        {
+          params,
+        },
+      );
 
       if (!result?.success) {
         throw new Error(result?.error || "Failed to fetch files");
@@ -145,7 +148,7 @@ export const useFileUpload = (): UseFileUploadReturn => {
     try {
       const { data: result } = await client.delete<UploadResponse>(
         "/api/upload",
-        { params: { fileId } }
+        { params: { fileId } },
       );
 
       if (!result?.success) {
@@ -172,7 +175,7 @@ export const useFileUpload = (): UseFileUploadReturn => {
       // Backend does not support PATCH for uploads; no-op for compatibility
       return true;
     },
-    []
+    [],
   );
 
   return {

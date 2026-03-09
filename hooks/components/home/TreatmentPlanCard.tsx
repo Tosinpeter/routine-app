@@ -3,7 +3,7 @@ import { StyleSheet, View } from "react-native";
 import Svg, { Circle } from "react-native-svg";
 import { Image } from "expo-image";
 import { AppText as Text } from "@/components/app-text";
-import { Colors } from "@/constants/theme";
+import { AeonikFonts, Colors } from "@/constants/theme";
 import { scale, verticalScale } from "@/constants/scaling";
 import { t } from "@/i18n";
 
@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     progressValue: {
-        fontFamily: 'Aeonik-Bold',
+        fontFamily: AeonikFonts.bold,
         fontSize: scale(20),
         color: Colors.light.mainDarkColor,
     },
@@ -134,13 +134,13 @@ const styles = StyleSheet.create({
         gap: scale(8),
     },
     subtitle: {
-        fontFamily: 'Aeonik-Regular',
+        fontFamily: AeonikFonts.regular,
         fontSize: scale(14),
         color: Colors.light.mainDarkColor,
         opacity: 0.7,
     },
     title: {
-        fontFamily: 'Aeonik-Bold',
+        fontFamily: AeonikFonts.bold,
         fontSize: scale(20),
         color: Colors.light.mainDarkColor,
         letterSpacing: -0.5,
@@ -153,7 +153,7 @@ const styles = StyleSheet.create({
         alignSelf: "flex-start",
     },
     statusText: {
-        fontFamily: 'Aeonik-Medium',
+        fontFamily: AeonikFonts.medium,
         fontSize: scale(14),
         color: Colors.light.tint,
     },

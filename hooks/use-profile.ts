@@ -1,14 +1,14 @@
-import { client } from "@/api/client";
-import { useAuth } from "@/contexts/AuthContext";
-import type { RootState } from "@/store";
-import type { ProfileData } from "@/store/slices/profile-slice";
+import { client } from "@/shared/api/client";
+import { useAuth } from "@/shared/store/hooks/use-auth";
+import type { RootState } from "@/shared/store";
+import type { ProfileData } from "@/shared/store/slices/profile-slice";
 import {
   setProfileData,
   setProfileError,
   setProfileLoading,
   setProfileUpdating,
   updateProfileField,
-} from "@/store/slices/profile-slice";
+} from "@/shared/store/slices/profile-slice";
 import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -54,10 +54,16 @@ function mapBackendProfile(raw: Record<string, unknown>): ProfileData {
     skinSensitivity: Boolean(raw.skinSensitivity ?? raw.skin_sensitivity),
     skinConcerns: (raw.skinConcerns ?? raw.skin_concerns ?? []) as string[],
     skinConditions: String(raw.skinConditions ?? raw.skin_conditions ?? ""),
-    healthConditions: String(raw.healthConditions ?? raw.health_conditions ?? ""),
+    healthConditions: String(
+      raw.healthConditions ?? raw.health_conditions ?? "",
+    ),
     focusFaceArea: (raw.focusFaceArea ?? raw.focus_face_area ?? []) as string[],
-    faceScanImageUrl: raw.faceScanImageUrl as string | undefined ?? raw.face_scan_image_url as string | undefined,
-    lastUpdated: String(raw.lastUpdated ?? raw.last_updated ?? new Date().toISOString()),
+    faceScanImageUrl:
+      (raw.faceScanImageUrl as string | undefined) ??
+      (raw.face_scan_image_url as string | undefined),
+    lastUpdated: String(
+      raw.lastUpdated ?? raw.last_updated ?? new Date().toISOString(),
+    ),
   };
 }
 
@@ -91,7 +97,13 @@ export const useProfile = (): UseProfileReturn => {
         }
 
         if (result.data) {
-          dispatch(setProfileData(mapBackendProfile(result.data as Record<string, unknown>)));
+          dispatch(
+            setProfileData(
+              mapBackendProfile(
+                result.data as unknown as Record<string, unknown>,
+              ),
+            ),
+          );
         }
       } catch (err) {
         const errorMessage =
@@ -125,7 +137,13 @@ export const useProfile = (): UseProfileReturn => {
         }
 
         if (result.data) {
-          dispatch(setProfileData(mapBackendProfile(result.data as Record<string, unknown>)));
+          dispatch(
+            setProfileData(
+              mapBackendProfile(
+                result.data as unknown as Record<string, unknown>,
+              ),
+            ),
+          );
         } else {
           dispatch(updateProfileField(updates));
         }

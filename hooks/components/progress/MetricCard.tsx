@@ -4,6 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 import { AppText as Text } from '@/components/app-text';
 import { scale } from '@/constants/scaling';
+import { AeonikFonts, Colors } from '@/constants/theme';
 
 interface Trend {
     value: string;
@@ -49,7 +50,7 @@ export function MetricCard({ title, value, unit, icon, trend }: MetricCardProps)
                             <Ionicons
                                 name={trend.direction === 'up' ? 'arrow-up' : 'arrow-down'}
                                 size={scale(10)}
-                                color={trend.direction === 'up' ? '#077C46' : '#F04438'}
+                                color={trend.direction === 'up' ? Colors.light.successGreen : Colors.light.error}
                             />
                             <Text style={[
                                 styles.trendText,
@@ -89,7 +90,7 @@ const styles = StyleSheet.create({
         gap: scale(4),
     },
     title: {
-        fontFamily: 'Aeonik-Regular',
+        fontFamily: AeonikFonts.regular,
         fontSize: scale(16),
         // lineHeight: scale(16),
         color: '#20201E',
@@ -106,14 +107,14 @@ const styles = StyleSheet.create({
         alignItems: 'baseline',
     },
     value: {
-        fontFamily: 'Aeonik-Medium',
+        fontFamily: AeonikFonts.medium,
         fontSize: scale(24),
         lineHeight: scale(24),
         color: '#20201E',
         textAlign: 'center',
     },
     unit: {
-        fontFamily: 'Aeonik-Regular',
+        fontFamily: AeonikFonts.regular,
         fontSize: scale(14),
         color: '#20201E',
         opacity: 0.7,
@@ -128,7 +129,7 @@ const styles = StyleSheet.create({
         height: scale(24),
     },
     trendText: {
-        fontFamily: 'Aeonik-Regular',
+        fontFamily: AeonikFonts.regular,
         fontSize: scale(14),
         lineHeight: scale(14),
     }

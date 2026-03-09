@@ -17,7 +17,7 @@ import {
 import { AeonikFonts, BorderRadius, Colors, Fonts, HitSlop, Shadows } from "@/constants/theme";
 import { AppTextStyle } from "@/constants/typography";
 import { t } from "@/i18n";
-import { RoutineStep } from "@/store/slices/home-slice";
+import { RoutineStep } from "@/shared/store/slices/home-slice";
 
 export interface RoutineStepCardProps {
   step: RoutineStep;

@@ -1,0 +1,139 @@
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Code coverage report for shared/components/icons/terms-icon.tsx</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../../prettify.css" />
+    <link rel="stylesheet" href="../../../base.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="../../../favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+    
+<body>
+<div class='wrapper'>
+    <div class='pad1'>
+        <h1><a href="../../../index.html">All files</a> / <a href="index.html">shared/components/icons</a> terms-icon.tsx</h1>
+        <div class='clearfix'>
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">0% </span>
+                <span class="quiet">Statements</span>
+                <span class='fraction'>0/1</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">0% </span>
+                <span class="quiet">Branches</span>
+                <span class='fraction'>0/2</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">0% </span>
+                <span class="quiet">Functions</span>
+                <span class='fraction'>0/1</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">0% </span>
+                <span class="quiet">Lines</span>
+                <span class='fraction'>0/1</span>
+            </div>
+        
+            
+        </div>
+        <p class="quiet">
+            Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
+        </p>
+        <template id="filterTemplate">
+            <div class="quiet">
+                Filter:
+                <input type="search" id="fileSearch">
+            </div>
+        </template>
+    </div>
+    <div class='status-line low'></div>
+    <pre><table class="coverage">
+<tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
+<a name='L2'></a><a href='#L2'>2</a>
+<a name='L3'></a><a href='#L3'>3</a>
+<a name='L4'></a><a href='#L4'>4</a>
+<a name='L5'></a><a href='#L5'>5</a>
+<a name='L6'></a><a href='#L6'>6</a>
+<a name='L7'></a><a href='#L7'>7</a>
+<a name='L8'></a><a href='#L8'>8</a>
+<a name='L9'></a><a href='#L9'>9</a>
+<a name='L10'></a><a href='#L10'>10</a>
+<a name='L11'></a><a href='#L11'>11</a>
+<a name='L12'></a><a href='#L12'>12</a>
+<a name='L13'></a><a href='#L13'>13</a>
+<a name='L14'></a><a href='#L14'>14</a>
+<a name='L15'></a><a href='#L15'>15</a>
+<a name='L16'></a><a href='#L16'>16</a>
+<a name='L17'></a><a href='#L17'>17</a>
+<a name='L18'></a><a href='#L18'>18</a>
+<a name='L19'></a><a href='#L19'>19</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import React from 'react';
+import Svg, { Path } from 'react-native-svg';
+&nbsp;
+interface TermsIconProps {
+  size?: number;
+  color?: string;
+}
+&nbsp;
+export function <span class="fstat-no" title="function not covered" >TermsIcon(</span>{ size = <span class="branch-0 cbranch-no" title="branch not covered" >24,</span> color = <span class="branch-0 cbranch-no" title="branch not covered" >'#20201E' </span>}: TermsIconProps) {
+<span class="cstat-no" title="statement not covered" >  return (</span>
+    &lt;Svg width={size} height={size} viewBox="0 0 24 24" fill="none"&gt;
+      &lt;Path
+        d="M5.25 7C5.25 6.586 5.586 6.25 6 6.25H13C13.414 6.25 13.75 6.586 13.75 7C13.75 7.414 13.414 7.75 13 7.75H6C5.586 7.75 5.25 7.414 5.25 7ZM9 12.25H6C5.586 12.25 5.25 12.586 5.25 13C5.25 13.414 5.586 13.75 6 13.75H9C9.414 13.75 9.75 13.414 9.75 13C9.75 12.586 9.414 12.25 9 12.25ZM6 10.75H13C13.414 10.75 13.75 10.414 13.75 10C13.75 9.586 13.414 9.25 13 9.25H6C5.586 9.25 5.25 9.586 5.25 10C5.25 10.414 5.586 10.75 6 10.75ZM17 13.875C16.586 13.875 16.25 14.211 16.25 14.625V16.625C16.25 17.039 16.586 17.375 17 17.375C17.414 17.375 17.75 17.039 17.75 16.625V14.625C17.75 14.211 17.414 13.875 17 13.875ZM22.25 16.5C22.25 19.395 19.895 21.75 17 21.75C15.857 21.75 14.806 21.373 13.943 20.75H5C3.483 20.75 2.25 19.517 2.25 18V5C2.25 3.483 3.483 2.25 5 2.25H14C15.517 2.25 16.75 3.483 16.75 5V11.275C16.835 11.271 16.914 11.25 17 11.25C19.895 11.25 22.25 13.605 22.25 16.5ZM5 19.25H12.548C12.051 18.448 11.75 17.511 11.75 16.5C11.75 14.222 13.218 12.297 15.25 11.573V5C15.25 4.311 14.689 3.75 14 3.75H5C4.311 3.75 3.75 4.311 3.75 5V18C3.75 18.689 4.311 19.25 5 19.25ZM20.75 16.5C20.75 14.433 19.067 12.75 17 12.75C14.933 12.75 13.25 14.433 13.25 16.5C13.25 18.567 14.933 20.25 17 20.25C19.067 20.25 20.75 18.567 20.75 16.5ZM17 17.875C16.586 17.875 16.25 18.211 16.25 18.625C16.25 19.039 16.586 19.375 17 19.375C17.414 19.375 17.75 19.039 17.75 18.625C17.75 18.211 17.414 17.875 17 17.875Z"
+        fill={color}
+      /&gt;
+    &lt;/Svg&gt;
+  );
+}
+&nbsp;</pre></td></tr></table></pre>
+
+                <div class='push'></div><!-- for sticky footer -->
+            </div><!-- /wrapper -->
+            <div class='footer quiet pad2 space-top1 center small'>
+                Code coverage generated by
+                <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
+                at 2026-03-09T09:59:22.075Z
+            </div>
+        <script src="../../../prettify.js"></script>
+        <script>
+            window.onload = function () {
+                prettyPrint();
+            };
+        </script>
+        <script src="../../../sorter.js"></script>
+        <script src="../../../block-navigation.js"></script>
+    </body>
+</html>
+    

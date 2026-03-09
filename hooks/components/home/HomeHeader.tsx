@@ -4,9 +4,9 @@ import { StyleSheet, TouchableOpacity, View } from "react-native";
 
 import { AppText as Text } from "@/components/app-text";
 import { NotificationIcon } from "@/components/icons/notification-icon";
-import { Colors, Fonts } from "@/constants/theme";
 import { scale, touchTarget } from "@/constants/scaling";
-import { useAppSelector } from "@/store/hooks";
+import { Colors, Fonts } from "@/constants/theme";
+import { useAppSelector } from "@/shared/store/hooks";
 
 export function HomeHeader() {
     const { userName } = useAppSelector((state) => state.home);
@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
         height: "100%",
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: "rgba(255, 255, 255, 0.7)", // CSS: rgba(255, 255, 255, 0.7)
+        backgroundColor: Colors.light.whiteAlpha70,
     },
     notificationDot: {
         position: "absolute",
@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
         borderRadius: scale(4),
         backgroundColor: Colors.light.grey700, // or Red if active
         borderWidth: 1.5,
-        borderColor: "#fff", // To look like cutout
+        borderColor: Colors.light.white,
         display: "none", // Hidden in screenshot, enable if needed
     },
 });

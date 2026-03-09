@@ -75,12 +75,16 @@
       "unlocksIn": "يُفتح بعد {{days}} يوم"
     },
     "progressSteps": {
-      "pending": "قيد الانتظار"
+      "pending": "قيد الانتظار",
+      "faceScan": "فحص الوجه",
+      "clinicTest": "فحص العيادة",
+      "doctorReview": "مراجعة الطبيب"
     },
     "treatmentPlan": {
       "defaultTitle": "روتين بشرتك",
       "defaultSubtitle": "خطة العلاج",
-      "completed": "مكتمل"
+      "completed": "مكتمل",
+      "statusText": "{{current}}/{{total}} مكتمل"
     },
     "skinRoutine": {
       "treatmentPlan": "خطة العلاج",
@@ -134,7 +138,9 @@
       "title": "أدخل الرمز المكون من 6 أرقام",
       "subtitle": "أرسلنا رمزًا إلى {{phoneNumber}}",
       "resendCodeIn": "إعادة إرسال الرمز خلال {{time}}",
-      "resendCode": "إعادة إرسال الرمز"
+      "resendCode": "إعادة إرسال الرمز",
+      "errorMissingPhone": "رقم الهاتف مفقود. يرجى الرجوع وإدخاله.",
+      "errorVerificationFailed": "رمز غير صالح أو منتهي الصلاحية. يرجى المحاولة مرة أخرى."
     },
     "skipAnalysis": "لم أقم بتحليل بشرتي بعد",
     "errorCodes": {
@@ -180,16 +186,39 @@
     "tips": {
       "tip1": "أزل المكياج الكثيف أو الكمامة",
       "tip2": "تأكد من وجود إضاءة جيدة",
+      "tip2RemoveGlass": "أزل النظارات",
       "tip3": "ضع وجهك داخل الإطار",
       "tip4": "حافظ على تعبير وجه محايد"
     },
     "tipBadge": "نصيحة {{number}}/4",
     "takePhoto": "التقط صورة",
     "uploadFromDevice": "ارفع من الجهاز",
+    "analyzing": {
+      "title": "لحظة واحدة...",
+      "subtitle": "جاري تحليل أنماط التصبغ..."
+    },
+    "views": {
+      "front": "منظر أمامي",
+      "left": "منظر يسار",
+      "right": "منظر يمين"
+    },
+    "helpPhoto": "كيف تلتقط صورة رائعة",
+    "allSetContinue": "كل شيء جاهز! راجع ومتابعة.",
+    "scanResult": {
+      "skinConcern": "مشكلة البشرة",
+      "suggestion1": "بناءً على إجاباتك، الهالات السوداء خفيفة.",
+      "suggestion2": "حاول النوم 7-8 ساعات لتقليل الانتفاخ.",
+      "suggestion3": "استخدم كريم عيون لطيف بالكافيين أو فيتامين ج.",
+      "suggestion4": "حافظ على رطوبة الجسم وقلل الملح قبل النوم.",
+      "suggestion5": "فكر في الكمادات الباردة صباحًا."
+    },
     "preview": {
       "title": "معاينة الصورة",
       "subtitle": "تأكد من أن وجهك واضح ومُضاء جيدًا",
+      "wellDone": "أحسنت",
       "retake": "إعادة التقاط",
+      "retakePhoto": "إعادة التقاط الصورة",
+      "send": "إرسال",
       "cropAgain": "اقتصاص مرة أخرى",
       "continue": "متابعة بهذه الصورة",
       "guidelines": {
@@ -229,6 +258,7 @@
     }
   },
   "notification": {
+    "defaultTitle": "إشعار جديد",
     "title": "الإشعارات",
     "time": {
       "justNow": "الآن",
@@ -370,11 +400,18 @@
     }
   },
   "labTest": {
+    "demoLabName": "مختبر ميديسينا",
+    "demoLabDescription": "مختبر تشخيص معتمد متخصص في الفحوصات السريرية والمتعلقة بالأمراض الجلدية.",
     "title": "الفحص المخبري جاهز",
     "subtitle": "قم بتحميل طلب الفحص المخبري\nوأحضره إلى أي مختبر",
     "downloadPdf": "تحميل PDF",
     "downloading": "جارٍ التحميل...",
     "warning": "تأكد من تقديم هذه الوصفة للصيدلي\nكما هي، بدون أي تعديلات.",
+    "warningPrefix": "تأكد من ",
+    "warningBoldPresent": "تقديم",
+    "warningMiddle": " هذه الوصفة إلى ",
+    "warningBoldPharmacist": "الصيدلي",
+    "warningSuffix": " كما هي، بدون أي تعديلات.",
     "download": {
       "dialogTitle": "حفظ ملف PDF للفحص المخبري",
       "completeTitle": "اكتمل التحميل",
@@ -407,7 +444,41 @@
       "insurance": "التأمين:",
       "totalPayment": "إجمالي الدفع:",
       "total": "المجموع:",
-      "continueButton": "متابعة الشراء"
+      "continueButton": "متابعة الشراء",
+      "couponSheetTitle": "أدخل رمز القسيمة",
+      "couponCodeLabel": "رمز القسيمة",
+      "couponPlaceholder": "مثال: WELCOME10",
+      "couponApply": "تطبيق",
+      "couponSuccess": "تم تطبيق القسيمة",
+      "couponError": "قسيمة غير صالحة أو منتهية",
+      "couponDiscount": "الخصم"
+    },
+    "orderSuccess": {
+      "title": "ابدأ روتين العناية بالبشرة",
+      "orderId": "رقم الطلب #{{id}}",
+      "cardTitle": "تم الطلب بنجاح",
+      "total": "المجموع",
+      "viewRoutine": "عرض الروتين"
+    },
+    "tracking": {
+      "arrivesDay": "يصل {{day}}",
+      "inTransit": "قيد الشحن",
+      "trackingNo": "رقم التتبع",
+      "copiedToClipboard": "تم نسخ رقم التتبع",
+      "delivered": "تم التسليم",
+      "outForDelivery": "خارج للتوصيل",
+      "shipped": "تم الشحن",
+      "viewTracking": "عرض التتبع",
+      "customer": "العميل",
+      "orderBadge": "#{{id}}. {{date}}",
+      "loadError": "تعذر تحميل معلومات التتبع",
+      "retry": "إعادة المحاولة"
+    },
+    "orderError": {
+      "title": "الدفع لم يكتمل"
+    },
+    "orderSheet": {
+      "title": "تم الدفع"
     },
     "delivery": {
       "title": "التوصيل",
@@ -434,8 +505,11 @@
   },
   "order": {
     "history": {
-      "title": "سجل الطلبات"
+      "title": "سجل الطلبات",
+      "monthFormat": "{{month}} {{year}}"
     },
+    "estimatedTimeDemo": "يكفي لمدة {{days}} يوم تقريبًا",
+    "dateRange": "{{start}} - {{end}}",
     "status": {
       "active": "نشط",
       "completed": "مكتمل"
@@ -452,9 +526,14 @@
     "empty": {
       "title": "لا توجد طلبات بعد",
       "subtitle": "سيظهر سجل طلباتك هنا"
+    },
+    "demo": {
+      "plan1": "مكافحة حب الشباب - خطة 30 يوم",
+      "plan2": "تعزيز الترطيب - خطة 30 يوم"
     }
   },
   "product": {
+    "reorder": "إعادة الطلب",
     "details": {
       "title": "تفاصيل المنتج",
       "description": "الوصف",
@@ -489,6 +568,10 @@
       "redness": "الاحمرار",
       "hydration": "الترطيب",
       "viewAllMetrics": "عرض جميع المقاييس"
+    },
+    "comparison": {
+      "before": "قبل",
+      "after": "بعد"
     },
     "routineConsistency": {
       "title": "انتظام الروتين",
