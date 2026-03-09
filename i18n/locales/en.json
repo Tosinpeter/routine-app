@@ -1,9 +1,51 @@
 {
+  "api": {
+    "error": {
+      "network": "No connection. Please try again later.",
+      "timeout": "Request timed out. Please try again later.",
+      "server": "Server error. Please try again later.",
+      "badRequest": "Something went wrong. Please try again later.",
+      "generic": "Something went wrong. Please try again later."
+    }
+  },
+  "common": {
+    "continue": "Continue",
+    "cancel": "Cancel",
+    "ok": "OK",
+    "tryAgain": "Try again",
+    "retry": "Retry",
+    "save": "Save",
+    "apply": "Apply",
+    "confirm": "Confirm",
+    "change": "Change",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "yes": "Yes",
+    "no": "No",
+    "notSet": "Not set",
+    "openSettings": "Open Settings",
+    "skip": "Skip",
+    "next": "Next",
+    "getStarted": "Get Started",
+    "brandName": "Gloord",
+    "view": "View"
+  },
+  "tabs": {
+    "home": "Home",
+    "routine": "Routine",
+    "skincare": "Skincare",
+    "progress": "Progress",
+    "profile": "Profile"
+  },
   "home": {
     "greetings": {
       "morning": "Morning",
       "afternoon": "Afternoon",
-      "evening": "Evening"
+      "evening": "Evening",
+      "goodMorning": "Good Morning",
+      "goodAfternoon": "Good Afternoon",
+      "goodEvening": "Good Evening"
     },
     "daySelector": {
       "day": "Day"
@@ -11,6 +53,67 @@
     "timeToggle": {
       "morning": "Morning",
       "evening": "Evening"
+    },
+    "error": {
+      "failedToLoad": "Failed to load home data"
+    },
+    "progress": {
+      "title": "Your Progress"
+    },
+    "dermatologyInsight": {
+      "title": "Dermatology\nInsight",
+      "subtitle": "Consistency for 28-30 days brings visible results."
+    },
+    "productReminder": {
+      "title": "Product Reminder",
+      "view": "View",
+      "daysLeft": "Days left",
+      "underReview": "Under Review"
+    },
+    "progressPreview": {
+      "subtitle": "Before & After comparison",
+      "unlocksIn": "Unlocks in {{days}}days"
+    },
+    "progressSteps": {
+      "pending": "Pending",
+      "faceScan": "Face Scan",
+      "clinicTest": "Clinic Test",
+      "doctorReview": "Doctor Review"
+    },
+    "treatmentPlan": {
+      "defaultTitle": "Your Skin Routine",
+      "defaultSubtitle": "Treatment Plan",
+      "completed": "Completed",
+      "statusText": "{{current}}/{{total}} Completed"
+    },
+    "skinRoutine": {
+      "treatmentPlan": "Treatment Plan",
+      "yourSkinRoutine": "Your Skin Routine",
+      "completed": "Completed"
+    },
+    "uploadPrescription": {
+      "title": "Upload Your Prescription",
+      "description": "Upload lab tests, medical reports, or ID/Insurance if needed. Files must be clear and readable.",
+      "selectFile": "Select File"
+    },
+    "dermatologistSupport": {
+      "badgeFree": "Free",
+      "title": "Dermatologist Support",
+      "description": "Our top dermatologist adjust your plan when needed for free",
+      "badge247": "24/7",
+      "titleExpert": "Expert Consultation",
+      "descriptionExpert": "Get professional skincare advice anytime, anywhere from certified experts",
+      "badgePremium": "Premium",
+      "titlePersonalized": "Personalized Care",
+      "descriptionPersonalized": "Customized treatment plans tailored to your unique skin needs"
+    },
+    "contactSupport": {
+      "title": "Contact Support"
+    },
+    "labReport": {
+      "title": "Show Lab test Report",
+      "accessibilityLabel": "Show Lab test Report",
+      "accessibilityHint": "Navigates to the lab test report details"
     }
   },
   "routineStep": {
@@ -19,6 +122,557 @@
     "view": "View",
     "uploadLabTest": "Upload Lab Test",
     "clickHere": "Click Here"
+  },
+  "routine": {
+    "error": {
+      "generic": "An error occurred"
+    }
+  },
+  "auth": {
+    "phone": {
+      "title": "Enter your phone number",
+      "subtitle": "We'll check if you've already done a skin analysis and link your results.",
+      "placeholder": "(316) 555-0116",
+      "errorRequest": "Could not send code. Please try again."
+    },
+    "otp": {
+      "title": "Enter the 6-digit code",
+      "subtitle": "We sent a code to {{phoneNumber}}",
+      "resendCodeIn": "Resend code in {{time}}",
+      "resendCode": "Resend code",
+      "errorMissingPhone": "Phone number is missing. Please go back and enter it.",
+      "errorVerificationFailed": "Invalid or expired code. Please try again."
+    },
+    "errorCodes": {
+      "phone_required": "Phone number is required.",
+      "phone_and_code_required": "Phone number and code are required.",
+      "invalid_or_expired_code": "Invalid or expired code. Please try again.",
+      "invalid_request_body": "Invalid request. Please try again.",
+      "network": "No connection. Please try again later.",
+      "timeout": "Request timed out. Please try again later.",
+      "server": "Server error. Please try again later.",
+      "badRequest": "Something went wrong. Please try again later.",
+      "generic": "Something went wrong. Please try again later."
+    },
+    "skipAnalysis": "I haven't done my skin analysis yet"
+  },
+  "onboarding": {
+    "skip": "Skip",
+    "next": "Next",
+    "getStarted": "Get Started",
+    "slides": {
+      "slide1": {
+        "title": "How it works",
+        "subtitle": "You see the surface\nwe understand your skin",
+        "description": "We discover what's really happening with your skin and how to treat it. This is where your care begins."
+      },
+      "slide2": {
+        "title": "How it works",
+        "subtitle": "You see the surface\nwe understand your skin",
+        "description": "We discover what's really happening with your skin and how to treat it. This is where your care begins."
+      },
+      "slide3": {
+        "title": "Not just a skincare routine.",
+        "subtitle": "Get professional advice",
+        "description": "A treatment plan tailored to your skin's needs. Backed by analysis. Built by experts."
+      }
+    }
+  },
+  "startAnalysis": {
+    "title": "Analyze your\nskin now.",
+    "button": "Start Analysis",
+    "brand": "Powered by Gloord"
+  },
+  "photoPrep": {
+    "tips": {
+      "tip1": "Remove extensive make-up or mask",
+      "tip2": "Ensure good lighting conditions",
+      "tip2RemoveGlass": "Remove Glass",
+      "tip3": "Position your face in the frame",
+      "tip4": "Keep a neutral facial expression"
+    },
+    "tipBadge": "Tip {{number}}/4",
+    "takePhoto": "Take a photo",
+    "uploadFromDevice": "Upload from device",
+    "analyzing": {
+      "title": "Just a sec...",
+      "subtitle": "Analyzing pigmentation patterns..."
+    },
+    "views": {
+      "front": "Front view",
+      "left": "Left view",
+      "right": "Right view"
+    },
+    "helpPhoto": "How to take a great photo",
+    "allSetContinue": "All set! Review and continue.",
+    "scanResult": {
+      "skinConcern": "Skin Concern",
+      "suggestion1": "Based on your answers, your\ndark circles are mild.",
+      "suggestion2": "Try getting 7–8 hours of sleep\nto help reduce puffiness.",
+      "suggestion3": "Use a gentle eye cream with\ncaffeine or vitamin C.",
+      "suggestion4": "Stay hydrated and limit\nsalt before bed.",
+      "suggestion5": "Consider cold compresses\nin the morning."
+    },
+    "preview": {
+      "wellDone": "Well done",
+      "retake": "Retake",
+      "retakePhoto": "Retake Photo",
+      "send": "Send",
+      "title": "Photo Preview",
+      "subtitle": "Make sure your face is clearly visible and well-lit",
+      "cropAgain": "Crop Again",
+      "continue": "Continue with this Photo",
+      "guidelines": {
+        "title": "Quick Check",
+        "lighting": "Good lighting",
+        "centered": "Face centered",
+        "clear": "Clear & sharp"
+      }
+    }
+  },
+  "quiz": {
+    "intro": {
+      "title": "You're one step away\nfrom your full routine!",
+      "subtitle": "We've analyzed your skin at the clinic, but need a few more answers to complete your plan.",
+      "startButton": "Start The Quiz"
+    },
+    "questions": {
+      "q1": {
+        "question": "Select the correct image",
+        "option1": "Smooth & Even",
+        "option2": "Oily in T-zone",
+        "option3": "Redness",
+        "option4": "Breakouts"
+      },
+      "q2": {
+        "question": "Before we send your\nskincare items, please\nanswer:",
+        "option1": "I have no known medical issues.",
+        "option2": "I have kidney-related issues.",
+        "option3": "I am pregnant or breastfeeding.",
+        "option4": "I have allergies to certain ingredients."
+      }
+    },
+    "complete": {
+      "title": "That's it — we've got what we need.",
+      "subtitle": "Now let's build your routine — step by step.",
+      "generateButton": "Generate Product"
+    }
+  },
+  "notification": {
+    "defaultTitle": "New notification",
+    "title": "Notification",
+    "time": {
+      "justNow": "Just now",
+      "minuteAgo": "1 minute ago",
+      "minutesAgo": "{{count}} minutes ago",
+      "hourAgo": "1 hour ago",
+      "hoursAgo": "{{count}} hours ago",
+      "today": "Today",
+      "am": "am",
+      "pm": "pm"
+    },
+    "groups": {
+      "today": "Today",
+      "yesterday": "Yesterday",
+      "thisWeek": "This Week"
+    },
+    "error": {
+      "failedToLoad": "Failed to load notifications",
+      "description": "We're having trouble loading your notifications. Please try again."
+    },
+    "empty": {
+      "title": "Nothing here!!",
+      "subtitle": "We'll let you know when we've got\nsomething new for you."
+    }
+  },
+  "notificationSheet": {
+    "title": "Unlock your Daily Routine",
+    "subtitle": "Enable notifications to receive  your morning & evening skincare reminders. Without them, your routine won't stay consistent.",
+    "enableButton": "Enable Notification",
+    "requesting": "Requesting...",
+    "maybeLater": "Maybe later",
+    "error": {
+      "permissionDenied": "Permission denied. Please enable notifications in your device settings.",
+      "unableToGet": "Unable to get notification permission. Please try again.",
+      "generic": "An error occurred. Please try again."
+    },
+    "alert": {
+      "disabledTitle": "Notifications Disabled",
+      "disabledMessage": "To receive skincare reminders, please enable notifications in your device settings."
+    }
+  },
+  "cookiePolicy": {
+    "title": "We value your privacy",
+    "description": "To personalize what you see from us, we collect info on how you use our app. This also helps us (and the third parties we work with) improve your experience.",
+    "readPolicy": "Read our Cookie Policy.",
+    "additionalInfo": "Accept all cookies by choosing \"Accept all\" or only allow essential cookies by",
+    "acceptAll": "Accept all"
+  },
+  "faceScan": {
+    "title": "History",
+    "metrics": {
+      "spot": "Spot",
+      "oiliness": "Oiliness",
+      "droopyUpperEyelid": "Droopy Upper eyelid",
+      "droopyLowerEyelid": "Droopy Lower Eyelid",
+      "firmness": "Firmness",
+      "darkCircles": "Dark Circles"
+    }
+  },
+  "treatmentPlan": {
+    "title": "Your Treatment Plan",
+    "subtitle": "Build by top dermatology experts",
+    "caption": "Similar cases from our\nprevious patient",
+    "comparison": {
+      "withoutProduct": "without product",
+      "withProduct": "With Product"
+    },
+    "tryAgain": "Try again",
+    "trust": {
+      "trustText": "we are using 100% certified famous and best brand that will perfectly fit your skin",
+      "ratingValue": "4.9/5",
+      "userCount": "by 12,000+ users",
+      "ratingDescription": "Visible improvements in just weeks."
+    },
+    "supportBanner": {
+      "badge": "Free",
+      "title": "Dermatologist Support",
+      "description": "Our top dermatologist adjust your plan when needed for free"
+    },
+    "protocol": {
+      "sectionTitle": "Your Complete Protocol",
+      "primaryTitle": "Primary Treatment Formula",
+      "primarySubtitle": "Targeted active ingredients designed to treat your core skin concerns.",
+      "primaryItem1": "Reduces acne-causing bacteria",
+      "primaryItem2": "Unclogs pores",
+      "primaryItem3": "Improves texture & tone",
+      "supplementTitle": "Supplement Support",
+      "supplementSubtitle": "Helps your skin heal and strengthen from within.",
+      "supplementItem1": "Balances inflammation",
+      "supplementItem2": "Boosts recovery",
+      "supplementItem3": "Supports long-term results",
+      "deviceTitle": "Home Device",
+      "deviceSubtitle": "Enhances absorption and maximizes treatment effectiveness.",
+      "deviceItem1": "Improves product penetration",
+      "deviceItem2": "Smooths texture",
+      "deviceItem3": "Speeds up visible results"
+    },
+    "preparation": {
+      "title": "We are Preparing\nYour Product"
+    },
+    "whatsInside": {
+      "sectionTitle": "What's Inside:",
+      "activeFormulaTitle": "Active Formula",
+      "activeFormulaSubtitle": "A personalized blend of active ingredients designed to target your specific skin concerns.",
+      "activeFormulaBullet1": "Custom-strength prescription actives",
+      "activeFormulaBullet2": "Targets acne, pigmentation, and texture",
+      "activeFormulaBullet3": "Formulated based on your AI scan & dermatologist review",
+      "activeFormulaBullet4": "Clinically proven ingredients",
+      "supplementTitle": "Supplement",
+      "supplementSubtitle": "Daily nutritional support for skin health.",
+      "supplementBullet1": "Boosts skin immunity",
+      "supplementBullet2": "Reduces inflammation",
+      "supplementBullet3": "Supports overall wellness",
+      "homeDeviceTitle": "Home Device",
+      "homeDeviceSubtitle": "Professional grade tools for home use.",
+      "homeDeviceBullet1": "Increases product absorption",
+      "homeDeviceBullet2": "Stimulates collagen production",
+      "stepByStepTitle": "Step-by-Step Plan",
+      "stepByStepSubtitle": "Your daily guide to specific usage.",
+      "stepByStepBullet1": "Morning & Night routine",
+      "stepByStepBullet2": "Application techniques",
+      "progressTrackingTitle": "Progress Tracking",
+      "progressTrackingSubtitle": "Monitor your improvements over time.",
+      "progressTrackingBullet1": "Weekly photo check-ins",
+      "progressTrackingBullet2": "Dermatologist feedback"
+    },
+    "benefits": {
+      "dermatologistTested": "Dermatologist-\ntested",
+      "parabenFree": "Paraben-free",
+      "sulfateFree": "Sulfate-free",
+      "nonComedogenic": "Non-\ncomedogenic",
+      "fragranceFree": "Fragrance-free",
+      "vegan": "Vegan"
+    },
+    "activeIngredients": {
+      "tretinoin": "Tretinoin",
+      "clindamycin": "Clindamycin",
+      "azelaicAcid": "Azelaic acid"
+    }
+  },
+  "labTest": {
+    "demoLabName": "Medicina Lab",
+    "demoLabDescription": "Certified diagnostic laboratory specializing in clinical and dermatology-related tests.",
+    "title": "Lab test is ready",
+    "subtitle": "Download the lab request and\nbring it to any facility",
+    "downloadPdf": "Download PDF",
+    "downloading": "Downloading...",
+    "warning": "Make sure to Present this prescription to\nthe Pharmacist as-is, without any edits.",
+    "warningPrefix": "Make sure to ",
+    "warningBoldPresent": "Present",
+    "warningMiddle": " this prescription to\n the ",
+    "warningBoldPharmacist": "Pharmacist",
+    "warningSuffix": " as-is, without any edits.",
+    "download": {
+      "dialogTitle": "Save Lab Test PDF",
+      "completeTitle": "Download Complete",
+      "completeMessage": "PDF saved successfully!",
+      "failedTitle": "Download Failed",
+      "failedMessage": "Unable to download the PDF. Please try again."
+    },
+    "prescription": {
+      "title": "Your prescription is ready",
+      "subtitle": "Based on your skin analysis and doctor review,\nyour prescription has been prepared.",
+      "downloadButton": "Download Prescription (PDF)"
+    },
+    "completed": {
+      "title": "Request Sent Successfully",
+      "subtitle": "Your test request has been sent to Medicina Lab.",
+      "emailNotice": "A copy of your request and prescription has been sent to your registered email address.",
+      "reviewNotice": "The lab will review your request and\nnotify you shortly.",
+      "viewStatus": "View Request Status"
+    }
+  },
+  "payment": {
+    "checkout": {
+      "title": "Checkout",
+      "yourAdded": "Your Added ({{count}})",
+      "description": "All your recommendations product. How many products and brands name",
+      "delivery": "Delivery",
+      "pickup": "Pickup",
+      "applyCoupon": "Apply Coupon",
+      "shipmentCost": "Shipment Cost:",
+      "insurance": "Insurance:",
+      "totalPayment": "Total Payment:",
+      "total": "Total:",
+      "continueButton": "Continue to Purchase",
+      "couponSheetTitle": "Enter coupon code",
+      "couponCodeLabel": "Coupon code",
+      "couponPlaceholder": "e.g. WELCOME10",
+      "couponApply": "Apply",
+      "couponSuccess": "Coupon applied",
+      "couponError": "Invalid or expired coupon",
+      "couponDiscount": "Discount"
+    },
+    "delivery": {
+      "title": "Delivery",
+      "fillRequired": "Please fill in all required fields",
+      "signUpNews": "Sign me up for news and offers from this store",
+      "countryRegion": "Country/Region",
+      "firstName": "First name",
+      "email": "Email",
+      "address": "Address",
+      "apartment": "Apartment, suite, etc. (optional)",
+      "city": "City",
+      "county": "County",
+      "postalCode": "Postal code",
+      "phone": "Phone (optional)",
+      "placeOrder": "Place Order"
+    },
+    "summary": {
+      "deliveryAddress": "Delivery Address",
+      "payment": "Payment",
+      "payWith": "Pay with",
+      "orderSummary": "Order Summary",
+      "discountCode": "Discount code"
+    },
+    "card": {
+      "addCard": "Add card",
+      "addCardTitle": "Card details",
+      "cardNumber": "Card number",
+      "cardNumberPlaceholder": "1234 5678 9012 3456",
+      "expiry": "Expiry",
+      "expiryPlaceholder": "MM / YY",
+      "cvc": "CVC",
+      "cvcPlaceholder": "123",
+      "saveCard": "Save card for future use",
+      "setAsDefault": "Set as default card",
+      "useExisting": "Use existing card",
+      "noCards": "No saved cards. Add a card to pay.",
+      "mastercardOnly": "We accept Mastercard only.",
+      "testCardSuccess": "Test success: …4444",
+      "testCardFail": "Test decline: …0009"
+    },
+    "order": {
+      "creatingTitle": "Just a sec...",
+      "creatingSubtitle": "Creating your order...",
+      "success": "Order placed successfully",
+      "errorTitle": "Something went wrong",
+      "errorGeneric": "We couldn't complete your order. Please try again."
+    },
+    "orderError": {
+      "title": "Payment not completed"
+    },
+    "orderSheet": {
+      "title": "Payment completed"
+    },
+    "orderSuccess": {
+      "title": "Start Your Skincare\nRoutine",
+      "orderId": "Order ID #{{id}}",
+      "cardTitle": "Order Successful",
+      "total": "Total",
+      "viewRoutine": "View Routine"
+    },
+    "tracking": {
+      "arrivesDay": "Arrives {{day}}",
+      "inTransit": "In transit",
+      "trackingNo": "Tracking no.",
+      "copiedToClipboard": "Tracking number copied",
+      "delivered": "Delivered",
+      "outForDelivery": "Out for delivery",
+      "shipped": "Shipped",
+      "viewTracking": "View tracking",
+      "customer": "Customer",
+      "orderBadge": "#{{id}}. {{date}}",
+      "loadError": "Unable to load tracking information",
+      "retry": "Retry"
+    }
+  },
+  "order": {
+    "history": {
+      "title": "Order History",
+      "monthFormat": "{{month}} {{year}}"
+    },
+    "status": {
+      "active": "Active",
+      "completed": "Completed"
+    },
+    "estimatedTimeDemo": "Estimated to last {{days}} days",
+    "dateRange": "{{start}} - {{end}}",
+    "details": {
+      "doctorApproved": "Doctor-approved routine",
+      "productIncluded": "{{count}} Product Included",
+      "morningOnly": "Morning Only",
+      "nightOnly": "Night Only"
+    },
+    "viewDetails": "View Details",
+    "reorder": "Reorder",
+    "estimatedTime": "Estimated to last {{days}} days",
+    "empty": {
+      "title": "No orders yet",
+      "subtitle": "Your order history will appear here"
+    },
+    "demo": {
+      "plan1": "Acne Control - 30 Day Plan",
+      "plan2": "Hydration Boost - 30 Day Plan"
+    }
+  },
+  "product": {
+    "reorder": "Reorder",
+    "details": {
+      "title": "Product Details",
+      "description": "Description",
+      "howToUse": "How to Use",
+      "before": "Before",
+      "after": "After",
+      "productDetails": "Product Details",
+      "doctorNotes": "Doctor's Notes",
+      "importantWarnings": "Important Warnings"
+    }
+  },
+  "progress": {
+    "loading": "Loading your progress...",
+    "error": {
+      "failedToLoad": "Failed to load progress"
+    },
+    "topImprovements": {
+      "title": "Top Improvements"
+    },
+    "metrics": {
+      "skinScore": "Skin Score",
+      "skinAge": "Skin Age",
+      "yearsOld": "years old",
+      "hydration": "Hydration",
+      "acne": "Acne",
+      "texture": "Texture",
+      "wrinkles": "Wrinkles",
+      "darkSpots": "Dark Spots"
+    },
+    "improvements": {
+      "acne": "Acne",
+      "redness": "Redness",
+      "hydration": "Hydration",
+      "viewAllMetrics": "View All Metrics"
+    },
+    "comparison": {
+      "before": "Before",
+      "after": "After"
+    },
+    "routineConsistency": {
+      "title": "Routine Consistency",
+      "description": "You followed your routine {{percentage}}% of days"
+    },
+    "unlocked": {
+      "title": "Your Skin Progress",
+      "topImprovements": "Top Improvements"
+    },
+    "helped": {
+      "title": "What helped your progress",
+      "followedRoutine": "Followed routine 85% of days",
+      "doctorPrescribed": "Doctor-prescribed products"
+    },
+    "scanHistory": {
+      "title": "Scan History",
+      "followedRoutine": "Followed routine 85% of days"
+    },
+    "log": {
+      "title": "Your Progress",
+      "description": "We're tracking changes in your skin. Full visual comparison unlocks after 30 days"
+    }
+  },
+  "error": {
+    "title": "Oops!",
+    "apiError": {
+      "title": "Oops!",
+      "code": "Error 404- Page Not Found",
+      "description": "The page you requested could not be found. We're working on it:)"
+    },
+    "notFound": "Error 404 - Page Not Found",
+    "notFoundDescription": "The page you requested could not be found. We're working on it :)",
+    "tryAgain": "Try Again",
+    "noInternet": {
+      "title": "Oops!",
+      "subtitle": "No Internet found. Check your connection or try again."
+    },
+    "noBranch": {
+      "title": "No Nearby Branch",
+      "subtitle": "No branch found near your location."
+    }
+  },
+  "profileDetails": {
+    "loading": "Loading profile...",
+    "error": {
+      "title": "Failed to Load Profile"
+    },
+    "faceScan": "Face Scan",
+    "fields": {
+      "targetGoal": "Target Goal",
+      "name": "Name",
+      "gender": "Gender",
+      "age": "Age",
+      "skinType": "Skin Type",
+      "skinSensitivity": "Skin Sensitivity",
+      "skinConcerns": "Skin Concerns",
+      "skinConditions": "Skin Conditions",
+      "healthConditions": "Health Conditions",
+      "focusFaceArea": "Focus Face Area"
+    },
+    "modal": {
+      "editName": "Edit Name",
+      "namePlaceholder": "Enter your name"
+    },
+    "gender": {
+      "title": "Select Gender",
+      "male": "Male",
+      "female": "Female",
+      "other": "Other"
+    }
+  },
+  "support": {
+    "error": {
+      "phoneNotSupported": "Phone call is not supported on this device",
+      "callFailed": "Failed to make the call"
+    }
   },
   "upload": {
     "title": "Upload Your Lab test",
@@ -34,6 +688,10 @@
     "availableTime": "Available Time",
     "viewAllAvailability": "View all availability",
     "sendTestRequest": "Send Test Request"
+  },
+  "labLocation": {
+    "title": "Select a lab for your test",
+    "searchPlaceholder": "Choose a lab or enter address"
   },
   "days": {
     "fri": "Fri",
@@ -56,7 +714,21 @@
     "september": "September",
     "october": "October",
     "november": "November",
-    "december": "December"
+    "december": "December",
+    "short": {
+      "jan": "Jan",
+      "feb": "Feb",
+      "mar": "Mar",
+      "apr": "Apr",
+      "may": "May",
+      "jun": "Jun",
+      "jul": "Jul",
+      "aug": "Aug",
+      "sep": "Sep",
+      "oct": "Oct",
+      "nov": "Nov",
+      "dec": "Dec"
+    }
   },
   "profile": {
     "title": "Profile",
@@ -78,7 +750,9 @@
     "permissions": "Permissions",
     "privacy": "Privacy",
     "termsOfUse": "Terms of Use",
-    "logOut": "Log Out"
+    "logOut": "Log Out",
+    "logOutConfirmation": "Are you sure you want to log out?",
+    "yearsOld": "{{age}} years old"
   },
   "address": {
     "savedAddress": "Saved Address",
@@ -92,7 +766,15 @@
     "enterAddress": "Enter your address",
     "currentLocation": "Current Location",
     "mapView": "Map View",
-    "installMapNotice": "Install react-native-maps for live map"
+    "installMapNotice": "Install react-native-maps for live map",
+    "error": {
+      "invalidTitle": "Invalid Address",
+      "invalidMessage": "Please enter a valid address",
+      "saveFailed": "Failed to save address. Please try again."
+    },
+    "success": {
+      "saved": "Address saved successfully"
+    }
   },
   "language": {
     "title": "Language",
@@ -143,5 +825,80 @@
         "answer": "Yes, we offer a 30-day money-back guarantee on all products. If you're not satisfied, contact our support team through the Emergency Support option."
       }
     }
+  },
+  "terms": {
+    "title": "Terms of Use",
+    "heading": "Terms & Conditions",
+    "lastUpdated": "Last updated: February 7, 2026",
+    "acceptanceOfTerms": "Acceptance of Terms",
+    "acceptanceContent": "By accessing and using this application, you accept and agree to be bound by the terms and provision of this agreement. If you do not agree to these terms, please do not use our service.",
+    "useLicense": "Use License",
+    "useLicenseItem1": "Permission is granted to temporarily use the application for personal, non-commercial use only",
+    "useLicenseItem2": "This license does not include the right to modify, copy, or reproduce the application",
+    "useLicenseItem3": "This license shall automatically terminate if you violate any of these restrictions",
+    "medicalDisclaimer": "Medical Disclaimer",
+    "medicalDisclaimerContent": "The information provided by this application is for informational purposes only and is not intended as a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition.",
+    "userResponsibilities": "User Responsibilities",
+    "userResponsibilityItem1": "Provide accurate and complete information",
+    "userResponsibilityItem2": "Maintain the security of your account credentials",
+    "userResponsibilityItem3": "Not use the service for any unlawful purpose",
+    "userResponsibilityItem4": "Not share your account with others",
+    "userResponsibilityItem5": "Comply with all applicable laws and regulations",
+    "accountTermination": "Account Termination",
+    "accountTerminationContent": "We reserve the right to terminate or suspend your account at any time, without prior notice or liability, for any reason whatsoever, including without limitation if you breach the Terms.",
+    "limitationsOfLiability": "Limitations of Liability",
+    "limitationsContent": "In no event shall the company, its directors, employees, partners, agents, suppliers, or affiliates be liable for any indirect, incidental, special, consequential, or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses.",
+    "intellectualProperty": "Intellectual Property",
+    "intellectualPropertyContent": "The service and its original content, features, and functionality are and will remain the exclusive property of the company and its licensors. The service is protected by copyright, trademark, and other laws.",
+    "prohibitedActivities": "Prohibited Activities",
+    "prohibitedItem1": "Attempting to bypass any security features",
+    "prohibitedItem2": "Uploading viruses or malicious code",
+    "prohibitedItem3": "Attempting to gain unauthorized access to other user accounts",
+    "prohibitedItem4": "Using the service to transmit spam or unsolicited messages",
+    "prohibitedItem5": "Reverse engineering or decompiling any part of the service",
+    "subscriptionAndPayments": "Subscription and Payments",
+    "subscriptionContent": "Some parts of the service may be billed on a subscription basis. You will be billed in advance on a recurring basis. At the end of each billing period, your subscription will automatically renew unless you cancel it or we cancel it.",
+    "refundPolicy": "Refund Policy",
+    "refundContent": "All purchases are final and non-refundable unless otherwise stated or required by law. If you have concerns about a purchase, please contact our support team.",
+    "changesToTerms": "Changes to Terms",
+    "changesToTermsContent": "We reserve the right to modify or replace these Terms at any time. If a revision is material, we will provide at least 30 days notice prior to any new terms taking effect.",
+    "governingLaw": "Governing Law",
+    "governingLawContent": "These Terms shall be governed and construed in accordance with the laws of the jurisdiction in which the company is registered, without regard to its conflict of law provisions.",
+    "contactInformation": "Contact Information",
+    "contactContent": "If you have any questions about these Terms, please contact us at support@routine-app.com or through the in-app support feature."
+  },
+  "privacy": {
+    "title": "Privacy Policy",
+    "heading": "Privacy & Data Protection",
+    "intro": "Your privacy is important to us",
+    "whatWeCollect": "What data we collect",
+    "collectItem1": "Face scan images",
+    "collectItem2": "Skin analysis results",
+    "collectItem3": "Treatment & routine data",
+    "collectItem4": "Lab test reports",
+    "collectItem5": "Profile information",
+    "whyWeUse": "Why we use your data",
+    "useItem1": "Personalized skin analysis",
+    "useItem2": "Treatment planning",
+    "useItem3": "Progress tracking",
+    "useItem4": "Medical safety",
+    "howProtected": "How your data is protected",
+    "protectedItem1": "🔒 Encrypted & securely stored",
+    "protectedItem2": "❌ Never sold to third parties",
+    "yourRights": "Your rights",
+    "rightItem1": "View & download your data",
+    "rightItem2": "Request correction or deletion",
+    "dataRetention": "Data Retention",
+    "dataRetentionContent": "We retain your personal data for as long as your account is active or as needed to provide you services. You may request deletion of your data at any time through your account settings.",
+    "thirdPartyServices": "Third-Party Services",
+    "thirdPartyContent": "We may use third-party service providers to help us operate our application. These providers have access to your data only to perform specific tasks on our behalf and are obligated not to disclose or use it for any other purpose.",
+    "cookiesAndTracking": "Cookies and Tracking",
+    "cookiesContent": "We use cookies and similar tracking technologies to track activity on our service and store certain information. You can instruct your device to refuse all cookies or to indicate when a cookie is being sent.",
+    "childrensPrivacy": "Children's Privacy",
+    "childrensContent": "Our service is not intended for use by children under the age of 13. We do not knowingly collect personally identifiable information from children under 13. If you become aware that a child has provided us with personal data, please contact us.",
+    "changesToPolicy": "Changes to This Policy",
+    "changesToPolicyContent": "We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the 'effective date' at the top of this policy.",
+    "contactUs": "Contact Us",
+    "contactContent": "If you have any questions about this Privacy Policy, please contact us at privacy@routine-app.com or through the app's support section."
   }
 }

@@ -1,0 +1,119 @@
+import { AppText as Text } from '@/components/app-text';
+import { scale, verticalScale } from '@/constants/scaling';
+import { Fonts, Colors } from '@/constants/theme';
+import { LinearGradient } from 'expo-linear-gradient';
+import React from 'react';
+import { StyleSheet, View } from 'react-native';
+import { Image } from 'expo-image';
+import { t } from "@/i18n";
+
+export function SupportBanner() {
+    return (
+        <View style={styles.container}>
+            {/* Background Gradient Image */}
+            <Image
+                source={require('@/assets/images/banner-gradient.png')}
+                style={styles.backgroundImage}
+                contentFit="cover"
+                cachePolicy="memory-disk"
+                transition={200}
+            />
+
+            {/* Doctor Image */}
+            <Image
+                source={require('@/assets/images/doctor-cutout.png')}
+                style={styles.doctorImage}
+                contentFit="contain"
+                cachePolicy="memory-disk"
+                transition={200}
+            />
+
+            {/* Text Content */}
+            <View style={styles.textContent}>
+                <LinearGradient
+                    colors={['rgba(255, 255, 255, 0)', 'rgba(255, 255, 255, 0.21)']}
+                    start={{ x: 0.5, y: 0.5 }}
+                    end={{ x: 1, y: 1 }}
+                    style={styles.badge}
+                >
+                    <Text style={styles.badgeText}>{t("treatmentPlan.supportBanner.badge")}</Text>
+                </LinearGradient>
+
+                <View style={styles.textGroup}>
+                    <Text style={styles.title}>{t("treatmentPlan.supportBanner.title")}</Text>
+                    <Text style={styles.description} numberOfLines={2}>
+                        {t("treatmentPlan.supportBanner.description")}
+                    </Text>
+                </View>
+            </View>
+        </View>
+    );
+}
+
+const styles = StyleSheet.create({
+    container: {
+        width: '100%',
+        height: verticalScale(190), // User updated this to 190 in previous turn, keeping it
+        backgroundColor: Colors.light.tint,
+        borderRadius: 8,
+        overflow: 'hidden',
+        alignSelf: 'center',
+        position: 'relative',
+    },
+
+    backgroundImage: {
+        ...StyleSheet.absoluteFillObject,
+        width: '100%',
+        height: '100%',
+    },
+
+    doctorImage: {
+        position: 'absolute',
+        end: 0,
+        bottom: 0,
+        width: scale(180),
+        height: scale(180),
+        zIndex: 1,
+    },
+    textContent: {
+        position: 'absolute',
+        start: scale(16),
+        top: verticalScale(33),
+        width: scale(260),
+        zIndex: 2,
+        alignItems: 'flex-start',
+        gap: verticalScale(8),
+    },
+    badge: {
+        paddingHorizontal: scale(16),
+        paddingVertical: verticalScale(6),
+        borderRadius: 100,
+        borderWidth: 1,
+        borderColor: Colors.light.whiteAlpha25,
+    },
+    badgeText: {
+        fontFamily: Fonts.medium,
+        fontSize: scale(12),
+        color: Colors.light.white,
+        lineHeight: scale(12),
+    },
+    textGroup: {
+        gap: verticalScale(8),
+        marginTop: verticalScale(8),
+    },
+    title: {
+        fontFamily: Fonts.bold,
+        fontSize: scale(20),
+        lineHeight: scale(24),
+        color: Colors.light.white,
+        width: scale(213),
+    },
+    description: {
+        fontFamily: Fonts.regular,
+        fontSize: scale(14),
+        lineHeight: scale(20),
+        color: Colors.light.white,
+        opacity: 0.8,
+        width: scale(224),
+    },
+});

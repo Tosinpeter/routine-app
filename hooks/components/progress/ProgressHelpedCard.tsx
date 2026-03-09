@@ -3,18 +3,20 @@ import { StyleSheet, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { AppText as Text } from '@/components/app-text';
 import { scale } from '@/constants/scaling';
+import { AeonikFonts, Colors } from '@/constants/theme';
+import { t } from "@/i18n";
 
 export function ProgressHelpedCard() {
     return (
         <View style={styles.card}>
-            <Text style={styles.title}>What helped your progress</Text>
+            <Text style={styles.title}>{t("progress.helped.title")}</Text>
             <View style={styles.item}>
-                <Ionicons name="checkmark" size={scale(18)} color="#CF604A" />
-                <Text style={styles.text}>Followed routine 85% of days</Text>
+                <Ionicons name="checkmark" size={scale(18)} color={Colors.light.tint} />
+                <Text style={styles.text}>{t("progress.helped.followedRoutine")}</Text>
             </View>
             <View style={styles.item}>
-                <Ionicons name="checkmark" size={scale(18)} color="#CF604A" />
-                <Text style={styles.text}>Doctor-prescribed products</Text>
+                <Ionicons name="checkmark" size={scale(18)} color={Colors.light.tint} />
+                <Text style={styles.text}>{t("progress.helped.doctorPrescribed")}</Text>
             </View>
         </View>
     );
@@ -29,7 +31,7 @@ const styles = StyleSheet.create({
         gap: 16,
     },
     title: {
-        fontFamily: 'Aeonik-Medium',
+        fontFamily: AeonikFonts.medium,
         fontSize: scale(20),
         color: '#20201E',
         marginBottom: 4,
@@ -40,7 +42,7 @@ const styles = StyleSheet.create({
         gap: 12,
     },
     text: {
-        fontFamily: 'Aeonik-Regular',
+        fontFamily: AeonikFonts.regular,
         fontSize: scale(16),
         color: '#20201E',
         opacity: 0.8,

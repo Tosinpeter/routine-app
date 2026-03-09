@@ -6,10 +6,11 @@ import { CheckmarkIcon } from "@/components/icons/checkmark-icon";
 import { ClinicTestIcon } from "@/components/icons/clinic-test-icon";
 import { DoctorReviewIcon } from "@/components/icons/doctor-review-icon";
 import { FaceScanIcon } from "@/components/icons/face-scan-icon";
+import { scale } from "@/constants/scaling";
 import { AeonikFonts, Colors } from "@/constants/theme";
-import { scale, verticalScale } from "@/constants/scaling";
-import { useAppSelector } from "@/store/hooks";
-import { RoutineStatus } from "@/store/slices/home-slice";
+import { t } from "@/i18n";
+import { useAppSelector } from "@/shared/store/hooks";
+import { RoutineStatus } from "@/shared/store/slices/home-slice";
 
 export function ProgressStepsCard() {
     const { reviewSteps } = useAppSelector((state) => state.home);
@@ -40,7 +41,7 @@ export function ProgressStepsCard() {
                             <View style={styles.checkmarkContainer}>
                                 {/* Background to mask the line if needed, though lines are positioned to not overlap */}
                                 <CheckmarkIcon
-                                    color={isCompleted ? "#079455" : "#D0D5DD"}
+                                    color={isCompleted ? Colors.light.successDark : Colors.light.lightGrey300}
                                     width={scale(20)}
                                     height={scale(23.94)}
                                 />
@@ -56,7 +57,7 @@ export function ProgressStepsCard() {
                                         <View style={styles.stepIconPlaceholder}>
                                             {index === 0 && <FaceScanIcon width={scale(19)} height={scale(19)} color={Colors.light.grey700} />}
                                             {index === 1 && <ClinicTestIcon width={scale(19)} height={scale(22)} color={Colors.light.grey700} />}
-                                            {index === 2 && <DoctorReviewIcon width={scale(19)} height={scale(20)} color={Colors.light.grey700} />}
+                                            {index === 2 && <DoctorReviewIcon size={scale(20)} color={Colors.light.grey700} />}
                                         </View>
 
                                         {/* Title */}
@@ -66,10 +67,10 @@ export function ProgressStepsCard() {
                                     {/* Status Indicator */}
                                     {isCompleted ? (
                                         <View style={styles.statusCompleted}>
-                                            <Ionicons name="checkmark-circle" size={scale(20)} color="#079455" />
+                                            <Ionicons name="checkmark-circle" size={scale(20)} color={Colors.light.successDark} />
                                         </View>
                                     ) : (
-                                        <Text style={styles.statusPending}>Pending</Text>
+                                        <Text style={styles.statusPending}>{t("home.progressSteps.pending")}</Text>
                                     )}
                                 </View>
 

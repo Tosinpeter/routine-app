@@ -1,8 +1,8 @@
 import React from 'react';
 import { StyleSheet, View, Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { AppText as Text } from '@/components/app-text';
 import { scale, verticalScale } from '@/constants/scaling';
+import { AeonikFonts, Colors } from '@/constants/theme';
 
 export function ComparisonCard() {
     return (
@@ -30,12 +30,12 @@ export function ComparisonCard() {
 
                     {/* Center Slider Handle (Visual only) */}
                     <View style={styles.sliderHandle}>
-                        <Ionicons name="resize-outline" size={scale(16)} color="#3736FD" />
+                        <Ionicons name="resize-outline" size={scale(16)} color={Colors.light.infoBlue} />
                     </View>
 
                     {/* Date Badge: Feb 02 2025 (Left) */}
                     {/* <View style={[styles.dateBadge, styles.dateLeft]}>
-                        <Ionicons name="calendar-outline" size={scale(12)} color="#20201E" />
+                        <Ionicons name="calendar-outline" size={scale(12)} color={Colors.light.mainDarkColor} />
                         <View>
                             <Text style={styles.dateText}>Feb 02</Text>
                             <Text style={styles.yearText}>2025</Text>
@@ -44,7 +44,7 @@ export function ComparisonCard() {
 
                     {/* Date Badge: Feb 02 2025 (Right) */}
                     {/* <View style={[styles.dateBadge, styles.dateRight]}>
-                        <Ionicons name="calendar-outline" size={scale(12)} color="#20201E" />
+                        <Ionicons name="calendar-outline" size={scale(12)} color={Colors.light.mainDarkColor} />
                         <View>
                             <Text style={styles.dateText}>Feb 02</Text>
                             <Text style={styles.yearText}>2025</Text>
@@ -83,13 +83,13 @@ const styles = StyleSheet.create({
         top: verticalScale(100), // Approximate vertical center roughly
         paddingHorizontal: scale(12),
         paddingVertical: verticalScale(4),
-        backgroundColor: 'rgba(0,0,0,0.4)',
+        backgroundColor: Colors.light.overlay,
         borderRadius: 100,
     },
     labelText: {
-        fontFamily: 'Aeonik-Regular',
+        fontFamily: AeonikFonts.regular,
         fontSize: scale(12),
-        color: '#FFFFFF',
+        color: Colors.light.white,
     },
     beforePos: {
         left: scale(40),
@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
         width: scale(32),
         height: scale(32),
         borderRadius: 16,
-        backgroundColor: '#FFFFFF',
+        backgroundColor: Colors.light.white,
         justifyContent: 'center',
         alignItems: 'center',
         alignSelf: 'center',
@@ -115,14 +115,14 @@ const styles = StyleSheet.create({
     dateBadge: {
         position: 'absolute',
         bottom: verticalScale(16),
-        backgroundColor: '#FFFFFF',
+        backgroundColor: Colors.light.white,
         padding: scale(8),
         borderRadius: 8,
         flexDirection: 'column',
         alignItems: 'center',
         gap: scale(4),
         width: scale(50),
-        shadowColor: '#000',
+        shadowColor: Colors.light.black,
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.1,
         shadowRadius: 4,
@@ -135,15 +135,15 @@ const styles = StyleSheet.create({
         right: scale(20),
     },
     dateText: {
-        fontFamily: 'Aeonik-Medium',
+        fontFamily: AeonikFonts.medium,
         fontSize: scale(10),
-        color: '#20201E',
+        color: Colors.light.mainDarkColor,
         textAlign: 'center',
     },
     yearText: {
-        fontFamily: 'Aeonik-Regular',
+        fontFamily: AeonikFonts.regular,
         fontSize: scale(10),
-        color: '#20201E',
+        color: Colors.light.mainDarkColor,
         opacity: 0.6,
         textAlign: 'center',
     }

@@ -2,16 +2,25 @@
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
     "strict": true,
+    "skipLibCheck": true,
     "paths": {
-      "@/*": [
-        "./*"
-      ]
+      "@/constants/theme": ["./src/shared/theme/theme"],
+      "@/constants/scaling": ["./src/shared/theme/scaling"],
+      "@/constants/typography": ["./src/shared/theme/typography"],
+      "@/components/*": ["./src/shared/components/*"],
+      "@/shared/*": ["./src/shared/*"],
+      "@/features/*": ["./src/features/*"],
+      "@/app/*": ["./src/app/*"],
+      "react-native-country-codes-picker": ["./types/react-native-country-codes-picker.d.ts"],
+      "@/*": ["./*"]
     }
   },
   "include": [
     "**/*.ts",
     "**/*.tsx",
+    "**/*.d.ts",
     ".expo/types/**/*.ts",
     "expo-env.d.ts"
-  ]
+  ],
+  "exclude": ["node_modules", "**/node_modules/**", "node_modules/react-native-country-codes-picker"]
 }

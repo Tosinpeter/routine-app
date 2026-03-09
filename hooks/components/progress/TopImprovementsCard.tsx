@@ -1,10 +1,12 @@
 import React, { useEffect, useRef } from 'react';
 import { StyleSheet, View, TouchableOpacity, Animated } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
 import { AppText as Text } from '@/components/app-text';
 import { scale, verticalScale } from '@/constants/scaling';
-
-import ImprovementIcon from '@/components/progress/ImprovementIcon';
+import { AeonikFonts, Colors } from '@/constants/theme';
+import { ImprovementIcon } from '@/components/progress/ImprovementIcon';
+import { t } from "@/i18n";
 
 interface ImprovementItemProps {
     label: string;
@@ -27,6 +29,7 @@ function ImprovementItem({ label, value, trend, progress, color = '#3736FD', del
             friction: 8,
             useNativeDriver: false, // width animation requires false
         }).start();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [progress, delay]);
 
     const animatedWidth = progressAnim.interpolate({
@@ -47,7 +50,7 @@ function ImprovementItem({ label, value, trend, progress, color = '#3736FD', del
                     <Ionicons
                         name={trend === 'down' ? 'arrow-down' : 'arrow-up'}
                         size={scale(16)}
-                        color={trend === 'down' ? '#F41D12' : '#077C46'}
+                        color={trend === 'down' ? Colors.light.errorRed : Colors.light.successGreen}
                     />
                     <Text style={styles.trendValue}>{value}</Text>
                 </View>
@@ -69,10 +72,6 @@ function ImprovementItem({ label, value, trend, progress, color = '#3736FD', del
     );
 }
 
-import { useRouter } from 'expo-router';
-
-// ... (existing imports)
-
 export function TopImprovementsCard() {
     const router = useRouter();
 
@@ -81,21 +80,21 @@ export function TopImprovementsCard() {
             {/* Items */}
             <View style={styles.listContainer}>
                 <ImprovementItem
-                    label="Acne"
+                    label={t("progress.improvements.acne")}
                     value="18%"
                     trend="down"
                     progress={0.9}
                     delay={0}
                 />
                 <ImprovementItem
-                    label="Redness"
+                    label={t("progress.improvements.redness")}
                     value="12%"
                     trend="down"
                     progress={0.4}
                     delay={150}
                 />
                 <ImprovementItem
-                    label="Hydration"
+                    label={t("progress.improvements.hydration")}
                     value="22%"
                     trend="up"
                     progress={0.3}
@@ -109,7 +108,7 @@ export function TopImprovementsCard() {
                 onPress={() => router.push('/top-improvements')}
                 style={styles.ctaContainer}
             >
-                <Text style={styles.ctaText}>View All Metrics</Text>
+                <Text style={styles.ctaText}>{t("progress.improvements.viewAllMetrics")}</Text>
             </TouchableOpacity>
         </View>
     );
@@ -142,7 +141,7 @@ const styles = StyleSheet.create({
         gap: 8,
     },
     itemLabel: {
-        fontFamily: 'Aeonik-Medium',
+        fontFamily: AeonikFonts.medium,
         fontSize: scale(16),
         color: '#20201E',
     },
@@ -152,7 +151,7 @@ const styles = StyleSheet.create({
         gap: 2,
     },
     trendValue: {
-        fontFamily: 'Aeonik-Regular',
+        fontFamily: AeonikFonts.regular,
         fontSize: scale(13),
         color: '#000000',
     },
@@ -176,7 +175,7 @@ const styles = StyleSheet.create({
         marginTop: 8,
     },
     ctaText: {
-        fontFamily: 'Aeonik-Medium',
+        fontFamily: AeonikFonts.medium,
         fontSize: scale(14),
         color: '#344054',
     }

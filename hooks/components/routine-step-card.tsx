@@ -17,7 +17,7 @@ import {
 import { AeonikFonts, BorderRadius, Colors, Fonts, HitSlop, Shadows } from "@/constants/theme";
 import { AppTextStyle } from "@/constants/typography";
 import { t } from "@/i18n";
-import { RoutineStep } from "@/store/slices/home-slice";
+import { RoutineStep } from "@/shared/store/slices/home-slice";
 
 export interface RoutineStepCardProps {
   step: RoutineStep;
@@ -65,7 +65,7 @@ export function RoutineStepCard({ step, isLast, onToggleComplete }: RoutineStepC
             <View style={styles.productImageContainer}>
               <GradientProgressRing size={scale(55)} strokeWidth={scale(6)} progress={product.progress}>
                 <View style={styles.productImageWrapper}>
-                  {product.progress == 0 ? (
+                  {product.progress === 0 ? (
                     <LockIcon size={scaleIcon(25)} />
                   ) : (
                     <Image

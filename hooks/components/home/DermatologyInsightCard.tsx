@@ -2,8 +2,9 @@ import { LinearGradient } from "expo-linear-gradient";
 import { Image, StyleSheet, View } from "react-native";
 
 import { AppText as Text } from "@/components/app-text";
-import { AeonikFonts, Colors, Fonts } from "@/constants/theme";
-import { scale, verticalScale } from "@/constants/scaling";
+import { AeonikFonts, Colors } from "@/constants/theme";
+import { scale } from "@/constants/scaling";
+import { t } from "@/i18n";
 
 export function DermatologyInsightCard() {
     return (
@@ -19,7 +20,7 @@ export function DermatologyInsightCard() {
             {/* Gradient Overlay - Left side fade */}
             {/* Width: 258px, Height: 171px */}
             <LinearGradient
-                colors={['#F7D5B7', 'rgba(248, 212, 182, 0)']}
+                colors={[Colors.light.gradientPeach, 'rgba(248, 212, 182, 0)']}
                 start={{ x: 0, y: 0.5 }} // Left (Beige)
                 end={{ x: 1, y: 0.5 }}   // Right (Transparent)
                 style={styles.gradientOverlay}
@@ -29,9 +30,9 @@ export function DermatologyInsightCard() {
             {/* Left: 20px, Top: 20px */}
             <View style={styles.textGroup}>
                 <View style={styles.textContent}>
-                    <Text style={styles.title}>Dermatology{"\n"}Insight</Text>
+                    <Text style={styles.title}>{t("home.dermatologyInsight.title")}</Text>
                     <Text style={styles.subtitle}>
-                        Consistency for 28-30 days brings visible results.
+                        {t("home.dermatologyInsight.subtitle")}
                     </Text>
                 </View>
 
@@ -51,7 +52,7 @@ const styles = StyleSheet.create({
         width: "100%", // 358px
         minWidth: scale(358),
         height: scale(200),
-        backgroundColor: "#FFFFFF",
+        backgroundColor: Colors.light.white,
         borderRadius: scale(16),
         marginBottom: scale(16),
         overflow: 'hidden',
@@ -94,14 +95,14 @@ const styles = StyleSheet.create({
         fontFamily: AeonikFonts.bold, // 700
         fontSize: scale(24),
         lineHeight: scale(29), // 120%
-        color: "#20201E",
+        color: Colors.light.mainDarkColor,
     },
     subtitle: {
         width: scale(165), // 159px in Figma
         fontFamily: AeonikFonts.regular, // 400
         fontSize: scale(12),
         lineHeight: scale(17), // 140%
-        color: "#20201E",
+        color: Colors.light.mainDarkColor,
     },
     indicators: {
         flexDirection: 'row',
@@ -115,13 +116,13 @@ const styles = StyleSheet.create({
     activeIndicator: {
         width: scale(28),
         height: scale(7),
-        backgroundColor: "#CF604A", // Primary Color
+        backgroundColor: Colors.light.tint,
         borderRadius: scale(50),
     },
     inactiveIndicator: {
         width: scale(7),
         height: scale(7),
-        backgroundColor: "#CF604A",
+        backgroundColor: Colors.light.tint,
         opacity: 0.34,
         borderRadius: scale(3.5), // Circle
     }

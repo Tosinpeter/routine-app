@@ -2,18 +2,19 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { AppText as Text } from '@/components/app-text';
 import { scale, verticalScale } from '@/constants/scaling';
-import { ComparisonCard } from '@/components/progress/ComparisonCard';
+import { ComparisonCard } from './ComparisonCard';
 import { TopImprovementsCard } from '@/components/progress/TopImprovementsCard';
 import { ProgressHelpedCard } from '@/components/progress/ProgressHelpedCard';
 import { ScanHistoryCard } from '@/components/progress/ScanHistoryCard';
 import { AppTextStyle } from '@/constants/typography';
 import { AeonikFonts } from '@/constants/theme';
+import { t } from "@/i18n";
 
 export function ProgressUnlockedView() {
     return (
         <View style={styles.contentContainer}>
             {/* Title: Your Skin Progress */}
-            <Text style={styles.screenTitle}>Your Skin Progress</Text>
+            <Text style={styles.screenTitle}>{t("progress.unlocked.title")}</Text>
 
             {/* Comparison Card (Before/After) */}
             <ComparisonCard />
@@ -21,7 +22,7 @@ export function ProgressUnlockedView() {
             <View style={{ height: verticalScale(24) }} />
 
             {/* Top Improvements */}
-            <Text style={styles.sectionTitle}>Top Improvements</Text>
+            <Text style={styles.sectionTitle}>{t("progress.unlocked.topImprovements")}</Text>
             <TopImprovementsCard />
 
             <View style={{ height: verticalScale(24) }} />

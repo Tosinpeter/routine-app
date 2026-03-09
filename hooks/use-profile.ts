@@ -1,19 +1,21 @@
-import { useCallback, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import type { RootState } from '@/store';
-import type { ProfileData } from '@/app/api/profile+api';
+import { client } from "@/shared/api/client";
+import { useAuth } from "@/shared/store/hooks/use-auth";
+import type { RootState } from "@/shared/store";
+import type { ProfileData } from "@/shared/store/slices/profile-slice";
 import {
-  setProfileLoading,
   setProfileData,
   setProfileError,
+  setProfileLoading,
   setProfileUpdating,
   updateProfileField,
-} from '@/store/slices/profile-slice';
+} from "@/shared/store/slices/profile-slice";
+import { useCallback } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 interface UpdateProfileParams {
-  name?: string;
+  fullname?: string;
   targetGoal?: string;
-  gender?: 'Male' | 'Female' | 'Other';
+  gender?: "male" | "female" | "non_binary" | "other";
   age?: string;
   skinType?: string;
   skinSensitivity?: boolean;
@@ -41,54 +43,76 @@ interface UseProfileReturn {
   refreshProfile: () => Promise<void>;
 }
 
-/**
- * Custom hook for managing profile operations
- * Provides methods to fetch and update user profile data
- */
+function mapBackendProfile(raw: Record<string, unknown>): ProfileData {
+  return {
+    id: String(raw.id ?? ""),
+    fullname: String(raw.fullname ?? ""),
+    targetGoal: String(raw.targetGoal ?? raw.target_goal ?? ""),
+    gender: (raw.gender as ProfileData["gender"]) ?? "other",
+    age: String(raw.age ?? ""),
+    skinType: String(raw.skinType ?? raw.skin_type ?? ""),
+    skinSensitivity: Boolean(raw.skinSensitivity ?? raw.skin_sensitivity),
+    skinConcerns: (raw.skinConcerns ?? raw.skin_concerns ?? []) as string[],
+    skinConditions: String(raw.skinConditions ?? raw.skin_conditions ?? ""),
+    healthConditions: String(
+      raw.healthConditions ?? raw.health_conditions ?? "",
+    ),
+    focusFaceArea: (raw.focusFaceArea ?? raw.focus_face_area ?? []) as string[],
+    faceScanImageUrl:
+      (raw.faceScanImageUrl as string | undefined) ??
+      (raw.face_scan_image_url as string | undefined),
+    lastUpdated: String(
+      raw.lastUpdated ?? raw.last_updated ?? new Date().toISOString(),
+    ),
+  };
+}
+
 export const useProfile = (): UseProfileReturn => {
   const dispatch = useDispatch();
+  const { profile: authProfile } = useAuth();
+  const userId = authProfile?.id;
   const { profileData, isLoading, isUpdating, error } = useSelector(
-    (state: RootState) => state.profile
+    (state: RootState) => state.profile,
   );
 
   /**
    * Fetch user profile data
    */
   const fetchProfile = useCallback(
-    async (userId?: string): Promise<void> => {
+    async (userIdParam?: string): Promise<void> => {
       dispatch(setProfileLoading(true));
 
       try {
-        const queryParams = new URLSearchParams();
-        if (userId) {
-          queryParams.append('userId', userId);
+        const id = userIdParam || userId;
+        if (!id) {
+          throw new Error("No user ID available to fetch profile");
         }
 
-        const url = `/api/profile${queryParams.toString() ? `?${queryParams.toString()}` : ''}`;
-        const response = await fetch(url, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
+        const { data: result } = await client.get<ProfileApiResponse>(
+          `/api/profile/${id}`,
+        );
 
-        const result: ProfileApiResponse = await response.json();
-
-        if (!response.ok || !result.success) {
-          throw new Error(result.error || 'Failed to fetch profile');
+        if (!result.success) {
+          throw new Error(result.error || "Failed to fetch profile");
         }
 
         if (result.data) {
-          dispatch(setProfileData(result.data));
+          dispatch(
+            setProfileData(
+              mapBackendProfile(
+                result.data as unknown as Record<string, unknown>,
+              ),
+            ),
+          );
         }
       } catch (err) {
         const errorMessage =
-          err instanceof Error ? err.message : 'An unknown error occurred';
-        console.error('Error fetching profile:', errorMessage);
+          err instanceof Error ? err.message : "An unknown error occurred";
+        console.error("Error fetching profile:", errorMessage);
         dispatch(setProfileError(errorMessage));
       }
     },
-    [dispatch]
+    [dispatch, userId],
   );
 
   /**
@@ -99,52 +123,49 @@ export const useProfile = (): UseProfileReturn => {
       dispatch(setProfileUpdating(true));
 
       try {
-        const response = await fetch('/api/profile', {
-          method: 'PATCH',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            userId: profileData?.id,
-            ...updates,
-          }),
-        });
+        if (!userId) {
+          throw new Error("No user ID available to update profile");
+        }
 
-        const result: ProfileApiResponse = await response.json();
+        const { data: result } = await client.patch<ProfileApiResponse>(
+          `/api/profile/${userId}`,
+          updates,
+        );
 
-        if (!response.ok || !result.success) {
-          throw new Error(result.error || 'Failed to update profile');
+        if (!result.success) {
+          throw new Error(result.error || "Failed to update profile");
         }
 
         if (result.data) {
-          dispatch(setProfileData(result.data));
+          dispatch(
+            setProfileData(
+              mapBackendProfile(
+                result.data as unknown as Record<string, unknown>,
+              ),
+            ),
+          );
         } else {
-          // If server doesn't return full data, update locally
           dispatch(updateProfileField(updates));
         }
 
         return true;
       } catch (err) {
         const errorMessage =
-          err instanceof Error ? err.message : 'An unknown error occurred';
-        console.error('Error updating profile:', errorMessage);
+          err instanceof Error ? err.message : "An unknown error occurred";
+        console.error("Error updating profile:", errorMessage);
         dispatch(setProfileError(errorMessage));
         return false;
       }
     },
-    [dispatch, profileData?.id]
+    [dispatch, userId],
   );
 
   /**
    * Refresh profile data
    */
   const refreshProfile = useCallback(async (): Promise<void> => {
-    if (profileData?.id) {
-      await fetchProfile(profileData.id);
-    } else {
-      await fetchProfile();
-    }
-  }, [fetchProfile, profileData?.id]);
+    await fetchProfile();
+  }, [fetchProfile]);
 
   return {
     profile: profileData,

@@ -1,153 +1,271 @@
 # Changelog
 
-All notable changes to the Routine App will be documented in this file.
+All notable changes to the **Gloord** app are documented in this file. Entries follow a weekly delivery format aligned with sprint milestones. Each section documents what was delivered that week, what was tested, and what carries over to the next sprint. The format is based on [Keep a Changelog](https://keepachangelog.com).
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+> **Cumulative totals** — 27 commits across 8 sprints, 916 tracked files in the current tree, 1 235 unique file paths touched since project inception.
+
+---
 
 ## [Unreleased]
 
-### Added
+_Work in progress after 2026-03-09. Next planned delivery: Week 9 (Sprint 9), targeting 2026-03-16._
 
-#### API Endpoints & Backend
-- **New API Routes**:
-  - `app/api/home+api.ts` - Home page data and treatment plan information
-  - `app/api/profile+api.ts` - User profile management with comprehensive documentation
-  - `app/api/address+api.ts` - Address CRUD operations (create, read, update, delete)
-  - `app/api/routine+api.ts` - Routine management and tracking
-  - `app/api/notification+api.ts` - Notification handling and preferences
-  
-- **API Documentation**:
-  - `PROFILE_API_README.md` - Comprehensive profile API documentation (565 lines)
-  - `ADDRESS_API_README.md` - Complete address API specification (182 lines)
-  - Enhanced error handling and response formats across all APIs
+### Pending Items
 
-#### Custom Hooks
-- `hooks/use-fetch-home.ts` - Hook for fetching home page data
-- `hooks/use-fetch-progress.ts` - Hook for fetching user progress data
-- `hooks/use-profile.ts` - Hook for profile data management
-- `hooks/use-address.ts` - Hook for address operations (163 lines)
-
-#### Redux Store
-- `store/slices/profile-slice.ts` - Profile state management
-- `store/slices/progress-slice.ts` - Progress tracking state
-- Enhanced `store/slices/home-slice.ts` with:
-  - Home data management
-  - Treatment plan tracking
-  - Loading and error states
-  - User unlock status
-
-#### UI Components
-- `components/api-error-display.tsx` - Reusable error display component
-- `components/loader.tsx` - Loading state component
-- `components/routine-shimmer.tsx` - Shimmer effect for routine loading states
-
-#### Features
-- Performance monitoring scripts in `package.json`:
-  - `perf:devtools` - React DevTools for performance analysis
-  - `perf:bundle` - Bundle size visualization
-  - `perf:analyze` - Source map analysis for bundle optimization
-- Bun package manager support with `bun.lock`
-- Enhanced tab navigation with updated layouts
-
-### Changed
-
-#### Core App Files
-- **`app.json`**: Updated app configuration (16 changes)
-- **`app/_layout.tsx`**: Enhanced root layout with new providers and initialization (37+ changes)
-- **`app/(tabs)/_layout.tsx`**: Improved tab navigation layout (7 changes)
-
-#### Tab Screens
-- **`app/(tabs)/index.tsx`**: 
-  - Integrated home data fetching
-  - Added treatment plan card
-  - Improved loading states (62+ changes)
-  
-- **`app/(tabs)/progress.tsx`**:
-  - Connected to Redux store
-  - Added progress data fetching
-  - Enhanced error handling (54+ changes)
-  
-- **`app/(tabs)/routine.tsx`**:
-  - Improved routine tracking
-  - Better user experience (84+ changes)
-
-#### Feature Screens
-- **`app/notification.tsx`**: Enhanced notification handling (97 changes)
-- **`app/notification-sheet.tsx`**: Improved bottom sheet functionality (77+ changes)
-- **`app/lab-test/index.tsx`**: Updated lab test interface (79+ changes)
-- **`app/profile/profile-details.tsx`**: 
-  - Connected to profile hooks
-  - Enhanced form handling
-  - Better error states (119+ changes)
-- **`app/profile/saved-address/add-address.tsx`**: Improved address form (44+ changes)
-
-#### Components
-- **`components/home/ProductReminderCard.tsx`**: Minor improvements (4 changes)
-- **`components/home/TreatmentPlanCard.tsx`**: Enhanced treatment plan display (20 changes)
-- **`components/primary-button.tsx`**: Improved button component (31 changes)
-
-#### API Changes
-- **`app/api/progress+api.ts`**: 
-  - Migrated from `ExpoRequest/ExpoResponse` to standard `Request/Response`
-  - Added error simulation for testing
-  - Increased API delay to 1500ms for realistic testing
-  - Improved error handling (64 changes)
-  
-- **`app/api/hello+api.ts`**: Simplified implementation (70 changes)
-
-#### Store & State Management
-- **`store/index.ts`**: Added new slices to store configuration (4 changes)
-- **`store/slices/home-slice.ts`**: Added comprehensive home data management (53+ changes)
-
-#### Utilities
-- **`utils/api-client.ts`**: Major refactoring of API client implementation (478 changes)
-
-### Removed
-- **`app/api/README.md`**: Deleted old API documentation (104 lines removed)
-  - Replaced with more specific API documentation files
-
-### Improved
-- **Error Handling**: Consistent error handling across all API endpoints
-- **Loading States**: Added proper loading states throughout the app
-- **Type Safety**: Enhanced TypeScript types for better type safety
-- **Code Organization**: Better separation of concerns with custom hooks
-- **API Responses**: Standardized API response formats
-- **Developer Experience**: Added performance monitoring tools
-
-### Dependencies
-- Added performance analysis tools
-- Updated various Expo packages
-- Enhanced Redux Toolkit integration
-
-### Technical Improvements
-- **State Management**: Centralized state with Redux slices
-- **Data Fetching**: Custom hooks for cleaner data fetching
-- **API Architecture**: RESTful API design with proper documentation
-- **Component Reusability**: Shared components for common UI patterns
-- **Error Recovery**: Better error states and recovery mechanisms
-
-## Statistics
-- **Files Changed**: 22 files
-- **Lines Added**: 947
-- **Lines Removed**: 612
-- **Net Change**: +335 lines
-- **New Files**: 18
-- **Deleted Files**: 1
+- End-to-end integration tests for refactored feature modules
+- CI pipeline validation for app-bundle builds
+- Backend API contract alignment with restructured client layer
 
 ---
 
-## Previous Releases
+## Week 8 — 2026-03-09 (Sprint 8)
 
-### [1.0.0] - 2025-02-11
-- feat: Add comprehensive app features and UI enhancements
-- feat: Introduce new Home and Progress tabs with comprehensive UI components, icons, and assets
-- Update app configuration and enhance UI components
-- Initial commit
+**Theme:** Codebase restructure and test infrastructure
+
+### Delivered
+
+- Major codebase refactor to feature-based architecture (`src/features/*`, `src/shared/*`)
+- Removed unused files and redundant screen components to reduce maintenance surface
+- Deleted `app.json` in favour of `app.config.ts` for dynamic configuration
+- EAS build type changed from APK to app-bundle for Android
+- Added testing scripts and updated dependencies in `package.json`
+- TypeScript configuration updated with new path aliases and stricter excludes
+- 6 new test suites added: profile model, API client, auth slice, order slice, date helpers, phone utils
+
+### Tested
+
+- Build with updated EAS configuration (app-bundle)
+- TypeScript compilation with new path mappings
+- New unit tests: `profile.test.ts`, `client.test.ts`, `auth-slice.test.ts`, `order-slice.test.ts`, `date-helpers.test.ts`, `phone.test.ts`
+- Feature module imports after directory restructure
+
+### Carried Over
+
+- Full integration test pass on refactored modules
+- CI validation of app-bundle builds
+
+### Statistics
+
+- **Commits this sprint:** 1
+- **Files changed this sprint:** 696
+- **Cumulative unique files touched:** 1 235
+- **Current tracked files:** 916
 
 ---
 
-## Notes
-- All API endpoints include mock data for development
-- Error simulation available via query parameters for testing
-- Comprehensive documentation added for all major features
+## Week 7 — 2026-03-03 (Sprint 7)
+
+**Theme:** Configuration and backend integration
+
+### Delivered
+
+- App configuration updates for runtime and build
+- Backend integration enhancements (API client and environment handling)
+
+### Tested
+
+- App launch and config loading on target devices
+- Backend connectivity and error paths
+
+### Carried Over
+
+- Codebase restructure and test infrastructure (delivered in Week 8)
+
+### Statistics
+
+- **Commits this sprint:** 1
+- **Files changed this sprint:** 53
+- **Cumulative unique files touched:** 519
+
+---
+
+## Week 6 — 2026-02-25 (Sprint 6)
+
+**Theme:** Code quality, error handling, and CI tooling
+
+### Delivered
+
+- Code quality improvements across the codebase
+- Stronger error handling and user-facing error messages
+- Notification handling and app configuration refinements
+- ESLint workflow migrated to Bun for dependency management and linting
+
+### Tested
+
+- Error display and retry flows for API and network failures
+- Notification sheet and push notification behaviour
+- ESLint CI run with Bun
+
+### Carried Over
+
+- App configuration and backend integration (delivered in Week 7)
+
+### Statistics
+
+- **Commits this sprint:** 3
+- **Files changed this sprint:** 124
+- **Cumulative unique files touched:** 545
+
+---
+
+## Week 5 — 2026-02-19–22 (Sprint 5)
+
+**Theme:** OTP, branding, treatment plan, and payment flow
+
+### Delivered
+
+- OTP verification screen updated with improved input handling and error states
+- App branding updated to Gloord (icon, splash screen, adaptive icons)
+- Photo preparation flow streamlined with better camera guidance and preview
+- Treatment plan screen enhanced (comparison slider, protocol details, trust badges)
+- Payment flow enhancements (checkout, delivery form, card entry, coupons, order creation, tracking)
+
+### Tested
+
+- OTP entry, paste, backspace, and country code picker across screen sizes
+- Photo prep and camera capture flow
+- Treatment plan comparison slider and "What's Inside" accordion
+- Checkout and order creation end-to-end
+
+### Carried Over
+
+- Code quality and error handling (delivered in Week 6)
+- Notification and config refinements (delivered in Week 6)
+
+### Statistics
+
+- **Commits this sprint:** 5
+- **Files changed this sprint:** 214
+- **Cumulative unique files touched:** 524
+
+---
+
+## Week 4 — 2026-02-17 (Sprint 4)
+
+**Theme:** Internationalization and workflow cleanup
+
+### Delivered
+
+- Internationalization (i18n) with English, French, Arabic, and Japanese
+- ESLint workflow configuration simplified
+- ARCHITECTURE.md removed (content no longer maintained)
+
+### Tested
+
+- Language switching and translated strings in main flows
+- ESLint workflow on push/PR
+
+### Carried Over
+
+- OTP and branding refinements (delivered in Week 5)
+- Treatment plan and payment flow work (delivered in Week 5)
+
+### Statistics
+
+- **Commits this sprint:** 4
+- **Files changed this sprint:** 1
+- **Cumulative unique files touched:** 457
+
+---
+
+## Week 3 — 2026-02-08–12 (Sprint 3)
+
+**Theme:** Core feature build-out — screens, state, backend, and data layer
+
+### Delivered
+
+- Phone number authentication with OTP verification and country code picker
+- New screens and enhancements to OTP and phone verification flows
+- App configuration and notification handling improvements
+- Comprehensive app features and UI: onboarding, home dashboard, treatment plan card, skin routine card, progress steps, dermatology insights, face scan (photo prep, camera, analysis), face scan history, product details, skincare tab, routine tab, progress tab, top improvements, payment flow, order management, lab test module, profile, notifications, legal pages, contact support, prescription upload, network monitoring, API error display
+- Redux state management (auth, home, payment, orders, notifications, profile, progress, photo prep)
+- Backend API routes (auth, home, profile, orders, cards, coupons, notifications, progress, file uploads)
+- SQLite database schema and seed data
+- Custom icon system (50+ SVG icons)
+- Haptic feedback, edge-to-edge display, React Compiler and New Architecture
+- Docs directory removed
+
+### Tested
+
+- Auth and OTP flow
+- Main navigation and tab switching
+- Key screens: home, treatment plan, routine, progress, payment, orders, profile
+
+### Carried Over
+
+- i18n integration (delivered in Week 4)
+- OTP and branding refinements (delivered in Week 5)
+
+### Statistics
+
+- **Commits this sprint:** 7
+- **Files changed this sprint:** 377
+- **Cumulative unique files touched:** 458
+
+---
+
+## Week 2 — 2026-02-06 (Sprint 2)
+
+**Theme:** Home and Progress tabs with UI foundations
+
+### Delivered
+
+- Home tab with treatment plan card, skin routine card, progress steps, and dermatology insights
+- Progress tab with before/after comparison cards, routine consistency tracking, and improvement metrics
+- UI components, icons, and assets for Home and Progress
+
+### Tested
+
+- Home and Progress tab navigation and layout
+- Component rendering and basic interactions
+
+### Carried Over
+
+- OTP and verification flows (delivered in Week 3)
+- Broader feature set — screens, backend, state (delivered in Week 3)
+
+### Statistics
+
+- **Commits this sprint:** 1
+- **Files changed this sprint:** 53
+- **Cumulative unique files touched:** 142
+
+---
+
+## Week 1 — 2026-01-28–29 (Sprint 1)
+
+**Theme:** Project bootstrap and app shell
+
+### Delivered
+
+- Initial project commit and app configuration
+- UI component base and app shell
+- ESLint workflow for JavaScript (GitHub Actions, SARIF upload)
+- Expo Router with typed routes for type-safe navigation
+
+### Tested
+
+- App boot and basic navigation
+- ESLint workflow on push/PR
+
+### Carried Over
+
+- Home and Progress tabs with full UI (delivered in Week 2)
+
+### Statistics
+
+- **Commits this sprint:** 5
+- **Files changed this sprint:** 99
+- **Cumulative unique files touched:** 99
+
+---
+
+## v1.0.0 — 2026-02-11
+
+Release anchor covering Sprints 1–3 (2026-01-28 through 2026-02-12). The full feature inventory for this version is distributed across the Week 1, Week 2, and Week 3 entries above. Key milestones in this release:
+
+- Project scaffolding with Expo Router, React Compiler, and New Architecture
+- Complete screen set: onboarding, auth, home, treatment plan, routine, progress, face scan, payment, orders, lab tests, profile, notifications
+- Redux state management across all feature domains
+- Backend API with SQLite persistence and seed data
+- ESLint CI pipeline via GitHub Actions

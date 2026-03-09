@@ -26,7 +26,7 @@ export function QuizListSelection({
     <View style={styles.container}>
       {options.map((option, index) => {
         const isSelected = selectedOption === option.id;
-        const isLast = index === options.length - 1;
+        const _isLast = index === options.length - 1;
 
         return (
           <React.Fragment key={option.id}>
@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
   },
   divider: {
     height: 1,
-    backgroundColor: 'rgba(32, 32, 30, 0.16)',
+    backgroundColor: Colors.light.mainDarkAlpha16,
     marginHorizontal: scale(20),
   },
   optionContent: {
@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     height: scale(22),
     borderRadius: scale(11),
     borderWidth: 1,
-    borderColor: '#CF604A',
+    borderColor: Colors.light.tint,
     marginRight: scale(16),
     alignItems: "center",
     justifyContent: "center",

@@ -1,11 +1,10 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-
 import { AppText as Text } from '@/components/app-text';
-import { Fonts } from '@/constants/theme';
 import { scale } from '@/constants/scaling';
+import { AeonikFonts } from '@/constants/theme';
 import RoutineConsistencyIcon from '@/components/progress/RoutineConsistencyIcon';
+import { t } from "@/i18n";
 
 export function RoutineConsistencyCard() {
     return (
@@ -14,13 +13,13 @@ export function RoutineConsistencyCard() {
             <View style={styles.routineInfo}>
                 {/* RoutineHeader (Left 16, Top 16) */}
                 <View style={styles.headerContainer}>
-                    <Text style={styles.title}>Routine Consistency</Text>
+                    <Text style={styles.title}>{t("progress.routineConsistency.title")}</Text>
 
                     <View style={styles.valueRow}>
                         <RoutineConsistencyIcon />
 
                         <Text style={styles.description}>
-                            You followed your routine <Text style={styles.highlight}>85% of days</Text>
+                            {t("progress.routineConsistency.description", { percentage: 85 })}
                         </Text>
                     </View>
                 </View>
@@ -49,7 +48,7 @@ const styles = StyleSheet.create({
         gap: scale(16),
     },
     title: {
-        fontFamily: 'Aeonik-Medium',
+        fontFamily: AeonikFonts.medium,
         fontSize: scale(20),
         lineHeight: scale(20), // 100%
         letterSpacing: -0.005,
@@ -70,14 +69,14 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     description: {
-        fontFamily: 'Aeonik-Regular',
+        fontFamily: AeonikFonts.regular,
         fontSize: scale(16),
         lineHeight: scale(16),
         color: '#20201E',
         opacity: 0.8,
     },
     highlight: {
-        fontFamily: 'Aeonik-Regular', // CSS doesn't explicitly bold this, but context implies it.
+        fontFamily: AeonikFonts.regular, // CSS doesn't explicitly bold this, but context implies it.
         // Wait, CSS says "Routine Value" has only regular font. 
         // "You followed your routine 85%..." 
         // Screenshot shows text is uniform?

@@ -1,62 +1,63 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { AppText as Text } from '@/components/app-text';
-import { Colors, Fonts } from '@/constants/theme';
 import { scale, verticalScale } from '@/constants/scaling';
+import { AeonikFonts } from '@/constants/theme';
 import { ProgressPreviewCard } from '@/components/home/ProgressPreviewCard';
 import { MetricCard } from '@/components/progress/MetricCard';
 import { RoutineConsistencyCard } from '@/components/progress/RoutineConsistencyCard';
 import ProgressMetricIcon from '@/components/progress/ProgressMetricIcon';
+import { t } from "@/i18n";
 
 export function ProgressLogView() {
     return (
         <View style={styles.contentContainer}>
             {/* Hero Section */}
-            <Text style={styles.headerTitle}>Your Progress</Text>
+            <Text style={styles.headerTitle}>{t("progress.log.title")}</Text>
             <ProgressPreviewCard />
 
             {/* Description Text */}
             <Text style={styles.description}>
-                We’re tracking changes in your skin. Full visual comparison unlocks after 30 days
+                {t("progress.log.description")}
             </Text>
 
             {/* Metrics Grid */}
             <View style={styles.grid}>
                 {/* Row 1 */}
                 <MetricCard
-                    title="Skin Score"
+                    title={t("progress.metrics.skinScore")}
                     value="85"
                     icon={<ProgressMetricIcon />}
                 />
                 <MetricCard
-                    title="Skin Age"
+                    title={t("progress.metrics.skinAge")}
                     value="25"
-                    unit="years old"
+                    unit={t("progress.metrics.yearsOld")}
                     icon={<ProgressMetricIcon />}
                 />
 
                 {/* Row 2 */}
                 <MetricCard
-                    title="Skin Score"
+                    title={t("progress.metrics.skinScore")}
                     value="85"
                     icon={<ProgressMetricIcon />}
                 />
                 <MetricCard
-                    title="Skin Age"
+                    title={t("progress.metrics.skinAge")}
                     value="25"
-                    unit="years old"
+                    unit={t("progress.metrics.yearsOld")}
                     icon={<ProgressMetricIcon />}
                 />
 
                 {/* Row 3 */}
                 <MetricCard
-                    title="Hydration"
+                    title={t("progress.metrics.hydration")}
                     value="85"
                     icon={<ProgressMetricIcon />}
                     trend={{ value: '10%', direction: 'up' }}
                 />
                 <MetricCard
-                    title="Acne"
+                    title={t("progress.metrics.acne")}
                     value="90"
                     icon={<ProgressMetricIcon />}
                     trend={{ value: '-5%', direction: 'down' }}
@@ -64,13 +65,13 @@ export function ProgressLogView() {
 
                 {/* Row 4 */}
                 <MetricCard
-                    title="Texture"
+                    title={t("progress.metrics.texture")}
                     value="90"
                     icon={<ProgressMetricIcon />}
                     trend={{ value: '+5%', direction: 'up' }}
                 />
                 <MetricCard
-                    title="Acne"
+                    title={t("progress.metrics.acne")}
                     value="90"
                     icon={<ProgressMetricIcon />}
                     trend={{ value: '-5%', direction: 'down' }}
@@ -78,13 +79,13 @@ export function ProgressLogView() {
 
                 {/* Row 5 */}
                 <MetricCard
-                    title="Wrinkles"
+                    title={t("progress.metrics.wrinkles")}
                     value="85"
                     icon={<ProgressMetricIcon />}
                     trend={{ value: '-5%', direction: 'down' }}
                 />
                 <MetricCard
-                    title="Dark Spots"
+                    title={t("progress.metrics.darkSpots")}
                     value="85"
                     icon={<ProgressMetricIcon />}
                     trend={{ value: '+7%', direction: 'up' }}
@@ -103,7 +104,7 @@ const styles = StyleSheet.create({
         width: '100%',
     },
     headerTitle: {
-        fontFamily: 'Aeonik-Medium',
+        fontFamily: AeonikFonts.medium,
         fontSize: scale(30),
         color: "#20201E",
         marginBottom: scale(16),
@@ -111,7 +112,7 @@ const styles = StyleSheet.create({
         width: '100%',
     },
     description: {
-        fontFamily: 'Aeonik-Regular',
+        fontFamily: AeonikFonts.regular,
         fontSize: scale(16),
         lineHeight: scale(22),
         color: '#20201E',

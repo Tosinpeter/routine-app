@@ -1,12 +1,12 @@
-import { useState, useEffect, useCallback } from 'react';
-import api from '@/utils/api-client';
+import { client } from "@/shared/api/client";
+import { useCallback, useEffect, useState } from "react";
 
 /**
  * Type definitions
  */
 interface Trend {
   value: string;
-  direction: 'up' | 'down';
+  direction: "up" | "down";
 }
 
 interface SkinMetric {
@@ -35,10 +35,10 @@ interface ProgressData {
     currentStreak: number;
     longestStreak: number;
     completionRate: number;
-    weeklyData: Array<{
+    weeklyData: {
       day: string;
       completed: boolean;
-    }>;
+    }[];
   };
 }
 
@@ -54,16 +54,22 @@ export function useProgress(userId?: string) {
     try {
       setLoading(true);
       setError(null);
-      const response = await api.progress.get(userId);
-      
-      if (response.success) {
+      if (!userId) {
+        setLoading(false);
+        return;
+      }
+      const { data: response } = await client.get<{
+        success: boolean;
+        data: ProgressData;
+      }>(`/api/progress/${userId}`);
+      if (response?.success && response.data) {
         setData(response.data);
       } else {
-        setError('Failed to fetch progress data');
+        setError("Failed to fetch progress data");
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred');
-      console.error('Error fetching progress:', err);
+      setError(err instanceof Error ? err.message : "An error occurred");
+      console.error("Error fetching progress:", err);
     } finally {
       setLoading(false);
     }
@@ -97,16 +103,22 @@ export function useUnlockStatus(userId?: string) {
     try {
       setLoading(true);
       setError(null);
-      const response = await api.progress.getUnlockStatus(userId);
-      
-      if (response.success) {
+      if (!userId) {
+        setLoading(false);
+        return;
+      }
+      const { data: response } = await client.get<{
+        success: boolean;
+        data: unknown;
+      }>(`/api/progress/${userId}/unlock-status`);
+      if (response?.success && response.data != null) {
         setUnlockStatus(response.data);
       } else {
-        setError('Failed to fetch unlock status');
+        setError("Failed to fetch unlock status");
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred');
-      console.error('Error fetching unlock status:', err);
+      setError(err instanceof Error ? err.message : "An error occurred");
+      console.error("Error fetching unlock status:", err);
     } finally {
       setLoading(false);
     }
@@ -129,8 +141,8 @@ export function useUnlockStatus(userId?: string) {
  */
 export function useProgressHistory(
   metric: string,
-  period: '7d' | '30d' | '90d' | '1y' = '30d',
-  userId?: string
+  period: "7d" | "30d" | "90d" | "1y" = "30d",
+  userId?: string,
 ) {
   const [history, setHistory] = useState<any>(null);
   const [loading, setLoading] = useState(true);
@@ -140,20 +152,20 @@ export function useProgressHistory(
     try {
       setLoading(true);
       setError(null);
-      const response = await api.progress.getHistory({
-        metric,
-        period,
-        userId,
-      });
-      
-      if (response.success) {
+      const params = new URLSearchParams({ metric, period });
+      if (userId) params.set("userId", userId);
+      const { data: response } = await client.get<{
+        success: boolean;
+        data: unknown;
+      }>(`/api/progress/history?${params.toString()}`);
+      if (response?.success && response.data != null) {
         setHistory(response.data);
       } else {
-        setError('Failed to fetch history data');
+        setError("Failed to fetch history data");
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred');
-      console.error('Error fetching history:', err);
+      setError(err instanceof Error ? err.message : "An error occurred");
+      console.error("Error fetching history:", err);
     } finally {
       setLoading(false);
     }
