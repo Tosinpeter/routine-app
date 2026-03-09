@@ -205,7 +205,7 @@ export default function PhotoPreparationScreen() {
         <ThemedView style={styles.container}>
             {/* Tips Carousel */}
 
-            <SafeAreaView style={{ flex: 1, justifyContent: 'space-between' }}>
+            <SafeAreaView style={{ flex: 1, justifyContent: 'space-between' }} edges={["top", "bottom"]}>
                 <View style={styles.heroSlot}>
                     <Animated.View
                         style={[styles.heroLayer, styles.instructionLayer, instructionHeroStyle]}

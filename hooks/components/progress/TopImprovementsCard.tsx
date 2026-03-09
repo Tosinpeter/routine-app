@@ -5,8 +5,7 @@ import { useRouter } from 'expo-router';
 import { AppText as Text } from '@/components/app-text';
 import { scale, verticalScale } from '@/constants/scaling';
 import { AeonikFonts, Colors } from '@/constants/theme';
-// eslint-disable-next-line import/no-named-as-default
-import ImprovementIcon from '@/components/progress/ImprovementIcon';
+import { ImprovementIcon } from '@/components/progress/ImprovementIcon';
 import { t } from "@/i18n";
 
 interface ImprovementItemProps {

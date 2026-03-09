@@ -1,5 +1,5 @@
-import React, { useEffect, useRef } from "react";
-import { Animated } from "react-native";
+import React, { useEffect } from "react";
+import Animated, { useAnimatedStyle, useSharedValue, withDelay, withTiming } from "react-native-reanimated";
 
 import { ConicalFlaskIcon } from "@/components/icons/conical-flask-icon";
 import { CubeIcon } from "@/components/icons/cube-icon";
@@ -32,35 +32,24 @@ interface AnimatedNotificationItemProps {
 }
 
 export const AnimatedNotificationItem: React.FC<AnimatedNotificationItemProps> = ({ notification, index, onPress }) => {
-    const fadeAnim = useRef(new Animated.Value(0)).current;
-    const slideAnim = useRef(new Animated.Value(50)).current;
+    const fadeProgress = useSharedValue(0);
+    const slideProgress = useSharedValue(50);
 
     useEffect(() => {
-        Animated.parallel([
-            Animated.timing(fadeAnim, {
-                toValue: 1,
-                duration: 600,
-                delay: index * 100,
-                useNativeDriver: true,
-            }),
-            Animated.timing(slideAnim, {
-                toValue: 0,
-                duration: 600,
-                delay: index * 100,
-                useNativeDriver: true,
-            }),
-        ]).start();
-    }, [fadeAnim, slideAnim, index]);
+        fadeProgress.value = withDelay(index * 100, withTiming(1, { duration: 600 }));
+        slideProgress.value = withDelay(index * 100, withTiming(0, { duration: 600 }));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [index]);
+
+    const animatedStyle = useAnimatedStyle(() => ({
+        opacity: fadeProgress.value,
+        transform: [{ translateY: slideProgress.value }],
+    }));
 
     const { icon, color } = getIconComponent(notification.notification_type);
 
     return (
-        <Animated.View
-            style={{
-                opacity: fadeAnim,
-                transform: [{ translateY: slideAnim }],
-            }}
-        >
+        <Animated.View style={animatedStyle}>
             <NotificationCard
                 key={notification.id}
                 title={notification.title}

@@ -1,5 +1,13 @@
-import React, { useEffect, useRef } from "react";
-import { Animated, ImageSourcePropType, StyleSheet, View, ViewStyle } from "react-native";
+import React, { useEffect } from "react";
+import { ImageSourcePropType, StyleSheet, View, ViewStyle } from "react-native";
+import Animated, {
+  Easing,
+  interpolate,
+  useAnimatedStyle,
+  useSharedValue,
+  withRepeat,
+  withTiming,
+} from "react-native-reanimated";
 import { Image } from "expo-image";
 import { scale } from "@/constants/scaling";
 
@@ -12,31 +20,26 @@ interface LoaderProps {
 }
 
 export function Loader({ size = 164, style, image = DEFAULT_LOADER_IMAGE }: LoaderProps) {
-  const rotateAnim = useRef(new Animated.Value(0)).current;
+  const rotation = useSharedValue(0);
 
   useEffect(() => {
-    // Start infinite rotation animation
-    Animated.loop(
-      Animated.timing(rotateAnim, {
-        toValue: 1,
-        duration: 2000,
-        useNativeDriver: true,
-      })
-    ).start();
-  }, [rotateAnim]);
+    rotation.value = withRepeat(
+      withTiming(1, { duration: 2000, easing: Easing.linear }),
+      -1,
+      false
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  const rotate = rotateAnim.interpolate({
-    inputRange: [0, 1],
-    outputRange: ["0deg", "360deg"],
-  });
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [
+      { rotate: `${interpolate(rotation.value, [0, 1], [0, 360])}deg` },
+    ],
+  }));
 
   return (
     <View style={[styles.container, style]}>
-      <Animated.View
-        style={{
-          transform: [{ rotate }],
-        }}
-      >
+      <Animated.View style={animatedStyle}>
         <Image
           source={image}
           style={[styles.image, { width: scale(size), height: scale(size) }]}

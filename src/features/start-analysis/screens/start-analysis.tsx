@@ -1,10 +1,10 @@
 import { router } from "expo-router";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 import {
-    Animated,
     StyleSheet,
     View
 } from "react-native";
+import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
 
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
@@ -22,15 +22,16 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function StartAnalysisScreen() {
     const { cookieConsentKey } = useAppData();
-    const fadeAnim = useRef(new Animated.Value(0)).current;
+    const fadeProgress = useSharedValue(0);
 
     useEffect(() => {
-        Animated.timing(fadeAnim, {
-            toValue: 1,
-            duration: 600,
-            useNativeDriver: true,
-        }).start();
-    }, [fadeAnim]);
+        fadeProgress.value = withTiming(1, { duration: 600 });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    const fadeStyle = useAnimatedStyle(() => ({
+        opacity: fadeProgress.value,
+    }));
 
     const handleContinue = async () => {
         const value = await AsyncStorage.getItem(cookieConsentKey);
@@ -42,7 +43,7 @@ export default function StartAnalysisScreen() {
     };
     return (
         <ThemedView style={styles.container}>
-            <Animated.View style={[styles.backgroundImage, { opacity: fadeAnim }]}>
+            <Animated.View style={[styles.backgroundImage, fadeStyle]}>
                 <Image
                     source={require("@/assets/images/BackgroundImage.png")}
                     style={StyleSheet.absoluteFill}

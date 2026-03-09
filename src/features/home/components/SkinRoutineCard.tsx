@@ -1,4 +1,4 @@
-import { I18nManager, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { Image } from "expo-image";
 import Svg, { Circle } from "react-native-svg";
 

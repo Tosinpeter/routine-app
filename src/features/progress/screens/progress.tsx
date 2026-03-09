@@ -2,6 +2,7 @@ import { scale, verticalScale } from '@/constants/scaling';
 import { AeonikFonts, Colors } from '@/constants/theme';
 import React from 'react';
 import { ActivityIndicator, ScrollView, StyleSheet, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { AppText as Text } from '@/components/app-text';
 import { ProgressLockView } from '@/features/progress/components/ProgressLockView';
@@ -18,24 +19,24 @@ export default function ProgressScreen() {
 
     if (isLoading && !progressData) {
         return (
-            <View style={[styles.container, styles.centerContent]}>
+            <SafeAreaView style={[styles.container, styles.centerContent]} edges={["top"]}>
                 <ActivityIndicator size="large" color={Colors.light.mainDarkColor} />
                 <Text style={styles.loadingText}>{t("progress.loading")}</Text>
-            </View>
+            </SafeAreaView>
         );
     }
 
     if (error && !progressData) {
         return (
-            <View style={[styles.container, styles.centerContent]}>
+            <SafeAreaView style={[styles.container, styles.centerContent]} edges={["top"]}>
                 <Text style={styles.errorText}>{t("progress.error.failedToLoad")}</Text>
                 <Text style={styles.errorDetail}>{error}</Text>
-            </View>
+            </SafeAreaView>
         );
     }
 
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container} edges={["top"]}>
             <ScrollView
                 style={styles.scrollView}
                 contentContainerStyle={styles.contentContainer}
@@ -49,7 +50,7 @@ export default function ProgressScreen() {
 
                 <View style={{ height: verticalScale(100) }} />
             </ScrollView>
-        </View>
+        </SafeAreaView>
     );
 }
 
@@ -62,7 +63,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     contentContainer: {
-        paddingTop: verticalScale(60),
+        paddingTop: verticalScale(16),
         paddingHorizontal: scale(16),
         paddingBottom: verticalScale(20),
         alignItems: 'center',

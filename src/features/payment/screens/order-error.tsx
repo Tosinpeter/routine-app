@@ -1,5 +1,6 @@
-import React, { useEffect, useRef } from "react";
-import { Animated, View, Text, StyleSheet } from "react-native";
+import React, { useEffect } from "react";
+import { View, Text, StyleSheet } from "react-native";
+import Animated, { useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated";
 import { AppTextStyle } from "@/constants/typography";
 import { AeonikFonts, Colors } from "@/constants/theme";
 import { scale, verticalScale } from "@/constants/scaling";
@@ -8,20 +9,20 @@ import { Image } from "expo-image";
 
 
 export default function OrderErrorSheet() {
-  const scaleAnim = useRef(new Animated.Value(0)).current;
+  const scaleProgress = useSharedValue(0);
 
   useEffect(() => {
-    Animated.spring(scaleAnim, {
-      toValue: 1,
-      tension: 50,
-      friction: 7,
-      useNativeDriver: true,
-    }).start();
-  }, [scaleAnim]);
+    scaleProgress.value = withSpring(1, { damping: 7, stiffness: 50 });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const scaleStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: scaleProgress.value }],
+  }));
 
   return (
     <View style={styles.content}>
-      <Animated.View style={{ transform: [{ scale: scaleAnim }] }}>
+      <Animated.View style={scaleStyle}>
         <Image
           source={require("@/assets/images/ErrorBadge.png")}
           style={styles.errorImage}

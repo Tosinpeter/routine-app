@@ -32,7 +32,7 @@ export default function ApiErrorScreen({ onRetry }: NoInternetScreenProps) {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container} edges={["top", "bottom"]}>
       <StatusBar barStyle="dark-content" />
 
       <View style={styles.content}>

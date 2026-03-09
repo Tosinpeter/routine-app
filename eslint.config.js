@@ -6,7 +6,7 @@ const tseslintPlugin = require('@typescript-eslint/eslint-plugin');
 module.exports = defineConfig([
   expoConfig,
   {
-    ignores: ['dist/*', 'backend/*'],
+    ignores: ['dist/*', 'backend/*', 'hooks/components/*'],
   },
   {
     plugins: {

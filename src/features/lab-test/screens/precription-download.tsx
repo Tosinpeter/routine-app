@@ -1,12 +1,12 @@
 import { router } from "expo-router";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import {
-    Animated,
     Platform,
     ScrollView,
     StyleSheet,
     View,
 } from "react-native";
+import Animated, { useAnimatedStyle, useSharedValue, withSpring, withTiming } from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { AppText as Text } from "@/components/app-text";
@@ -26,26 +26,19 @@ import { AppTextStyle } from "@/constants/typography";
 import { t } from "@/i18n";
 
 export default function PrecriptionDownLoadScreen() {
-    const scaleAnim = useRef(new Animated.Value(0)).current;
-    const opacityAnim = useRef(new Animated.Value(0)).current;
+    const scaleProgress = useSharedValue(0);
+    const opacityProgress = useSharedValue(0);
 
     useEffect(() => {
-        // Start the popup animation
-        Animated.parallel([
-            Animated.spring(scaleAnim, {
-                toValue: 1,
-                tension: 50,
-                friction: 7,
-                useNativeDriver: true,
-            }),
-            Animated.timing(opacityAnim, {
-                toValue: 1,
-                duration: 400,
-                useNativeDriver: true,
-            }),
-        ]).start();
+        scaleProgress.value = withSpring(1, { damping: 7, stiffness: 50 });
+        opacityProgress.value = withTiming(1, { duration: 400 });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
+    const popupStyle = useAnimatedStyle(() => ({
+        transform: [{ scale: scaleProgress.value }],
+        opacity: opacityProgress.value,
+    }));
 
     const handleSubmit = () => {
         router.push("/lab-test/select-lab-location");
@@ -53,7 +46,7 @@ export default function PrecriptionDownLoadScreen() {
 
     return (
         <ThemedView style={styles.container}>
-            <SafeAreaView style={styles.safeArea}>
+            <SafeAreaView style={styles.safeArea} edges={["top"]}>
                 {/* Back Button */}
                 <BackButton style={styles.backButton} />
 
@@ -65,13 +58,14 @@ export default function PrecriptionDownLoadScreen() {
                     {/* Header */}
                     <View style={styles.header}>
                         <Animated.View
-                            style={{
-                                alignSelf: "center",
-                                marginBottom: verticalScale(24),
-                                marginTop: verticalScale(5),
-                                transform: [{ scale: scaleAnim }],
-                                opacity: opacityAnim,
-                            }}
+                            style={[
+                                {
+                                    alignSelf: "center",
+                                    marginBottom: verticalScale(24),
+                                    marginTop: verticalScale(5),
+                                },
+                                popupStyle,
+                            ]}
                         >
                             <SuccessIllustrationIcon />
                         </Animated.View>

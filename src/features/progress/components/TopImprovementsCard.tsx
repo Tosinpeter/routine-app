@@ -1,13 +1,13 @@
-import React, { useEffect, useRef } from 'react';
-import { StyleSheet, View, TouchableOpacity, Animated } from 'react-native';
+import React, { useEffect } from 'react';
+import { StyleSheet, View, TouchableOpacity } from 'react-native';
+import Animated, { useAnimatedStyle, useSharedValue, withDelay, withSpring } from 'react-native-reanimated';
 import { Ionicons } from '@expo/vector-icons';
 import { AppText as Text } from '@/components/app-text';
 import { scale, verticalScale } from '@/constants/scaling';
 import { AeonikFonts, Colors } from '@/constants/theme';
 import { useRouter } from 'expo-router';
 
-// eslint-disable-next-line import/no-named-as-default
-import ImprovementIcon from './ImprovementIcon';
+import { ImprovementIcon } from './ImprovementIcon';
 import { t } from "@/i18n";
 
 interface ImprovementItemProps {
@@ -20,24 +20,20 @@ interface ImprovementItemProps {
 }
 
 function ImprovementItem({ label, value, trend, progress, color = '#3736FD', delay = 0 }: ImprovementItemProps) {
-    const progressAnim = useRef(new Animated.Value(0)).current;
+    const progressValue = useSharedValue(0);
 
     useEffect(() => {
-        // Animate the progress bar with a spring animation
-        Animated.spring(progressAnim, {
-            toValue: progress,
+        progressValue.value = withDelay(
             delay,
-            tension: 40,
-            friction: 8,
-            useNativeDriver: false, // width animation requires false
-        }).start();
+            withSpring(progress, { damping: 8, stiffness: 40 })
+        );
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [progress, delay]);
 
-    const animatedWidth = progressAnim.interpolate({
-        inputRange: [0, 1],
-        outputRange: ['0%', '100%'],
-    });
+    const progressStyle = useAnimatedStyle(() => ({
+        width: `${progressValue.value * 100}%` as unknown as number,
+        backgroundColor: color,
+    }));
 
     return (
         <View style={styles.itemContainer}>
@@ -61,13 +57,7 @@ function ImprovementItem({ label, value, trend, progress, color = '#3736FD', del
             {/* Progress Bar */}
             <View style={styles.progressBarBg}>
                 <Animated.View 
-                    style={[
-                        styles.progressBarFill, 
-                        { 
-                            width: animatedWidth, 
-                            backgroundColor: color 
-                        }
-                    ]} 
+                    style={[styles.progressBarFill, progressStyle]} 
                 />
             </View>
         </View>

@@ -1,7 +1,14 @@
 import { Image } from "expo-image";
 import { router } from "expo-router";
-import React, { useEffect, useRef } from "react";
-import { Animated, StatusBar, StyleSheet, View } from "react-native";
+import React, { useEffect } from "react";
+import { StatusBar, StyleSheet, View } from "react-native";
+import Animated, {
+    useAnimatedStyle,
+    useSharedValue,
+    withDelay,
+    withSpring,
+    withTiming,
+} from "react-native-reanimated";
 
 import { AppText as Text } from "@/components/app-text";
 import { PrimaryButton } from "@/components/primary-button";
@@ -11,25 +18,22 @@ import { AppTextStyle } from "@/constants/typography";
 import { t } from "@/i18n";
 
 export default function LabTestCompletedScreen() {
-    const imageScale = useRef(new Animated.Value(0)).current;
-    const contentOpacity = useRef(new Animated.Value(0)).current;
+    const imageScale = useSharedValue(0);
+    const contentOpacity = useSharedValue(0);
 
     useEffect(() => {
-        Animated.spring(imageScale, {
-            toValue: 1,
-            tension: 50,
-            friction: 7,
-            useNativeDriver: true,
-        }).start();
+        imageScale.value = withSpring(1, { damping: 7, stiffness: 50 });
+        contentOpacity.value = withDelay(300, withTiming(1, { duration: 400 }));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
-        setTimeout(() => {
-            Animated.timing(contentOpacity, {
-                toValue: 1,
-                duration: 400,
-                useNativeDriver: true,
-            }).start();
-        }, 300);
-    }, [imageScale, contentOpacity]);
+    const imageAnimatedStyle = useAnimatedStyle(() => ({
+        transform: [{ scale: imageScale.value }],
+    }));
+
+    const contentAnimatedStyle = useAnimatedStyle(() => ({
+        opacity: contentOpacity.value,
+    }));
 
     const handleViewStatus = () => {
         router.dismissAll();
@@ -40,10 +44,7 @@ export default function LabTestCompletedScreen() {
             <View style={styles.content}>
                 <View style={styles.topSection}>
                     <Animated.View
-                        style={[
-                            styles.imageContainer,
-                            { transform: [{ scale: imageScale }] },
-                        ]}
+                        style={[styles.imageContainer, imageAnimatedStyle]}
                     >
                         <Image
                             source={require("@/assets/images/SuccessIconGroupOrange.webp")}
@@ -53,7 +54,7 @@ export default function LabTestCompletedScreen() {
                     </Animated.View>
 
                     <Animated.View
-                        style={[styles.textSection, { opacity: contentOpacity }]}
+                        style={[styles.textSection, contentAnimatedStyle]}
                     >
                         <Text style={styles.title}>
                             {t("labTest.completed.title")}
@@ -64,7 +65,7 @@ export default function LabTestCompletedScreen() {
                     </Animated.View>
 
                     <Animated.View
-                        style={[styles.card, { opacity: contentOpacity }]}
+                        style={[styles.card, contentAnimatedStyle]}
                     >
                         <Text style={styles.cardText}>
                             {t("labTest.completed.emailNotice")}
@@ -73,7 +74,7 @@ export default function LabTestCompletedScreen() {
                 </View>
 
                 <Animated.View
-                    style={[styles.bottomSection, { opacity: contentOpacity }]}
+                    style={[styles.bottomSection, contentAnimatedStyle]}
                 >
                     <Text style={styles.reviewNotice}>
                         {t("labTest.completed.reviewNotice")}

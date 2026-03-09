@@ -16,6 +16,7 @@ import {
     View,
     ViewToken,
 } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { getOnboardingSlides ,OnboardingModel } from "../models/onboarding-model";
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get("window");
@@ -25,6 +26,7 @@ export default function OnboardingScreen() {
     const { setOnboardingCompleted } = useOnboarding();
     const [currentIndex, setCurrentIndex] = useState(0);
     const flatListRef = useRef<FlatList<OnboardingModel>>(null);
+    const insets = useSafeAreaInsets();
 
     const handleGetStarted = async () => {
         await setOnboardingCompleted();
@@ -84,7 +86,7 @@ export default function OnboardingScreen() {
                 cachePolicy="memory-disk"
                 transition={300}
             />
-            <View style={styles.content}>
+            <View style={[styles.content, { paddingTop: insets.top + verticalScale(10), paddingBottom: insets.bottom + verticalScale(10) }]}>
                 {/* Skip Button */}
                 {currentIndex < onboardingSlides.length - 1 && (
                     <TouchableOpacity
@@ -156,8 +158,6 @@ const styles = StyleSheet.create({
     },
     content: {
         flex: 1,
-        paddingTop: verticalScale(20),
-        paddingBottom: verticalScale(34),
     },
     skipButton: {
         position: "absolute",

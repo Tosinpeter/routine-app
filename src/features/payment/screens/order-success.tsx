@@ -1,10 +1,10 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 import {
-  Animated,
   ScrollView,
   StyleSheet,
   View,
 } from "react-native";
+import Animated, { useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated";
 import { router, useLocalSearchParams } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "expo-image";
@@ -28,16 +28,16 @@ export default function OrderSuccessScreen() {
     totalCents?: string;
   }>();
 
-  const successImageScale = useRef(new Animated.Value(0)).current;
+  const successImageScale = useSharedValue(0);
 
   useEffect(() => {
-    Animated.spring(successImageScale, {
-      toValue: 1,
-      tension: 50,
-      friction: 7,
-      useNativeDriver: true,
-    }).start();
-  }, [successImageScale]);
+    successImageScale.value = withSpring(1, { damping: 7, stiffness: 50 });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const scaleStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: successImageScale.value }],
+  }));
 
   const orderId = params.orderId ?? "12345";
   const totalCents = params.totalCents ? Number(params.totalCents) : 4000;
@@ -64,7 +64,7 @@ export default function OrderSuccessScreen() {
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.checkmarkSection}>
-          <Animated.View style={{ transform: [{ scale: successImageScale }] }}>
+          <Animated.View style={scaleStyle}>
             <Image
               source={require("@/assets/images/OrderSuccessImage.png")}
               style={styles.successImage}

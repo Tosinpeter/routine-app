@@ -1,5 +1,13 @@
-import React, { useEffect, useRef } from "react";
-import { Animated, StyleSheet, View } from "react-native";
+import React, { useEffect } from "react";
+import { StyleSheet, View } from "react-native";
+import Animated, {
+  interpolate,
+  useAnimatedStyle,
+  useSharedValue,
+  withRepeat,
+  withSequence,
+  withTiming,
+} from "react-native-reanimated";
 import { scale, verticalScale } from "@/constants/scaling";
 import { Colors, Shadows } from "@/constants/theme";
 
@@ -11,29 +19,22 @@ interface ShimmerProps {
 }
 
 function ShimmerBox({ width, height, borderRadius = scale(8), style }: ShimmerProps) {
-  const shimmerAnim = useRef(new Animated.Value(0)).current;
+  const shimmerProgress = useSharedValue(0);
 
   useEffect(() => {
-    Animated.loop(
-      Animated.sequence([
-        Animated.timing(shimmerAnim, {
-          toValue: 1,
-          duration: 1000,
-          useNativeDriver: true,
-        }),
-        Animated.timing(shimmerAnim, {
-          toValue: 0,
-          duration: 1000,
-          useNativeDriver: true,
-        }),
-      ])
-    ).start();
-  }, [shimmerAnim]);
+    shimmerProgress.value = withRepeat(
+      withSequence(
+        withTiming(1, { duration: 1000 }),
+        withTiming(0, { duration: 1000 })
+      ),
+      -1
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  const opacity = shimmerAnim.interpolate({
-    inputRange: [0, 1],
-    outputRange: [0.3, 0.7],
-  });
+  const animatedStyle = useAnimatedStyle(() => ({
+    opacity: interpolate(shimmerProgress.value, [0, 1], [0.3, 0.7]),
+  }));
 
   return (
     <Animated.View
@@ -43,8 +44,8 @@ function ShimmerBox({ width, height, borderRadius = scale(8), style }: ShimmerPr
           height,
           borderRadius,
           backgroundColor: Colors.light.grey200,
-          opacity,
         },
+        animatedStyle,
         style,
       ]}
     />

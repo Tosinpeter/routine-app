@@ -4,31 +4,32 @@ import { AppTextStyle } from "@/constants/typography";
 import { t } from "@/i18n";
 import { Image } from "expo-image";
 import { router } from "expo-router";
-import React, { useEffect, useRef } from "react";
-import { Animated, StyleSheet, Text, View } from "react-native";
+import React, { useEffect } from "react";
+import { StyleSheet, Text, View } from "react-native";
+import Animated, { useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated";
 
 
 export default function SuccessSheet() {
-  const scaleAnim = useRef(new Animated.Value(0)).current;
+  const scaleProgress = useSharedValue(0);
 
   useEffect(() => {
-    Animated.spring(scaleAnim, {
-      toValue: 1,
-      tension: 50,
-      friction: 7,
-      useNativeDriver: true,
-    }).start();
+    scaleProgress.value = withSpring(1, { damping: 7, stiffness: 50 });
 
     const timeout = setTimeout(() => {
       router.replace("/payment/order-success");
     }, 1000);
 
     return () => clearTimeout(timeout);
-  }, [scaleAnim]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const scaleStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: scaleProgress.value }],
+  }));
 
   return (
     <View style={styles.content}>
-      <Animated.View style={{ transform: [{ scale: scaleAnim }] }}>
+      <Animated.View style={scaleStyle}>
         <Image
           source={require("@/assets/images/SuccessIconGroup.png")}
           style={styles.successImage}

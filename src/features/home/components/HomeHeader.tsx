@@ -1,6 +1,6 @@
 import { BlurView } from "expo-blur";
 import { router } from "expo-router";
-import { I18nManager, StyleSheet, TouchableOpacity, View } from "react-native";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 
 import { AppText as Text } from "@/components/app-text";
 import { NotificationIcon } from "@/components/icons/notification-icon";
@@ -37,8 +37,7 @@ export function HomeHeader() {
             <TouchableOpacity
                 style={styles.notificationWrapper}
                 onPress={() => router.push("/notification")}
-                activeOpacity={0.7}
-            >
+                activeOpacity={0.7} >
                 <BlurView intensity={20} tint="light" style={styles.notificationButton}>
                     <NotificationIcon
                         width={scale(27)}

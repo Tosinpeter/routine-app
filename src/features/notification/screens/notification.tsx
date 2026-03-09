@@ -1,10 +1,10 @@
-import React, { useCallback, useEffect, useRef } from "react";
+import React, { useCallback, useEffect } from "react";
 import {
-    Animated,
     ScrollView,
     StyleSheet,
     View
 } from "react-native";
+import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -36,7 +36,7 @@ export default function NotificationScreen() {
         (state: RootState) => state.notification
     );
 
-    const headerFadeAnim = useRef(new Animated.Value(0)).current;
+    const headerFadeProgress = useSharedValue(0);
 
     const handleFetch = useCallback(() => {
         if (profile?.id) {
@@ -49,12 +49,13 @@ export default function NotificationScreen() {
     }, [handleFetch]);
 
     useEffect(() => {
-        Animated.timing(headerFadeAnim, {
-            toValue: 1,
-            duration: 500,
-            useNativeDriver: true,
-        }).start();
-    }, [headerFadeAnim]);
+        headerFadeProgress.value = withTiming(1, { duration: 500 });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    const headerFadeStyle = useAnimatedStyle(() => ({
+        opacity: headerFadeProgress.value,
+    }));
 
     const handleNotificationPress = (id: string) => {
         dispatch(markNotificationRead(id));
@@ -66,12 +67,12 @@ export default function NotificationScreen() {
 
     return (
         <ThemedView style={styles.container}>
-            <SafeAreaView style={styles.safeArea}>
+            <SafeAreaView style={styles.safeArea} edges={["top"]}>
 
                 <BackButton style={styles.backButton} />
 
                 <View style={{ ...styles.scrollContent, flex: 1 }} >
-                    <Animated.View style={{ opacity: headerFadeAnim }}>
+                    <Animated.View style={headerFadeStyle}>
                         <Text style={styles.headerText}>{t("notification.title")}</Text>
                     </Animated.View>
 

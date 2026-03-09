@@ -123,7 +123,7 @@ export default function UploadScreen() {
 
   return (
     <ThemedView style={styles.container}>
-      <SafeAreaView style={styles.safeArea}>
+      <SafeAreaView style={styles.safeArea} edges={["top"]}>
         {/* Back Button */}
         <BackButton style={styles.backButton} />
 

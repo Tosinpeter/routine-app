@@ -1,11 +1,17 @@
 import { router } from "expo-router";
 import React, { useEffect, useRef, useState } from "react";
 import {
-  Animated,
   StatusBar,
   StyleSheet,
   View
 } from "react-native";
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withDelay,
+  withSpring,
+  withTiming,
+} from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { AppText as Text } from "@/components/app-text";
@@ -21,8 +27,8 @@ import { client } from "@/shared/api/client";
 import { useAppSelector } from "@/shared/store/hooks";
 
 export default function QuizCompleteScreen() {
-  const scaleAnim = useRef(new Animated.Value(0)).current;
-  const buttonOpacity = useRef(new Animated.Value(0)).current;
+  const scaleProgress = useSharedValue(0);
+  const buttonOpacityValue = useSharedValue(0);
   const [isLoading, setIsLoading] = useState(true);
   const { profile, updateProfile } = useAuth();
   const quizAnswers = useAppSelector((state) => state.usecase.quizAnswers);
@@ -57,35 +63,32 @@ export default function QuizCompleteScreen() {
     })();
   }, [profile?.id, quizAnswers, updateProfile]);
 
+  const imageStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: scaleProgress.value }],
+  }));
+
+  const buttonStyle = useAnimatedStyle(() => ({
+    opacity: buttonOpacityValue.value,
+  }));
+
   useEffect(() => {
     const loadingTimer = setTimeout(() => {
       setIsLoading(false);
 
-      Animated.spring(scaleAnim, {
-        toValue: 1,
-        tension: 50,
-        friction: 7,
-        useNativeDriver: true,
-      }).start();
-
-      setTimeout(() => {
-        Animated.timing(buttonOpacity, {
-          toValue: 1,
-          duration: 400,
-          useNativeDriver: true,
-        }).start();
-      }, 800);
+      scaleProgress.value = withSpring(1, { damping: 7, stiffness: 50 });
+      buttonOpacityValue.value = withDelay(800, withTiming(1, { duration: 400 }));
     }, 1000);
 
     return () => clearTimeout(loadingTimer);
-  }, [scaleAnim, buttonOpacity]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleContinue = () => {
     router.replace("/treatment-plan");
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container} edges={["top", "bottom"]}>
       <StatusBar barStyle="dark-content" />
 
       {isLoading ? (
@@ -105,12 +108,7 @@ export default function QuizCompleteScreen() {
             <View style={styles.illustrationContainer}>
               <Animated.Image
                 source={require("@/assets/images/quiz_completeIllustration.png")}
-                style={[
-                  styles.illustrationImg,
-                  {
-                    transform: [{ scale: scaleAnim }],
-                  },
-                ]}
+                style={[styles.illustrationImg, imageStyle]}
               />
 
               {/* Text Content */}
@@ -125,10 +123,7 @@ export default function QuizCompleteScreen() {
 
             {/* Bottom Button */}
             <Animated.View
-              style={[
-                styles.buttonContainer,
-                { opacity: buttonOpacity }
-              ]}
+              style={[styles.buttonContainer, buttonStyle]}
             >
               <PrimaryButton
                 title={t("quiz.complete.generateButton")}
